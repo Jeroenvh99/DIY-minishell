@@ -10,47 +10,38 @@
 #                                                                              #
 # **************************************************************************** #
 
-NAME 			:= philo
-NAME_BONUS		:= philo_bonus
+NAME 		:= minishell
 
-SRC_FILES		:= env.c\
-				timestamp.c\
-				utils.c
-SRC_FILES_MNDTR	:= $(SRC_FILES)\
-				main.c\
-				philo.c\
-				philo_eat.c\
-				philo_sleep.c\
-				philo_think.c
-SRC_FILES_BONUS	:= $(SRC_FILES)
-OBJ_FILES		:= $(SRC_FILES:.c=.o)
-OBJ_FILES_MNDTR := $(SRC_FILES_MNDTR:.c=.o)
-OBJ_FILES_BONUS	:= $(SRC_FILES_BONUS:.c=.o)
-HDR_FILES		:= philo.h\
-				philo_utils.h
+SRC_FILES	:= main.c\
+OBJ_FILES	:= $(SRC_FILES:.c=.o)
+HDR_FILES	:= msh.h\
+			msh_exec.h\
+			msh_parse.h
+LIB_FILES	:= libft.a
 
-SRC_DIR			:= ./source/
-OBJ_DIR			:= ./object/
-HDR_DIR			:= ./header/
+SRC_DIR		:= ./source/
+OBJ_DIR		:= ./object/
+HDR_DIR		:= ./header/
+LIB_DIR		:= ./lib/
 
-CFLAGS			:= -Wall -Wextra -Werror -I$(HDR_DIR)
+CFLAGS		:= -Wall -Wextra -Werror -I$(LIB_DIR)libft/include/ -I$(HDR_DIR)
 
-.PHONY: $(NAME) all bonus clean fclean re
+.PHONY: all bonus clean fclean re
 
-all: $(NAME) $(NAME_BONUS)
+all: $(NAME)
 
-bonus: $(NAME_BONUS)
+bonus: $(NAME)
+	@echo "Bonus is basis, vrind."
 
-$(NAME): $(addprefix $(OBJ_DIR),$(OBJ_FILES_MNDTR))
-	@$(CC) $(CFLAGS) $^ -lpthread -o $@
-
-$(NAME_BONUS): $(addprefix $(OBJ_DIR),$(OBJ_FILES_BONUS))
-	@echo "..."
-	@#$(CC) $(CFLAGS) $^ -o $@
+$(NAME): $(addprefix $(OBJ_DIR),$(OBJ_FILES)) $(addprefix $(LIB_DIR),$(LIB_FILES))
+	@$(CC) $(CFLAGS) $^ -o $@
 
 $(OBJ_DIR)%.o: $(SRC_DIR)%.c $(addprefix $(HDR_DIR),$(HDR_FILES))
 	@mkdir -p $(OBJ_DIR)
 	@$(CC) $(CFLAGS) -I$(HDR_DIR) $< -c -o $@
+
+$(LIB_DIR)%.a:
+	$(MAKE) -j --directory=$(LIB_DIR)
 
 clean:
 	@rm -f $(OBJ_DIR)*.o
