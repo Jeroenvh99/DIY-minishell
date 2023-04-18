@@ -51,8 +51,8 @@ fi
 rm ${OUT}
 
 echo 'testing -n without an argument'
-(../echo -n > -n.txt)
-diff -n.txt no_nl_error.txt > ${OUT}
+(../echo -n > just_no_nl.txt)
+diff just_no_nl.txt no_nl_error.txt > ${OUT}
 
 if [ ! -s "${OUT}" ]
 then
