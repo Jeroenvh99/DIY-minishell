@@ -1,38 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   echo.c                                             :+:    :+:            */
+/*   error.c                                            :+:    :+:            */
 /*                                                     +:+                    */
 /*   By: jvan-hal <jvan-hal@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
-/*   Created: 2023/04/18 15:16:12 by jvan-hal      #+#    #+#                 */
-/*   Updated: 2023/04/18 18:36:34 by jvan-hal      ########   odam.nl         */
+/*   Created: 2023/04/18 18:27:29 by jvan-hal      #+#    #+#                 */
+/*   Updated: 2023/04/18 18:40:31 by jvan-hal      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "./../../lib/libft/include/ft_string.h"
+#include "./../lib/libft/include/ft_string.h"
 #include <unistd.h>
 
-int	main(int argc, char **argv)
+void	print_error(char *command, char *argument, char *message)
 {
-	int	i;
-	int	newline;
-
-	i = 1;
-	newline = 1;
-	if (argc > 1 && ft_strncmp(argv[i], "-n", 3) == 0)
+	write(2, "minishell: ", 11);
+	write(2, command, ft_strlen(command));
+	write(2, ": ", 2);
+	if (argument)
 	{
-		newline = 0;
-		++i;
+		write(2, argument, ft_strlen(argument));
+		write(2, ": ", 2);
 	}
-	while (argv[i])
-	{
-		write(1, argv[i], ft_strlen(argv[i]));
-		if (argv[i + 1])
-			write(1, " ", 1);
-		++i;
-	}
-	if (newline)
-		write(1, "\n", 1);
-	return (1);
+	write(2, message, ft_strlen(message));
+	write(2, "\n", 1);
 }
