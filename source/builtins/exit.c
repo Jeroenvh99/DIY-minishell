@@ -6,12 +6,12 @@
 /*   By: jvan-hal <marvin@codam.nl>                   +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/04/18 13:45:34 by jvan-hal      #+#    #+#                 */
-/*   Updated: 2023/04/18 18:42:08 by jvan-hal      ########   odam.nl         */
+/*   Updated: 2023/04/19 18:10:30 by jvan-hal      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "./../../include/minishell.h"
 #include "./../../lib/libft/include/ft_string.h"
-#include "./../include/minishell.h"
 #include <unistd.h>
 
 int	main(int argc, char **argv)
@@ -26,8 +26,9 @@ int	main(int argc, char **argv)
 	if (argc > 2)
 	{
 		print_error("exit", NULL, "too many arguments");
-		return ;
+		return (1);
 	}
 	else
-		exit();
+		exit(status);
+	return (0);
 }
