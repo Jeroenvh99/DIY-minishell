@@ -62,6 +62,18 @@ else
 fi
 rm ${OUT}
 
+echo 'testing four -n without an argument'
+(../echo -n -n -n -n > just_no_nl.txt)
+diff just_no_nl.txt no_nl_error.txt > ${OUT}
+
+if [ ! -s "${OUT}" ]
+then
+	echo 'OK'
+else
+	echo 'KO'
+fi
+rm ${OUT}
+
 echo 'testing -n with an argument'
 (../echo -n hello > no_newline.txt)
 diff no_newline.txt no_nl.txt > ${OUT}
