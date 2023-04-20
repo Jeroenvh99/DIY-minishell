@@ -36,6 +36,40 @@ else
 fi
 rm ${OUT}
 
+echo 'testing one argument'
+(../exit " 4")
+echo $? > one_argument.txt
+diff one_argument.txt one.txt > ${OUT}
+
+if [ ! -s "${OUT}" ]
+then
+	echo 'OK'
+else
+	echo 'KO'
+	echo 'your output: '
+	cat one_argument.txt
+	echo 'expected output: '
+	cat one.txt
+fi
+rm ${OUT}
+
+echo 'testing one argument'
+(../exit "4 ")
+echo $? > one_argument.txt
+diff one_argument.txt one.txt > ${OUT}
+
+if [ ! -s "${OUT}" ]
+then
+	echo 'OK'
+else
+	echo 'KO'
+	echo 'your output: '
+	cat one_argument.txt
+	echo 'expected output: '
+	cat one.txt
+fi
+rm ${OUT}
+
 echo 'testing two arguments'
 (../exit 4 4 2> two_arguments.txt)
 diff two_arguments.txt two_error.txt > ${OUT}
