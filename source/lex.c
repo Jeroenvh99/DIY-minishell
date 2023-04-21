@@ -6,7 +6,7 @@
 /*   By: dbasting <marvin@codam.nl>                   +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/04/18 14:13:15 by dbasting      #+#    #+#                 */
-/*   Updated: 2023/04/18 15:51:00 by dbasting      ########   odam.nl         */
+/*   Updated: 2023/04/21 15:59:07 by dbasting      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,13 +46,11 @@ static void	node_delete(void *node)
 	free(node);
 }
 
-int	main(int argc, char **argv)
+int	main(void)
 {
 	t_list	*tokens;
 
-	if (argc != 2)
-		return (1);
-	tokens = lex((char const *)argv[1]);
+	tokens = lex("lorem ipsum $dolor 'sit amet' \34consectetur adipiscing\34 elit");
 	while (tokens)
 	{
 		printf("%s\n", tokens->content);
