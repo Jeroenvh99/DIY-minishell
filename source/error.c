@@ -6,7 +6,7 @@
 /*   By: jvan-hal <jvan-hal@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/04/18 18:27:29 by jvan-hal      #+#    #+#                 */
-/*   Updated: 2023/04/18 18:40:31 by jvan-hal      ########   odam.nl         */
+/*   Updated: 2023/04/21 16:08:27 by jvan-hal      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 
 void	print_error(char *command, char *argument, char *message)
 {
-	write(2, "minishell: ", 11);
+	write(2, "msh: ", 5);
 	write(2, command, ft_strlen(command));
 	write(2, ": ", 2);
 	if (argument)

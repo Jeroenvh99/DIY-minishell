@@ -6,11 +6,11 @@
 /*   By: jvan-hal <jvan-hal@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/04/20 16:50:13 by jvan-hal      #+#    #+#                 */
-/*   Updated: 2023/04/20 16:50:44 by jvan-hal      ########   odam.nl         */
+/*   Updated: 2023/04/21 16:11:03 by jvan-hal      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 int	main(void)
 {
-	// unset
+	// search for variable in env and set to NULL
 }

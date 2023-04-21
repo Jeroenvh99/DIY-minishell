@@ -1,0 +1,5 @@
+Voorlopige indeling van de variabelenopslag-struct (env en lokale):
+> Array + (size_t n_var, size_t n_occupied)
+>> Toevoegen (=; export): zoeken naar lege plekken, anders heralloceren;
+>> Verwijderen (unset): op NULL
+>> Variabele: struct {char *name; char* value}
