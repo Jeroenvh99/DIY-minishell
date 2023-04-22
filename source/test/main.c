@@ -13,33 +13,17 @@
 #include "lex.h"
 
 #include "ft_list.h"
-#include <stddef.h>
-#include <stdlib.h>
+#include <stdio.h>
 
-static void	node_delete(void *node);
-
-t_list	*lex(char const *str)
+int	main(void)
 {
 	t_list	*tokens;
-	t_list	*node;
-	char	*token;
 
-	tokens = NULL;
-	while (*str)
+	tokens = lex("lorem ipsum $dolor 'sit amet' \"consectetur adipiscing\" elit");
+	while (tokens)
 	{
-		token = lex_tokenize(&str);
-		if (token == NULL)
-			return (list_delete(tokens, &node_delete), NULL);
-		node = list_new(token);
-		if (token == NULL)
-			return (list_delete(tokens, &node_delete), NULL);
-		list_append(&tokens, node);
+		printf("%s\n", (char *)tokens->content);
+		tokens = tokens->next;
 	}
-	return (tokens);
-}
-
-static void	node_delete(void *node)
-{
-	free(((t_list *)node)->content);
-	free(node);
+	return (0);
 }
