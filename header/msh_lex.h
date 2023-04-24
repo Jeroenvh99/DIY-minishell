@@ -14,8 +14,12 @@
 # define MSH_LEX_H
 
 # include "ft_list.h"
+# include <stdbool.h>
+
+# define METACHARS	"|&<> \t\n"
 
 t_list	*lex(char const *line);
 char	*lex_tokenize(char const **str);
+bool	is_metachr(char c);
 
 #endif

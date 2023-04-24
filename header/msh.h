@@ -13,7 +13,9 @@
 #ifndef MSH_H
 # define MSH_H
 
-typedef int	t_fd
+# include "ft_list.h"
+
+typedef int	t_fd;
 
 /* Variable object.
  * @param name	The variable's name.

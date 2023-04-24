@@ -13,10 +13,9 @@
 NAME 		:= minishell
 
 SRC_FILES	:= test/main.c\
-			cmdtable.c\
 			lex.c\
 			lex_tokenize.c\
-			parse.c
+			lex_utils.c
 OBJ_FILES	:= $(patsubst %.c,%.o,$(SRC_FILES))
 HDR_FILES	:= msh.h\
 			msh_error.h\

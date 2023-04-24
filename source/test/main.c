@@ -19,7 +19,8 @@ int	main(void)
 {
 	t_list	*tokens;
 
-	tokens = lex("lorem ipsum $dolor 'sit amet' \"consectetur adipiscing\" elit");
+	tokens = lex("Magnificat \"anima mea\" Dominum, et exsultavit 'spiritus meus' in>Deo salutari meo, "
+				"quia respexit << humilitatem>>ancillae|suae; \"ecce | enim\" ex>hoc beatam<me&&dicent omnes||generationes");
 	while (tokens)
 	{
 		printf("%s\n", (char *)tokens->content);

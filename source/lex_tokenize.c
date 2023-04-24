@@ -19,8 +19,9 @@
 #include <stdlib.h>
 
 static char	*token_get(char const **str);
-static char	*token_get_qstr(char const **str, char quote);
-static char	*token_get_str(char const **str);
+static char	*token_get_meta(char const **str);
+static char	*token_get_qword(char const **str);
+static char	*token_get_word(char const **str);
 
 char	*lex_tokenize(char const **str)
 {
@@ -37,17 +38,39 @@ char	*lex_tokenize(char const **str)
 static char	*token_get(char const **str)
 {
 	if (**str == CHR_SQUOTE || **str == CHR_DQUOTE)
-		return (token_get_qstr(str, **str));
-	return (token_get_str(str));
+		return (token_get_qword(str));
+	if (is_metachr(**str))
+		return (token_get_meta(str));
+	return (token_get_word(str));
 }
 
-static char	*token_get_qstr(char const **str, char quote)
+static char	*token_get_meta(char const **str)
+{
+	char const *const	metatokens[N_METATOK] = {
+		TOK_PIPE, TOK_STDIN, TOK_STDOUT,
+		TOK_HEREDOC, TOK_STDOUT_APPEND,
+		TOK_AND, TOK_OR};
+	size_t const		metatokens_len[N_METATOK] = {
+		1, 1, 1, 2, 2, 2, 2,};
+	size_t				i;
+
+	i = N_METATOK;
+	while (i--)
+	{
+		if (!ft_strncmp(metatokens[i], *str, metatokens_len[i]))
+			break ;
+	}
+	*str += metatokens_len[i];
+	return (ft_strdup(metatokens[i]));
+}	
+
+static char	*token_get_qword(char const **str)
 {
 	char	*token;
 	size_t	len;
-	
+
 	len = 1;
-	while ((*str)[len] != quote)
+	while ((*str)[len] != **str)
 		len++;
 	token = malloc((len + 1) * sizeof(char));
 	if (token == NULL)
@@ -58,13 +81,13 @@ static char	*token_get_qstr(char const **str, char quote)
 	return (token);
 }
 
-static char	*token_get_str(char const **str)
+static char	*token_get_word(char const **str)
 {
 	char	*token;
 	size_t	len;
 
 	len = 0;
-	while ((*str)[len] && !ft_isspace((*str)[len]))
+	while ((*str)[len] && !is_metachr((*str)[len]))
 		len++;
 	token = malloc((len + 1) * sizeof(char));
 	if (token == NULL)
