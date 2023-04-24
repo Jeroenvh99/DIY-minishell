@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   lex.h                                              :+:    :+:            */
+/*   msh_lex.h                                          :+:    :+:            */
 /*                                                     +:+                    */
 /*   By: dbasting <marvin@codam.nl>                   +#+                     */
 /*                                                   +#+                      */
@@ -10,19 +10,10 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef LEX_H
-# define LEX_H
+#ifndef MSH_LEX_H
+# define MSH_LEX_H
 
 # include "ft_list.h"
-
-# define STR_PIPE		"|"
-# define STR_INPUT		"<"
-# define STR_OUTPUT		">"
-# define STR_HEREDOC	"<<"
-# define STR_OUTPUT_APP	">>"
-# define CHR_SQUOTE		'\''
-# define CHR_DQUOTE		'\"'
-# define CHR_VAR		'$'
 
 t_list	*lex(char const *line);
 char	*lex_tokenize(char const **str);

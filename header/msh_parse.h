@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   parse.h                                            :+:    :+:            */
+/*   msh_parse.h                                        :+:    :+:            */
 /*                                                     +:+                    */
 /*   By: dbasting <marvin@codam.nl>                   +#+                     */
 /*                                                   +#+                      */
@@ -10,27 +10,22 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef PARSE_H
-# define PARSE_H
+#ifndef MSH_PARSE_H
+# define MSH_PARSE_H
 
-# include "msh.h"
+# include "ft_list.h"
 
-# define PROMPT	"msh$ "
+# define TOK_PIPE			"|"
+# define TOK_STDIN			"<"
+# define TOK_STDOUT			">"
+# define TOK_HEREDOC		"<<"
+# define TOK_STDOUT_APPEND	">>"
+# define TOK_AND			"&&"
+# define TOK_OR				"||"
 
-typedef struct s_cmd {
-	char	*name;
-	char	**opt;
-}	t_cmd;
-
-typedef struct s_io {
-	t_fd	in;
-	t_fd	out;
-	t_fd	err;
-}	t_io;
-
-typedef struct s_cmd_table {
-	t_cmd	*cmds;
-	t_io	io;
-}	t_cmd_table;
+# define CHR_SQUOTE			'\''
+# define CHR_DQUOTE			'\"'
+# define CHR_VAR			'$'
+# define CHR_WILDCARD		'*'
 
 #endif

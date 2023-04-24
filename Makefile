@@ -13,12 +13,13 @@
 NAME 		:= minishell
 
 SRC_FILES	:= test/main.c\
+			cmdtable.c\
 			lex.c\
-			lex_tokenize.c
+			lex_tokenize.c\
+			parse.c
 OBJ_FILES	:= $(patsubst %.c,%.o,$(SRC_FILES))
 HDR_FILES	:= msh.h\
 			msh_error.h\
-			msh_execute.h\
 			msh_lex.h\
 			msh_parse.h
 LIB_FILES	:= libft.a

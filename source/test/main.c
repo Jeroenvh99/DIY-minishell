@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "lex.h"
+#include "msh_lex.h"
 
 #include "ft_list.h"
 #include <stdio.h>
