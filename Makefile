@@ -15,18 +15,20 @@ NAME 		:= minishell
 SRC_FILES	:= test/main.c\
 			lex.c\
 			lex_tokenize.c
-OBJ_FILES	:= $(patsubst %.c,%.o,$(notdir $(SRC_FILES)))
+OBJ_FILES	:= $(patsubst %.c,%.o,$(SRC_FILES))
 HDR_FILES	:= msh.h\
-			lex.h\
-			parse.h
+			msh_error.h\
+			msh_execute.h\
+			msh_lex.h\
+			msh_parse.h
 LIB_FILES	:= libft.a
 
 SRC_DIR		:= ./source/
+SRC_SUBDIRS	:= builtins/ test/
 OBJ_DIR		:= ./object/
+OBJ_SUBDIRS := $(SRC_SUBDIRS)
 HDR_DIR		:= ./header/
 LIB_DIR		:= ./lib/
-
-VPATH		:= $(SRC_DIR) $(SRC_DIR)builtins $(SRC_DIR)test
 
 CFLAGS		:= -Wall -Wextra -Werror -I$(LIB_DIR)libft/include/ -I$(HDR_DIR)
 
@@ -41,17 +43,19 @@ bonus: $(NAME)
 $(NAME): $(addprefix $(OBJ_DIR),$(OBJ_FILES)) $(addprefix $(LIB_DIR),$(LIB_FILES))
 	@$(CC) $(CFLAGS) $^ -o $@
 
-$(OBJ_DIR)%.o: %.c $(addprefix $(HDR_DIR),$(HDR_FILES))
-	@mkdir -p $(OBJ_DIR)
-	@$(CC) $(CFLAGS) -I$(HDR_DIR) $< -c -o $(OBJ_DIR)$*.o
+$(OBJ_DIR)%.o: $(SRC_DIR)%.c $(addprefix $(HDR_DIR),$(HDR_FILES))
+	@mkdir -p $(addprefix $(OBJ_DIR),$(OBJ_SUBDIRS))
+	@$(CC) $(CFLAGS) -I$(HDR_DIR) $< -c -o $@
 
 $(LIB_DIR)%.a:
-	$(MAKE) -j --directory=$(LIB_DIR)
+	@$(MAKE) -j --directory=$(LIB_DIR)
 
 clean:
-	@rm -f $(OBJ_DIR)*.o
+	@$(MAKE) -j --directory=$(LIB_DIR) clean
+	@rm -f $(addprefix $(OBJ_DIR),$(OBJ_FILES))
 
 fclean: clean
+	@$(MAKE) -j --directory=$(LIB_DIR) fclean
 	@rm -f $(NAME)
 
-re: fclean all
+
