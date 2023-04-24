@@ -12,4 +12,4 @@ Vier opties:
 1. geen pad, naam is builtin: Voer builtin uit.
 2. geen pad, naam is geen buildin: Zoek $PATH af naar naam; voer uit indien gevonden.
 3. pad: Zoek pad af naar naam; voer uit indien gevonden.
-4. naam bevat '=': bewerk loc\_vars. Negeer indien nog meer volgt.
+4. eerste woord bevat '=' en geen aanhalingstekens: bewerk loc\_vars. Sla over indien nog meer volgt.
