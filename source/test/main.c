@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "msh_lex.h"
+#include "msh_parse.h"
 
 #include "ft_list.h"
 #include <stdio.h>
@@ -23,7 +23,7 @@ int	main(void)
 				"quia respexit << humilitatem>>ancillae|suae; \"ecce | enim\" ex>hoc beatam<me&&dicent omnes||generationes");
 	while (tokens)
 	{
-		printf("%s\n", (char *)tokens->content);
+		printf("(%d) %s\n", ((t_token *)tokens->content)->type, ((t_token *)tokens->content)->str);
 		tokens = tokens->next;
 	}
 	return (0);

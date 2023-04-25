@@ -14,12 +14,12 @@ NAME 		:= minishell
 
 SRC_FILES	:= test/main.c\
 			lex.c\
+			lex_token.c\
 			lex_tokenize.c\
 			lex_utils.c
 OBJ_FILES	:= $(patsubst %.c,%.o,$(SRC_FILES))
 HDR_FILES	:= msh.h\
 			msh_error.h\
-			msh_lex.h\
 			msh_parse.h
 LIB_FILES	:= libft.a
 
@@ -30,7 +30,7 @@ OBJ_SUBDIRS := $(SRC_SUBDIRS)
 HDR_DIR		:= ./header/
 LIB_DIR		:= ./lib/
 
-CFLAGS		:= -Wall -Wextra -Werror -I$(LIB_DIR)libft/include/ -I$(HDR_DIR)
+CFLAGS		:= -Wall -Wextra -Werror -I$(LIB_DIR)libft/include/ -I$(HDR_DIR) -g -fsanitize=address
 
 .PHONY: all bonus clean fclean re
 
@@ -58,4 +58,4 @@ fclean: clean
 	@$(MAKE) -j --directory=$(LIB_DIR) fclean
 	@rm -f $(NAME)
 
-
+re: fclean all

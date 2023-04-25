@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "msh_lex.h"
+#include "msh_parse.h"
 
 #include "ft_list.h"
 #include <stddef.h>
@@ -22,7 +22,7 @@ t_list	*lex(char const *str)
 {
 	t_list	*tokens;
 	t_list	*node;
-	char	*token;
+	t_token	*token;
 
 	tokens = NULL;
 	while (*str)
@@ -31,7 +31,7 @@ t_list	*lex(char const *str)
 		if (token == NULL)
 			return (list_delete(tokens, &node_delete), NULL);
 		node = list_new(token);
-		if (token == NULL)
+		if (node == NULL)
 			return (list_delete(tokens, &node_delete), NULL);
 		list_append(&tokens, node);
 	}
@@ -40,6 +40,6 @@ t_list	*lex(char const *str)
 
 static void	node_delete(void *node)
 {
-	free(((t_list *)node)->content);
+	token_destroy(((t_list *)node)->content);
 	free(node);
 }
