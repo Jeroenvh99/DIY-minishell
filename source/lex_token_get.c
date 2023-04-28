@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   lex_tokenize.c                                     :+:    :+:            */
+/*   lex_token_get.c                                    :+:    :+:            */
 /*                                                     +:+                    */
 /*   By: dbasting <marvin@codam.nl>                   +#+                     */
 /*                                                   +#+                      */
@@ -10,43 +10,61 @@
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "msh.h"
 #include "msh_lex.h"
 #include "msh_parse.h"
 
-#include "ft_ctype.h"
 #include "ft_string.h"
 #include <stddef.h>
 #include <stdlib.h>
 
-static t_token	*token_get(char const **str);
-static t_token	*token_get_word(char const **str);
-static t_token	*token_get_qword(char const **str, t_toktype type);
-static t_token	*token_get_meta(char const **str);
+static t_errno	token_str_append(t_token *token, char const *appendix);
 
-t_token	*lex_tokenize(char const **str)
+t_errno	token_complete(t_token *token, char const **str)
 {
-	while (*str)
+	char	quote;
+	char	*appendix;
+	size_t	len;
+
+	if (token->type == -TOK_QWORD)
+		quote = CHR_SQUOTE;
+	else
+		quote = CHR_DQUOTE;
+	len = 0;
+	while ((*str)[len] && (*str)[len] != quote)
+		len++;
+	if ((*str)[len] == '\0')
 	{
-		if (ft_isspace(**str))
-			(*str)++;
-		else
-			return (token_get(str));
+		if (token_str_append(token, *str) != MSH_SUCCESS)
+			return (MSH_MEMFAIL);
+		*str += len;
+		return (MSH_INCOMPLETE_TOKEN);
 	}
-	return (NULL);
+	token->type *= -1;
+	appendix = ft_substr(*str, 0, len);
+	if (token_str_append(token, appendix) != MSH_SUCCESS)
+		return (free(appendix), MSH_MEMFAIL);
+	*str += len + 1;
+	free(appendix);
+	return (MSH_SUCCESS);
 }
+//\n moet worden ingevoegd!
 
-static t_token	*token_get(char const **str)
+static t_errno	token_str_append(t_token *token, char const *appendix)
 {
-	if (**str == CHR_DQUOTE)
-		return (token_get_qword(str, TOK_WORD));
-	if (**str == CHR_SQUOTE)
-		return (token_get_qword(str, TOK_QWORD));
-	if (is_metachr(**str))
-		return (token_get_meta(str));
-	return (token_get_word(str));
+	char	*str_new;
+
+	if (appendix == NULL)
+		return (MSH_MEMFAIL);
+	str_new = ft_strjoin(token->str, appendix);
+	if (str_new == NULL)
+		return (MSH_MEMFAIL);
+	free(token->str);
+	token->str = str_new;
+	return (MSH_SUCCESS);
 }
 
-static t_token	*token_get_word(char const **str)
+t_token	*token_get_word(char const **str)
 {
 	t_token	*token;
 	char	*word;
@@ -65,26 +83,28 @@ static t_token	*token_get_word(char const **str)
 	return (token);
 }
 
-static t_token	*token_get_qword(char const **str, t_toktype type)
+t_token	*token_get_qword(char const **str, t_toktype type)
 {
 	t_token		*token;
 	char		*word;
 	size_t		len;
 
 	len = 1;
-	while ((*str)[len++] != **str)
-		;
-	word = ft_substr(*str, 1, len - 2);
+	while ((*str)[len] != **str && (*str)[len])
+		len++;
+	if ((*str)[len] == '\0')
+		type *= -1;
+	word = ft_substr(*str, 1, len - 1);
 	if (word == NULL)
 		return (NULL);
 	token = token_init(word, type);
 	if (token == NULL)
 		return (free(word), NULL);
-	*str += len;
+	*str += len + (type > 0);
 	return (token);
 }
 
-static t_token	*token_get_meta(char const **str)
+t_token	*token_get_meta(char const **str)
 {
 	char const *const	metatokens[N_TOK_META] = {
 		TOK_PIPE_STR, TOK_STDIN_STR, TOK_STDOUT_STR,

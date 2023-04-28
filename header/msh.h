@@ -13,7 +13,13 @@
 #ifndef MSH_H
 # define MSH_H
 
+# include "msh_error.h"
+
 # include "ft_list.h"
+# include <stddef.h>
+
+# define PROMPT			"msh$ "
+# define PROMPT_CONT	"> "
 
 typedef int	t_fd;
 
@@ -31,9 +37,9 @@ typedef struct s_var {
  * @param opt	The command options.
  */
 typedef struct s_cmd {
-	char	*name;
 	char	*path;
-	char	**opts;
+	size_t	argc;
+	char	**argv;
 }	t_cmd;
 
 /* I/O information.
@@ -58,5 +64,10 @@ typedef struct s_cmdtable {
 }	t_cmdtable;
 
 t_cmdtable	*cmdtable_init(t_list *tokens);
+void		cmdtable_destroy(t_cmdtable **cmdtable);
+t_cmd		*cmd_init(char *path, size_t argc, char **argv);
+void		cmd_destroy(t_cmd **cmd);
+
+t_errno		input_get(t_list **token_list, char const *prompt);
 
 #endif

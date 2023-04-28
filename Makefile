@@ -12,11 +12,16 @@
 
 NAME 		:= minishell
 
-SRC_FILES	:= test/main.c\
+SRC_FILES	:= main.c\
+			cmd.c\
+			input.c\
 			lex.c\
-			lex_token.c\
-			lex_tokenize.c\
-			lex_utils.c
+			lex_token_get.c\
+			lex_utils.c\
+			parse.c\
+			parse_cmd.c\
+			token.c\
+			utils.c
 OBJ_FILES	:= $(patsubst %.c,%.o,$(SRC_FILES))
 HDR_FILES	:= msh.h\
 			msh_error.h\
@@ -36,12 +41,11 @@ CFLAGS		:= -Wall -Wextra -Werror -I$(LIB_DIR)libft/include/ -I$(HDR_DIR) -g -fsa
 
 all: $(NAME)
 
-
 bonus: $(NAME)
 	@echo "Bonus is basis, vrind."
 
 $(NAME): $(addprefix $(OBJ_DIR),$(OBJ_FILES)) $(addprefix $(LIB_DIR),$(LIB_FILES))
-	@$(CC) $(CFLAGS) $^ -o $@
+	@$(CC) $(CFLAGS) -lreadline $^ -o $@
 
 $(OBJ_DIR)%.o: $(SRC_DIR)%.c $(addprefix $(HDR_DIR),$(HDR_FILES))
 	@mkdir -p $(addprefix $(OBJ_DIR),$(OBJ_SUBDIRS))

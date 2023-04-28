@@ -10,36 +10,73 @@
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "msh.h"
 #include "msh_parse.h"
+#include "msh_utils.h"
 
+#include "ft_ctype.h"
 #include "ft_list.h"
 #include <stddef.h>
 #include <stdlib.h>
 
-static void	node_delete(void *node);
+static t_errno	catch_incomplete_token(t_list *tail_node, char const **str);
+static t_errno	get_tokens(t_list **token_list, char const **str);
+static t_token	*get_token(char const **str);
 
-t_list	*lex(char const *str)
+t_errno	lex(t_list **token_list, char const *str)
 {
-	t_list	*tokens;
-	t_list	*node;
-	t_token	*token;
+	t_list		*tail_node;
+	t_errno		errno;
 
-	tokens = NULL;
-	while (*str)
-	{
-		token = lex_tokenize(&str);
-		if (token == NULL)
-			return (list_delete(tokens, &node_delete), NULL);
-		node = list_new(token);
-		if (node == NULL)
-			return (list_delete(tokens, &node_delete), NULL);
-		list_append(&tokens, node);
-	}
-	return (tokens);
+	tail_node = list_last(*token_list);
+	errno = catch_incomplete_token(tail_node, &str);
+	if (errno != MSH_SUCCESS)
+		return (errno);
+	return (get_tokens(token_list, &str));
 }
 
-static void	node_delete(void *node)
+static t_errno	catch_incomplete_token(t_list *tail_node, char const **str)
 {
-	token_destroy(((t_list *)node)->content);
-	free(node);
+	if (!tail_node || !tail_node->content)
+		return (MSH_SUCCESS);
+	if (((t_token *)tail_node->content)->type < 0)
+		return (token_complete(tail_node->content, str));
+	return (MSH_SUCCESS);
+}
+
+static t_errno	get_tokens(t_list **token_list, char const **str)
+{
+	t_token	*token;
+	t_list	*node;
+
+	token = NULL;
+	while (**str)
+	{
+		if (ft_isspace(**str))
+		{
+			(*str)++;
+			continue ;
+		}
+		token = get_token(str);
+		if (token == NULL)
+			return (MSH_MEMFAIL);
+		node = list_new(token);
+		if (node == NULL)
+			return (token_destroy(&token), MSH_MEMFAIL);
+		list_append(token_list, node);
+	}
+	if (token && token->type < 0)
+		return (MSH_INCOMPLETE_TOKEN);
+	return (MSH_SUCCESS);
+}
+
+static t_token	*get_token(char const **str)
+{
+	if (**str == CHR_DQUOTE)
+		return (token_get_qword(str, TOK_WORD));
+	if (**str == CHR_SQUOTE)
+		return (token_get_qword(str, TOK_QWORD));
+	if (is_metachr(**str))
+		return (token_get_meta(str));
+	return (token_get_word(str));
 }

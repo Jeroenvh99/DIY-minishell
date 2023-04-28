@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   lex.c                                              :+:    :+:            */
+/*   token.c                                            :+:    :+:            */
 /*                                                     +:+                    */
 /*   By: dbasting <marvin@codam.nl>                   +#+                     */
 /*                                                   +#+                      */
@@ -12,19 +12,28 @@
 
 #include "msh_parse.h"
 
-#include "ft_list.h"
-#include <stdio.h>
+#include <stdlib.h>
 
-int	main(void)
+t_token	*token_init(char *str, t_toktype type)
 {
-	t_list	*tokens;
+	t_token	*token;
 
-	tokens = lex("Magnificat \"anima mea\" Dominum, et exsultavit 'spiritus meus' in>Deo salutari meo, "
-				"quia respexit << humilitatem>>ancillae|suae; \"ecce | enim\" ex>hoc beatam<me&&dicent omnes||generationes");
-	while (tokens)
-	{
-		printf("(%d) %s\n", ((t_token *)tokens->content)->type, ((t_token *)tokens->content)->str);
-		tokens = tokens->next;
-	}
-	return (0);
+	token = malloc(sizeof(t_token));
+	if (token == NULL)
+		return (NULL);
+	token->str = str;
+	token->type = type;
+	return (token);
+}
+
+void	token_free(t_token *token)
+{
+	free(token->str);
+	free(token);
+}
+
+void	token_destroy(t_token **token)
+{
+	token_free(*token);
+	*token = NULL;
 }
