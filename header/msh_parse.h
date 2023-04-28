@@ -27,8 +27,8 @@ typedef enum e_toktype {
 	TOK_QWORD,
 	TOK_PIPE,
 	TOK_STDIN,
-	TOK_STDOUT,
 	TOK_HEREDOC,
+	TOK_STDOUT,
 	TOK_STDOUT_APPEND,
 	TOK_AND,
 	TOK_OR,
@@ -64,10 +64,10 @@ typedef struct s_token {
 	t_toktype	type;
 }	t_token;
 
-typedef t_errno	(*t_parsefunc)(void *arg, size_t i);
+typedef t_errno	(*t_parsefunc)(t_list **tokens, t_cmdtable *cmdtable);
 
-t_errno	parse_cmd(t_list **tokens, t_list **cmds);
-t_errno	parse_io(void *arg, size_t i);
+t_errno	parse_cmd(t_list **tokens, t_cmdtable *cmdtable);
+t_errno	parse_meta(t_list **tokens, t_cmdtable *cmdtable);
 
 t_token	*token_init(char *str, t_toktype type);
 void	token_free(t_token *token);
