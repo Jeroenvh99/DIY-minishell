@@ -16,7 +16,7 @@
 
 #include "ft_string.h"
 
-t_errno	parse(t_list **tokens, t_cmdtable *cmdtable)
+t_errno	parse(t_list **tokens, t_list **cmds)
 {
 	t_parsefunc const	parsefuncs[N_TOK] = {
 		parse_cmd, parse_cmd,
@@ -29,13 +29,14 @@ t_errno	parse(t_list **tokens, t_cmdtable *cmdtable)
 	errno = MSH_SUCCESS;
 	while (*tokens)
 	{
-		errno = parsefuncs[((*tokens)->content)->type](tokens, cmdtable);
+		errno = parsefuncs[((*tokens)->content)->type](tokens, cmds);
 		if (errno != MSH_SUCCESS)
 			break ;
 	}
 	return (errno);
 }
 
+/*
 t_errno	parse_grammar(t_list *tokens)
 {
 	t_toktype	type;
@@ -49,4 +50,4 @@ t_errno	parse_grammar(t_list *tokens)
 		tokens = tokens->next;
 	}
 	return (MSH_SUCCESS);
-}
+}*/

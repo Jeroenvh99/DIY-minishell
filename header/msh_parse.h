@@ -53,12 +53,16 @@ typedef enum e_toktype {
 # define CHR_VAR				'$'
 # define CHR_WILDCARD			'*'
 
+/* Token object.
+ * @param str	If the token is a word: the word.
+ * @param type	The token's type.
+ */
 typedef struct s_token {
 	char 		*str;
 	t_toktype	type;
 }	t_token;
 
-//typedef t_errno	(*t_parsefunc)(t_list **tokens, t_cmdtable *cmdtable);
+typedef t_errno	(*t_parsefunc)(t_list **tokens, t_list **cmds);
 
 // Token functions.
 t_token	*token_init(char *str, t_toktype type);
@@ -72,17 +76,17 @@ t_token	*token_get_word(char const **str);
 t_token	*token_get_qword(char const **str, t_toktype type);
 t_token	*token_get_meta(char const **str);
 
-/*// Parser functions.
-t_errno	parse(t_list **tokens, t_cmdtable *cmdtable);
-t_errno	parse_cmd(t_list **tokens, t_cmdtable *cmdtable);
-t_errno	parse_meta_pipe(t_list **tokens, t_cmdtable *cmdtable);
-t_errno	parse_meta_input(t_list **tokens, t_cmdtable *cmdtable);
-t_errno	parse_meta_heredoc(t_list **tokens, t_cmdtable *cmdtable);
-t_errno	parse_meta_output(t_list **tokens, t_cmdtable *cmdtable);
-t_errno	parse_meta_output_append(t_list **tokens, t_cmdtable *cmdtable);
-t_errno	parse_meta_and(t_list **tokens, t_cmdtable *cmdtable);
-t_errno parse_meta_or(t_list **tokens, t_cmdtable *cmdtable);
-*/
+// Parser functions.
+t_errno	parse(t_list **tokens, t_list **cmds);
+t_errno	parse_cmd(t_list **tokens, t_list **cmds);
+t_errno	parse_meta_pipe(t_list **tokens, t_list **cmds);
+t_errno	parse_meta_input(t_list **tokens, t_list **cmds);
+t_errno	parse_meta_heredoc(t_list **tokens, t_list **cmds);
+t_errno	parse_meta_output(t_list **tokens, t_list **cmds);
+t_errno	parse_meta_output_append(t_list **tokens, t_list **cmds);
+t_errno	parse_meta_and(t_list **tokens, t_list **cmds);
+t_errno parse_meta_or(t_list **tokens, t_list **cmds);
+
 // Miscellaneous functions.
 bool	is_metachr(char c);
 
