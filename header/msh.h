@@ -21,6 +21,20 @@
 # define PROMPT			"msh$ "
 # define PROMPT_CONT	"> "
 
+typedef enum e_in_mode {
+	IN_STD,
+	IN_REDIRECT,
+	IN_HEREDOC,
+	N_IN_MODE,
+}	t_in_mode;
+
+typedef enum e_out_mode {
+	OUT_STD,
+	OUT_REDIRECT,
+	OUT_APPEND,
+	N_OUT_MODE,
+}	t_out_mode;
+
 typedef int	t_fd;
 
 /* Variable object.
@@ -32,26 +46,35 @@ typedef struct s_var {
 	char *value;
 }	t_var;
 
+/* I/O information.
+ * @param in		The name of the file used for input.
+ * @param out		The name of the file used for output.
+ * @param err		The name of the file used for errors.
+ * @param in_mode	The mode in which the input stream is redirected.
+ * @param out_mode	The mode in which the output stream is redirected.
+ * @param err_mode	The mode in which the error stream is redirected.
+ */
+typedef struct s_io {
+	char		*in;
+	char		*out;
+	char		*err;
+	t_in_mode	in_mode;
+	t_out_mode	out_mode;
+	t_out_mode	err_mode;
+}	t_io;
+
 /* Simple command object.
- * @param name	The executable or builtin associated with the command.
- * @param opt	The command options.
+ * @param path	The path to the executable (or the name of the builtin).
+ * @param argc	The number of arguments supplied.
+ * @param argv	The values of the command arguments.
+ * @param io	Data pertaining to I/O processing.
  */
 typedef struct s_cmd {
 	char	*path;
 	size_t	argc;
 	char	**argv;
+	t_io	io;
 }	t_cmd;
-
-/* I/O information.
- * @param in	The file descriptor used for input.
- * @param out	The file descriptor used for output.
- * @param err	The file descriptor used for errors.
- */
-typedef struct s_io {
-	t_fd	in;
-	t_fd	out;
-	t_fd	err;
-}	t_io;
 
 /* Command table object.
  * @param cmds	A linked list containing the simple commands that constitute

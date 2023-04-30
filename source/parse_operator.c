@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   parse.c                                            :+:    :+:            */
+/*   parse_meta.c                                       :+:    :+:            */
 /*                                                     +:+                    */
 /*   By: dbasting <marvin@codam.nl>                   +#+                     */
 /*                                                   +#+                      */
@@ -14,39 +14,29 @@
 #include "msh.h"
 #include "msh_error.h"
 
+#include "ft_stdlib.h"
 #include "ft_string.h"
+#include <stddef.h>
+#include <stdlib.h>
 
-t_errno	parse(t_list **tokens, t_cmdtable *cmdtable)
+t_errno	parse_and(t_list **token_list, t_cmdtable *cmdtable)
 {
-	t_parsefunc const	parsefuncs[N_TOK] = {
-		parse_cmd, parse_cmd,
-		parse_meta_pipe,
-		parse_meta_input, parse_meta_heredoc,
-		parse_meta_output, parse_meta_output_append,
-		parse_and, parse_or};
-	t_errno				errno;
+	t_list	*node;
 
-	errno = MSH_SUCCESS;
-	while (*tokens)
-	{
-		errno = parsefuncs[((*tokens)->content)->type](tokens, cmdtable);
-		if (errno != MSH_SUCCESS)
-			break ;
-	}
-	return (errno);
+	(void) cmdtable;
+	node = *token_list;
+	*token_list = (*token_list)->next;
+	list_delete(node, free);
+	return (MSH_SUCCESS);
 }
 
-t_errno	parse_grammar(t_list *tokens)
+t_errno	parse_or(t_list **token_list, t_cmdtable *cmdtable)
 {
-	t_toktype	type;
-	t_toktype	prevtype;
+	t_list	*node;
 
-	prevtype = TOK_INVALID;
-	while (tokens)
-	{
-		type = ((t_token *)tokens->content)->type;
-		prevtype = type;
-		tokens = tokens->next;
-	}
+	(void) cmdtable;
+	node = *token_list;
+	*token_list = (*token_list)->next;
+	list_delete(node, free);
 	return (MSH_SUCCESS);
 }

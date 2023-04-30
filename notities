@@ -1,0 +1,43 @@
+procedure parser:
+1.  eerste woord		--> builtin / pad naar exec; voeg commando aan lijst toe
+2a. volgende woorden	--> argumenten
+2b. metatekens			--> aanpassen I/O-gegevens op commando
+3a. pipe				--> rond commando af en begin met werken aan het volgende (terug naar 1)
+3b. einde regel			--> rond commando af; sluit parser af
+4.  \n direct na pipe	--> vraag nieuwe input van lexer
+
+> expander opereert bij verwerking van elk teken
+===
+
+syntax:
+= variabelen toewijzen
+- kan alleen in de eerste woorden:
+	VARa=a VARb=b		<-- VARa en VARb krijgen beide een waarde
+	cat in VAR=a		<-- VAR=a is een parameter van cat
+- gebeurt niet als dezelfde opdracht een programma bevat
+	VAR=a cat in		<-- cat wordt uitgevoerd, VAR is leeg
+
+= lees omleidingen (inclusief pipes) van links naar rechts
+	- foo > uit | bar	<-- output van foo wordt naar uit geleid; bar heeft nu geen input meer
+	- foo > uit1 >> uit2	<-- beide bestanden worden gemaakt, maar output gaat naar uit2
+= pipe op eerste positie / direct na andere pipe = syntaxfout
+
+parser:
+= woorden na I/O-omleiding worden -- zonder tussenkomende pipe -- aan ARGV toegevoegd
+	- echo foo > uit bar	<-- uit bevat 'foo bar'
+	- echo foo > uit | bar	<-- eindwaarde van echo is input voor bar
+
+expander:
+= opereert gelijktijdig met de parser
+	- VAR="lorem ipsum"	
+	- echo foo > $VAR	<-- syntaxfout, want VAR is twee woorden
+
+variabelen:
+= toewijzing altijd door waarde:
+	- VAR1="foo"
+	- VAR2="$VAR1 bar"
+	- echo $VAR1 $VAR2
+		- foo foo bar
+	- VAR1="baz"
+	- echo $VAR1 $VAR2
+		- baz foo bar

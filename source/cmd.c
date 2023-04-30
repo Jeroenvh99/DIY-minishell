@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   parse.c                                            :+:    :+:            */
+/*   cmd.c                                              :+:    :+:            */
 /*                                                     +:+                    */
 /*   By: dbasting <marvin@codam.nl>                   +#+                     */
 /*                                                   +#+                      */
@@ -10,43 +10,29 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "msh_parse.h"
 #include "msh.h"
-#include "msh_error.h"
+#include "msh_utils.h"
 
-#include "ft_string.h"
+#include <stddef.h>
+#include <stdlib.h>
 
-t_errno	parse(t_list **tokens, t_cmdtable *cmdtable)
+t_cmd	*cmd_init(char *path, size_t argc, char **argv)
 {
-	t_parsefunc const	parsefuncs[N_TOK] = {
-		parse_cmd, parse_cmd,
-		parse_meta_pipe,
-		parse_meta_input, parse_meta_heredoc,
-		parse_meta_output, parse_meta_output_append,
-		parse_and, parse_or};
-	t_errno				errno;
+	t_cmd	*cmd;
 
-	errno = MSH_SUCCESS;
-	while (*tokens)
-	{
-		errno = parsefuncs[((*tokens)->content)->type](tokens, cmdtable);
-		if (errno != MSH_SUCCESS)
-			break ;
-	}
-	return (errno);
+	cmd = malloc(sizeof(t_cmd));
+	if (cmd == NULL)
+		return (NULL);
+	cmd->path = path;
+	cmd->argc = argc;
+	cmd->argv = argv;
+	return (cmd);
 }
 
-t_errno	parse_grammar(t_list *tokens)
+void	cmd_destroy(t_cmd **cmd)
 {
-	t_toktype	type;
-	t_toktype	prevtype;
-
-	prevtype = TOK_INVALID;
-	while (tokens)
-	{
-		type = ((t_token *)tokens->content)->type;
-		prevtype = type;
-		tokens = tokens->next;
-	}
-	return (MSH_SUCCESS);
+	free((*cmd)->path);
+	free_ptr_array((void **)(*cmd)->argv, (*cmd)->argc);
+	free(*cmd);
+	*cmd = NULL;
 }

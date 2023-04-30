@@ -13,13 +13,10 @@
 NAME 		:= minishell
 
 SRC_FILES	:= main.c\
-			cmd.c\
 			input.c\
 			lex.c\
 			lex_token_get.c\
 			lex_utils.c\
-			parse.c\
-			parse_cmd.c\
 			token.c\
 			utils.c
 OBJ_FILES	:= $(patsubst %.c,%.o,$(SRC_FILES))
