@@ -6,7 +6,7 @@
 /*   By: dbasting <marvin@codam.nl>                   +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/04/18 14:13:15 by dbasting      #+#    #+#                 */
-/*   Updated: 2023/05/01 16:09:52 by dbasting      ########   odam.nl         */
+/*   Updated: 2023/05/01 16:56:18 by dbasting      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ t_errno	parse(t_list **tokens, t_list **cmds)
 	errno = MSH_SUCCESS;
 	while (*tokens)
 	{
-		type = ((t_token*)(*tokens)->content)->type;
+		type = ((t_token *)(*tokens)->content)->type;
 		errno = parsefuncs[type](tokens, cmds);
 		if (errno != MSH_SUCCESS)
 			break ;

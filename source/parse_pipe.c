@@ -6,7 +6,7 @@
 /*   By: dbasting <marvin@codam.nl>                   +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/01 13:59:35 by dbasting      #+#    #+#                 */
-/*   Updated: 2023/05/01 16:41:27 by dbasting      ########   odam.nl         */
+/*   Updated: 2023/05/01 16:57:49 by dbasting      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,12 +21,12 @@
 #include <stddef.h>
 #include <stdlib.h>
 
-static inline bool	cmd_is_undef(t_cmd *pipe_from);
+static inline bool	cmd_is_undef(t_cmd *cmd);
 
 t_errno	parse_pipe(t_list **tokens, t_list **cmds)
 {
 	t_cmd	*pipe_to;
-	
+
 	free(token_pop(tokens));
 	if (cmd_is_undef(cmd_get_current(*cmds)))
 		return (MSH_SYNTAX_ERROR);
@@ -40,10 +40,10 @@ t_errno	parse_pipe(t_list **tokens, t_list **cmds)
 	return (MSH_SUCCESS);
 }
 
-static inline bool	cmd_is_undef(t_cmd *pipe_from)
+static inline bool	cmd_is_undef(t_cmd *cmd)
 {
-	return (!(pipe_from && (pipe_from->path
-			|| pipe_from->io.in_mode
-			|| pipe_from->io.out_mode
-			|| pipe_from->io.err_mode)));
+	return (!(cmd && (cmd->path
+				|| cmd->io.in_mode
+				|| cmd->io.out_mode
+				|| cmd->io.err_mode)));
 }
