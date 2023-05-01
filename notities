@@ -6,7 +6,12 @@ procedure parser:
 3b. einde regel			--> rond commando af; sluit parser af
 4.  \n direct na pipe	--> vraag nieuwe input van lexer
 
-> expander opereert bij verwerking van elk teken
+> expander opereert bij verwerking van elk woord
+
+===
+
+operatoren: groeperen van commandolijsten + vergelijk exitstatussen van elke lijst
+
 ===
 
 syntax:
@@ -41,3 +46,7 @@ variabelen:
 	- VAR1="baz"
 	- echo $VAR1 $VAR2
 		- baz foo bar
+
+gekkigheid:
+= `> out | cat
+	zsh: leidt tot oneindige lus; regels uit stdin worden cumulatief naar out geschreven

@@ -6,7 +6,7 @@
 /*   By: dbasting <marvin@codam.nl>                   +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/04/18 14:13:15 by dbasting      #+#    #+#                 */
-/*   Updated: 2023/04/21 15:59:07 by dbasting      ########   odam.nl         */
+/*   Updated: 2023/05/01 12:20:10 by dbasting      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,8 @@ t_token	*token_init(char *str, t_toktype type)
 
 void	token_free(t_token *token)
 {
+	if (!token)
+		return ;
 	free(token->str);
 	free(token);
 }

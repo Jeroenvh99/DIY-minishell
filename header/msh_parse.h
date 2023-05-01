@@ -6,7 +6,7 @@
 /*   By: dbasting <marvin@codam.nl>                   +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/04/18 13:46:33 by dbasting      #+#    #+#                 */
-/*   Updated: 2023/04/18 13:58:50 by dbasting      ########   odam.nl         */
+/*   Updated: 2023/05/01 15:02:16 by dbasting      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 # define MSH_PARSE_H
 
 # include "msh_error.h"
+# include "msh.h"
 
 # include "ft_list.h"
 # include <stdbool.h>
@@ -78,16 +79,21 @@ t_token	*token_get_meta(char const **str);
 
 // Parser functions.
 t_errno	parse(t_list **tokens, t_list **cmds);
-t_errno	parse_cmd(t_list **tokens, t_list **cmds);
-t_errno	parse_meta_pipe(t_list **tokens, t_list **cmds);
-t_errno	parse_meta_input(t_list **tokens, t_list **cmds);
-t_errno	parse_meta_heredoc(t_list **tokens, t_list **cmds);
-t_errno	parse_meta_output(t_list **tokens, t_list **cmds);
-t_errno	parse_meta_output_append(t_list **tokens, t_list **cmds);
-t_errno	parse_meta_and(t_list **tokens, t_list **cmds);
-t_errno parse_meta_or(t_list **tokens, t_list **cmds);
+t_errno	parse_word(t_list **tokens, t_list **cmds);
+t_errno	parse_qword(t_list **tokens, t_list **cmds);
+t_errno	parse_pipe(t_list **tokens, t_list **cmds);
+t_errno	parse_input(t_list **tokens, t_list **cmds);
+t_errno	parse_heredoc(t_list **tokens, t_list **cmds);
+t_errno	parse_output(t_list **tokens, t_list **cmds);
+t_errno	parse_output_append(t_list **tokens, t_list **cmds);
+t_errno	parse_and(t_list **tokens, t_list **cmds);
+t_errno parse_or(t_list **tokens, t_list **cmds);
+
+t_errno	parse_add_cmd(t_list **tokens, t_list **cmds);
 
 // Miscellaneous functions.
 bool	is_metachr(char c);
+t_cmd	*cmd_get_current(t_list *cmds);
+t_token	*token_pop(t_list **tokens);
 
 #endif

@@ -6,23 +6,35 @@
 #    By: dbasting <marvin@codam.nl>                   +#+                      #
 #                                                    +#+                       #
 #    Created: 2022/12/28 12:06:53 by dbasting      #+#    #+#                  #
-#    Updated: 2023/04/07 16:36:03 by dbasting      ########   odam.nl          #
+#    Updated: 2023/05/01 15:41:09 by dbasting      ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
 NAME 		:= minishell
 
 SRC_FILES	:= main.c\
+			cmd.c\
 			input.c\
 			lex.c\
 			lex_token_get.c\
 			lex_utils.c\
+			parse.c\
+			parse_in.c\
+			parse_operator.c\
+			parse_out.c\
+			parse_pipe.c\
+			parse_utils.c\
+			parse_word.c\
 			token.c\
-			utils.c
+			utils.c\
+			\
+			debug.c
 OBJ_FILES	:= $(patsubst %.c,%.o,$(SRC_FILES))
 HDR_FILES	:= msh.h\
 			msh_error.h\
-			msh_parse.h
+			msh_parse.h\
+			\
+			msh_debug.h
 LIB_FILES	:= libft.a
 
 SRC_DIR		:= ./source/

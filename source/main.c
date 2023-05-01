@@ -6,36 +6,62 @@
 /*   By: dbasting <marvin@codam.nl>                   +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/04/18 14:13:15 by dbasting      #+#    #+#                 */
-/*   Updated: 2023/04/21 15:59:07 by dbasting      ########   odam.nl         */
+/*   Updated: 2023/05/01 16:37:35 by dbasting      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "msh.h"
 #include "msh_parse.h"
+#include "msh_error.h"
+#include "msh_utils.h"
 
 #include "ft_list.h"
+#include "ft_stdlib.h"
 #include <stdio.h>
 
-static void	token_free_wrapper(void *token);
+#include <stdlib.h>
+#include "msh_debug.h"
+
+static void	cmd_free_wrapper(void *cmd);
 
 int	main(void)
 {
 	t_list	*tokens;
+	t_cmd	*cmd;
+	t_list	*cmds;
 	t_list	*ptr;
+	t_errno	errno;
 
 	tokens = NULL;
-	input_get(&tokens, PROMPT);
-	ptr = tokens;
-	while (ptr)
+	cmds = NULL;
+	while (1)
 	{
-		printf("(%d) %s\n", ((t_token *)ptr->content)->type, ((t_token *)ptr->content)->str);
-		ptr = ptr->next;
+		errno = input_get(&tokens, PROMPT);
+		printf("Lexer done! (%d)\n", errno);
+		/*ptr = tokens;
+		while (ptr)
+		{
+			token_view(ptr->content);
+			ptr = ptr->next;
+		}*/
+		cmd = ft_calloc(1, sizeof(t_cmd));
+		if (cmd == NULL || list_append_ptr(&cmds, cmd) != MSH_SUCCESS)
+			return (1);
+		errno = parse(&tokens, &cmds);
+		printf("Parser done! (%d)\n", errno);
+		ptr = cmds;
+		while (ptr)
+		{
+			cmd_view(ptr->content);
+			ptr = ptr->next;
+		}
+		list_clear(&cmds, cmd_free_wrapper);
 	}
-	list_clear(&tokens, token_free_wrapper);
+	system("leaks minishell");
 	return (0);
 }
 
-static void	token_free_wrapper(void *token)
+static void	cmd_free_wrapper(void *cmd)
 {
-	token_free(token);
+	cmd_delete(cmd);
 }

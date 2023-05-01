@@ -6,7 +6,7 @@
 /*   By: dbasting <marvin@codam.nl>                   +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/04/18 13:51:16 by dbasting      #+#    #+#                 */
-/*   Updated: 2023/04/18 13:51:45 by dbasting      ########   odam.nl         */
+/*   Updated: 2023/05/01 15:40:04 by dbasting      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@
 
 # define PROMPT			"msh$ "
 # define PROMPT_CONT	"> "
+# define PROMPT_PIPE	"pipe> "
 
 typedef enum e_in_mode {
 	IN_STD,
@@ -76,19 +77,8 @@ typedef struct s_cmd {
 	t_io	io;
 }	t_cmd;
 
-/* Command table object.
- * @param cmds	A linked list containing the simple commands that constitute
- * 				the command table.
- * @param io	The input-output information.
- */
-typedef struct s_cmdtable {
-	t_list	*cmds;
-	t_io	io;
-}	t_cmdtable;
-
-t_cmdtable	*cmdtable_init(t_list *tokens);
-void		cmdtable_destroy(t_cmdtable **cmdtable);
 t_cmd		*cmd_init(char *path, size_t argc, char **argv);
+void		cmd_delete(t_cmd *cmd);
 void		cmd_destroy(t_cmd **cmd);
 
 t_errno		input_get(t_list **token_list, char const *prompt);

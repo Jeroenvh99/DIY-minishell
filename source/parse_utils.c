@@ -1,44 +1,41 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   cmd.c                                              :+:    :+:            */
+/*   parse_utils.c                                      :+:    :+:            */
 /*                                                     +:+                    */
 /*   By: dbasting <marvin@codam.nl>                   +#+                     */
 /*                                                   +#+                      */
-/*   Created: 2023/04/18 14:13:15 by dbasting      #+#    #+#                 */
-/*   Updated: 2023/05/01 16:23:37 by dbasting      ########   odam.nl         */
+/*   Created: 2023/05/01 11:50:28 by dbasting      #+#    #+#                 */
+/*   Updated: 2023/05/01 16:05:48 by dbasting      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "msh_parse.h"
 #include "msh.h"
 
-#include <stddef.h>
+#include "ft_list.h"
 #include <stdlib.h>
 
-t_cmd	*cmd_init(char *path, size_t argc, char **argv)
+t_cmd	*cmd_get_current(t_list *cmds)
 {
-	t_cmd	*cmd;
+	t_list	*cmd_node;
 
-	cmd = malloc(sizeof(t_cmd));
-	if (cmd == NULL)
+	cmd_node = list_last(cmds);
+	if (!cmd_node)
 		return (NULL);
-	cmd->path = path;
-	cmd->argc = argc;
-	cmd->argv = argv;
-	return (cmd);
+	return ((t_cmd *)cmd_node->content);
 }
 
-void	cmd_delete(t_cmd *cmd)
+t_token	*token_pop(t_list **tokens)
 {
-	free(cmd->path);
-	while (cmd->argc)
-		free(cmd->argv[--cmd->argc]);
-	free(cmd->argv);
-	free(cmd);
-}
+	t_list	*node;
+	t_token	*token;
 
-void	cmd_destroy(t_cmd **cmd)
-{
-	cmd_delete(*cmd);
-	*cmd = NULL;
+	node = *tokens;
+	if (!node)
+		return (NULL);
+	*tokens = node->next;
+	token = node->content;
+	free(node);
+	return (token);
 }
