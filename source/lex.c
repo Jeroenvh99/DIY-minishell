@@ -47,7 +47,6 @@ static t_errno	catch_incomplete_token(t_list *tail_node, char const **str)
 static t_errno	get_tokens(t_list **token_list, char const **str)
 {
 	t_token	*token;
-	t_list	*node;
 
 	token = NULL;
 	while (**str)
@@ -60,10 +59,8 @@ static t_errno	get_tokens(t_list **token_list, char const **str)
 		token = get_token(str);
 		if (token == NULL)
 			return (MSH_MEMFAIL);
-		node = list_new(token);
-		if (node == NULL)
+		if (list_append_ptr(token_list, token) != MSH_SUCCESS)
 			return (token_destroy(&token), MSH_MEMFAIL);
-		list_append(token_list, node);
 	}
 	if (token && token->type < 0)
 		return (MSH_INCOMPLETE_TOKEN);
