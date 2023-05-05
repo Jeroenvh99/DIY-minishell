@@ -18,11 +18,14 @@ char	*strunquote(char *str)
 	lquote = NOQUOTE;
 	while (str[i])
 	{
-		offset += compare_quotes(str[i + offset], &lquote);
-		str[i] = str[i + offset];
-		if (!str[i])
-			break ;
-		i++;
+		if (compare_quotes(str[i + offset], &lquote))
+			offset++;
+		else
+		{
+			str[i] = str[i + offset];
+			if (str[i])
+				i++;
+		}
 	}
 	return (str);
 }
