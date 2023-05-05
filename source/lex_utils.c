@@ -19,3 +19,18 @@ bool	is_metachr(char c)
 {
 	return (ft_strchr(METACHARS, c));
 }
+
+t_quote	is_quote(char c)
+{
+	char const 	quotes[N_QUOTES] = {'\0', CHR_SQUOTE, CHR_DQUOTE};
+	t_quote		id;
+
+	id = 1;
+	while (id < N_QUOTES)
+	{
+		if (c == quotes[id])
+			return (id);
+		id++;
+	}
+	return (NOQUOTE);
+}

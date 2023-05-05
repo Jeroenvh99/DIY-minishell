@@ -15,28 +15,6 @@
 #include "ft_list.h"
 #include "ft_string.h"
 #include <stddef.h>
-#include <stdlib.h>
-
-//verzeker dat dit geen segfaults veroorzaakt
-void	*ft_realloc(void *ptr, size_t dstsize)
-{
-	void	*newptr;
-
-	newptr = malloc(dstsize);
-	if (newptr == NULL)
-		return (free(ptr), NULL);
-	if (ptr != NULL)
-		ft_memcpy(newptr, ptr, dstsize);
-	free(ptr);
-	return (newptr);
-}
-
-void	free_ptr_array(void **array, size_t size)
-{
-	while (size--)
-		free(array[size]);
-	free(array);
-}
 
 char	*get_path(char *pathname)
 {

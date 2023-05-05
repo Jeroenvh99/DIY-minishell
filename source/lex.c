@@ -21,7 +21,6 @@
 
 static t_errno	catch_incomplete_token(t_list *tail_node, char const **str);
 static t_errno	get_tokens(t_list **token_list, char const **str);
-static t_token	*get_token(char const **str);
 
 t_errno	lex(t_list **token_list, char const *str)
 {
@@ -56,7 +55,10 @@ static t_errno	get_tokens(t_list **token_list, char const **str)
 			(*str)++;
 			continue ;
 		}
-		token = get_token(str);
+		if (is_metachr(**str))
+			token = token_get_meta(str);
+		else
+			token = token_get_word(str);
 		if (token == NULL)
 			return (MSH_MEMFAIL);
 		if (list_append_ptr(token_list, token) != MSH_SUCCESS)
@@ -65,15 +67,4 @@ static t_errno	get_tokens(t_list **token_list, char const **str)
 	if (token && token->type < 0)
 		return (MSH_INCOMPLETE_TOKEN);
 	return (MSH_SUCCESS);
-}
-
-static t_token	*get_token(char const **str)
-{
-	if (**str == CHR_DQUOTE)
-		return (token_get_qword(str, TOK_WORD));
-	if (**str == CHR_SQUOTE)
-		return (token_get_qword(str, TOK_QWORD));
-	if (is_metachr(**str))
-		return (token_get_meta(str));
-	return (token_get_word(str));
 }

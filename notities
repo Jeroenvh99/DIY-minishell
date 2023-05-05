@@ -33,7 +33,7 @@ parser:
 	- echo foo > uit | bar	<-- eindwaarde van echo is input voor bar
 
 expander:
-= opereert gelijktijdig met de parser
+= opereert vóór (?) de parser
 	- VAR="lorem ipsum"	
 	- echo foo > $VAR	<-- syntaxfout, want VAR is twee woorden
 

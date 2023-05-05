@@ -22,10 +22,11 @@ t_errno	parse(t_list **tokens, t_list **cmds)
 {
 	t_toktype			type;
 	t_parsefunc const	parsefuncs[N_TOK] = {
-		parse_invalid, parse_word, parse_qword, parse_pipe,
+		parse_word, parse_qword, parse_pipe,
 		parse_input, parse_heredoc,
 		parse_output, parse_output_append,
-		parse_and, parse_or};
+		parse_and, parse_or,
+		parse_invalid};
 	t_errno				errno;
 
 	errno = MSH_SUCCESS;

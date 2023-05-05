@@ -20,12 +20,12 @@
 # include <stdbool.h>
 # include <stddef.h>
 
+//TOK_TRUNC varieties are equal to the negative of the corresponding e_quote
+//value.
 typedef enum e_toktype {
-	TOK_QWORD_TRUNC = -2,
-	TOK_WORD_TRUNC = -1,
-	TOK_INVALID = 0,
-	TOK_WORD,
-	TOK_QWORD,
+	TOK_TRUNC_DQUOTE = -2,
+	TOK_TRUNC_SQUOTE = -1,
+	TOK_WORD = 0,
 	TOK_PIPE,
 	TOK_STDIN,
 	TOK_HEREDOC,
@@ -33,10 +33,11 @@ typedef enum e_toktype {
 	TOK_STDOUT_APPEND,
 	TOK_AND,
 	TOK_OR,
+	TOK_INVALID,
 	N_TOK,
 }	t_toktype;
 
-# define TOK_META_MIN			3
+# define TOK_META_MIN			2
 # define N_TOK_META				7
 
 # define TOK_PIPE_STR			"|"
@@ -47,10 +48,17 @@ typedef enum e_toktype {
 # define TOK_AND_STR			"&&"
 # define TOK_OR_STR				"||"
 
+typedef enum e_quote {
+	NOQUOTE = 0,
+	SQUOTE,
+	DQUOTE,
+	N_QUOTES,
+}	t_quote;
+
 # define METACHARS				"|&<> \t\n"
 # define CHR_DIRSEP				'/'
-# define CHR_DQUOTE				'\"'
 # define CHR_SQUOTE				'\''
+# define CHR_DQUOTE				'\"'
 # define CHR_VAR				'$'
 # define CHR_WILDCARD			'*'
 
@@ -93,6 +101,7 @@ t_errno	parse_add_cmd(t_list **tokens, t_list **cmds);
 
 // Miscellaneous functions.
 bool	is_metachr(char c);
+t_quote	is_quote(char c);
 t_cmd	*cmd_get_current(t_list *cmds);
 t_token	*token_pop(t_list **tokens);
 

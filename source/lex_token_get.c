@@ -17,89 +17,41 @@
 #include <stddef.h>
 #include <stdlib.h>
 
-static t_errno	token_str_append(t_token *token, char const *appendix);
+static inline size_t	token_strlen(char const **str, t_quote *quote);
+static inline t_errno	token_strjoin(t_token *token, char const *str, size_t len);
 
 t_errno	token_complete(t_token *token, char const **str)
 {
-	char	quote;
-	char	*appendix;
+	t_quote	quote;
 	size_t	len;
 
-	if (token->type == -TOK_QWORD)
-		quote = CHR_SQUOTE;
-	else
-		quote = CHR_DQUOTE;
-	len = 0;
-	while ((*str)[len] && (*str)[len] != quote)
-		len++;
-	if ((*str)[len] == '\0')
-	{
-		if (token_str_append(token, *str) != MSH_SUCCESS)
-			return (MSH_MEMFAIL);
-		*str += len;
+	quote = -(token->type);
+	len = token_strlen(str, &quote);
+	token->type = -(quote);
+	if (token_strjoin(token, *str, len) != MSH_SUCCESS)
+		return (MSH_MEMFAIL);
+	*str += len;
+	if (token->type < 0)
 		return (MSH_INCOMPLETE_TOKEN);
-	}
-	token->type *= -1;
-	appendix = ft_substr(*str, 0, len);
-	if (token_str_append(token, appendix) != MSH_SUCCESS)
-		return (free(appendix), MSH_MEMFAIL);
-	*str += len + 1;
-	free(appendix);
 	return (MSH_SUCCESS);
 }
 //\n moet worden ingevoegd!
 
-static t_errno	token_str_append(t_token *token, char const *appendix)
-{
-	char	*str_new;
-
-	if (appendix == NULL)
-		return (MSH_MEMFAIL);
-	str_new = ft_strjoin(token->str, appendix);
-	if (str_new == NULL)
-		return (MSH_MEMFAIL);
-	free(token->str);
-	token->str = str_new;
-	return (MSH_SUCCESS);
-}
-
 t_token	*token_get_word(char const **str)
 {
 	t_token	*token;
-	char	*word;
+	t_quote	quote;
 	size_t	len;
 
-	len = 0;
-	while ((*str)[len] && !is_metachr((*str)[len]))
-		len++;
-	word = ft_substr(*str, 0, len);
-	if (word == NULL)
-		return (NULL);
-	token = token_init(word, TOK_WORD);
+	token = token_init(NULL, TOK_WORD);
 	if (token == NULL)
-		return (free(word), NULL);
+		return (NULL);
+	quote = NOQUOTE;
+	len = token_strlen(str, &quote);
+	if (token_strjoin(token, *str, len) != MSH_SUCCESS)
+		return (token_destroy(&token), NULL);
+	token->type = -(quote);
 	*str += len;
-	return (token);
-}
-
-t_token	*token_get_qword(char const **str, t_toktype type)
-{
-	t_token		*token;
-	char		*word;
-	size_t		len;
-
-	len = 1;
-	while ((*str)[len] != **str && (*str)[len])
-		len++;
-	if ((*str)[len] == '\0')
-		type *= -1;
-	word = ft_substr(*str, 1, len - 1);
-	if (word == NULL)
-		return (NULL);
-	token = token_init(word, type);
-	if (token == NULL)
-		return (free(word), NULL);
-	*str += len + (type > 0);
 	return (token);
 }
 
@@ -121,4 +73,48 @@ t_token	*token_get_meta(char const **str)
 	}
 	*str += metatokens_len[type];
 	return (token_init(NULL, type + TOK_META_MIN));
+}
+
+#include <stdio.h>
+
+static inline size_t	token_strlen(char const **str, t_quote *quote)
+{
+	size_t	len;
+
+	len = 0;
+	while ((*str)[len])
+	{
+		if (*quote == NOQUOTE)
+		{
+			if (is_metachr((*str)[len]))
+				break ;
+			*quote = is_quote((*str)[len]);
+		}
+		else if (is_quote((*str)[len]) == *quote)
+			*quote = NOQUOTE;
+		len++;
+	}
+	return (len);
+}
+
+static inline t_errno	token_strjoin(t_token *token, char const *str, size_t len)
+{
+	char	*appendix;
+	char	*new_word;
+	
+	appendix = ft_substr(str, 0, len);
+	if (appendix == NULL)
+		return (MSH_MEMFAIL);
+	if (token->str == NULL)
+	{
+		token->str = appendix;
+		return (MSH_SUCCESS);
+	}
+	new_word = ft_strjoin(token->str, appendix);
+	free(appendix);
+	if (new_word == NULL)
+		return (MSH_MEMFAIL);
+	free(token->str);
+	token->str = new_word;
+	return (MSH_SUCCESS);
 }
