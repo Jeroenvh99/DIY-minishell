@@ -25,6 +25,7 @@ SRC_FILES	:= main.c\
 			parse_pipe.c\
 			parse_utils.c\
 			parse_word.c\
+			quotes.c\
 			token.c\
 			utils.c\
 			\

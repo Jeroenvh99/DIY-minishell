@@ -88,7 +88,6 @@ t_token	*token_get_meta(char const **str);
 // Parser functions.
 t_errno	parse(t_list **tokens, t_list **cmds);
 t_errno	parse_word(t_list **tokens, t_list **cmds);
-t_errno	parse_qword(t_list **tokens, t_list **cmds);
 t_errno	parse_pipe(t_list **tokens, t_list **cmds);
 t_errno	parse_input(t_list **tokens, t_list **cmds);
 t_errno	parse_heredoc(t_list **tokens, t_list **cmds);
@@ -98,6 +97,9 @@ t_errno	parse_and(t_list **tokens, t_list **cmds);
 t_errno parse_or(t_list **tokens, t_list **cmds);
 
 t_errno	parse_add_cmd(t_list **tokens, t_list **cmds);
+
+// Expander functions.
+char	*strunquote(char *str);
 
 // Miscellaneous functions.
 bool	is_metachr(char c);
