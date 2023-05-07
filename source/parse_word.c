@@ -26,19 +26,14 @@ static inline t_errno	cmd_add_arg(t_cmd *cmd, t_token *arg);
 static inline t_errno	cmd_add_path(t_cmd *cmd, t_token *pathname);
 static char				*get_filename(char *pathname);
 
-t_errno	parse_word(t_list **tokens, t_list **cmds)
-{
-	//execute expander
-	return (parse_qword(tokens, cmds));
-}
-
-t_errno	parse_qword(t_list **tokens, t_list **cmds)
+t_errno	parse_word(t_list **tokens, t_list **cmds/*,t_hashtable *locvars*/)
 {
 	t_cmd	*cmd;
 	t_token	*token;
 
 	cmd = cmd_get_current(*cmds);
 	token = token_pop(tokens);
+	token->str = expand(token->str, NULL);
 	if (!cmd->path)
 	{
 		if (cmd_add_path(cmd, token) != MSH_SUCCESS)

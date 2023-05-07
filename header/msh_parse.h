@@ -16,6 +16,7 @@
 # include "msh_error.h"
 # include "msh.h"
 
+# include "ft_hash.h"
 # include "ft_list.h"
 # include <stdbool.h>
 # include <stddef.h>
@@ -85,6 +86,12 @@ t_token	*token_get_word(char const **str);
 t_token	*token_get_qword(char const **str, t_toktype type);
 t_token	*token_get_meta(char const **str);
 
+// Expander functions.
+char	*expand(char const *str, t_hashtable *vars);
+int		expand_process_quote(char c, t_quote *lquote);
+t_quote	is_quote(char c);
+int		is_closing_quote(char c, t_quote lquote);
+
 // Parser functions.
 t_errno	parse(t_list **tokens, t_list **cmds);
 t_errno	parse_word(t_list **tokens, t_list **cmds);
@@ -98,12 +105,8 @@ t_errno parse_or(t_list **tokens, t_list **cmds);
 
 t_errno	parse_add_cmd(t_list **tokens, t_list **cmds);
 
-// Expander functions.
-char	*strunquote(char *str);
-
 // Miscellaneous functions.
 bool	is_metachr(char c);
-t_quote	is_quote(char c);
 t_cmd	*cmd_get_current(t_list *cmds);
 t_token	*token_pop(t_list **tokens);
 

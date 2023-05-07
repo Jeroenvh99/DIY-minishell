@@ -14,6 +14,8 @@ NAME 		:= minishell
 
 SRC_FILES	:= main.c\
 			cmd.c\
+			expand.c\
+			expand_quotes.c\
 			input.c\
 			lex.c\
 			lex_token_get.c\
@@ -25,15 +27,16 @@ SRC_FILES	:= main.c\
 			parse_pipe.c\
 			parse_utils.c\
 			parse_word.c\
-			quotes.c\
 			token.c\
 			utils.c\
+			var.c\
 			\
 			debug.c
 OBJ_FILES	:= $(patsubst %.c,%.o,$(SRC_FILES))
 HDR_FILES	:= msh.h\
 			msh_error.h\
 			msh_parse.h\
+			msh_var.h\
 			\
 			msh_debug.h
 LIB_FILES	:= libft.a

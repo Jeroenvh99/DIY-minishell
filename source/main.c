@@ -23,6 +23,7 @@
 #include "msh_debug.h"
 
 static void	cmd_free_wrapper(void *cmd);
+//static t_errno	_expand(t_list *tokens);
 
 int	main(void)
 {
@@ -38,6 +39,7 @@ int	main(void)
 	while (errno == MSH_SUCCESS)
 	{
 		errno = input_get(&tokens, PROMPT);
+		//errno = _expand(tokens);
 		cmd = ft_calloc(1, sizeof(t_cmd));
 		if (cmd == NULL || list_append_ptr(&cmds, cmd) != MSH_SUCCESS)
 			return (1);
@@ -54,6 +56,20 @@ int	main(void)
 	system("leaks minishell");
 	return (0);
 }
+
+/*static t_errno	_expand(t_list *tokens)
+{
+	char	*nstr;
+
+	while (tokens)
+	{
+		nstr = expand(((t_token *)tokens->content)->str, NULL);
+		free(((t_token *)tokens->content)->str);
+		((t_token *)tokens->content)->str = nstr;
+		tokens = tokens->next;
+	}
+	return (MSH_SUCCESS);
+}*/
 
 static void	cmd_free_wrapper(void *cmd)
 {

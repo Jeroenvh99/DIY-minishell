@@ -18,7 +18,8 @@
 #include <stdlib.h>
 
 static inline size_t	token_strlen(char const **str, t_quote *quote);
-static inline t_errno	token_strjoin(t_token *token, char const *str, size_t len);
+static inline t_errno	token_strjoin(t_token *token, char const *str,
+							size_t len);
 
 t_errno	token_complete(t_token *token, char const **str)
 {
@@ -75,8 +76,6 @@ t_token	*token_get_meta(char const **str)
 	return (token_init(NULL, type + TOK_META_MIN));
 }
 
-#include <stdio.h>
-
 static inline size_t	token_strlen(char const **str, t_quote *quote)
 {
 	size_t	len;
@@ -97,11 +96,12 @@ static inline size_t	token_strlen(char const **str, t_quote *quote)
 	return (len);
 }
 
-static inline t_errno	token_strjoin(t_token *token, char const *str, size_t len)
+static inline t_errno	token_strjoin(t_token *token, char const *str,
+							size_t len)
 {
 	char	*appendix;
 	char	*new_word;
-	
+
 	appendix = ft_substr(str, 0, len);
 	if (appendix == NULL)
 		return (MSH_MEMFAIL);
