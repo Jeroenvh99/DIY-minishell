@@ -6,7 +6,7 @@
 #    By: dbasting <marvin@codam.nl>                   +#+                      #
 #                                                    +#+                       #
 #    Created: 2022/12/28 12:06:53 by dbasting      #+#    #+#                  #
-#    Updated: 2023/05/01 15:41:09 by dbasting      ########   odam.nl          #
+#    Updated: 2023/05/08 18:14:41 by dbasting      ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,9 +14,9 @@ NAME 		:= minishell
 
 SRC_FILES	:= main.c\
 			cmd.c\
+			input.c\
 			expand.c\
 			expand_quotes.c\
-			input.c\
 			lex.c\
 			lex_token_get.c\
 			lex_utils.c\

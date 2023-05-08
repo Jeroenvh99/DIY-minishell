@@ -6,7 +6,7 @@
 /*   By: dbasting <marvin@codam.nl>                   +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/01 13:59:35 by dbasting      #+#    #+#                 */
-/*   Updated: 2023/05/01 16:57:49 by dbasting      ########   odam.nl         */
+/*   Updated: 2023/05/08 17:52:29 by dbasting      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ t_errno	parse_pipe(t_list **tokens, t_list **cmds)
 
 static inline bool	cmd_is_undef(t_cmd *cmd)
 {
-	return (!(cmd && (cmd->path
+	return (!(cmd && (cmd->argv
 				|| cmd->io.in_mode
 				|| cmd->io.out_mode
 				|| cmd->io.err_mode)));

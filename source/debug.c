@@ -6,7 +6,7 @@
 /*   By: dbasting <marvin@codam.nl>                   +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/01 16:54:58 by dbasting      #+#    #+#                 */
-/*   Updated: 2023/05/01 16:55:04 by dbasting      ########   odam.nl         */
+/*   Updated: 2023/05/08 17:50:32 by dbasting      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,16 +27,15 @@ void	cmd_view(t_cmd *cmd)
 	size_t	i;
 
 	printf("COMMAND:\n"
-		"- path: %s\n"
 		"- argc: %zu\n"
-		"- argv:", cmd->path, cmd->argc);
+		"- argv:", cmd->argc);
 	i = 0;
 	while (i < cmd->argc)
 		printf(" <%s>", cmd->argv[i++]);
 	printf("\n- input: %s (mode %d)\n"
 		"- output: %s (mode %d)\n"
 		"- error: %s (mode %d)\n",
-		cmd->io.in, cmd->io.in_mode,
-		cmd->io.out, cmd->io.out_mode,
-		cmd->io.err, cmd->io.err_mode);
+		cmd->io.in.name, cmd->io.in_mode,
+		cmd->io.out.name, cmd->io.out_mode,
+		cmd->io.err.name, cmd->io.err_mode);
 }

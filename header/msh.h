@@ -6,7 +6,7 @@
 /*   By: dbasting <marvin@codam.nl>                   +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/04/18 13:51:16 by dbasting      #+#    #+#                 */
-/*   Updated: 2023/05/01 15:40:04 by dbasting      ########   odam.nl         */
+/*   Updated: 2023/05/08 17:51:17 by dbasting      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,11 @@ typedef enum e_out_mode {
 
 typedef int	t_fd;
 
+typedef union u_file {
+	char	*name;
+	t_fd	fd;
+}	t_file;
+
 /* Variable object.
  * @param name	The variable's name.
  * @param value	The variable's value.
@@ -56,9 +61,9 @@ typedef struct s_var {
  * @param err_mode	The mode in which the error stream is redirected.
  */
 typedef struct s_io {
-	char		*in;
-	char		*out;
-	char		*err;
+	t_file		in;
+	t_file		out;
+	t_file		err;
 	t_in_mode	in_mode;
 	t_out_mode	out_mode;
 	t_out_mode	err_mode;
@@ -71,13 +76,12 @@ typedef struct s_io {
  * @param io	Data pertaining to I/O processing.
  */
 typedef struct s_cmd {
-	char	*path;
 	size_t	argc;
 	char	**argv;
 	t_io	io;
 }	t_cmd;
 
-t_cmd		*cmd_init(char *path, size_t argc, char **argv);
+t_cmd		*cmd_init(size_t argc, char **argv);
 void		cmd_delete(t_cmd *cmd);
 void		cmd_destroy(t_cmd **cmd);
 

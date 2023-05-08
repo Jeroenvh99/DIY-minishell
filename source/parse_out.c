@@ -6,7 +6,7 @@
 /*   By: dbasting <marvin@codam.nl>                   +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/04/18 14:13:15 by dbasting      #+#    #+#                 */
-/*   Updated: 2023/05/01 16:56:34 by dbasting      ########   odam.nl         */
+/*   Updated: 2023/05/08 17:51:54 by dbasting      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,8 +45,8 @@ static inline t_errno	output_configure(t_list **tokens, t_cmd *cmd)
 	word = token_pop(tokens);
 	if (!word || word->type == TOK_INVALID || word->type >= TOK_META_MIN)
 		return (token_destroy(&word), MSH_SYNTAX_ERROR);
-	free(cmd->io.out);
-	cmd->io.out = word->str;
+	free(cmd->io.out.name);
+	cmd->io.out.name = word->str;
 	free(word);
 	return (MSH_SUCCESS);
 }

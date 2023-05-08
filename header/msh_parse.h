@@ -6,7 +6,7 @@
 /*   By: dbasting <marvin@codam.nl>                   +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/04/18 13:46:33 by dbasting      #+#    #+#                 */
-/*   Updated: 2023/05/01 15:02:16 by dbasting      ########   odam.nl         */
+/*   Updated: 2023/05/08 15:58:20 by dbasting      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ typedef enum e_toktype {
 	N_TOK,
 }	t_toktype;
 
-# define TOK_META_MIN			2
+# define TOK_META_MIN			1
 # define N_TOK_META				7
 
 # define TOK_PIPE_STR			"|"
@@ -87,7 +87,7 @@ t_token	*token_get_qword(char const **str, t_toktype type);
 t_token	*token_get_meta(char const **str);
 
 // Expander functions.
-char	*expand(char const *str, t_hashtable *vars);
+t_errno	expand(t_list **tokens, t_hashtable *vars);
 int		expand_process_quote(char c, t_quote *lquote);
 t_quote	is_quote(char c);
 int		is_closing_quote(char c, t_quote lquote);

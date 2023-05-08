@@ -6,7 +6,7 @@
 /*   By: dbasting <marvin@codam.nl>                   +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/04/18 14:13:15 by dbasting      #+#    #+#                 */
-/*   Updated: 2023/05/01 16:37:12 by dbasting      ########   odam.nl         */
+/*   Updated: 2023/05/08 18:14:01 by dbasting      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,30 +22,32 @@
 
 #include "msh_debug.h"
 
-static inline t_errno	cmd_add_arg(t_cmd *cmd, t_token *arg);
-static inline t_errno	cmd_add_path(t_cmd *cmd, t_token *pathname);
-static char				*get_filename(char *pathname);
+static inline t_errno	cmd_add_arg(t_cmd *cmd, char *arg);
+//static inline t_errno	cmd_add_path(t_cmd *cmd, t_token *pathname);
+//static char		*get_filename(char *pathname);
+static t_list	*token_to_word(t_list *token);
 
 t_errno	parse_word(t_list **tokens, t_list **cmds/*,t_hashtable *locvars*/)
 {
 	t_cmd	*cmd;
-	t_token	*token;
+	t_list	*words;
+	char	*word;
 
 	cmd = cmd_get_current(*cmds);
-	token = token_pop(tokens);
-	token->str = expand(token->str, NULL);
-	if (!cmd->path)
+	words = token_to_word(list_pop(tokens));
+	if (expand(&words, NULL) != MSH_SUCCESS)
+		return (list_clear(&words, free), MSH_MEMFAIL);
+	while (words)
 	{
-		if (cmd_add_path(cmd, token) != MSH_SUCCESS)
-			return (token_destroy(&token), MSH_MEMFAIL);
+		word = list_pop_ptr(&words);
+		if (cmd_add_arg(cmd, word) != MSH_SUCCESS)
+			return (free(word), MSH_MEMFAIL);
+		free(word);
 	}
-	else if (cmd_add_arg(cmd, token) != MSH_SUCCESS)
-		return (token_destroy(&token), MSH_MEMFAIL);
-	free(token);
 	return (MSH_SUCCESS);
 }
 
-static inline t_errno	cmd_add_arg(t_cmd *cmd, t_token *arg)
+static inline t_errno	cmd_add_arg(t_cmd *cmd, char *arg)
 {
 	size_t	argc_new;
 	char	**argv_new;
@@ -55,7 +57,7 @@ static inline t_errno	cmd_add_arg(t_cmd *cmd, t_token *arg)
 	if (argv_new == NULL)
 		return (MSH_MEMFAIL);
 	ft_memcpy(argv_new, cmd->argv, cmd->argc * sizeof(char *));
-	argv_new[cmd->argc] = arg->str;
+	argv_new[cmd->argc] = arg;
 	argv_new[argc_new] = NULL;
 	cmd->argc = argc_new;
 	free(cmd->argv);
@@ -63,9 +65,9 @@ static inline t_errno	cmd_add_arg(t_cmd *cmd, t_token *arg)
 	return (MSH_SUCCESS);
 }
 
-static t_errno	cmd_add_path(t_cmd *cmd, t_token *pathname)
+/*static t_errno	cmd_add_path(t_cmd *cmd, char *pathname)
 {
-	cmd->path = pathname->str;
+	cmd->path = pathname;
 	cmd->argc = 1;
 	cmd->argv = malloc(2 * sizeof(char *));
 	if (cmd->argv == NULL)
@@ -75,9 +77,9 @@ static t_errno	cmd_add_path(t_cmd *cmd, t_token *pathname)
 		return (MSH_MEMFAIL);
 	cmd->argv[1] = NULL;
 	return (MSH_SUCCESS);
-}
+}*/
 
-static char	*get_filename(char *pathname)
+/*static char	*get_filename(char *pathname)
 {
 	size_t	offset;
 
@@ -85,4 +87,15 @@ static char	*get_filename(char *pathname)
 	while (offset && pathname[offset - 1] != '/')
 		offset--;
 	return (ft_strdup(pathname + offset));
+}*/
+
+t_list	*token_to_word(t_list *token)
+{
+	char	*str;
+
+	str = ((t_token *)token->content)->str;
+	free(token->content);
+	token->content = str;
+	return (token);
 }
+	
