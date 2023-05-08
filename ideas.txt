@@ -3,3 +3,9 @@ Voorlopige indeling van de variabelenopslag-struct (env en lokale):
 >> Toevoegen (=; export): zoeken naar lege plekken, anders heralloceren;
 >> Verwijderen (unset): op NULL
 >> Variabele: struct {char *name; char* value}
+
+in main checken of argc meer dan 1 is en in dat geval scripts uitvoeren
+- alleen het eerste argument wordt uitgevoerd als script
+
+fds doorgeven uit de parser aan de commands, dit maakt het makkelijker om met pipes te werken
+- dan kan ieder commando een link uit de linked list krijgen

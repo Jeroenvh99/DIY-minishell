@@ -6,7 +6,7 @@
 /*   By: jvan-hal <jvan-hal@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/04/20 16:52:40 by jvan-hal      #+#    #+#                 */
-/*   Updated: 2023/04/21 17:36:31 by jvan-hal      ########   odam.nl         */
+/*   Updated: 2023/05/08 15:02:24 by jvan-hal      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ char	*ft_strjoin_dir(char const *s1, char const *s2)
 	return (string);
 }
 
-int	main(int argc, char **argv)
+int	msh_cd(int argc, char **argv)
 {
 	char	*buf;
 	char	*newdir;
@@ -79,4 +79,9 @@ int	main(int argc, char **argv)
 	free(buf);
 	chdir(newdir);
 	// update env
+}
+
+int main(int argc, char **argv)
+{
+	msh_cd(argc, argv);
 }
