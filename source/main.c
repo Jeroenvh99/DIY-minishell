@@ -28,6 +28,8 @@ static t_errno	msh_init(t_msh *msh, int argc, char **argv, char **envp);
 static void		msh_deinit(t_msh *msh);
 static void		cmd_free_wrapper(void *cmd);
 
+t_msh	*g_msh;
+
 int	main(int argc, char **argv, char **envp)
 {
 	t_msh	msh;
@@ -35,6 +37,7 @@ int	main(int argc, char **argv, char **envp)
 	msh.errno = msh_init(&msh, argc, argv, envp);
 	if (msh.errno != MSH_SUCCESS)
 		return (msh.errno);
+	g_msh = &msh;
 	msh.errno = msh_loop(&msh);
 	msh_deinit(&msh);
 	return (msh.errno);

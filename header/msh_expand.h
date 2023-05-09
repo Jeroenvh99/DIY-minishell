@@ -23,10 +23,11 @@
 /* Expander operations.*/
 typedef char	t_expop;
 enum e_expop {
-	OP_END = 0,
-	OP_COPY,
-	OP_SKIP,
-	OP_ESC,
+	EXPOP_ENDP = 0,
+	EXPOP_ENDW,
+	EXPOP_COPY,
+	EXPOP_SKIP,
+	EXPOP_ESC,
 };
 
 typedef enum e_specvar {
@@ -50,10 +51,13 @@ typedef struct s_expstr {
 	size_t	i;
 }	t_expstr;
 
+typedef t_errno	(*t_expf)(t_expstr *, size_t *, t_msh *);
+
 // Expander functions.
-t_errno	expand(t_list **tokens, t_hashtable *vars);
-t_errno	expand_loop(t_expstr *expstr, size_t *exp_len, t_msh *msh);
-t_errno	expand_var(t_expstr *expstr, size_t *exp_len, t_hashtable *vars);
+t_errno	expand(t_list **words, t_msh *msh);
+t_errno	expand_fieldsplit(t_expstr *expstr, t_list **words);
+t_errno	expand_dollar(t_expstr *expstr, size_t *exp_len, t_msh *msh);
+t_errno	expand_var(t_expstr *expstr, size_t *exp_len, t_msh *vars);
 t_errno	expand_spec_pos1(t_expstr *expstr, size_t *exp_len, t_msh *msh);
 t_errno	expand_spec_pos2(t_expstr *expstr, size_t *exp_len, t_msh *msh);
 t_errno	expand_spec_nparam(t_expstr *expstr, size_t *exp_len, t_msh *msh);
@@ -62,8 +66,9 @@ t_errno	expand_spec_opts(t_expstr *expstr, size_t *exp_len, t_msh *msh);
 t_errno	expand_spec_shpid(t_expstr *expstr, size_t *exp_len, t_msh *msh);
 t_errno	expand_spec_bgpid(t_expstr *expstr, size_t *exp_len, t_msh *msh);
 t_errno	expand_spec_shname(t_expstr *expstr, size_t *exp_len, t_msh *msh);
+//t_errno	expand_wildcard(t_expstr *expstr, t_msh *msh);
 
 // Miscellaneous functions.
-int		expand_process_quote(char c, t_quote *lquote);
+t_errno	ft_strexp(char **str, size_t slot_i, size_t slot_len, char const *subst);
 
 #endif

@@ -2,7 +2,6 @@
 # define MSH_UTILS_H
 
 # include "msh_error.h"
-
 # include "ft_list.h"
 
 typedef enum e_quote {
@@ -12,16 +11,20 @@ typedef enum e_quote {
 	N_QUOTES,
 }	t_quote;
 
-# define CHR_DIRSEP				'/'
-# define CHR_SQUOTE				'\''
-# define CHR_DQUOTE				'\"'
-# define CHR_VAR				'$'
-# define CHR_WILDCARD			'*'
+# define CHR_DIRSEP		'/'
+# define CHR_SQUOTE		'\''
+# define CHR_DQUOTE		'\"'
+# define CHR_VAR		'$'
+# define CHR_WILDCARD	'*'
 
 char	*get_path(char *pathname);
+
 t_quote	is_quote(char c);
+
+// List functions.
 t_errno	list_append_ptr(t_list **lst, void *ptr);
 t_list	*list_pop(t_list **lst);
 void	*list_pop_ptr(t_list **lst);
+t_errno	list_push_ptr(t_list **lst, void *ptr);
 
 #endif

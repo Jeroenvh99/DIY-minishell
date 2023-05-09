@@ -14,6 +14,16 @@ NAME 		:= minishell
 
 SRC_FILES	:= main.c\
 			cmd.c\
+			expand.c\
+			expand_fieldsplit.c\
+			expand_spec_exit.c\
+			expand_spec_nparam.c\
+			expand_spec_opts.c\
+			expand_spec_pid.c\
+			expand_spec_pos.c\
+			expand_spec_shname.c\
+			expand_utils.c\
+			expand_var.c\
 			lex.c\
 			lex_token_get.c\
 			lex_utils.c\

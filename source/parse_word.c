@@ -13,6 +13,7 @@
 #include "msh_parse.h"
 #include "msh.h"
 #include "msh_error.h"
+#include "msh_expand.h"
 #include "msh_utils.h"
 
 #include "ft_list.h"
@@ -21,6 +22,8 @@
 #include <stdlib.h>
 
 #include "msh_debug.h"
+
+extern t_msh	*g_msh;
 
 static inline t_errno	cmd_add_arg(t_cmd *cmd, char *arg);
 static t_list	*token_to_word(t_list *token);
@@ -33,8 +36,8 @@ t_errno	parse_word(t_list **tokens, t_list **cmds/*,t_hashtable *locvars*/)
 
 	cmd = cmd_get_current(*cmds);
 	words = token_to_word(list_pop(tokens));
-	//if (expand(&words, NULL) != MSH_SUCCESS)
-	//	return (list_clear(&words, free), MSH_MEMFAIL);
+	if (expand(&words, g_msh) != MSH_SUCCESS)
+		return (list_clear(&words, free), MSH_MEMFAIL);
 	while (words)
 	{
 		word = list_pop_ptr(&words);

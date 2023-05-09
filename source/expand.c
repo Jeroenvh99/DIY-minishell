@@ -10,93 +10,97 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "msh_parse.h"
+#include "msh_expand.h"
 #include "msh_error.h"
-#include "msh_var.h"
 #include "msh_utils.h"
 
 #include "ft_ctype.h"
-#include "ft_hash.h"
 #include "ft_string.h"
 #include <stddef.h>
 #include <stdlib.h>
 
-static char		*find_next_word(char **str, size_t *offset, size_t *var_len, t_hashtable *vars);
-static t_errno	expand_substitute(char **str, size_t i, char const *exp, size_t exp_len);
-static t_errno	expand_var(char **str, size_t *var_len, t_hashtable *vars);
+#include <stdio.h>
 
-t_errno	expand(t_list **words, t_hashtable *vars)
+static t_errno		expand_loop(t_expstr *expstr, t_quote *lquote,
+						size_t *exp_len, t_msh *msh);
+static inline int	expand_process_quote(char c, t_quote *lquote);
+
+t_errno	expand(t_list **words, t_msh *msh)
 {
-	char	*str;
-	char	*word;
-	size_t	offset;
-	size_t	var_len;
+	t_expstr	expstr;
+	t_quote		lquote;
+	size_t		exp_len;
+	t_errno		errno;
 
-	str = (*words)->content;
+	expstr.str = (*words)->content;
+	expstr.ops = malloc((ft_strlen(expstr.str) + 1) * sizeof(t_expop));
+	if (expstr.ops == NULL)
+		return (MSH_MEMFAIL);
 	list_clear(words, NULL);
-	offset = 0;
-	var_len = 0;
-	while (str[offset])
-	{
-		word = find_next_word(&str, &offset, &var_len, vars);
-		if (word == NULL)
-			return (free(str), MSH_MEMFAIL);
-		if (list_append_ptr(words, word) != MSH_SUCCESS)
-			return (free(str), MSH_MEMFAIL);
-	}
-	free(str);
-	return (MSH_SUCCESS);	
+	lquote = NOQUOTE;
+	exp_len = 0;
+	expstr.i = 0;
+	errno = expand_loop(&expstr, &lquote, &exp_len, msh);
+	if (errno != MSH_SUCCESS)
+		return (free(expstr.str), free(expstr.ops), errno);
+	errno = expand_fieldsplit(&expstr, words);
+	free(expstr.str);
+	free(expstr.ops);
+	return (errno);	
 }
 
-static char	*find_next_word(char **str, size_t *offset, size_t *var_len, t_hashtable *vars)
-{
-	char	*word;
-	size_t	len;
+//Iterate over expstr.str and fill expstr->ops according to quotes and escapes.
 
-	(void) offset;
-	len = 0;
-	while (*str[len])
+//move lquote and exp_len inside function
+static t_errno	expand_loop(t_expstr *expstr, t_quote *lquote, size_t *exp_len,
+								t_msh *msh)
+{
+	t_expop	op;
+	t_errno	errno;
+
+	errno = MSH_SUCCESS;
+	while (expstr->str[expstr->i])
 	{
-		if (**str == CHR_VAR && expand_var(str, len, var_len, vars) != MSH_SUCCESS)
-			return (NULL);
-		len++;
+		op = EXPOP_COPY;
+		if (*exp_len)
+		{
+			(*exp_len)--;
+			if (*lquote == NOQUOTE && ft_isspace(expstr->str[expstr->i]))
+				op = EXPOP_ENDW;
+		}
+		else
+		{
+			if (expand_process_quote(expstr->str[expstr->i], lquote))
+				op = EXPOP_SKIP;
+			else if (*lquote != SQUOTE && expstr->str[expstr->i] == CHR_VAR)
+				errno = expand_dollar(expstr, exp_len, msh);
+		}
+		if (errno != MSH_SUCCESS)
+			return (errno);
+		expstr->ops[expstr->i++] = op;
 	}
-	return (ft_strdup(*str));
-}
-
-static t_errno	expand_substitute(char **str, size_t i,
-					char const *exp, size_t exp_len)
-{
-	char		*nstr;
-	size_t const nstr_size = ft_strlen(*str) + ft_strlen(exp) - (name_len + 1) + 1;
-
-	nstr = malloc(nstr_size * sizeof(char));
-	if (nstr == NULL)
-		return (NULL);
-	ft_memcpy(nstr, *str, i);
-	nstr[i] = '\0';
-	ft_strlcat(nstr, exp, nstr_size);
-	ft_strlcat(nstr, &(*str)[i + name_len], nstr_size);
-	free(*str);
-	*str = nstr;
+	expstr->ops[expstr->i] = EXPOP_ENDP;
 	return (MSH_SUCCESS);
 }
 
-static t_errno expand_var(char **str, size_t i, size_t *value_len, t_hashtable *vars)
-{
-	char	*key;
-	size_t	key_len;
-	char	*value;
+//t_expop	determine_expop()
 
-	//als **str == '?': uitgaande waarde
-	key_len = 0;
-	while (ft_isalnum((*str)[i + 1 + key_len]) || (*str)[i + 1 + key_len] == '_')
-		key_len++;
-	key = ft_substr(*str, i + 1, key_len);
-	if (key == NULL)
-		return (MSH_MEMFAIL);
-	value = var_search(key, vars);
-	free(key);
-	*value_len = ft_strlen(value);
-	return (expand_substitute(str, i, value, key_len));
+static inline int	expand_process_quote(char c, t_quote *lquote)
+{
+	t_quote const	rquote = is_quote(c);
+
+	if (*lquote == NOQUOTE)
+	{
+		if (rquote != NOQUOTE)
+		{
+			*lquote = rquote;
+			return (1);
+		}
+	}
+	else if (rquote == *lquote)
+	{
+		*lquote = NOQUOTE;
+		return (1);
+	}
+	return (0);
 }

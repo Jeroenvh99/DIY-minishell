@@ -52,3 +52,14 @@ t_errno	list_append_ptr(t_list **lst, void *ptr)
 	list_append(lst, node);
 	return (MSH_SUCCESS);
 }
+
+t_errno	list_push_ptr(t_list **lst, void *ptr)
+{
+	t_list	*node;
+
+	node = list_new(ptr);
+	if (node == NULL)
+		return (MSH_MEMFAIL);
+	list_push(lst, node);
+	return (MSH_SUCCESS);
+}
