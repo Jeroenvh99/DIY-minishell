@@ -17,15 +17,15 @@
 # include "msh.h"
 
 # include "ft_hash.h"
-# include "ft_list.h"
 # include <stdbool.h>
 # include <stddef.h>
 
-//TOK_TRUNC varieties are equal to the negative of the corresponding e_quote
-//value.
+/* TOK_TRUNC varieties are equal to the negative of the corresponding e_quote
+ * value.
+ */
 typedef enum e_toktype {
 	TOK_TRUNC_DQUOTE = -2,
-	TOK_TRUNC_SQUOTE = -1,
+	TOK_TRUNC = -1,
 	TOK_WORD = 0,
 	TOK_PIPE,
 	TOK_STDIN,
@@ -49,19 +49,7 @@ typedef enum e_toktype {
 # define TOK_AND_STR			"&&"
 # define TOK_OR_STR				"||"
 
-typedef enum e_quote {
-	NOQUOTE = 0,
-	SQUOTE,
-	DQUOTE,
-	N_QUOTES,
-}	t_quote;
-
 # define METACHARS				"|&<> \t\n"
-# define CHR_DIRSEP				'/'
-# define CHR_SQUOTE				'\''
-# define CHR_DQUOTE				'\"'
-# define CHR_VAR				'$'
-# define CHR_WILDCARD			'*'
 
 /* Token object.
  * @param str	If the token is a word: the word.
@@ -85,12 +73,6 @@ t_errno	token_complete(t_token *token, char const **str);
 t_token	*token_get_word(char const **str);
 t_token	*token_get_qword(char const **str, t_toktype type);
 t_token	*token_get_meta(char const **str);
-
-// Expander functions.
-t_errno	expand(t_list **tokens, t_hashtable *vars);
-int		expand_process_quote(char c, t_quote *lquote);
-t_quote	is_quote(char c);
-int		is_closing_quote(char c, t_quote lquote);
 
 // Parser functions.
 t_errno	parse(t_list **tokens, t_list **cmds);

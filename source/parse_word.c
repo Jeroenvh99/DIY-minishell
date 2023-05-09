@@ -23,8 +23,6 @@
 #include "msh_debug.h"
 
 static inline t_errno	cmd_add_arg(t_cmd *cmd, char *arg);
-//static inline t_errno	cmd_add_path(t_cmd *cmd, t_token *pathname);
-//static char		*get_filename(char *pathname);
 static t_list	*token_to_word(t_list *token);
 
 t_errno	parse_word(t_list **tokens, t_list **cmds/*,t_hashtable *locvars*/)
@@ -35,14 +33,13 @@ t_errno	parse_word(t_list **tokens, t_list **cmds/*,t_hashtable *locvars*/)
 
 	cmd = cmd_get_current(*cmds);
 	words = token_to_word(list_pop(tokens));
-	if (expand(&words, NULL) != MSH_SUCCESS)
-		return (list_clear(&words, free), MSH_MEMFAIL);
+	//if (expand(&words, NULL) != MSH_SUCCESS)
+	//	return (list_clear(&words, free), MSH_MEMFAIL);
 	while (words)
 	{
 		word = list_pop_ptr(&words);
 		if (cmd_add_arg(cmd, word) != MSH_SUCCESS)
 			return (free(word), MSH_MEMFAIL);
-		free(word);
 	}
 	return (MSH_SUCCESS);
 }
@@ -65,30 +62,6 @@ static inline t_errno	cmd_add_arg(t_cmd *cmd, char *arg)
 	return (MSH_SUCCESS);
 }
 
-/*static t_errno	cmd_add_path(t_cmd *cmd, char *pathname)
-{
-	cmd->path = pathname;
-	cmd->argc = 1;
-	cmd->argv = malloc(2 * sizeof(char *));
-	if (cmd->argv == NULL)
-		return (MSH_MEMFAIL);
-	cmd->argv[0] = get_filename(cmd->path);
-	if (cmd->argv[0] == NULL)
-		return (MSH_MEMFAIL);
-	cmd->argv[1] = NULL;
-	return (MSH_SUCCESS);
-}*/
-
-/*static char	*get_filename(char *pathname)
-{
-	size_t	offset;
-
-	offset = ft_strlen(pathname);
-	while (offset && pathname[offset - 1] != '/')
-		offset--;
-	return (ft_strdup(pathname + offset));
-}*/
-
 t_list	*token_to_word(t_list *token)
 {
 	char	*str;
@@ -98,4 +71,3 @@ t_list	*token_to_word(t_list *token)
 	token->content = str;
 	return (token);
 }
-	

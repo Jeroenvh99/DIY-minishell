@@ -4,9 +4,22 @@
 # include "msh_error.h"
 
 # include "ft_list.h"
-# include <stddef.h>
+
+typedef enum e_quote {
+	NOQUOTE = 0,
+	SQUOTE,
+	DQUOTE,
+	N_QUOTES,
+}	t_quote;
+
+# define CHR_DIRSEP				'/'
+# define CHR_SQUOTE				'\''
+# define CHR_DQUOTE				'\"'
+# define CHR_VAR				'$'
+# define CHR_WILDCARD			'*'
 
 char	*get_path(char *pathname);
+t_quote	is_quote(char c);
 t_errno	list_append_ptr(t_list **lst, void *ptr);
 t_list	*list_pop(t_list **lst);
 void	*list_pop_ptr(t_list **lst);

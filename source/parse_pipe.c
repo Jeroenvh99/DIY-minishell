@@ -30,7 +30,7 @@ t_errno	parse_pipe(t_list **tokens, t_list **cmds)
 	free(token_pop(tokens));
 	if (cmd_is_undef(cmd_get_current(*cmds)))
 		return (MSH_SYNTAX_ERROR);
-	if (*tokens == NULL && input_get(tokens, PROMPT_PIPE) != MSH_SUCCESS)
+	if (*tokens == NULL && readcmdline(tokens, PROMPT_PIPE) != MSH_SUCCESS)
 		return (MSH_MEMFAIL);
 	pipe_to = ft_calloc(1, sizeof(t_cmd));
 	if (pipe_to == NULL)

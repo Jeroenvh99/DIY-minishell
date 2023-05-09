@@ -10,8 +10,9 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "msh.h"
 #include "msh_parse.h"
+#include "msh.h"
+#include "msh_utils.h"
 
 #include "ft_string.h"
 #include <stddef.h>

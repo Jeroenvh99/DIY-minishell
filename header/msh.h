@@ -15,6 +15,7 @@
 
 # include "msh_error.h"
 
+# include "ft_hash.h"
 # include "ft_list.h"
 # include <stddef.h>
 
@@ -42,15 +43,6 @@ typedef union u_file {
 	char	*name;
 	t_fd	fd;
 }	t_file;
-
-/* Variable object.
- * @param name	The variable's name.
- * @param value	The variable's value.
- */
-typedef struct s_var {
-	char *name;
-	char *value;
-}	t_var;
 
 /* I/O information.
  * @param in		The name of the file used for input.
@@ -81,10 +73,26 @@ typedef struct s_cmd {
 	t_io	io;
 }	t_cmd;
 
+/* Shell data object.
+ * @param env	The shell environment.
+ * @param var	The shell's local variables.
+ * @param cmds	The current command queue.
+ * @param exit	The exit status of the most recently executed foreground pipe.
+ * @param errno	The current error code.
+ */
+typedef struct s_msh {
+	char		**env;
+	t_hashtable	*var;
+	t_list		*cmds;
+	int			exit;
+	t_errno		errno;
+}	t_msh;
+
+t_errno		readcmdline(t_list **token_list, char const *prompt);
+
+// Command functions.
 t_cmd		*cmd_init(size_t argc, char **argv);
 void		cmd_delete(t_cmd *cmd);
 void		cmd_destroy(t_cmd **cmd);
-
-t_errno		input_get(t_list **token_list, char const *prompt);
 
 #endif

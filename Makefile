@@ -14,9 +14,6 @@ NAME 		:= minishell
 
 SRC_FILES	:= main.c\
 			cmd.c\
-			input.c\
-			expand.c\
-			expand_quotes.c\
 			lex.c\
 			lex_token_get.c\
 			lex_utils.c\
@@ -27,14 +24,17 @@ SRC_FILES	:= main.c\
 			parse_pipe.c\
 			parse_utils.c\
 			parse_word.c\
+			readcmdline.c\
 			token.c\
-			utils.c\
+			utils_list.c\
+			utils_quotes.c\
 			var.c\
 			\
 			debug.c
 OBJ_FILES	:= $(patsubst %.c,%.o,$(SRC_FILES))
 HDR_FILES	:= msh.h\
 			msh_error.h\
+			msh_expand.h\
 			msh_parse.h\
 			msh_var.h\
 			\

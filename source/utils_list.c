@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   utils.c                                            :+:    :+:            */
+/*   utils_list.c                                       :+:    :+:            */
 /*                                                     +:+                    */
 /*   By: dbasting <marvin@codam.nl>                   +#+                     */
 /*                                                   +#+                      */
@@ -16,19 +16,6 @@
 #include "ft_string.h"
 #include <stddef.h>
 #include <stdlib.h>
-
-char	*get_path(char *pathname)
-{
-	size_t	len;
-
-	len = ft_strlen(pathname);
-	while (len--)
-	{
-		if (pathname[len] == '/')
-			break ;
-	}
-	return (ft_substr(pathname, 0, len));
-}
 
 t_list	*list_pop(t_list **lst)
 {
