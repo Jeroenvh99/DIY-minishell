@@ -6,12 +6,13 @@
 /*   By: jvan-hal <jvan-hal@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/04/20 16:50:13 by jvan-hal      #+#    #+#                 */
-/*   Updated: 2023/05/09 16:10:13 by jvan-hal      ########   odam.nl         */
+/*   Updated: 2023/05/09 16:38:40 by jvan-hal      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "./../../lib/libft/include/ft_string.h"
-#include "./../../minishell.h"
+#include "./../../lib/libft/include/ft_stdio.h"
+#include "./../../include/minishell.h"
 #include <stdlib.h>
 
 int	msh_unset(int argc, char **argv, t_msh *msh)
@@ -30,13 +31,14 @@ int	msh_unset(int argc, char **argv, t_msh *msh)
 			while (msh->env[j + 1])
 			{
 				msh->env[j] = msh->env[j + 1];
-				++j
+				++j;
 			}
-			msh->env[j - 1] = NULL;
+			msh->env[j] = NULL;
 		}
 		++i;
 	}
 	--(msh->envused);
+	return (0);
 }
 
 int	main(int argc, char **argv, char **envp)
@@ -47,7 +49,5 @@ int	main(int argc, char **argv, char **envp)
 	msh->envspc = env_size(envp);
 	msh->envused = msh->envspc;
 
-	print_2d_arr(msh->env);
 	msh_unset(argc, argv, msh);
-	print_2d_arr(msh->env);
 }

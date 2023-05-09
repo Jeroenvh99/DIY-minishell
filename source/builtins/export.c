@@ -6,13 +6,13 @@
 /*   By: jvan-hal <jvan-hal@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/04/20 16:51:03 by jvan-hal      #+#    #+#                 */
-/*   Updated: 2023/05/08 18:13:43 by jvan-hal      ########   odam.nl         */
+/*   Updated: 2023/05/09 16:54:17 by jvan-hal      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "./../../lib/libft/include/ft_stdio.h"
-#include <unistd.h>
 #include <fcntl.h>
+#include <unistd.h>
 
 int	get_fd(char *name)
 {
@@ -24,11 +24,12 @@ int	get_fd(char *name)
 	return (fd);
 }
 
-int	msh_export(int argc, char **argv, char **argv)
+int	msh_export(int argc, char **argv, t_msh *msh)
 {
-	int	i;
-	int	j;
-	int	fd;
+	int		i;
+	int		j;
+	int		fd;
+	char	*var;
 
 	if (argc == 0)
 	{
@@ -37,28 +38,45 @@ int	msh_export(int argc, char **argv, char **argv)
 		if (fd == -1)
 			return (1);
 		i = 0;
-		while (argv[i])
+		while (msh->env[i])
 		{
 			write(fd, "declare -x ", 11);
 			j = 0;
-			while (argv[i][j])
+			while (msh->env[i][j])
 			{
-				if (argv[i][j] == '=')
+				if (msh->env[i][j] == '=')
 				{
 					++j;
 					break ;
 				}
 				++j;
 			}
-			write(fd, argv[i], j);
-			ft_dprintf(fd, "\"%s\"\n", argv[i] + j);
+			write(fd, msh->env[i], j);
+			ft_dprintf(fd, "\"%s\"\n", msh->env[i] + j);
 			++i;
 		}
 		close(fd);
 		return (0);
 	}
-	// fetch variable from local variables
-	// insert variable into env
+	else
+	{
+		i = 0;
+		while (argc[i])
+		{
+			var = hashtable_pop(msh->loc_var, argc[i]);
+			if (msh->envused < msh->envspc)
+			{
+				msh->env[msh->envused] = var;
+				++(msh->envused);
+			}
+			else
+			{
+				// reallocate env and copy the old env to the new env
+				// update envspc and envused
+			}
+			++i;
+		}
+	}
 }
 
 int	main(int argc, char **argv, char **envp)
