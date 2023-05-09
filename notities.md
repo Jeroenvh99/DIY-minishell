@@ -10,12 +10,11 @@ Voorlopige indeling van de variabelenopslag-struct (env en lokale):
 ## executor
 Vier opties:
 1. geen pad, naam is builtin: Voer builtin uit.
-2. geen pad, naam is geen buildin: Zoek $PATH af naar naam; voer uit indien gevonden.
+2. geen pad, naam is geen builtin: Zoek $PATH af naar naam; voer uit indien gevonden.
 3. pad: Zoek pad af naar naam; voer uit indien gevonden.
 4. eerste woord bevat '=' en geen aanhalingstekens: bewerk loc\_vars. Sla over indien nog meer volgt.
 
-in main checken of argc meer dan 1 is en in dat geval scripts uitvoeren
-- alleen het eerste argument wordt uitgevoerd als script
+in main checken of argc meer dan 1 is en in dat geval checken or -c als argument gegeven is en als dat zo is het gegeven commando uitvoeren
 
 fds doorgeven uit de parser aan de commands, dit maakt het makkelijker om met pipes te werken
 - dan kan ieder commando een link uit de linked list krijgen
