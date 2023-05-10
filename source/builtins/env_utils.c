@@ -6,7 +6,7 @@
 /*   By: jvan-hal <jvan-hal@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/09 15:57:34 by jvan-hal      #+#    #+#                 */
-/*   Updated: 2023/05/09 16:30:14 by jvan-hal      ########   odam.nl         */
+/*   Updated: 2023/05/10 17:31:20 by jvan-hal      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,14 +53,32 @@ void	print_2d_arr(char **arr)
 		++i;
 	}
 }
+*
+char	*get_env_var(char *name, char **env)
+{
+	int		i;
+	char	*varname;
+
+	varname = ft_strjoin(name, "=");
+	i = 0;
+	while (env[i] && !ft_strnstr(env[i], varname, ft_strlen(varname)))
+		++i;
+	free(varname);
+	if (env[i])
+		return (ft_strchr(env[i], '=') + 1);
+	return (NULL);
+}
 
 int	remove_var(char *name, char **env)
 {
-	int	i;
+	int		i;
+	char	*varname;
 
+	varname = ft_strjoin(name, "=");
 	i = 0;
-	while (env[i] && ft_strnstr(env[i], name, ft_strlen(name)) == 0)
+	while (env[i] && !ft_strnstr(env[i], varname, ft_strlen(varname)))
 		++i;
+	free(varname);
 	if (env[i])
 		free(env[i]);
 	return (i);
