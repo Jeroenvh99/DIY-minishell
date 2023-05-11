@@ -68,7 +68,7 @@ bonus: $(NAME)
 	@echo "Bonus is basis, vrind."
 
 $(NAME): $(addprefix $(OBJ_DIR),$(OBJ_FILES)) $(addprefix $(LIB_DIR),$(LIB_FILES))
-	@$(CC) $(CFLAGS) -lreadline $^ -o $@
+	@$(CC) $(CFLAGS) $^ -lreadline -o $@
 
 $(OBJ_DIR)%.o: $(SRC_DIR)%.c $(addprefix $(HDR_DIR),$(HDR_FILES))
 	@mkdir -p $(addprefix $(OBJ_DIR),$(OBJ_SUBDIRS))

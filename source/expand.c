@@ -19,17 +19,13 @@
 #include <stddef.h>
 #include <stdlib.h>
 
-#include <stdio.h>
-
-static t_errno		expand_loop(t_expstr *expstr, t_quote *lquote,
-						size_t *exp_len, t_msh *msh);
+static t_errno		expand_loop(t_expstr *expstr, t_msh *msh);
+static t_expop	determine_expop(char c, t_quote *lquote, size_t *exp_len);
 static inline int	expand_process_quote(char c, t_quote *lquote);
 
 t_errno	expand(t_list **words, t_msh *msh)
 {
 	t_expstr	expstr;
-	t_quote		lquote;
-	size_t		exp_len;
 	t_errno		errno;
 
 	expstr.str = (*words)->content;
@@ -37,10 +33,8 @@ t_errno	expand(t_list **words, t_msh *msh)
 	if (expstr.ops == NULL)
 		return (MSH_MEMFAIL);
 	list_clear(words, NULL);
-	lquote = NOQUOTE;
-	exp_len = 0;
 	expstr.i = 0;
-	errno = expand_loop(&expstr, &lquote, &exp_len, msh);
+	errno = expand_loop(&expstr, msh);
 	if (errno != MSH_SUCCESS)
 		return (free(expstr.str), free(expstr.ops), errno);
 	errno = expand_fieldsplit(&expstr, words);
@@ -49,41 +43,42 @@ t_errno	expand(t_list **words, t_msh *msh)
 	return (errno);	
 }
 
-//Iterate over expstr.str and fill expstr->ops according to quotes and escapes.
-
-//move lquote and exp_len inside function
-static t_errno	expand_loop(t_expstr *expstr, t_quote *lquote, size_t *exp_len,
-								t_msh *msh)
+static t_errno	expand_loop(t_expstr *expstr, t_msh *msh)
 {
-	t_expop	op;
+	t_quote	lquote;
+	size_t	exp_len;
 	t_errno	errno;
 
-	errno = MSH_SUCCESS;
+	lquote = NOQUOTE;
+	exp_len = 0;
 	while (expstr->str[expstr->i])
 	{
-		op = EXPOP_COPY;
-		if (*exp_len)
+		if (!exp_len && lquote != SQUOTE && expstr->str[expstr->i] == CHR_VAR)
 		{
-			(*exp_len)--;
-			if (*lquote == NOQUOTE && ft_isspace(expstr->str[expstr->i]))
-				op = EXPOP_ENDW;
+			errno = expand_dollar(expstr, &exp_len, msh);
+			if (errno != MSH_SUCCESS)
+				return (errno);
+			continue ;
 		}
-		else
-		{
-			if (expand_process_quote(expstr->str[expstr->i], lquote))
-				op = EXPOP_SKIP;
-			else if (*lquote != SQUOTE && expstr->str[expstr->i] == CHR_VAR)
-				errno = expand_dollar(expstr, exp_len, msh);
-		}
-		if (errno != MSH_SUCCESS)
-			return (errno);
-		expstr->ops[expstr->i++] = op;
+		expstr->ops[expstr->i] = determine_expop(expstr->str[expstr->i], &lquote, &exp_len);
+		expstr->i++;
 	}
 	expstr->ops[expstr->i] = EXPOP_ENDP;
 	return (MSH_SUCCESS);
 }
 
-//t_expop	determine_expop()
+static t_expop	determine_expop(char c, t_quote *lquote, size_t *exp_len)
+{
+	if (*exp_len)
+	{
+		(*exp_len)--;
+		if (*lquote == NOQUOTE && ft_isspace(c))
+			return (EXPOP_ENDW);
+	}
+	else if (expand_process_quote(c, lquote))
+		return (EXPOP_SKIP);
+	return (EXPOP_COPY);
+}
 
 static inline int	expand_process_quote(char c, t_quote *lquote)
 {
