@@ -69,7 +69,7 @@ t_errno	expand_spec_shname(t_expstr *expstr, size_t *exp_len, t_msh *msh);
 //t_errno	expand_wildcard(t_expstr *expstr, t_msh *msh);
 
 // Miscellaneous functions.
-t_errno	ft_strexp(char **str, size_t slot_i, size_t slot_len, char const *subst);
-t_errno	expstr_resize(t_expstr *expstr, size_t name_len, char const *exp, size_t exp_len);
+t_errno	expstr_resize(t_expstr *expstr, size_t name_len, char const *exp,
+		size_t exp_len);
 
 #endif

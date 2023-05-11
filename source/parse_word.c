@@ -21,14 +21,12 @@
 #include <stddef.h>
 #include <stdlib.h>
 
-#include "msh_debug.h"
-
 extern t_msh	*g_msh;
 
 static inline t_errno	cmd_add_arg(t_cmd *cmd, char *arg);
 static t_list	*token_to_word(t_list *token);
 
-t_errno	parse_word(t_list **tokens, t_list **cmds/*,t_hashtable *locvars*/)
+t_errno	parse_word(t_list **tokens, t_list **cmds/*,t_msh *msh*/)
 {
 	t_cmd	*cmd;
 	t_list	*words;

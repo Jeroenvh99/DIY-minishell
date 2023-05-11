@@ -14,8 +14,8 @@ t_errno	expand_spec_bgpid(t_expstr *expstr, size_t *exp_len, t_msh *msh)
 	exp = ft_itoa(msh->exit);
 	if (exp == NULL)
 		return (MSH_MEMFAIL);
-	errno = ft_strexp(&expstr->str, expstr->i, 1, exp);
 	*exp_len += ft_strlen(exp);
+	errno = expstr_resize(expstr, 1, exp, *exp_len);
 	free(exp);
 	return (errno);
 }
@@ -28,8 +28,8 @@ t_errno	expand_spec_shpid(t_expstr *expstr, size_t *exp_len, t_msh *msh)
 	exp = ft_itoa(msh->exit);
 	if (exp == NULL)
 		return (MSH_MEMFAIL);
-	errno = ft_strexp(&expstr->str, expstr->i, 1, exp);
 	*exp_len += ft_strlen(exp);
+	errno = expstr_resize(expstr, 1, exp, *exp_len);
 	free(exp);
 	return (errno);
 }
