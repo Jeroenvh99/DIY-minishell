@@ -14,26 +14,26 @@ NAME 		:= minishell
 
 SRC_FILES	:= main.c\
 			cmd.c\
-			expand.c\
-			expand_fieldsplit.c\
-			expand_spec_exit.c\
-			expand_spec_nparam.c\
-			expand_spec_opts.c\
-			expand_spec_pid.c\
-			expand_spec_pos.c\
-			expand_spec_shname.c\
-			expand_utils.c\
-			expand_var.c\
-			lex.c\
-			lex_token_get.c\
-			lex_utils.c\
-			parse.c\
-			parse_in.c\
-			parse_operator.c\
-			parse_out.c\
-			parse_pipe.c\
-			parse_utils.c\
-			parse_word.c\
+			expand/expand.c\
+			expand/expand_fieldsplit.c\
+			expand/expand_spec_exit.c\
+			expand/expand_spec_nparam.c\
+			expand/expand_spec_opts.c\
+			expand/expand_spec_pid.c\
+			expand/expand_spec_pos.c\
+			expand/expand_spec_shname.c\
+			expand/expand_utils.c\
+			expand/expand_var.c\
+			lex/lex.c\
+			lex/lex_token_get.c\
+			lex/lex_utils.c\
+			parse/parse.c\
+			parse/parse_in.c\
+			parse/parse_operator.c\
+			parse/parse_out.c\
+			parse/parse_pipe.c\
+			parse/parse_utils.c\
+			parse/parse_word.c\
 			readcmdline.c\
 			token.c\
 			utils_list.c\
@@ -52,7 +52,7 @@ HDR_FILES	:= msh.h\
 LIB_FILES	:= libft.a
 
 SRC_DIR		:= ./source/
-SRC_SUBDIRS	:= builtins/ test/
+SRC_SUBDIRS	:= builtins/ expand/ lex/ parse/ test/
 OBJ_DIR		:= ./object/
 OBJ_SUBDIRS := $(SRC_SUBDIRS)
 HDR_DIR		:= ./header/

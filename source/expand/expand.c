@@ -29,11 +29,13 @@ t_errno	expand(t_list **words, t_msh *msh)
 	t_expstr	expstr;
 	t_errno		errno;
 
-	expstr.str = (*words)->content;
+	expstr.str = list_pop_ptr(words);
+	if (expstr.str == NULL)
+		return (MSH_GENERIC);
 	expstr.ops = malloc((ft_strlen(expstr.str) + 1) * sizeof(t_expop));
 	if (expstr.ops == NULL)
 		return (MSH_MEMFAIL);
-	list_clear(words, NULL);
+	list_clear(words, free);
 	expstr.i = 0;
 	errno = expand_loop(&expstr, msh);
 	if (errno != MSH_SUCCESS)

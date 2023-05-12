@@ -27,7 +27,7 @@ t_cmd	*cmd_init(size_t argc, char **argv)
 	return (cmd);
 }
 
-void	cmd_delete(t_cmd *cmd)
+void	cmd_free(t_cmd *cmd)
 {
 	while (cmd->argc)
 		free(cmd->argv[--cmd->argc]);
@@ -37,6 +37,6 @@ void	cmd_delete(t_cmd *cmd)
 
 void	cmd_destroy(t_cmd **cmd)
 {
-	cmd_delete(*cmd);
+	cmd_free(*cmd);
 	*cmd = NULL;
 }

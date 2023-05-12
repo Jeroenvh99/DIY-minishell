@@ -96,5 +96,5 @@ static void	msh_deinit(t_msh *msh)
 
 static void	cmd_free_wrapper(void *cmd)
 {
-	cmd_delete(cmd);
+	cmd_free(cmd);
 }

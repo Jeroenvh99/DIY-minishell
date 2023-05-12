@@ -16,7 +16,6 @@
 # include "msh_error.h"
 # include "msh.h"
 
-# include "ft_hash.h"
 # include <stdbool.h>
 # include <stddef.h>
 
@@ -68,10 +67,9 @@ void	token_free(t_token *token);
 void	token_destroy(t_token **token);
 
 // Lexer functions.
-t_errno	lex(t_list **token_list, char const *line);
+t_errno	lex(t_list **tokens, char const *line);
 t_errno	token_complete(t_token *token, char const **str);
 t_token	*token_get_word(char const **str);
-t_token	*token_get_qword(char const **str, t_toktype type);
 t_token	*token_get_meta(char const **str);
 
 // Parser functions.
