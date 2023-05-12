@@ -33,9 +33,13 @@ parser:
 	- echo foo > uit | bar	<-- eindwaarde van echo is input voor bar
 
 expander:
-= opereert vóór (?) de parser
-	- VAR="lorem ipsum"	
-	- echo foo > $VAR	<-- syntaxfout, want VAR is twee woorden
+= eerst $-uitklapping
+= dan *-uitklapping:
+	- haal mogelijke aanvullingen op met ls-achtig ding (. = alles wat vóór * staat, of msh->env->pwd indien er niets staat)
+	- genereer lijst op basis van alle mogelijke aanvullingen * -> [a b c]
+	- lijst kan zich recursief vertakken (*/* -> [a b c]/* -> [a/* b/* c/*] -> [[a/d a/e] [b/f b/g] [c/h c/i]]
+	- vlak lijst af [[a/d a/e] [b/f b/g] [c/h c/i]] -> a/d a/e b/f b/g c/h c/i
+	- laat * staan indien aanvullingen ontbreken
 
 variabelen:
 = toewijzing altijd door waarde:
