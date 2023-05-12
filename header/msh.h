@@ -62,7 +62,7 @@ typedef struct s_io {
 }	t_io;
 
 typedef union u_argv {
-	t_list	list;
+	t_list	*list;
 	char	**array;
 }	t_argv;
 
@@ -74,7 +74,7 @@ typedef union u_argv {
  */
 typedef struct s_cmd {
 	size_t	argc;
-	char	**argv;
+	t_argv	argv;
 	t_io	io;
 }	t_cmd;
 

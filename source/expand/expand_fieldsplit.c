@@ -9,7 +9,7 @@
 static inline void	exp_strlen(t_expop *ops, size_t *wlen, size_t *opsn);
 static inline void	exp_strncpy(char *word, t_expstr *expstr, size_t opsn);
 
-t_errno	expand_fieldsplit(t_expstr *expstr, t_list **words)
+t_errno	expand_fieldsplit(t_list **words, t_expstr *expstr)
 {
 	char	*word;
 	size_t	wlen;

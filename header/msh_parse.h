@@ -88,5 +88,6 @@ t_errno	parse_add_cmd(t_list **cmds, t_list **tokens, t_msh *msh);
 // Miscellaneous functions.
 bool	is_metachr(char c);
 t_cmd	*cmd_get_current(t_list *cmds);
+t_errno	cmd_argvconvert(t_cmd *cmd);
 
 #endif

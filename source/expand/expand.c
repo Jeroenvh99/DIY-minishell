@@ -24,25 +24,23 @@ static inline t_expop		determine_expop(char c, t_quote *lquote,
 						size_t *exp_len);
 static inline int			expand_process_quote(char c, t_quote *lquote);
 
-t_errno	expand(t_list **words, t_msh *msh)
+t_errno	expand(t_list **words, char **str, t_msh *msh)
 {
 	t_expstr	expstr;
 	t_errno		errno;
 
-	expstr.str = list_pop_ptr(words);
-	if (expstr.str == NULL)
-		return (MSH_GENERIC);
+	expstr.str = *str;
 	expstr.ops = malloc((ft_strlen(expstr.str) + 1) * sizeof(t_expop));
 	if (expstr.ops == NULL)
 		return (MSH_MEMFAIL);
-	list_clear(words, free);
 	expstr.i = 0;
 	errno = expand_loop(&expstr, msh);
 	if (errno != MSH_SUCCESS)
 		return (free(expstr.str), free(expstr.ops), errno);
-	errno = expand_fieldsplit(&expstr, words);
+	errno = expand_fieldsplit(words, &expstr);
 	free(expstr.str);
 	free(expstr.ops);
+	*str = NULL;
 	return (errno);
 }
 

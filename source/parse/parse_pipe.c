@@ -17,20 +17,22 @@
 
 #include "ft_list.h"
 #include "ft_stdlib.h"
-#include <stdbool.h>
 #include <stddef.h>
 #include <stdlib.h>
 
-static inline bool	cmd_is_undef(t_cmd *cmd);
+static inline int	cmd_is_undef(t_cmd *cmd);
 
 t_errno	parse_pipe(t_list **cmds, t_list **tokens, t_msh *msh)
 {
-	t_cmd	*pipe_to;
+	t_cmd *const	pipe_from = cmd_get_current(*cmds);
+	t_cmd			*pipe_to;
 
 	(void) msh;
 	free(list_pop_ptr(tokens));
-	if (cmd_is_undef(cmd_get_current(*cmds)))
+	if (cmd_is_undef(pipe_from))
 		return (MSH_SYNTAX_ERROR);
+	if (cmd_argvconvert(pipe_from) != MSH_SUCCESS)
+		return (MSH_MEMFAIL);
 	if (*tokens == NULL && readcmdline(tokens, PROMPT_PIPE) != MSH_SUCCESS)
 		return (MSH_MEMFAIL);
 	pipe_to = ft_calloc(1, sizeof(t_cmd));
@@ -41,9 +43,9 @@ t_errno	parse_pipe(t_list **cmds, t_list **tokens, t_msh *msh)
 	return (MSH_SUCCESS);
 }
 
-static inline bool	cmd_is_undef(t_cmd *cmd)
+static inline int	cmd_is_undef(t_cmd *cmd)
 {
-	return (!(cmd && (cmd->argv
+	return (!(cmd && (cmd->argv.list
 				|| cmd->io.in_mode
 				|| cmd->io.out_mode
 				|| cmd->io.err_mode)));

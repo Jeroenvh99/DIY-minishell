@@ -21,52 +21,25 @@
 #include <stddef.h>
 #include <stdlib.h>
 
-static inline t_errno	cmd_add_arg(t_cmd *cmd, char *arg);
-static t_list	*token_to_word(t_list *token);
+static char	*token_to_str(t_list *token);
 
 t_errno	parse_word(t_list **cmds, t_list **tokens, t_msh *msh)
 {
-	t_cmd	*cmd;
-	t_list	*words;
-	char	*word;
+	t_cmd *const	cmd = cmd_get_current(*cmds);
+	char			*str;
 
-	cmd = cmd_get_current(*cmds);
-	words = token_to_word(list_pop(tokens));
-	if (expand(&words, msh) != MSH_SUCCESS)
-		return (list_clear(&words, free), MSH_MEMFAIL);
-	while (words)
-	{
-		word = list_pop_ptr(&words);
-		if (cmd_add_arg(cmd, word) != MSH_SUCCESS)
-			return (free(word), MSH_MEMFAIL);
-	}
+	str = token_to_str(list_pop(tokens));
+	if (expand(&cmd->argv.list, &str, msh) != MSH_SUCCESS)
+		return (list_clear(&cmd->argv.list, free), free(str), MSH_MEMFAIL);
 	return (MSH_SUCCESS);
 }
 
-static inline t_errno	cmd_add_arg(t_cmd *cmd, char *arg)
-{
-	size_t	argc_new;
-	char	**argv_new;
-
-	argc_new = cmd->argc + 1;
-	argv_new = malloc((argc_new + 1) * sizeof(char *));
-	if (argv_new == NULL)
-		return (MSH_MEMFAIL);
-	ft_memcpy(argv_new, cmd->argv, cmd->argc * sizeof(char *));
-	argv_new[cmd->argc] = arg;
-	argv_new[argc_new] = NULL;
-	cmd->argc = argc_new;
-	free(cmd->argv);
-	cmd->argv = argv_new;
-	return (MSH_SUCCESS);
-}
-
-t_list	*token_to_word(t_list *token)
+static char	*token_to_str(t_list *token)
 {
 	char	*str;
 
 	str = ((t_token *)token->content)->str;
 	free(token->content);
-	token->content = str;
-	return (token);
+	free(token);
+	return (str);
 }

@@ -23,15 +23,15 @@ t_cmd	*cmd_init(size_t argc, char **argv)
 	if (cmd == NULL)
 		return (NULL);
 	cmd->argc = argc;
-	cmd->argv = argv;
+	cmd->argv.array = argv;
 	return (cmd);
 }
 
 void	cmd_free(t_cmd *cmd)
 {
 	while (cmd->argc)
-		free(cmd->argv[--cmd->argc]);
-	free(cmd->argv);
+		free(cmd->argv.array[--cmd->argc]);
+	free(cmd->argv.array);
 	free(cmd);
 }
 

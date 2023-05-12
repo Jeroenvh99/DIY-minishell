@@ -32,7 +32,7 @@ void	cmd_view(t_cmd *cmd)
 		"- argv:", cmd->argc);
 	i = 0;
 	while (i < cmd->argc)
-		printf(" <%s>", cmd->argv[i++]);
+		printf(" <%s>", cmd->argv.array[i++]);
 	printf("\n- input: %s (mode %d)\n"
 		"- output: %s (mode %d)\n"
 		"- error: %s (mode %d)\n",

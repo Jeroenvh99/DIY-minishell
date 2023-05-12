@@ -54,8 +54,8 @@ typedef struct s_expstr {
 typedef t_errno	(*t_expf)(t_expstr *, size_t *, t_msh *);
 
 // Expander functions.
-t_errno	expand(t_list **words, t_msh *msh);
-t_errno	expand_fieldsplit(t_expstr *expstr, t_list **words);
+t_errno	expand(t_list **words, char **token, t_msh *msh);
+t_errno	expand_fieldsplit(t_list **words, t_expstr *expstr);
 t_errno	expand_dollar(t_expstr *expstr, size_t *exp_len, t_msh *msh);
 t_errno	expand_var(t_expstr *expstr, size_t *exp_len, t_msh *vars);
 t_errno	expand_spec_pos1(t_expstr *expstr, size_t *exp_len, t_msh *msh);
