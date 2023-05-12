@@ -10,7 +10,7 @@
 #include <stddef.h>
 #include <stdlib.h>
 
-static inline char		*get_varname(char *str, size_t *name_len);
+static inline size_t	get_varname(char **name, char *str);
 
 t_errno	expand_dollar(t_expstr *expstr, size_t *exp_len, t_msh *msh)
 {
@@ -37,19 +37,22 @@ t_errno	expand_var(t_expstr *expstr, size_t *exp_len, t_msh *msh)
 	size_t	name_len;
 	char	*exp;
 
-	name = get_varname(&expstr->str[expstr->i + 1], &name_len);
+	name_len = get_varname(&name, &expstr->str[expstr->i + 1]);
 	if (name == NULL)
 		return (MSH_MEMFAIL);
 	exp = var_search(name, msh->var);
 	*exp_len += ft_strlen(exp);
 	free(name);
-	return (expstr_resize(expstr, name_len + 1, exp, *exp_len));
+	return (expstr_resize(expstr, name_len, exp, *exp_len));
 }
 
-static inline char	*get_varname(char *str, size_t *name_len)
+static inline size_t	get_varname(char **name, char *str)
 {
-	*name_len = 0;
-	while (ft_isalnum(str[*name_len]) || str[*name_len] == '_')
-		(*name_len)++;
-	return (ft_substr(str, 0, *name_len));
+	size_t	name_len;
+   
+	name_len = 0;
+	while (ft_isalnum(str[name_len]) || str[name_len] == '_')
+		name_len++;
+	*name = ft_substr(str, 0, name_len);
+	return (name_len);
 }

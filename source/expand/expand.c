@@ -20,8 +20,7 @@
 #include <stdlib.h>
 
 static t_errno		expand_loop(t_expstr *expstr, t_msh *msh);
-static inline t_expop		determine_expop(char c, t_quote *lquote,
-						size_t *exp_len);
+static inline t_expop		get_expop(char c, t_quote *lquote, size_t *exp_len);
 static inline int			expand_process_quote(char c, t_quote *lquote);
 
 t_errno	expand(t_list **words, char **str, t_msh *msh)
@@ -61,7 +60,7 @@ static t_errno	expand_loop(t_expstr *expstr, t_msh *msh)
 				return (errno);
 			continue ;
 		}
-		expstr->ops[expstr->i] = determine_expop(expstr->str[expstr->i],
+		expstr->ops[expstr->i] = get_expop(expstr->str[expstr->i],
 				&lquote, &exp_len);
 		expstr->i++;
 	}
@@ -69,14 +68,13 @@ static t_errno	expand_loop(t_expstr *expstr, t_msh *msh)
 	return (MSH_SUCCESS);
 }
 
-static inline t_expop	determine_expop(char c, t_quote *lquote,
-		size_t *exp_len)
+static inline t_expop	get_expop(char c, t_quote *lquote, size_t *exp_len)
 {
 	if (*exp_len)
 	{
-		(*exp_len)--;
 		if (*lquote == NOQUOTE && ft_isspace(c))
 			return (EXPOP_ENDW);
+		(*exp_len)--;
 	}
 	else if (expand_process_quote(c, lquote))
 		return (EXPOP_SKIP);
