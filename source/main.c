@@ -18,17 +18,14 @@
 #include "ft_hash.h"
 #include "ft_list.h"
 #include "ft_stdlib.h"
-#include <stdio.h>
 
-#include <stdlib.h>
 #include "msh_debug.h"
+#include <stdio.h>
 
 static t_errno	msh_loop(t_msh *msh);
 static t_errno	msh_init(t_msh *msh, int argc, char **argv, char **envp);
 static void		msh_deinit(t_msh *msh);
 static void		cmd_free_wrapper(void *cmd);
-
-t_msh	*g_msh;
 
 int	main(int argc, char **argv, char **envp)
 {
@@ -37,7 +34,6 @@ int	main(int argc, char **argv, char **envp)
 	msh.errno = msh_init(&msh, argc, argv, envp);
 	if (msh.errno != MSH_SUCCESS)
 		return (msh.errno);
-	g_msh = &msh;
 	msh.errno = msh_loop(&msh);
 	msh_deinit(&msh);
 	return (msh.errno);
@@ -49,7 +45,6 @@ static t_errno	msh_loop(t_msh *msh)
 {
 	t_list	*tokens;
 	t_cmd	*cmd;
-	t_list	*ptr;
 
 	tokens = NULL;
 	while (msh->errno == MSH_SUCCESS)
@@ -58,14 +53,9 @@ static t_errno	msh_loop(t_msh *msh)
 		cmd = ft_calloc(1, sizeof(t_cmd));
 		if (cmd == NULL || list_append_ptr(&msh->cmds, cmd) != MSH_SUCCESS)
 			return (MSH_MEMFAIL);
-		msh->errno = parse(&tokens, &msh->cmds);
+		msh->errno = parse(msh, &tokens);
 		printf("Parser done! (exit: %d)\n", msh->errno);
-		ptr = msh->cmds;
-		while (ptr)
-		{
-			cmd_view(ptr->content);
-			ptr = ptr->next;
-		}
+		cmds_view(msh->cmds);
 		list_clear(&msh->cmds, cmd_free_wrapper);
 	}
 	return (msh->errno);

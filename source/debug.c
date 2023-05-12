@@ -15,6 +15,7 @@
 #include "msh_parse.h"
 #include "msh_error.h"
 
+#include "ft_list.h"
 #include <stdio.h>
 
 void	token_view(t_token *token)
@@ -38,4 +39,13 @@ void	cmd_view(t_cmd *cmd)
 		cmd->io.in.name, cmd->io.in_mode,
 		cmd->io.out.name, cmd->io.out_mode,
 		cmd->io.err.name, cmd->io.err_mode);
+}
+
+void	cmds_view(t_list *cmds)
+{
+	while (cmds)
+	{
+		cmd_view(cmds->content);
+		cmds = cmds->next;
+	}
 }

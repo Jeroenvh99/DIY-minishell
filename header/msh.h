@@ -61,6 +61,11 @@ typedef struct s_io {
 	t_out_mode	err_mode;
 }	t_io;
 
+typedef union u_argv {
+	t_list	list;
+	char	**array;
+}	t_argv;
+
 /* Simple command object.
  * @param path	The path to the executable (or the name of the builtin).
  * @param argc	The number of arguments supplied.

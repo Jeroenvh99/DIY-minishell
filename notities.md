@@ -7,7 +7,7 @@ Returns `MSH_SUCCESS` on success, `MSH_MEMFAIL` on memory failure and `MSH_INCOM
 ## msh\_parse
 
 `t_errno	parse(t_list **tokens, t_list **cmds, t_msh *msh)`
-Parses the tokens contained in `tokens` into commands, which are appended to `cmds`.
+Parses the tokens contained in `tokens` into commands, which are appended to `cmds`. Note that tokens are **consumed** during parsing; upon completion, `tokens` will be empty.
 Returns `MSH_SUCCESS` on success, `MSH_MEMFAIL` on memory failure and `MSH_SYNTAX_ERROR` upon encountering an improper token sequence (e.g. two successive `>` `>>` tokens).
 
 ## msh\_expand

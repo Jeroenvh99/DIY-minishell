@@ -4,9 +4,10 @@
 # include "msh.h"
 # include "msh_parse.h"
 
-# include <stdio.h>
+# include "ft_list.h"
 
 void	cmd_view(t_cmd *cmd);
+void	cmds_view(t_list *cmds);
 void	token_view(t_token *token);
 
 #endif

@@ -21,12 +21,10 @@
 #include <stddef.h>
 #include <stdlib.h>
 
-extern t_msh	*g_msh;
-
 static inline t_errno	cmd_add_arg(t_cmd *cmd, char *arg);
 static t_list	*token_to_word(t_list *token);
 
-t_errno	parse_word(t_list **tokens, t_list **cmds/*,t_msh *msh*/)
+t_errno	parse_word(t_list **cmds, t_list **tokens, t_msh *msh)
 {
 	t_cmd	*cmd;
 	t_list	*words;
@@ -34,7 +32,7 @@ t_errno	parse_word(t_list **tokens, t_list **cmds/*,t_msh *msh*/)
 
 	cmd = cmd_get_current(*cmds);
 	words = token_to_word(list_pop(tokens));
-	if (expand(&words, g_msh) != MSH_SUCCESS)
+	if (expand(&words, msh) != MSH_SUCCESS)
 		return (list_clear(&words, free), MSH_MEMFAIL);
 	while (words)
 	{

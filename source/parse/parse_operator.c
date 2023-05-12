@@ -13,20 +13,23 @@
 #include "msh_parse.h"
 #include "msh.h"
 #include "msh_error.h"
+#include "msh_utils.h"
 
 #include "ft_list.h"
 #include <stdlib.h>
 
-t_errno	parse_and(t_list **tokens, t_list **cmds)
+t_errno	parse_and(t_list **cmds, t_list **tokens, t_msh *msh)
 {
 	(void) cmds;
-	free(token_pop(tokens));
+	(void) msh;
+	free(list_pop_ptr(tokens));
 	return (MSH_SUCCESS);
 }
 
-t_errno	parse_or(t_list **tokens, t_list **cmds)
+t_errno	parse_or(t_list **cmds, t_list **tokens, t_msh *msh)
 {
 	(void) cmds;
-	free(token_pop(tokens));
+	(void) msh;
+	free(list_pop_ptr(tokens));
 	return (MSH_SUCCESS);
 }

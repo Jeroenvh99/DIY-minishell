@@ -59,7 +59,7 @@ typedef struct s_token {
 	t_toktype	type;
 }	t_token;
 
-typedef t_errno	(*t_parsefunc)(t_list **tokens, t_list **cmds);
+typedef t_errno	(*t_parsefunc)(t_list **cmds, t_list **tokens, t_msh *msh);
 
 // Token functions.
 t_token	*token_init(char *str, t_toktype type);
@@ -73,21 +73,20 @@ t_token	*token_get_word(char const **str);
 t_token	*token_get_meta(char const **str);
 
 // Parser functions.
-t_errno	parse(t_list **tokens, t_list **cmds);
-t_errno	parse_word(t_list **tokens, t_list **cmds);
-t_errno	parse_pipe(t_list **tokens, t_list **cmds);
-t_errno	parse_input(t_list **tokens, t_list **cmds);
-t_errno	parse_heredoc(t_list **tokens, t_list **cmds);
-t_errno	parse_output(t_list **tokens, t_list **cmds);
-t_errno	parse_output_append(t_list **tokens, t_list **cmds);
-t_errno	parse_and(t_list **tokens, t_list **cmds);
-t_errno parse_or(t_list **tokens, t_list **cmds);
+t_errno	parse(t_msh *msh, t_list **tokens);
+t_errno	parse_word(t_list **cmds, t_list **tokens, t_msh *msh);
+t_errno	parse_pipe(t_list **cmds, t_list **tokens, t_msh *msh);
+t_errno	parse_input(t_list **cmds, t_list **tokens, t_msh *msh);
+t_errno	parse_heredoc(t_list **cmds, t_list **tokens, t_msh *msh);
+t_errno	parse_output(t_list **cmds, t_list **tokens, t_msh *msh);
+t_errno	parse_output_append(t_list **cmds, t_list **tokens, t_msh *msh);
+t_errno	parse_and(t_list **cmds, t_list **tokens, t_msh *msh);
+t_errno parse_or(t_list **cmds, t_list **tokens, t_msh *msh);
 
-t_errno	parse_add_cmd(t_list **tokens, t_list **cmds);
+t_errno	parse_add_cmd(t_list **cmds, t_list **tokens, t_msh *msh);
 
 // Miscellaneous functions.
 bool	is_metachr(char c);
 t_cmd	*cmd_get_current(t_list *cmds);
-t_token	*token_pop(t_list **tokens);
 
 #endif

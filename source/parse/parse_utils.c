@@ -14,7 +14,7 @@
 #include "msh.h"
 
 #include "ft_list.h"
-#include <stdlib.h>
+#include <stddef.h>
 
 t_cmd	*cmd_get_current(t_list *cmds)
 {
@@ -24,18 +24,4 @@ t_cmd	*cmd_get_current(t_list *cmds)
 	if (!cmd_node)
 		return (NULL);
 	return ((t_cmd *)cmd_node->content);
-}
-
-t_token	*token_pop(t_list **tokens)
-{
-	t_list	*node;
-	t_token	*token;
-
-	node = *tokens;
-	if (!node)
-		return (NULL);
-	*tokens = node->next;
-	token = node->content;
-	free(node);
-	return (token);
 }

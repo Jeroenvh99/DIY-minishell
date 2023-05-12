@@ -13,25 +13,28 @@
 #include "msh_parse.h"
 #include "msh.h"
 #include "msh_error.h"
+#include "msh_utils.h"
 
 #include "ft_list.h"
 #include <stdlib.h>
 
 static inline t_errno	output_configure(t_list **tokens, t_cmd *cmd);
 
-t_errno	parse_output(t_list **tokens, t_list **cmds)
+t_errno	parse_output(t_list **cmds, t_list **tokens, t_msh *msh)
 {
 	t_cmd	*cmd;
 
+	(void) msh;
 	cmd = cmd_get_current(*cmds);
 	cmd->io.out_mode = OUT_REDIRECT;
 	return (output_configure(tokens, cmd));
 }
 
-t_errno	parse_output_append(t_list **tokens, t_list **cmds)
+t_errno	parse_output_append(t_list **cmds, t_list **tokens, t_msh *msh)
 {
 	t_cmd	*cmd;
 
+	(void) msh;
 	cmd = cmd_get_current(*cmds);
 	cmd->io.out_mode = OUT_APPEND;
 	return (output_configure(tokens, cmd));
@@ -41,8 +44,8 @@ static inline t_errno	output_configure(t_list **tokens, t_cmd *cmd)
 {
 	t_token	*word;
 
-	free(token_pop(tokens));
-	word = token_pop(tokens);
+	free(list_pop_ptr(tokens));
+	word = list_pop_ptr(tokens);
 	if (!word || word->type == TOK_INVALID || word->type >= TOK_META_MIN)
 		return (token_destroy(&word), MSH_SYNTAX_ERROR);
 	free(cmd->io.out.name);

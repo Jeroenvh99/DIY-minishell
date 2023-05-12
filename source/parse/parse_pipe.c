@@ -23,11 +23,12 @@
 
 static inline bool	cmd_is_undef(t_cmd *cmd);
 
-t_errno	parse_pipe(t_list **tokens, t_list **cmds)
+t_errno	parse_pipe(t_list **cmds, t_list **tokens, t_msh *msh)
 {
 	t_cmd	*pipe_to;
 
-	free(token_pop(tokens));
+	(void) msh;
+	free(list_pop_ptr(tokens));
 	if (cmd_is_undef(cmd_get_current(*cmds)))
 		return (MSH_SYNTAX_ERROR);
 	if (*tokens == NULL && readcmdline(tokens, PROMPT_PIPE) != MSH_SUCCESS)

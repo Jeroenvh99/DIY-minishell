@@ -16,9 +16,9 @@
 
 #include "ft_string.h"
 
-static t_errno	parse_invalid(t_list **tokens, t_list **cmds);
+static t_errno	parse_invalid(t_list **cmds, t_list **tokens, t_msh *msh);
 
-t_errno	parse(t_list **tokens, t_list **cmds)
+t_errno	parse(t_msh *msh, t_list **tokens)
 {
 	t_toktype			type;
 	t_parsefunc const	parsefuncs[N_TOK] = {
@@ -33,16 +33,17 @@ t_errno	parse(t_list **tokens, t_list **cmds)
 	while (*tokens)
 	{
 		type = ((t_token *)(*tokens)->content)->type;
-		errno = parsefuncs[type](tokens, cmds);
+		errno = parsefuncs[type](&msh->cmds, tokens, msh);
 		if (errno != MSH_SUCCESS)
 			break ;
 	}
 	return (errno);
 }
 
-static t_errno	parse_invalid(t_list **tokens, t_list **cmds)
+static t_errno	parse_invalid(t_list **cmds, t_list **tokens, t_msh *msh)
 {
-	(void) tokens;
 	(void) cmds;
+	(void) tokens;
+	(void) msh;
 	return (MSH_SYNTAX_ERROR);
 }
