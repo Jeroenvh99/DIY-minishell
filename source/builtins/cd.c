@@ -6,7 +6,7 @@
 /*   By: jvan-hal <jvan-hal@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/04/20 16:52:40 by jvan-hal      #+#    #+#                 */
-/*   Updated: 2023/05/10 17:56:51 by jvan-hal      ########   odam.nl         */
+/*   Updated: 2023/05/15 16:44:25 by jvan-hal      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,7 +93,8 @@ int	msh_cd(int argc, char **argv, t_msh *msh)
 	char	*buf;
 	int		i;
 
-	// check for invalid input
+	if (argc > 1 && !ft_strnstr(argv[1], "-", 2) && !ft_strnstr(argv[1], "--", 3))
+		return (0); // usage message
 	dstdir = get_dstdir(argc, argv, msh);
 	if (dstdir[0] == '/')
 		newdir = ft_strdup(dstdir);

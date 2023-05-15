@@ -6,7 +6,7 @@
 /*   By: jvan-hal <jvan-hal@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/04/18 15:16:12 by jvan-hal      #+#    #+#                 */
-/*   Updated: 2023/05/10 17:53:39 by jvan-hal      ########   odam.nl         */
+/*   Updated: 2023/05/15 17:00:40 by jvan-hal      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,6 @@ int	msh_echo(int argc, char **argv)
 	int	i;
 	int	newline;
 
-	// check for invalid input
 	i = 1;
 	newline = 1;
 	while (argv[i])
