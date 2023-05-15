@@ -6,7 +6,7 @@
 /*   By: jvan-hal <jvan-hal@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/04/20 16:51:40 by jvan-hal      #+#    #+#                 */
-/*   Updated: 2023/05/10 17:53:19 by jvan-hal      ########   odam.nl         */
+/*   Updated: 2023/05/12 15:57:59 by jvan-hal      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,11 @@
 
 int	msh_env(int argc, char **argv, t_msh *msh)
 {
-	// check for invalid input
+	if (argc > 1)
+	{
+		error
+		return (1);
+	}
 	print_2d_arr(msh->env);
 	return (0);
 }

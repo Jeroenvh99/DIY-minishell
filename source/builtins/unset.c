@@ -6,7 +6,7 @@
 /*   By: jvan-hal <jvan-hal@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/04/20 16:50:13 by jvan-hal      #+#    #+#                 */
-/*   Updated: 2023/05/10 17:31:14 by jvan-hal      ########   odam.nl         */
+/*   Updated: 2023/05/12 12:26:15 by jvan-hal      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,8 +26,7 @@ int	msh_unset(int argc, char **argv, t_msh *msh)
 	i = 1;
 	while (argv[i])
 	{
-		j = remove_var(name, msh->env);
-		free(name);
+		j = remove_var(argv[i], msh->env);
 		if (msh->env[j])
 		{
 			while (msh->env[j + 1])

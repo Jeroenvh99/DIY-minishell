@@ -6,13 +6,39 @@
 /*   By: jvan-hal <jvan-hal@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/04/20 16:51:03 by jvan-hal      #+#    #+#                 */
-/*   Updated: 2023/05/10 17:52:53 by jvan-hal      ########   odam.nl         */
+/*   Updated: 2023/05/12 16:09:54 by jvan-hal      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "./../../lib/libft/include/ft_stdio.h"
 #include <fcntl.h>
 #include <unistd.h>
+
+void	exp_print_env(t_msh *msh)
+{
+	int	i;
+	int	j;
+
+	i = 0;
+	while (msh->env[i])
+	{
+		write(fd, "declare -x ", 11);
+		j = 0;
+		while (msh->env[i][j])
+		{
+			if (msh->env[i][j] == '=')
+			{
+				++j;
+				break ;
+			}
+			++j;
+		}
+		write(fd, msh->env[i], j);
+		ft_printf("\"%s\"\n", msh->env[i] + j);
+		++i;
+	}
+	close(fd);
+}
 
 char	**realloc_env(char **env, int curr_size, int extra_size)
 {
@@ -42,25 +68,7 @@ int	msh_export(int argc, char **argv, t_msh *msh)
 	// check for invalid input
 	if (argc == 0)
 	{
-		i = 0;
-		while (msh->env[i])
-		{
-			write(fd, "declare -x ", 11);
-			j = 0;
-			while (msh->env[i][j])
-			{
-				if (msh->env[i][j] == '=')
-				{
-					++j;
-					break ;
-				}
-				++j;
-			}
-			write(fd, msh->env[i], j);
-			ft_printf("\"%s\"\n", msh->env[i] + j);
-			++i;
-		}
-		close(fd);
+		exp_print_env(msh);
 		return (0);
 	}
 	else

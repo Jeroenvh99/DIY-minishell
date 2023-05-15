@@ -20,3 +20,8 @@ namen van de in, out en error files doorgeven uit de parser aan de commands, dit
 - dan kan ieder commando een link uit de linked list krijgen
 
 builtins in pipes moeten wel in een child
+ - niet met execve
+
+cd | pwd verandert niet de directory
+
+cd && pwd in een subshell verandert wel de directory
