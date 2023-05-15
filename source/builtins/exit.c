@@ -6,7 +6,7 @@
 /*   By: jvan-hal <marvin@codam.nl>                   +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/04/18 13:45:34 by jvan-hal      #+#    #+#                 */
-/*   Updated: 2023/05/08 17:43:07 by jvan-hal      ########   odam.nl         */
+/*   Updated: 2023/05/10 17:54:40 by jvan-hal      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ int	check_arg(char *str)
 		}
 		++str;
 	}
-	return (0);
+	return (1);
 }
 
 int	msh_exit(int argc, char **argv, t_msh *msh)

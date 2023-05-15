@@ -16,5 +16,12 @@ Vier opties:
 
 in main checken of argc meer dan 1 is en in dat geval checken or -c als argument gegeven is en als dat zo is het gegeven commando uitvoeren
 
-fds doorgeven uit de parser aan de commands, dit maakt het makkelijker om met pipes te werken
+namen van de in, out en error files doorgeven uit de parser aan de commands, dit maakt het makkelijker om met pipes te werken
 - dan kan ieder commando een link uit de linked list krijgen
+
+builtins in pipes moeten wel in een child
+ - niet met execve
+
+cd | pwd verandert niet de directory
+
+cd && pwd in een subshell verandert wel de directory

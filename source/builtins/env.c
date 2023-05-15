@@ -6,33 +6,21 @@
 /*   By: jvan-hal <jvan-hal@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/04/20 16:51:40 by jvan-hal      #+#    #+#                 */
-/*   Updated: 2023/05/08 16:06:57 by jvan-hal      ########   odam.nl         */
+/*   Updated: 2023/05/12 15:57:59 by jvan-hal      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "./../../minishell.h"
 #include <stdio.h>
 #include <stdlib.h>
 
-typedef struct s_msh
-{
-	char	**env;
-	int		last_status;
-}			t_msh;
-
-void	print_2d_arr(char **arr)
-{
-	int	i;
-
-	i = 0;
-	while (arr[i])
-	{
-		printf("%s\n", arr[i]);
-		++i;
-	}
-}
-
 int	msh_env(int argc, char **argv, t_msh *msh)
 {
+	if (argc > 1)
+	{
+		error
+		return (1);
+	}
 	print_2d_arr(msh->env);
 	return (0);
 }
