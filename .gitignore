@@ -3,3 +3,4 @@
 *.dSYM
 .vscode
 minishell
+argtest
