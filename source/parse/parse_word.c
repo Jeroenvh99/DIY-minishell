@@ -6,7 +6,7 @@
 /*   By: dbasting <marvin@codam.nl>                   +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/04/18 14:13:15 by dbasting      #+#    #+#                 */
-/*   Updated: 2023/05/08 18:14:01 by dbasting      ########   odam.nl         */
+/*   Updated: 2023/05/15 16:01:21 by dbasting      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,8 +21,6 @@
 #include <stddef.h>
 #include <stdlib.h>
 
-static char	*token_to_str(t_list *token);
-
 t_errno	parse_word(t_list **cmds, t_list **tokens, t_msh *msh)
 {
 	t_cmd *const	cmd = cmd_get_current(*cmds);
@@ -32,14 +30,4 @@ t_errno	parse_word(t_list **cmds, t_list **tokens, t_msh *msh)
 	if (expand(&cmd->argv.list, &str, msh) != MSH_SUCCESS)
 		return (list_clear(&cmd->argv.list, free), free(str), MSH_MEMFAIL);
 	return (MSH_SUCCESS);
-}
-
-static char	*token_to_str(t_list *token)
-{
-	char	*str;
-
-	str = ((t_token *)token->content)->str;
-	free(token->content);
-	free(token);
-	return (str);
 }

@@ -6,7 +6,7 @@
 /*   By: dbasting <marvin@codam.nl>                   +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/04/18 13:51:16 by dbasting      #+#    #+#                 */
-/*   Updated: 2023/05/08 17:51:17 by dbasting      ########   odam.nl         */
+/*   Updated: 2023/05/15 16:46:36 by dbasting      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,8 +54,8 @@ typedef union u_file {
  */
 typedef struct s_io {
 	t_file		in;
-	t_file		out;
-	t_file		err;
+	t_fd		out;
+	t_fd		err;
 	t_in_mode	in_mode;
 	t_out_mode	out_mode;
 	t_out_mode	err_mode;
@@ -92,6 +92,13 @@ typedef struct s_msh {
 	int			exit;
 	t_errno		errno;
 }	t_msh;
+
+/* Environment object.
+ * @param envp	The array of strings.
+ */
+typedef struct s_env {
+	char	**envp;
+}	t_env;
 
 t_errno		readcmdline(t_list **token_list, char const *prompt);
 

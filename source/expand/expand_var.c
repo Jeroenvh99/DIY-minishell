@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        ::::::::            */
+/*   expand_var.c                                       :+:    :+:            */
+/*                                                     +:+                    */
+/*   By: dbasting <marvin@codam.nl>                   +#+                     */
+/*                                                   +#+                      */
+/*   Created: 2023/05/15 15:39:43 by dbasting      #+#    #+#                 */
+/*   Updated: 2023/05/15 15:47:23 by dbasting      ########   odam.nl         */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "msh_expand.h"
 #include "msh.h"
 #include "msh_error.h"
@@ -40,7 +52,7 @@ t_errno	expand_var(t_expstr *expstr, size_t *exp_len, t_msh *msh)
 	name_len = get_varname(&name, &expstr->str[expstr->i + 1]);
 	if (name == NULL)
 		return (MSH_MEMFAIL);
-	exp = var_search(name, msh->var);
+	exp = varsearch(name, msh->var);
 	*exp_len += ft_strlen(exp);
 	free(name);
 	return (expstr_resize(expstr, name_len, exp, *exp_len));
@@ -49,7 +61,7 @@ t_errno	expand_var(t_expstr *expstr, size_t *exp_len, t_msh *msh)
 static inline size_t	get_varname(char **name, char *str)
 {
 	size_t	name_len;
-   
+
 	name_len = 0;
 	while (ft_isalnum(str[name_len]) || str[name_len] == '_')
 		name_len++;

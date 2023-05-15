@@ -6,7 +6,7 @@
 /*   By: dbasting <marvin@codam.nl>                   +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/04/18 13:46:33 by dbasting      #+#    #+#                 */
-/*   Updated: 2023/05/08 15:58:20 by dbasting      ########   odam.nl         */
+/*   Updated: 2023/05/15 17:10:21 by dbasting      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,10 +84,12 @@ t_errno	parse_and(t_list **cmds, t_list **tokens, t_msh *msh);
 t_errno parse_or(t_list **cmds, t_list **tokens, t_msh *msh);
 
 t_errno	parse_add_cmd(t_list **cmds, t_list **tokens, t_msh *msh);
+t_errno	parse_iofile(char **name, t_list **tokens, t_msh *msh);
 
 // Miscellaneous functions.
 bool	is_metachr(char c);
 t_cmd	*cmd_get_current(t_list *cmds);
 t_errno	cmd_argvconvert(t_cmd *cmd);
+char	*token_to_str(t_list *token);
 
 #endif

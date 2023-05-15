@@ -6,7 +6,7 @@
 /*   By: dbasting <marvin@codam.nl>                   +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/01 11:50:28 by dbasting      #+#    #+#                 */
-/*   Updated: 2023/05/01 16:05:48 by dbasting      ########   odam.nl         */
+/*   Updated: 2023/05/15 17:09:47 by dbasting      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,6 @@
 #include <stddef.h>
 #include <stdlib.h>
 
-#include <stdio.h>
 t_cmd	*cmd_get_current(t_list *cmds)
 {
 	t_list	*cmd_node;
@@ -28,6 +27,7 @@ t_cmd	*cmd_get_current(t_list *cmds)
 		return (NULL);
 	return ((t_cmd *)cmd_node->content);
 }
+
 t_errno	cmd_argvconvert(t_cmd *cmd)
 {
 	t_list	*argv_list;
@@ -47,4 +47,35 @@ t_errno	cmd_argvconvert(t_cmd *cmd)
 		cmd->argv.array[size] = word;
 	}
 	return (MSH_SUCCESS);
+}
+
+t_errno	parse_iofile(char **name, t_list **tokens, t_msh *msh)
+{
+	char	*str;
+	t_list	*words;
+
+	str = token_to_str(list_pop_ptr(tokens));
+	if (!str)
+		return (MSH_SYNTAX_ERROR);
+	words = NULL;
+	if (expand(&owords, &str, msh) != MSH_SUCCESS)
+		return (list_clear(&words, free), free(str), MSH_MEMFAIL);
+	if (words->next)
+		return (list_clear(&words, free), MSH_SYNTAX_ERROR);
+	free(cmd->io.out.name);
+	*name = words->content;
+	free(word);
+	return (MSH_SUCCESS);
+}
+
+char	*token_to_str(t_list *token)
+{
+	char	*str;
+
+	if (!(token && token->content))
+		return (NULL);
+	str = ((t_token *)token->content)->str;
+	free(token->content);
+	free(token);
+	return (str);
 }
