@@ -6,12 +6,13 @@
 /*   By: jvan-hal <jvan-hal@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/04/18 18:34:07 by jvan-hal      #+#    #+#                 */
-/*   Updated: 2023/05/15 13:31:05 by jvan-hal      ########   odam.nl         */
+/*   Updated: 2023/05/16 13:51:37 by jvan-hal      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
+# include "./../header/msh_error.h"
 
 // typedef size_t			(*t_hashf)(char const *, size_t);
 
@@ -44,7 +45,7 @@ int						env_size(char **env);
 void					print_2d_arr(char **arr);
 void					print_error(char *command, char *argument,
 							char *message);
-char					*get_env_var(char *name, char **env);
+t_errno					get_env_var(char *name, char **value, char **env);
 int						remove_var(char *name, char **env);
 
 #endif

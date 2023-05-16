@@ -6,14 +6,14 @@
 /*   By: jvan-hal <jvan-hal@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/09 15:57:34 by jvan-hal      #+#    #+#                 */
-/*   Updated: 2023/05/15 15:39:19 by jvan-hal      ########   odam.nl         */
+/*   Updated: 2023/05/16 13:48:35 by jvan-hal      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft_string.h"
-#include "ft_stdio.h"
-#include "minishell.h"
-#include "msh_error.h"
+#include "./../../lib/libft/include/ft_string.h"
+#include "./../../lib/libft/include/ft_stdio.h"
+#include "./../../include/minishell.h"
+#include "./../../header/msh_error.h"
 #include <stdlib.h>
 
 int	env_size(char **env)

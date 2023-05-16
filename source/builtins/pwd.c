@@ -6,7 +6,7 @@
 /*   By: jvan-hal <jvan-hal@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/04/20 16:27:41 by jvan-hal      #+#    #+#                 */
-/*   Updated: 2023/05/10 17:55:13 by jvan-hal      ########   odam.nl         */
+/*   Updated: 2023/05/16 13:20:11 by jvan-hal      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,6 @@ int	msh_pwd(int argc, char **argv)
 {
 	char	*buf;
 
-	// check for invalid input
 	buf = NULL;
 	buf = getcwd(buf, 0);
 	if (buf)
