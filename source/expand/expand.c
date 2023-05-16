@@ -23,6 +23,7 @@ static t_errno		expand_loop(t_expstr *expstr, t_msh *msh);
 static inline t_expop		get_expop(char c, t_quote *lquote, size_t *exp_len);
 static inline int			expand_process_quote(char c, t_quote *lquote);
 
+//Expands the string stored in `str` to a list of words. This consumes `*str`!
 t_errno	expand(t_list **words, char **str, t_msh *msh)
 {
 	t_expstr	expstr;

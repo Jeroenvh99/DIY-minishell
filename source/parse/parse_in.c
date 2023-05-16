@@ -16,7 +16,7 @@
 #include "msh_expand.h"
 #include "msh_utils.h"
 
-#include <fctnl.h>
+#include <fcntl.h>
 #include "ft_string.h"
 #include "ft_list.h"
 #include <readline/readline.h>
@@ -28,15 +28,15 @@ static int	read_heredoc(char const *delim);
 
 t_errno	parse_input(t_list **cmds, t_list **tokens, t_msh *msh)
 {
-	t_cmd	*cmd;
-	char	*path;
-	t_errno	errno;
+	t_cmd *const	cmd = cmd_get_current(*cmds);
+	char			*path;
+	t_errno			errno;
 
-	free(list_pop_ptr(tokens));
-	cmd = cmd_get_current(*cmds);
+	token_free(list_pop_ptr(tokens));
 	errno = parse_iofile(&path, tokens, msh);
 	if (errno != MSH_SUCCESS)
 		return (errno);
+	close(cmd->io.in);
 	cmd->io.in = open(path, O_RDONLY);
 	if (cmd->io.in < 0)
 		return (MSH_FILEFAIL);
@@ -45,21 +45,22 @@ t_errno	parse_input(t_list **cmds, t_list **tokens, t_msh *msh)
 
 t_errno	parse_heredoc(t_list **cmds, t_list **tokens, t_msh *msh)
 {
-	t_cmd		*cmd;
-	char const	*delim;
-	t_errno		errno;
+	t_cmd *const	cmd = cmd_get_current(*cmds);
+	char			*delim;
 
-	free(list_pop_ptr(tokens));
-	cmd = cmd_get_current(*cmds);
+	(void) msh;
+	token_free(list_pop_ptr(tokens));
 	delim = token_to_str(list_pop_ptr(tokens));
-	if (!delim)
+	if (delim == NULL)
 		return (MSH_SYNTAX_ERROR);
+	close(cmd->io.in);
 	cmd->io.in = read_heredoc(delim);
-	if (cmd->io.in != 0)
+	if (cmd->io.in == -1)
 		return (MSH_FILEFAIL);
 	free(delim);
 	return (MSH_SUCCESS);
 }
+
 //malloc protection!
 static int	read_heredoc(char const *delim)
 {
@@ -69,7 +70,7 @@ static int	read_heredoc(char const *delim)
 	if (pipe(fds) != 0)
 		return (-1);
 	line = readline(PROMPT_CONT);
-	while (line && ft_strncmp(line, delim, -1) == 0)
+	while (line && ft_strncmp(line, delim, -1) != 0)
 	{
 		write(fds[0], line, ft_strlen(line));
 		free(line);

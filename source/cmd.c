@@ -14,6 +14,7 @@
 
 #include <stddef.h>
 #include <stdlib.h>
+#include <unistd.h>
 
 t_cmd	*cmd_init(size_t argc, char **argv)
 {
@@ -24,6 +25,9 @@ t_cmd	*cmd_init(size_t argc, char **argv)
 		return (NULL);
 	cmd->argc = argc;
 	cmd->argv.array = argv;
+	cmd->io.in = -1;
+	cmd->io.out = -1;
+	cmd->io.err = -1;
 	return (cmd);
 }
 
@@ -32,6 +36,9 @@ void	cmd_free(t_cmd *cmd)
 	while (cmd->argc)
 		free(cmd->argv.array[--cmd->argc]);
 	free(cmd->argv.array);
+	close(cmd->io.in);
+	close(cmd->io.out);
+	close(cmd->io.err);
 	free(cmd);
 }
 

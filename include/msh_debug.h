@@ -9,5 +9,6 @@
 void	cmd_view(t_cmd *cmd);
 void	cmds_view(t_list *cmds);
 void	token_view(t_token *token);
+void	tokens_view(t_list *tokens);
 
 #endif

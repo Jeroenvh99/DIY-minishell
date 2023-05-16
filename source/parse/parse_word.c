@@ -26,7 +26,7 @@ t_errno	parse_word(t_list **cmds, t_list **tokens, t_msh *msh)
 	t_cmd *const	cmd = cmd_get_current(*cmds);
 	char			*str;
 
-	str = token_to_str(list_pop(tokens));
+	str = token_to_str(list_pop_ptr(tokens));
 	if (expand(&cmd->argv.list, &str, msh) != MSH_SUCCESS)
 		return (list_clear(&cmd->argv.list, free), free(str), MSH_MEMFAIL);
 	return (MSH_SUCCESS);

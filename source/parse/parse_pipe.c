@@ -35,7 +35,7 @@ t_errno	parse_pipe(t_list **cmds, t_list **tokens, t_msh *msh)
 		return (MSH_MEMFAIL);
 	if (*tokens == NULL && readcmdline(tokens, PROMPT_PIPE) != MSH_SUCCESS)
 		return (MSH_MEMFAIL);
-	pipe_to = ft_calloc(1, sizeof(t_cmd));
+	pipe_to = cmd_init(0, NULL);
 	if (pipe_to == NULL)
 		return (MSH_MEMFAIL);
 	if (list_append_ptr(cmds, pipe_to) != MSH_SUCCESS)
@@ -46,7 +46,7 @@ t_errno	parse_pipe(t_list **cmds, t_list **tokens, t_msh *msh)
 static inline int	cmd_is_undef(t_cmd *cmd)
 {
 	return (!(cmd && (cmd->argv.list
-				|| cmd->io.in_mode
-				|| cmd->io.out_mode
-				|| cmd->io.err_mode)));
+				|| cmd->io.in != 0
+				|| cmd->io.out != 1
+				|| cmd->io.err != 2)));
 }

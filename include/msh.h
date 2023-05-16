@@ -14,6 +14,7 @@
 # define MSH_H
 
 # include "msh_error.h"
+# include "msh_env.h"
 
 # include "ft_hash.h"
 # include "ft_list.h"
@@ -39,26 +40,15 @@ typedef enum e_out_mode {
 
 typedef int	t_fd;
 
-typedef union u_file {
-	char	*name;
-	t_fd	fd;
-}	t_file;
-
 /* I/O information.
- * @param in		The name of the file used for input.
- * @param out		The name of the file used for output.
- * @param err		The name of the file used for errors.
- * @param in_mode	The mode in which the input stream is redirected.
- * @param out_mode	The mode in which the output stream is redirected.
- * @param err_mode	The mode in which the error stream is redirected.
+ * @param in	The file descriptor used for input.
+ * @param out	The file descriptor used for output.
+ * @param err	The file descriptor used for errors.
  */
 typedef struct s_io {
-	t_file		in;
-	t_fd		out;
-	t_fd		err;
-	t_in_mode	in_mode;
-	t_out_mode	out_mode;
-	t_out_mode	err_mode;
+	t_fd	in;
+	t_fd	out;
+	t_fd	err;
 }	t_io;
 
 typedef union u_argv {
@@ -80,26 +70,20 @@ typedef struct s_cmd {
 
 /* Shell data object.
  * @param env	The shell environment.
- * @param var	The shell's local variables.
+ * @param var	The shell's local variables. ## UPCOMING ##
  * @param cmds	The current command queue.
  * @param exit	The exit status of the most recently executed foreground pipe.
  * @param errno	The current error code.
  */
 typedef struct s_msh {
-	char		**env;
+	t_env		env;
 	t_hashtable	*var;
 	t_list		*cmds;
 	int			exit;
 	t_errno		errno;
 }	t_msh;
 
-/* Environment object.
- * @param envp	The array of strings.
- */
-typedef struct s_env {
-	char	**envp;
-}	t_env;
-
+// Base functions.
 t_errno		readcmdline(t_list **token_list, char const *prompt);
 
 // Command functions.

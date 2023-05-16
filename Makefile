@@ -14,6 +14,11 @@ NAME 		:= minishell
 
 SRC_FILES	:= main.c\
 			cmd.c\
+			env/env.c\
+			env/env_search.c\
+			env/env_set.c\
+			env/env_unset.c\
+			env/env_utils.c\
 			expand/expand.c\
 			expand/expand_fieldsplit.c\
 			expand/expand_spec_exit.c\
@@ -39,11 +44,13 @@ SRC_FILES	:= main.c\
 			utils_list.c\
 			utils_quotes.c\
 			var.c\
+			var_parse.c\
 			\
 			debug.c
 OBJ_FILES	:= $(patsubst %.c,%.o,$(SRC_FILES))
 HDR_FILES	:= msh.h\
 			msh_error.h\
+			msh_env.h\
 			msh_expand.h\
 			msh_parse.h\
 			msh_var.h\
@@ -52,7 +59,7 @@ HDR_FILES	:= msh.h\
 LIB_FILES	:= libft.a
 
 SRC_DIR		:= ./source/
-SRC_SUBDIRS	:= builtins/ expand/ lex/ parse/ test/
+SRC_SUBDIRS	:= builtins/ env/ expand/ lex/ parse/ test/
 OBJ_DIR		:= ./object/
 OBJ_SUBDIRS := $(SRC_SUBDIRS)
 HDR_DIR		:= ./include/

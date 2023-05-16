@@ -16,7 +16,10 @@
 
 #include <stdlib.h>
 
-t_errno	var_search(char **value, char const *name, t_msh *msh)
+/* Search local and environment variables for `name` and returns the value. Do
+ * NOT attempt to modify this value. Return NULL if `name` is not set.
+ */
+char	*var_search(char const *name, t_msh *msh)
 {
-	return (get_env_var(name, value, msh->env));
+	return (env_search(&msh->env, name));
 }

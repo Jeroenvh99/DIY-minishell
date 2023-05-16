@@ -12,6 +12,7 @@
 
 #include "msh_parse.h"
 #include "msh.h"
+#include "msh_expand.h"
 #include "msh_utils.h"
 
 #include "ft_list.h"
@@ -58,24 +59,22 @@ t_errno	parse_iofile(char **name, t_list **tokens, t_msh *msh)
 	if (!str)
 		return (MSH_SYNTAX_ERROR);
 	words = NULL;
-	if (expand(&owords, &str, msh) != MSH_SUCCESS)
+	if (expand(&words, &str, msh) != MSH_SUCCESS)
 		return (list_clear(&words, free), free(str), MSH_MEMFAIL);
 	if (words->next)
 		return (list_clear(&words, free), MSH_SYNTAX_ERROR);
-	free(cmd->io.out.name);
 	*name = words->content;
-	free(word);
+	list_clear(&words, NULL);
 	return (MSH_SUCCESS);
 }
 
-char	*token_to_str(t_list *token)
+char	*token_to_str(t_token *token)
 {
 	char	*str;
 
-	if (!(token && token->content))
+	if (!token)
 		return (NULL);
-	str = ((t_token *)token->content)->str;
-	free(token->content);
+	str = token->str;
 	free(token);
 	return (str);
 }
