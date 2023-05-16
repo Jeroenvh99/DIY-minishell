@@ -24,6 +24,8 @@ builtins in pipes moeten wel in een child
 
 cd | pwd verandert niet de directory
 
+array van command structs doorgeven aan de executor
+
 ## msh\_lex
 
 `t_errno	lex(t_list **tokens, char const *line)`
