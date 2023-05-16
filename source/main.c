@@ -52,6 +52,8 @@ static t_errno	msh_loop(t_msh *msh)
 	while (1)
 	{
 		msh->errno = readcmdline(&tokens, PROMPT);
+		if (tokens == NULL)
+			break ;
 		cmd = cmd_init(0, NULL);
 		if (cmd == NULL || list_append_ptr(&msh->cmds, cmd) != MSH_SUCCESS)
 			return (MSH_MEMFAIL);

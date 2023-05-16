@@ -18,6 +18,29 @@
 
 static t_errno	parse_invalid(t_list **cmds, t_list **tokens, t_msh *msh);
 
+/*t_errno	parse(t_msh *msh, t_list **tokens)
+{
+	t_cmd	*cmd;
+	t_errno	errno;
+
+	while (*tokens)
+	{
+		cmd = cmd_init(0, NULL);
+		if (cmd == NULL)
+			return (MSH_MEMFAIL);
+		errno = parse_cmd(cmd, tokens, msh);
+		if (errno != MSH_SUCCESS)
+			return (cmd_free_list(cmd), errno);
+		errno = cmd_argvconvert(cmd);
+		if (errno != MSH_SUCCESS)
+			return (cmd_free_list(cmd), errno);
+		errno = list_append_ptr(msh->cmds, cmd) != MSH_SUCCESS;
+		if (errno != MSH_SUCCESS)
+			return (cmd_free(cmd), errno);
+	}
+	return (MSH_SUCCESS);
+}*/
+
 t_errno	parse(t_msh *msh, t_list **tokens)
 {
 	t_toktype			type;
@@ -35,7 +58,7 @@ t_errno	parse(t_msh *msh, t_list **tokens)
 		type = ((t_token *)(*tokens)->content)->type;
 		errno = parsefuncs[type](&msh->cmds, tokens, msh);
 		if (errno != MSH_SUCCESS)
-			break ;
+			return (errno);
 	}
 	return (cmd_argvconvert(cmd_get_current(msh->cmds)));
 }

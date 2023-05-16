@@ -43,7 +43,7 @@ void	cmd_free(t_cmd *cmd)
 
 void	cmd_free_list(t_cmd *cmd)
 {
-	list_clear(cmd->argv.list, free);
+	list_clear(&cmd->argv.list, free);
 	cmd_free_common(cmd);
 }
 
