@@ -6,7 +6,7 @@
 /*   By: jvan-hal <jvan-hal@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/04/20 16:50:13 by jvan-hal      #+#    #+#                 */
-/*   Updated: 2023/05/12 12:26:15 by jvan-hal      ########   odam.nl         */
+/*   Updated: 2023/05/15 17:54:43 by jvan-hal      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,23 +20,22 @@ int	msh_unset(int argc, char **argv, t_msh *msh)
 	int	i;
 	int	j;
 
-	// check for invalid input
 	if (argc == 1)
 		return (0);
 	i = 1;
 	while (argv[i])
 	{
-		j = remove_var(argv[i], msh->env);
-		if (msh->env[j])
+		if (!ft_strchr(argv[i], '-'))
 		{
+			j = remove_var(argv[i], msh->env);
 			while (msh->env[j + 1])
 			{
 				msh->env[j] = msh->env[j + 1];
 				++j;
 			}
 			msh->env[j] = NULL;
+			++i;
 		}
-		++i;
 	}
 	--(msh->envused);
 	return (0);

@@ -1,0 +1,42 @@
+testing "env a"
+
+
+testing "env -"
+
+
+testing "env --"
+TMPDIR=/var/folders/zz/zyxvpxvq6csfxvn_n000dzrr003gy6/T/
+SHELL=/bin/zsh
+HOME=/Users/jvan-hal
+SSH_AUTH_SOCK=/private/tmp/com.apple.launchd.NjwMNKNJcj/Listeners
+Apple_PubSub_Socket_Render=/private/tmp/com.apple.launchd.ZeOqJjhyJa/Render
+LOGNAME=jvan-hal
+DISPLAY=/private/tmp/com.apple.launchd.5ayxsT9r7b/org.xquartz:0
+PATH=/Users/jvan-hal/.brew/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/munki:/opt/X11/bin:/Users/jvan-hal/.brew/bin
+XPC_SERVICE_NAME=0
+COMMAND_MODE=unix2003
+MallocNanoZone=0
+USER=jvan-hal
+SECURITYSESSIONID=186a8
+XPC_FLAGS=0x0
+__CF_USER_TEXT_ENCODING=0x1BFC6:0x0:0x0
+ORIGINAL_XDG_CURRENT_DESKTOP=undefined
+SHLVL=1
+PWD=/Users/jvan-hal/Desktop/DIY-minishell/source/builtins
+OLDPWD=/Users/jvan-hal/Desktop/DIY-minishell
+TERM_PROGRAM=vscode
+TERM_PROGRAM_VERSION=1.77.3
+LANG=en_US.UTF-8
+COLORTERM=truecolor
+GIT_ASKPASS=/Applications/Visual Studio Code.app/Contents/Resources/app/extensions/git/dist/askpass.sh
+VSCODE_GIT_ASKPASS_NODE=/Applications/Visual Studio Code.app/Contents/Frameworks/Code Helper (Plugin).app/Contents/MacOS/Code Helper (Plugin)
+VSCODE_GIT_ASKPASS_EXTRA_ARGS=--ms-enable-electron-run-as-node
+VSCODE_GIT_ASKPASS_MAIN=/Applications/Visual Studio Code.app/Contents/Resources/app/extensions/git/dist/askpass-main.js
+VSCODE_GIT_IPC_HANDLE=/var/folders/zz/zyxvpxvq6csfxvn_n000dzrr003gy6/T/vscode-git-1abb38d0aa.sock
+VSCODE_INJECTION=1
+ZDOTDIR=/Users/jvan-hal
+USER_ZDOTDIR=/Users/jvan-hal
+TERM=xterm-256color
+_=/Users/jvan-hal/Desktop/DIY-minishell/source/builtins/./a.out
+
+
