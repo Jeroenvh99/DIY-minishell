@@ -6,50 +6,75 @@
 /*   By: dbasting <marvin@codam.nl>                   +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/04/18 14:13:15 by dbasting      #+#    #+#                 */
-/*   Updated: 2023/05/08 17:51:44 by dbasting      ########   odam.nl         */
+/*   Updated: 2023/05/15 18:09:25 by dbasting      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "msh_parse.h"
 #include "msh.h"
 #include "msh_error.h"
+#include "msh_expand.h"
 #include "msh_utils.h"
 
+#include <fctnl.h>
+#include "ft_string.h"
 #include "ft_list.h"
+#include <readline/readline.h>
+#include <stddef.h>
 #include <stdlib.h>
+#include <unistd.h>
 
-static inline t_errno	input_configure(t_list **tokens, t_cmd *cmd);
+static int	read_heredoc(char const *delim);
 
 t_errno	parse_input(t_list **cmds, t_list **tokens, t_msh *msh)
 {
 	t_cmd	*cmd;
+	char	*path;
+	t_errno	errno;
 
-	(void) msh;
+	free(list_pop_ptr(tokens));
 	cmd = cmd_get_current(*cmds);
-	cmd->io.in_mode = IN_REDIRECT;
-	return (input_configure(tokens, cmd));
+	errno = parse_iofile(&path, tokens, msh);
+	if (errno != MSH_SUCCESS)
+		return (errno);
+	cmd->io.in = open(path, O_RDONLY);
+	if (cmd->io.in < 0)
+		return (MSH_FILEFAIL);
+	return (MSH_SUCCESS);
 }
 
 t_errno	parse_heredoc(t_list **cmds, t_list **tokens, t_msh *msh)
 {
-	t_cmd	*cmd;
-
-	(void) msh;
-	cmd = cmd_get_current(*cmds);
-	cmd->io.in_mode = IN_HEREDOC;
-	return (input_configure(tokens, cmd));
-}
-
-static inline t_errno	input_configure(t_list **tokens, t_cmd *cmd)
-{
-	t_token	*word;
+	t_cmd		*cmd;
+	char const	*delim;
+	t_errno		errno;
 
 	free(list_pop_ptr(tokens));
-	word = list_pop_ptr(tokens);
-	if (!word || word->type == TOK_INVALID || word->type >= TOK_META_MIN)
-		return (token_destroy(&word), MSH_SYNTAX_ERROR);
-	free(cmd->io.in.name);
-	cmd->io.in.name = word->str;
-	free(word);
+	cmd = cmd_get_current(*cmds);
+	delim = token_to_str(list_pop_ptr(tokens));
+	if (!delim)
+		return (MSH_SYNTAX_ERROR);
+	cmd->io.in = read_heredoc(delim);
+	if (cmd->io.in != 0)
+		return (MSH_FILEFAIL);
+	free(delim);
 	return (MSH_SUCCESS);
+}
+//malloc protection!
+static int	read_heredoc(char const *delim)
+{
+	int		fds[2];
+	char	*line;
+
+	if (pipe(fds) != 0)
+		return (-1);
+	line = readline(PROMPT_CONT);
+	while (line && ft_strncmp(line, delim, -1) == 0)
+	{
+		write(fds[0], line, ft_strlen(line));
+		free(line);
+		line = readline(PROMPT_CONT);
+	}
+	close(fds[0]);
+	return (fds[1]);
 }

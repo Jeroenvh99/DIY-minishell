@@ -6,7 +6,7 @@
 #    By: dbasting <marvin@codam.nl>                   +#+                      #
 #                                                    +#+                       #
 #    Created: 2022/12/28 12:06:53 by dbasting      #+#    #+#                  #
-#    Updated: 2023/05/08 18:14:41 by dbasting      ########   odam.nl          #
+#    Updated: 2023/05/15 15:38:26 by dbasting      ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -55,7 +55,7 @@ SRC_DIR		:= ./source/
 SRC_SUBDIRS	:= builtins/ expand/ lex/ parse/ test/
 OBJ_DIR		:= ./object/
 OBJ_SUBDIRS := $(SRC_SUBDIRS)
-HDR_DIR		:= ./header/
+HDR_DIR		:= ./include/
 LIB_DIR		:= ./lib/
 
 CFLAGS		:= -Wall -Wextra -Werror -I$(LIB_DIR)libft/include/ -I$(HDR_DIR) -g -fsanitize=address

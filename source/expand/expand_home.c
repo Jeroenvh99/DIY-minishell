@@ -1,33 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   expand_spec_shname.c                               :+:    :+:            */
+/*   expand_home.c                                      :+:    :+:            */
 /*                                                     +:+                    */
 /*   By: dbasting <marvin@codam.nl>                   +#+                     */
 /*                                                   +#+                      */
-/*   Created: 2023/05/15 15:39:35 by dbasting      #+#    #+#                 */
-/*   Updated: 2023/05/15 15:39:36 by dbasting      ########   odam.nl         */
+/*   Created: 2023/05/15 15:39:10 by dbasting      #+#    #+#                 */
+/*   Updated: 2023/05/15 15:49:37 by dbasting      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "msh_expand.h"
+#include "msh_error.h"
 #include "msh.h"
 
 #include "ft_string.h"
-#include "ft_stdlib.h"
-#include <stddef.h>
 #include <stdlib.h>
 
-t_errno	expand_spec_shname(t_expstr *expstr, size_t *exp_len, t_msh *msh)
+t_errno	expand_home(t_expstr *expstr, size_t *exp_len, t_msh *msh)
 {
-	char	*exp;
-	t_errno	errno;
-
-	exp = ft_itoa(msh->exit);
-	if (exp == NULL)
+	char const	*exp;
+	
+	if (var_search(&exp, "HOME", msh) != MSH_SUCCESS)
 		return (MSH_MEMFAIL);
 	*exp_len += ft_strlen(exp);
-	errno = expstr_resize(expstr, 1, exp, *exp_len);
-	free(exp);
-	return (errno);
+	return (expstr_resize(expstr, 1, exp, *exp_len));
 }
