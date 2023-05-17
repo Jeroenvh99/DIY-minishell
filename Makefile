@@ -14,6 +14,7 @@ NAME 		:= minishell
 
 SRC_FILES	:= main.c\
 			cmd.c\
+			cmd_finish.c\
 			env/env.c\
 			env/env_search.c\
 			env/env_set.c\

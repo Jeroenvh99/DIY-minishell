@@ -31,7 +31,7 @@ t_errno	parse_pipe(t_list **cmds, t_list **tokens, t_msh *msh)
 	free(list_pop_ptr(tokens));
 	if (cmd_is_undef(pipe_from))
 		return (MSH_SYNTAX_ERROR);
-	if (cmd_argvconvert(pipe_from) != MSH_SUCCESS)
+	if (cmd_finish(pipe_from) != MSH_SUCCESS)
 		return (MSH_MEMFAIL);
 	if (*tokens == NULL && readcmdline(tokens, PROMPT_PIPE) != MSH_SUCCESS)
 		return (MSH_MEMFAIL);

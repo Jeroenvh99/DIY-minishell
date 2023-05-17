@@ -59,7 +59,7 @@ t_errno	parse(t_msh *msh, t_list **tokens)
 		if (errno != MSH_SUCCESS)
 			return (errno);
 	}
-	return (cmd_argvconvert(cmd_get_current(msh->cmds)));
+	return (cmd_finish(cmd_get_current(msh->cmds)));
 }
 
 static t_errno	parse_invalid(t_list **cmds, t_list **tokens, t_msh *msh)
