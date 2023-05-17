@@ -45,14 +45,13 @@ t_errno	parse(t_msh *msh, t_list **tokens)
 {
 	t_toktype			type;
 	t_parsefunc const	parsefuncs[N_TOK] = {
-		parse_word, parse_pipe,
+		parse_word,
 		parse_input, parse_heredoc,
 		parse_output, parse_output_append,
-		parse_and, parse_or,
+		parse_pipe, parse_and, parse_or,
 		parse_invalid};
 	t_errno				errno;
 
-	errno = MSH_SUCCESS;
 	while (*tokens)
 	{
 		type = ((t_token *)(*tokens)->content)->type;

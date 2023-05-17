@@ -26,25 +26,28 @@ typedef enum e_toktype {
 	TOK_TRUNC_DQUOTE = -2,
 	TOK_TRUNC = -1,
 	TOK_WORD = 0,
-	TOK_PIPE,
 	TOK_STDIN,
 	TOK_HEREDOC,
 	TOK_STDOUT,
 	TOK_STDOUT_APPEND,
+	TOK_PIPE,
 	TOK_AND,
 	TOK_OR,
 	TOK_INVALID,
 	N_TOK,
 }	t_toktype;
 
-# define TOK_META_MIN			1
-# define N_TOK_META				7
+# define N_TOK_ARG				5 /* Tokens that serve to modify commands. */
+# define TOK_META_MIN			1 /* The first non-word token (TOK_STDIN). */
+# define N_TOK_META				7 /* Non-word tokens. */
+# define TOK_FLOW_MIN			5 /* The first control flow token (TOK_PIPE). */
+# define N_TOK_FLOW				3 /* Tokens that signify control flow. */
 
-# define TOK_PIPE_STR			"|"
 # define TOK_STDIN_STR			"<"
 # define TOK_STDOUT_STR			">"
 # define TOK_HEREDOC_STR		"<<"
 # define TOK_STDOUT_APPEND_STR	">>"
+# define TOK_PIPE_STR			"|"
 # define TOK_AND_STR			"&&"
 # define TOK_OR_STR				"||"
 
@@ -75,11 +78,11 @@ t_token	*token_get_meta(char const **str);
 // Parser functions.
 t_errno	parse(t_msh *msh, t_list **tokens);
 t_errno	parse_word(t_list **cmds, t_list **tokens, t_msh *msh);
-t_errno	parse_pipe(t_list **cmds, t_list **tokens, t_msh *msh);
 t_errno	parse_input(t_list **cmds, t_list **tokens, t_msh *msh);
 t_errno	parse_heredoc(t_list **cmds, t_list **tokens, t_msh *msh);
 t_errno	parse_output(t_list **cmds, t_list **tokens, t_msh *msh);
 t_errno	parse_output_append(t_list **cmds, t_list **tokens, t_msh *msh);
+t_errno	parse_pipe(t_list **cmds, t_list **tokens, t_msh *msh);
 t_errno	parse_and(t_list **cmds, t_list **tokens, t_msh *msh);
 t_errno parse_or(t_list **cmds, t_list **tokens, t_msh *msh);
 
