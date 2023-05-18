@@ -25,8 +25,9 @@ t_errno	parse(t_msh *msh, t_list **tokens)
 	pipeline = &msh->cmds;
 	while (*tokens)
 	{
-		if (!is_ctltok((*tokens)->content))
-			errno = parse_pipeline(pipeline, tokens, msh);
+		if (is_ctltok((*tokens)->content))
+			token_free(list_pop_ptr(tokens));
+		errno = parse_pipeline(pipeline, tokens, msh);
 		if (errno != MSH_SUCCESS)
 			return (errno);
 	}

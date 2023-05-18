@@ -32,17 +32,17 @@ typedef enum e_toktype {
 	TOK_PIPE,
 	TOK_AND,
 	TOK_OR,
-	//TOK_OPENPAR,
-	//TOK_CLOSEPAR,
+	TOK_OPENPAR,
+	TOK_CLOSEPAR,
 	TOK_INVALID,
 	N_TOK,
 }	t_toktype;
 
 # define N_TOK_ARG				5 /* Tokens to pass as command arguments. */
 # define TOK_META_MIN			1 /* The first non-word token (TOK_STDIN). */
-# define N_TOK_META				7 /* Non-word tokens. */
+# define N_TOK_META				9 /* Non-word tokens. */
 # define TOK_CTL_MIN			6 /* The first control flow token (TOK_AND). */
-# define N_TOK_CTL				2 /* Tokens to determine control flow. */
+# define N_TOK_CTL				4 /* Tokens to determine control flow. */
 
 # define TOK_STDIN_STR			"<"
 # define TOK_STDOUT_STR			">"
@@ -54,7 +54,7 @@ typedef enum e_toktype {
 # define TOK_OPENPAR_STR		"("
 # define TOK_CLOSEPAR_STR		")"
 
-# define METACHARS				"|&<> \t\n"
+# define METACHARS				"|&<>() \t\n"
 
 /* Token object.
  * @param str	If the token is a word: the word.

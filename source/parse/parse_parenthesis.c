@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   parse_operator.c                                   :+:    :+:            */
+/*   parse_parenthesis.c                                :+:    :+:            */
 /*                                                     +:+                    */
 /*   By: dbasting <marvin@codam.nl>                   +#+                     */
 /*                                                   +#+                      */
@@ -17,7 +17,7 @@
 
 #include "ft_list.h"
 
-t_errno	parse_and(t_cmdtree *tree, t_list **tokens, t_msh *msh)
+t_errno	parse_parenthesis_open(t_cmdtree *tree, t_list **tokens, t_msh *msh)
 {
 	(void) tree;
 	(void) msh;
@@ -25,10 +25,10 @@ t_errno	parse_and(t_cmdtree *tree, t_list **tokens, t_msh *msh)
 	return (MSH_SUCCESS);
 }
 
-t_errno	parse_or(t_cmdtree **tree, t_list **tokens, t_msh *msh)
+t_errno	parse_parenthesis_close(t_cmdtree *tree, t_list **tokens, t_msh *msh)
 {
 	(void) tree;
 	(void) msh;
-	token_free(list_pop_ptr(tokens));
+	token_ free(list_pop_ptr(tokens));
 	return (MSH_SUCCESS);
 }
