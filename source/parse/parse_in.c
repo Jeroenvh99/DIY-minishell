@@ -37,6 +37,7 @@ t_errno	parse_input(t_cmd *cmd, t_list **tokens, t_msh *msh)
 		return (errno);
 	close(cmd->io.in);
 	cmd->io.in = open(path, O_RDONLY);
+	free(path);
 	if (cmd->io.in < 0)
 		return (MSH_FILEFAIL);
 	return (MSH_SUCCESS);
@@ -52,30 +53,29 @@ t_errno	parse_heredoc(t_cmd *cmd, t_list **tokens, t_msh *msh)
 		return (MSH_SYNTAX_ERROR);
 	close(cmd->io.in);
 	cmd->io.in = read_heredoc(delim, msh);
+	free(delim);
 	if (cmd->io.in == -1)
 		return (MSH_FILEFAIL);
-	free(delim);
 	return (MSH_SUCCESS);
 }
 
-/* malloc protection!
- * apply expander without field splitting to heredoc
- */
 static int	read_heredoc(char const *delim, t_msh *msh)
 {
 	int		fds[2];
 	char	*line;
 
-	(void) msh;
 	if (pipe(fds) != 0)
 		return (-1);
 	line = readline(PROMPT_CONT);
 	while (line && ft_strncmp(line, delim, -1) != 0)
 	{
+		if (expand(NULL, &line, msh) != MSH_SUCCESS)
+			return (free(line), close(fds[0]), close(fds[1]), -1);
 		write(fds[0], line, ft_strlen(line));
 		free(line);
 		line = readline(PROMPT_CONT);
 	}
+	free(line);
 	close(fds[0]);
 	return (fds[1]);
 }

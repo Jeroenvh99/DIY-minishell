@@ -28,5 +28,6 @@ t_errno	parse_word(t_cmd *cmd, t_list **tokens, t_msh *msh)
 	str = token_to_str(list_pop_ptr(tokens));
 	if (expand(&cmd->argv.list, &str, msh) != MSH_SUCCESS)
 		return (list_clear(&cmd->argv.list, free), free(str), MSH_MEMFAIL);
+	free(str);
 	return (MSH_SUCCESS);
 }
