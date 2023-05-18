@@ -42,8 +42,8 @@ t_errno	parse_iofile(char **name, t_list **tokens, t_msh *msh)
 		return (list_clear(&words, free), free(str), MSH_MEMFAIL);
 	if (words->next)
 		return (list_clear(&words, free), MSH_SYNTAX_ERROR);
-	*name = words->content;
-	list_clear(&words, NULL);
+	*name = list_pop_ptr(&words);
+	list_clear(&words, free);
 	return (MSH_SUCCESS);
 }
 
