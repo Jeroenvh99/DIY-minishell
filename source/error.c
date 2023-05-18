@@ -28,7 +28,7 @@ void	msh_strerror(t_errno errno)
 		"INCOMPLETE_TOKEN",
 		"Failed to open file.",
 		"Couldn't allocate memory.",};
-	
+
 	ft_dprintf(STDERR_FILENO, "Error: %s\n", errmsg[errno]);
 }
 

@@ -20,6 +20,8 @@
 
 static size_t	env_len(char **envp);
 
+/* Initialize the environment `env` (creating a copy of `envp`).
+ */
 t_errno	env_init(t_env *env, char **envp)
 {
 	env->len = env_len(envp);
@@ -38,6 +40,8 @@ t_errno	env_init(t_env *env, char **envp)
 	return (MSH_SUCCESS);
 }
 
+/* Free the environment `env`.
+ */
 void	env_free(t_env *env)
 {
 	while (env->used--)

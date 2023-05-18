@@ -14,6 +14,9 @@
 
 #include <stddef.h>
 
+/* Search `env` for the variable `name`. Return a pointer to the value portion
+ * of the entry concerned, or NULL if `name` was not found.
+ */
 char	*env_search(t_env *env, char const *name)
 {
 	size_t	i;

@@ -15,6 +15,8 @@
 #include <stddef.h>
 #include <stdlib.h>
 
+/* Remove `name` from `env`, moving subsequent entries as necessary. Do nothing
+ * if `name` does not exist. */
 void	env_unset(t_env	*env, char const *name)
 {
 	size_t	entry_i;

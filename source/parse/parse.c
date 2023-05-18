@@ -49,7 +49,7 @@ t_errno	parse_pipeline(t_list **pipeline, t_list **tokens, t_msh *msh)
 		errno = list_append_ptr(pipeline, cmd);
 		if (errno != MSH_SUCCESS)
 			return (list_clear(pipeline, (t_freef)cmd_free), cmd_free(cmd),
-						errno);
+				errno);
 		errno = parse_pipe(cmd, tokens, msh);
 		if (errno != MSH_SUCCESS)
 			return (list_clear(pipeline, (t_freef)cmd_free), errno);

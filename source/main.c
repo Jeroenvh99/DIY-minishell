@@ -41,8 +41,8 @@ int	main(int argc, char **argv, char **envp)
 	return (msh.errno);
 }
 
-//add an errno check at the beginning of every function contained within the loop
-
+/* Add errno check at the beginning of every function contained within the loop.
+ */
 static t_errno	msh_loop(t_msh *msh)
 {
 	t_list	*tokens;
@@ -66,7 +66,7 @@ static t_errno	msh_loop(t_msh *msh)
 static t_errno	msh_init(t_msh *msh, int argc, char **argv, char **envp)
 {
 	t_errno	errno;
-	
+
 	(void) argc;
 	(void) argv;
 	errno = env_init(&msh->env, envp);

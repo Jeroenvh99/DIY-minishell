@@ -25,7 +25,7 @@ int	is_argtok(t_token const *token)
 	return (token && token->type < TOK_PIPE);
 }
 
-int is_ctltok(t_token const *token)
+int	is_ctltok(t_token const *token)
 {
 	return (token && token->type >= TOK_AND && token->type < TOK_INVALID);
 }

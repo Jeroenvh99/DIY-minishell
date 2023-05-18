@@ -39,28 +39,7 @@ t_errno	parse_pipe(t_cmd *cmd, t_list **tokens, t_msh *msh)
 static inline int	cmd_is_undefined(t_cmd *cmd)
 {
 	return (!cmd || (cmd->argc == 0
-				&& cmd->io.in == STDIN_FILENO
-				&& cmd->io.out == STDOUT_FILENO
-				&& cmd->io.err == STDERR_FILENO));
+			&& cmd->io.in == STDIN_FILENO
+			&& cmd->io.out == STDOUT_FILENO
+			&& cmd->io.err == STDERR_FILENO));
 }
-
-/*t_errno	parse_pipe(t_list **cmds, t_list **tokens, t_msh *msh)
-{
-	t_cmd *const	pipe_from = cmd_get_current(*cmds);
-	t_cmd			*pipe_to;
-
-	(void) msh;
-	free(list_pop_ptr(tokens));
-	if (cmd_is_undef(pipe_from))
-		return (MSH_SYNTAX_ERROR);
-	if (cmd_finish(pipe_from) != MSH_SUCCESS)
-		return (MSH_MEMFAIL);
-	if (*tokens == NULL && readcmdline(tokens, PROMPT_PIPE) != MSH_SUCCESS)
-		return (MSH_MEMFAIL);
-	pipe_to = cmd_init(0, NULL);
-	if (pipe_to == NULL)
-		return (MSH_MEMFAIL);
-	if (list_append_ptr(cmds, pipe_to) != MSH_SUCCESS)
-		return (free(pipe_to), MSH_MEMFAIL);
-	return (MSH_SUCCESS);
-}*/

@@ -13,8 +13,8 @@
 #ifndef MSH_PARSE_H
 # define MSH_PARSE_H
 
-# include "msh_error.h"
 # include "msh.h"
+# include "msh_error.h"
 
 # include <stddef.h>
 
@@ -61,12 +61,12 @@ typedef enum e_toktype {
  * @param type	The token's type.
  */
 typedef struct s_token {
-	char 		*str;
+	char		*str;
 	t_toktype	type;
 }	t_token;
 
 typedef t_errno	(*t_argparsef)(t_cmd *cmd, t_list **tokens, t_msh *msh);
-typedef t_list	*(t_ctlparsef)(/*t_cmdtree *,*/t_list **tokens, t_msh *msh);
+//typedef t_list	*(t_ctlparsef)(t_cmdtree *, t_list **tokens, t_msh *msh);
 
 // Token functions.
 t_token	*token_init(char *str, t_toktype type);

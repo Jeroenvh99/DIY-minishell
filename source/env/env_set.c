@@ -24,7 +24,8 @@ static t_errno	env_insert(t_env *env, char *entry);
 static t_errno	env_realloc(t_env *env, char *entry);
 static t_errno	env_overwrite(char **old_entry, char *entry);
 
-// Sets (a copy of) entry as an environment variable.
+/* Sets (a copy of) entry as an environment variable.
+ */
 t_errno	env_set(t_env *env, char const *entry)
 {
 	char *const	copy = ft_strdup(entry);
@@ -40,7 +41,7 @@ t_errno	env_set(t_env *env, char const *entry)
 	entry_i = env_entry_get(env->envp, name);
 	free(name);
 	if (env->envp[entry_i])
-		errno = env_overwrite(&env->envp[entry_i], copy);
+		return (env_overwrite(&env->envp[entry_i], copy));
 	else
 		errno = env_append(env, copy);
 	if (errno != MSH_SUCCESS)
@@ -48,6 +49,8 @@ t_errno	env_set(t_env *env, char const *entry)
 	return (MSH_SUCCESS);
 }
 
+/* Append (i.e. do not overwrite) `entry`.
+ */
 static t_errno	env_append(t_env *env, char *entry)
 {
 	if (env->used < env->len)
@@ -55,6 +58,8 @@ static t_errno	env_append(t_env *env, char *entry)
 	return (env_realloc(env, entry));
 }
 
+/* Insert `entry` into `env` without reallocating.
+ */
 static t_errno	env_insert(t_env *env, char *entry)
 {
 	size_t	i;
@@ -67,6 +72,8 @@ static t_errno	env_insert(t_env *env, char *entry)
 	return (MSH_SUCCESS);
 }
 
+/* Reallocate `env` to hold REALLOC_SIZE more entries and insert `entry`.
+ */
 static t_errno	env_realloc(t_env *env, char *entry)
 {
 	char	**nenvp;
@@ -84,6 +91,8 @@ static t_errno	env_realloc(t_env *env, char *entry)
 	return (MSH_SUCCESS);
 }
 
+/* Overwrite `old_entry` with `entry`.
+ */
 static t_errno	env_overwrite(char **old_entry, char *entry)
 {
 	free(*old_entry);
