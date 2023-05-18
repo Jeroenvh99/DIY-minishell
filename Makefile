@@ -20,6 +20,7 @@ SRC_FILES	:= main.c\
 			env/env_set.c\
 			env/env_unset.c\
 			env/env_utils.c\
+			error.c\
 			expand/expand.c\
 			expand/expand_fieldsplit.c\
 			expand/expand_spec_exit.c\

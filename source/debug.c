@@ -36,23 +36,25 @@ void	cmd_view(t_cmd *cmd)
 {
 	size_t	i;
 
-	printf("COMMAND:\n"
-		"- argc: %zu\n"
-		"- argv:", cmd->argc);
+	printf("> COMMAND:\n"
+		"  - argc: %zu\n"
+		"  - argv:", cmd->argc);
 	i = 0;
 	while (i < cmd->argc)
 		printf(" <%s>", cmd->argv.array[i++]);
-	printf("\n- input: %d\n"
-		"- output: %d\n"
-		"- error: %d\n",
+	printf("\n  - input: %d\n"
+		"  - output: %d\n"
+		"  - error: %d\n",
 		cmd->io.in, cmd->io.out, cmd->io.err);
 }
 
 void	cmds_view(t_list *cmds)
 {
+	printf("PIPELINE:\n");
 	while (cmds)
 	{
 		cmd_view(cmds->content);
 		cmds = cmds->next;
 	}
+	printf("---------\n");
 }

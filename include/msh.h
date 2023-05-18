@@ -90,6 +90,7 @@ t_errno	readcmdline(t_list **token_list, char const *prompt);
 t_cmd	*cmd_init(size_t argc, char **argv);
 t_errno	cmd_finish(t_cmd *cmd);
 void	cmd_free(t_cmd *cmd);
+void	cmd_free_wrapper(void *cmd);
 void	cmd_free_list(t_cmd *cmd);
 void	cmd_destroy(t_cmd **cmd);
 

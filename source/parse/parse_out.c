@@ -21,11 +21,10 @@
 #include <stdlib.h>
 #include <unistd.h>
 
-t_errno	parse_output(t_list **cmds, t_list **tokens, t_msh *msh)
+t_errno	parse_output(t_cmd *cmd, t_list **tokens, t_msh *msh)
 {
-	t_cmd *const	cmd = cmd_get_current(*cmds);
-	char			*path;
-	t_errno			errno;
+	char	*path;
+	t_errno	errno;
 
 	token_free(list_pop_ptr(tokens));
 	path = NULL;
@@ -40,11 +39,10 @@ t_errno	parse_output(t_list **cmds, t_list **tokens, t_msh *msh)
 	return (MSH_SUCCESS);
 }
 
-t_errno	parse_output_append(t_list **cmds, t_list **tokens, t_msh *msh)
+t_errno	parse_output_append(t_cmd *cmd, t_list **tokens, t_msh *msh)
 {
-	t_cmd *const	cmd = cmd_get_current(*cmds);
-	char			*path;
-	t_errno			errno;
+	char	*path;
+	t_errno	errno;
 
 	token_free(list_pop_ptr(tokens));
 	path = NULL;

@@ -49,8 +49,11 @@ void	cmd_free_list(t_cmd *cmd)
 
 static void	cmd_free_common(t_cmd *cmd)
 {
-	close(cmd->io.in);
-	close(cmd->io.out);
-	close(cmd->io.err);
+	if (cmd->io.in != STDIN_FILENO)
+		close(cmd->io.in);
+	if (cmd->io.out != STDOUT_FILENO)
+		close(cmd->io.out);
+	if (cmd->io.err != STDERR_FILENO)
+		close(cmd->io.err);
 	free(cmd);
 }

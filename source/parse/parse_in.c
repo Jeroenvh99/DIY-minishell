@@ -24,13 +24,12 @@
 #include <stdlib.h>
 #include <unistd.h>
 
-static int	read_heredoc(char const *delim);
+static int	read_heredoc(char const *delim, t_msh *msh);
 
-t_errno	parse_input(t_list **cmds, t_list **tokens, t_msh *msh)
+t_errno	parse_input(t_cmd *cmd, t_list **tokens, t_msh *msh)
 {
-	t_cmd *const	cmd = cmd_get_current(*cmds);
-	char			*path;
-	t_errno			errno;
+	char	*path;
+	t_errno	errno;
 
 	token_free(list_pop_ptr(tokens));
 	errno = parse_iofile(&path, tokens, msh);
@@ -43,30 +42,31 @@ t_errno	parse_input(t_list **cmds, t_list **tokens, t_msh *msh)
 	return (MSH_SUCCESS);
 }
 
-t_errno	parse_heredoc(t_list **cmds, t_list **tokens, t_msh *msh)
+t_errno	parse_heredoc(t_cmd *cmd, t_list **tokens, t_msh *msh)
 {
-	t_cmd *const	cmd = cmd_get_current(*cmds);
-	char			*delim;
+	char	*delim;
 
-	(void) msh;
 	token_free(list_pop_ptr(tokens));
 	delim = token_to_str(list_pop_ptr(tokens));
 	if (delim == NULL)
 		return (MSH_SYNTAX_ERROR);
 	close(cmd->io.in);
-	cmd->io.in = read_heredoc(delim);
+	cmd->io.in = read_heredoc(delim, msh);
 	if (cmd->io.in == -1)
 		return (MSH_FILEFAIL);
 	free(delim);
 	return (MSH_SUCCESS);
 }
 
-//malloc protection!
-static int	read_heredoc(char const *delim)
+/* malloc protection!
+ * apply expander without field splitting to heredoc
+ */
+static int	read_heredoc(char const *delim, t_msh *msh)
 {
 	int		fds[2];
 	char	*line;
 
+	(void) msh;
 	if (pipe(fds) != 0)
 		return (-1);
 	line = readline(PROMPT_CONT);

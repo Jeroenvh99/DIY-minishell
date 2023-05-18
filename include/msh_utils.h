@@ -17,6 +17,8 @@ typedef enum e_quote {
 # define CHR_VAR		'$'
 # define CHR_WILDCARD	'*'
 
+typedef void	(*t_freef)(void *);
+
 char	*get_path(char *pathname);
 
 t_quote	is_quote(char c);

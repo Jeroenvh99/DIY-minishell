@@ -19,14 +19,14 @@
 #include <stddef.h>
 #include <stdlib.h>
 
-t_cmd	*cmd_get_current(t_list *cmds)
+int	is_argtok(t_token const *token)
 {
-	t_list	*cmd_node;
+	return (token && token->type < TOK_PIPE);
+}
 
-	cmd_node = list_last(cmds);
-	if (!cmd_node)
-		return (NULL);
-	return ((t_cmd *)cmd_node->content);
+int is_ctltok(t_token const *token)
+{
+	return (token && token->type >= TOK_AND && token->type < TOK_INVALID);
 }
 
 t_errno	parse_iofile(char **name, t_list **tokens, t_msh *msh)

@@ -27,7 +27,6 @@
 static t_errno	msh_loop(t_msh *msh);
 static t_errno	msh_init(t_msh *msh, int argc, char **argv, char **envp);
 static void		msh_deinit(t_msh *msh);
-static void		cmd_free_wrapper(void *cmd);
 
 int	main(int argc, char **argv, char **envp)
 {
@@ -38,6 +37,7 @@ int	main(int argc, char **argv, char **envp)
 		return (msh.errno);
 	msh.errno = msh_loop(&msh);
 	msh_deinit(&msh);
+	printf("exit: %d\n", msh.errno);
 	return (msh.errno);
 }
 
@@ -46,7 +46,6 @@ int	main(int argc, char **argv, char **envp)
 static t_errno	msh_loop(t_msh *msh)
 {
 	t_list	*tokens;
-	t_cmd	*cmd;
 
 	tokens = NULL;
 	while (1)
@@ -54,13 +53,12 @@ static t_errno	msh_loop(t_msh *msh)
 		msh->errno = readcmdline(&tokens, PROMPT);
 		if (tokens == NULL)
 			break ;
-		cmd = cmd_init(0, NULL);
-		if (cmd == NULL || list_append_ptr(&msh->cmds, cmd) != MSH_SUCCESS)
-			return (MSH_MEMFAIL);
 		msh->errno = parse(msh, &tokens);
-		printf("Parser done! (exit: %d)\n", msh->errno);
-		cmds_view(msh->cmds);
-		list_clear(&msh->cmds, cmd_free_wrapper);
+		if (msh->errno != MSH_SUCCESS)
+			msh_strerror(msh->errno);
+		else
+			cmds_view(msh->cmds);
+		list_clear(&msh->cmds, (t_freef)cmd_free);
 	}
 	return (msh->errno);
 }
@@ -86,10 +84,5 @@ static void	msh_deinit(t_msh *msh)
 {
 	env_free(&msh->env);
 	hashtable_destroy(&msh->var, free);
-	list_clear(&msh->cmds, cmd_free_wrapper);
-}
-
-static void	cmd_free_wrapper(void *cmd)
-{
-	cmd_free(cmd);
+	list_clear(&msh->cmds, (t_freef)cmd_free);
 }

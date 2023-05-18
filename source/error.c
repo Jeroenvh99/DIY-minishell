@@ -4,14 +4,33 @@
 /*   error.c                                            :+:    :+:            */
 /*                                                     +:+                    */
 /*   By: jvan-hal <jvan-hal@student.codam.nl>         +#+                     */
-/*                                                   +#+                      */
+/*       dbasting <dbasting@student.codam.nl>        +#+                      */
 /*   Created: 2023/04/18 18:27:29 by jvan-hal      #+#    #+#                 */
 /*   Updated: 2023/04/21 16:08:27 by jvan-hal      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "./../lib/libft/include/ft_string.h"
+#include "msh_error.h"
+
+#include "ft_stdio.h"
+#include "ft_string.h"
 #include <unistd.h>
+
+void	msh_strerror(t_errno errno)
+{
+	char const *const	errmsg[N_ERRNO] = {
+		"Everything went better than expected.",
+		"ENDCMD_PIPE",
+		"ENDCMD_CTL",
+		"Something went wrong.",
+		"Syntax error.",
+		"NO_VARSTR",
+		"INCOMPLETE_TOKEN",
+		"Failed to open file.",
+		"Couldn't allocate memory.",};
+	
+	ft_dprintf(STDERR_FILENO, "Error: %s\n", errmsg[errno]);
+}
 
 void	print_error(char *command, char *argument, char *message)
 {

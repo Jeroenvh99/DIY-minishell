@@ -13,58 +13,72 @@
 #include "msh_parse.h"
 #include "msh.h"
 #include "msh_error.h"
+#include "msh_utils.h"
 
 #include "ft_string.h"
 
-static t_errno	parse_invalid(t_list **cmds, t_list **tokens, t_msh *msh);
-
-/*t_errno	parse(t_msh *msh, t_list **tokens)
+t_errno	parse(t_msh *msh, t_list **tokens)
 {
-	t_cmd	*cmd;
+	t_list	**pipeline;
 	t_errno	errno;
 
+	pipeline = &msh->cmds;
 	while (*tokens)
+	{
+		if (!is_ctltok((*tokens)->content))
+			errno = parse_pipeline(pipeline, tokens, msh);
+		if (errno != MSH_SUCCESS)
+			return (errno);
+	}
+	return (MSH_SUCCESS);
+}
+
+t_errno	parse_pipeline(t_list **pipeline, t_list **tokens, t_msh *msh)
+{
+	t_errno	errno;
+	t_cmd	*cmd;
+
+	while (*tokens && !is_ctltok((*tokens)->content))
 	{
 		cmd = cmd_init(0, NULL);
 		if (cmd == NULL)
 			return (MSH_MEMFAIL);
 		errno = parse_cmd(cmd, tokens, msh);
 		if (errno != MSH_SUCCESS)
-			return (cmd_free_list(cmd), errno);
-		errno = cmd_argvconvert(cmd);
+			return (list_clear(pipeline, (t_freef)cmd_free), errno);
+		errno = list_append_ptr(pipeline, cmd);
 		if (errno != MSH_SUCCESS)
-			return (cmd_free_list(cmd), errno);
-		errno = list_append_ptr(msh->cmds, cmd) != MSH_SUCCESS;
+			return (list_clear(pipeline, (t_freef)cmd_free), cmd_free(cmd),
+						errno);
+		errno = parse_pipe(cmd, tokens, msh);
 		if (errno != MSH_SUCCESS)
-			return (cmd_free(cmd), errno);
+			return (list_clear(pipeline, (t_freef)cmd_free), errno);
 	}
 	return (MSH_SUCCESS);
-}*/
-
-t_errno	parse(t_msh *msh, t_list **tokens)
-{
-	t_toktype			type;
-	t_parsefunc const	parsefuncs[N_TOK] = {
-		parse_word,
-		parse_input, parse_heredoc,
-		parse_output, parse_output_append,
-		parse_pipe, parse_and, parse_or,
-		parse_invalid};
-	t_errno				errno;
-
-	while (*tokens)
-	{
-		type = ((t_token *)(*tokens)->content)->type;
-		errno = parsefuncs[type](&msh->cmds, tokens, msh);
-		if (errno != MSH_SUCCESS)
-			return (errno);
-	}
-	return (cmd_finish(cmd_get_current(msh->cmds)));
 }
 
-static t_errno	parse_invalid(t_list **cmds, t_list **tokens, t_msh *msh)
+t_errno	parse_cmd(t_cmd *cmd, t_list **tokens, t_msh *msh)
 {
-	(void) cmds;
+	t_toktype			type;
+	t_argparsef const	argparsefs[N_TOK_ARG] = {
+		parse_word,
+		parse_input, parse_heredoc,
+		parse_output, parse_output_append};
+	t_errno				errno;
+
+	while (*tokens && is_argtok((*tokens)->content))
+	{
+		type = ((t_token *)(*tokens)->content)->type;
+		errno = argparsefs[type](cmd, tokens, msh);
+		if (errno != MSH_SUCCESS)
+			return (cmd_free_list(cmd), errno);
+	}
+	return (cmd_finish(cmd));
+}
+
+t_errno	parse_invalid(t_cmd *cmd, t_list **tokens, t_msh *msh)
+{
+	(void) cmd;
 	(void) tokens;
 	(void) msh;
 	return (MSH_SYNTAX_ERROR);
