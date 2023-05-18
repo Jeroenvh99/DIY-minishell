@@ -51,10 +51,10 @@ typedef struct s_io {
 	t_fd	err;
 }	t_io;
 
-typedef union u_argv {
+/*typedef union u_argv {
 	t_list	*list;
 	char	**array;
-}	t_argv;
+}	t_argv;*/
 
 /* Simple command object.
  * @param path	The path to the executable (or the name of the builtin).
@@ -64,9 +64,31 @@ typedef union u_argv {
  */
 typedef struct s_cmd {
 	size_t	argc;
-	t_argv	argv;
+	union u_argv {
+		t_list	*list;
+		char	**array;
+	} argv;
 	t_io	io;
 }	t_cmd;
+
+typedef struct s_cmdtree t_cmdtree;
+
+/* Command tree object.
+ * @param pipeline	The command pipeline.
+ * @param branches	The left and right-hand nodes.
+ * @param parent	The parent node.
+ * @param op		The operation to be performed
+ * NOTE: A node will only have branches if its `op` member has been set to a
+ * non-NULL value.
+ */
+struct s_cmdtree {
+	union u_data {
+		t_list		*pipeline;
+		t_cmdtree	*branches[2];
+	} u_data;
+	t_cmdtree		*parent;
+	int				op;
+};
 
 /* Shell data object.
  * @param env	The shell environment.
