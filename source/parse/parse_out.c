@@ -31,7 +31,7 @@ t_errno	parse_output(t_cmd *cmd, t_list **tokens, t_msh *msh)
 	if (errno != MSH_SUCCESS)
 		return (errno);
 	close(cmd->io.out);
-	cmd->io.out = open(path, O_WRONLY | O_CREAT);
+	cmd->io.out = open(path, O_WRONLY | O_CREAT, 00644);
 	free(path);
 	if (cmd->io.out == -1)
 		return (MSH_FILEFAIL);
@@ -48,7 +48,7 @@ t_errno	parse_output_append(t_cmd *cmd, t_list **tokens, t_msh *msh)
 	if (errno != MSH_SUCCESS)
 		return (errno);
 	close(cmd->io.out);
-	cmd->io.out = open(path, O_WRONLY | O_CREAT | O_APPEND);
+	cmd->io.out = open(path, O_WRONLY | O_CREAT | O_APPEND, 00644);
 	free(path);
 	if (cmd->io.out == -1)
 		return (MSH_FILEFAIL);
