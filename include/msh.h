@@ -6,7 +6,7 @@
 /*   By: dbasting <marvin@codam.nl>                   +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/04/18 13:51:16 by dbasting      #+#    #+#                 */
-/*   Updated: 2023/05/15 16:46:36 by dbasting      ########   odam.nl         */
+/*   Updated: 2023/05/22 08:53:31 by dbasting      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,8 +71,6 @@ typedef struct s_cmd {
 	t_io	io;
 }	t_cmd;
 
-typedef struct s_cmdtree t_cmdtree;
-
 /* Command tree object.
  * @param pipeline	The command pipeline.
  * @param branches	The left and right-hand nodes.
@@ -81,14 +79,14 @@ typedef struct s_cmdtree t_cmdtree;
  * NOTE: A node will only have branches if its `op` member has been set to a
  * non-NULL value.
  */
-struct s_cmdtree {
+typedef struct s_cmdtree {
 	union u_data {
-		t_list		*pipeline;
-		t_cmdtree	*branches[2];
+		t_list				*pipeline;
+		struct s_cmdtree	*branches[2];
 	} u_data;
-	t_cmdtree		*parent;
-	int				op;
-};
+	struct s_cmdtree		*parent;
+	int						op;
+}	t_cmdtree;
 
 /* Shell data object.
  * @param env	The shell environment.
@@ -105,10 +103,10 @@ typedef struct s_msh {
 	t_errno		errno;
 }	t_msh;
 
-// Base functions.
+/* Base functions. */
 t_errno	readcmdline(t_list **token_list, char const *prompt);
 
-// Command functions.
+/* Command functions. */
 t_cmd	*cmd_init(size_t argc, char **argv);
 t_errno	cmd_finish(t_cmd *cmd);
 void	cmd_free(t_cmd *cmd);
