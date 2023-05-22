@@ -6,7 +6,7 @@
 /*   By: dbasting <dbasting@codam.nl>                 +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/22 08:43:13 by dbasting      #+#    #+#                 */
-/*   Updated: 2023/05/22 08:43:29 by dbasting      ########   odam.nl         */
+/*   Updated: 2023/05/22 17:00:55 by dbasting      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,8 @@ void	env_unset(t_env *env, char const *name);
 char	*env_search(t_env *env, char const *name);
 
 // Utility functions.
-size_t	env_entry_get(char **envp, char const *name);
+size_t	env_entry_get(t_env *env, char const *name);
 char	*env_entry_getval(char const *entry, char const *name);
+void	env_pack(t_env *env);
 
 #endif

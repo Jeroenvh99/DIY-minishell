@@ -6,7 +6,7 @@
 /*   By: dbasting <marvin@codam.nl>                   +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/04/18 14:13:15 by dbasting      #+#    #+#                 */
-/*   Updated: 2023/05/08 15:15:21 by dbasting      ########   odam.nl         */
+/*   Updated: 2023/05/22 15:27:52 by dbasting      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,14 +19,13 @@
 #include "ft_hash.h"
 #include "ft_list.h"
 #include "ft_stdlib.h"
-
-#include "msh_debug.h"
+#include <stddef.h>
 #include <stdlib.h>
+
 #include <stdio.h>
 
 static t_errno	msh_loop(t_msh *msh);
 static t_errno	msh_init(t_msh *msh, int argc, char **argv, char **envp);
-static void		msh_deinit(t_msh *msh);
 
 int	main(int argc, char **argv, char **envp)
 {
@@ -63,6 +62,13 @@ static t_errno	msh_loop(t_msh *msh)
 	return (msh->errno);
 }
 
+void	msh_deinit(t_msh *msh)
+{
+	env_free(&msh->env);
+	hashtable_destroy(&msh->var, free);
+	list_clear(&msh->cmds, (t_freef)cmd_free);
+}
+
 static t_errno	msh_init(t_msh *msh, int argc, char **argv, char **envp)
 {
 	t_errno	errno;
@@ -78,11 +84,4 @@ static t_errno	msh_init(t_msh *msh, int argc, char **argv, char **envp)
 	msh->cmds = NULL;
 	msh->exit = 0;
 	return (MSH_SUCCESS);
-}
-
-static void	msh_deinit(t_msh *msh)
-{
-	env_free(&msh->env);
-	hashtable_destroy(&msh->var, free);
-	list_clear(&msh->cmds, (t_freef)cmd_free);
 }

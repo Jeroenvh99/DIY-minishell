@@ -6,7 +6,7 @@
 /*   By: jvan-hal <jvan-hal@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/09 15:57:34 by jvan-hal      #+#    #+#                 */
-/*   Updated: 2023/05/10 17:31:20 by jvan-hal      ########   odam.nl         */
+/*   Updated: 2023/05/22 16:41:39 by dbasting      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,8 +47,7 @@ void	env_free(t_env *env)
 	while (env->used--)
 		free(env->envp[env->used]);
 	free(env->envp);
-	env->envp = NULL;
-	env->len = 0;
+	free(env);
 }
 
 static size_t	env_len(char **envp)

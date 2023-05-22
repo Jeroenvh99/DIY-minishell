@@ -6,7 +6,7 @@
 /*   By: dbasting <marvin@codam.nl>                   +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/04/18 13:51:16 by dbasting      #+#    #+#                 */
-/*   Updated: 2023/05/22 08:53:31 by dbasting      ########   odam.nl         */
+/*   Updated: 2023/05/22 15:28:22 by dbasting      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,6 +105,7 @@ typedef struct s_msh {
 
 /* Base functions. */
 t_errno	readcmdline(t_list **token_list, char const *prompt);
+void	msh_deinit(t_msh *msh);
 
 /* Command functions. */
 t_cmd	*cmd_init(size_t argc, char **argv);

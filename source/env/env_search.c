@@ -6,7 +6,7 @@
 /*   By: jvan-hal <jvan-hal@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/09 15:57:34 by jvan-hal      #+#    #+#                 */
-/*   Updated: 2023/05/10 17:31:20 by jvan-hal      ########   odam.nl         */
+/*   Updated: 2023/05/22 14:34:52 by dbasting      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 #include <stddef.h>
 
 /* Search `env` for the variable `name`. Return a pointer to the value portion
- * of the entry concerned, or NULL if `name` was not found.
+ * of the entry in question, or NULL if `name` was not found.
  */
 char	*env_search(t_env *env, char const *name)
 {
@@ -23,7 +23,7 @@ char	*env_search(t_env *env, char const *name)
 	char	*value;
 
 	i = 0;
-	while (i < env->used)
+	while (i < env->len)
 	{
 		value = env_entry_getval(env->envp[i], name);
 		if (value)

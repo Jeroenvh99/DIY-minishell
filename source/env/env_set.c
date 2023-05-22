@@ -6,7 +6,7 @@
 /*   By: jvan-hal <jvan-hal@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/09 15:57:34 by jvan-hal      #+#    #+#                 */
-/*   Updated: 2023/05/10 17:31:20 by jvan-hal      ########   odam.nl         */
+/*   Updated: 2023/05/22 16:45:42 by dbasting      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
 #include "ft_string.h"
 #include <stdlib.h>
 
-#define REALLOC_SIZE	1
+#define REALLOC_SIZE	3
 
 static t_errno	env_append(t_env *env, char *entry);
 static t_errno	env_insert(t_env *env, char *entry);
@@ -38,7 +38,7 @@ t_errno	env_set(t_env *env, char const *entry)
 	errno = var_parse(&name, NULL, entry);
 	if (errno != MSH_SUCCESS)
 		return (free(copy), errno);
-	entry_i = env_entry_get(env->envp, name);
+	entry_i = env_entry_get(env, name);
 	free(name);
 	if (env->envp[entry_i])
 		return (env_overwrite(&env->envp[entry_i], copy));
@@ -85,7 +85,7 @@ static t_errno	env_realloc(t_env *env, char *entry)
 	nenvp[env->len] = entry;
 	env->used++;
 	env->len += REALLOC_SIZE;
-	ft_memset(&nenvp[env->used], REALLOC_SIZE * sizeof(char *), 0);
+	ft_memset(&nenvp[env->used], 0, REALLOC_SIZE * sizeof(char *));
 	free(env->envp);
 	env->envp = nenvp;
 	return (MSH_SUCCESS);
