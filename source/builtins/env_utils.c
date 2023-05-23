@@ -10,6 +10,9 @@
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "ft_string.h"
+#include <stdlib.h>
+
 #include "./../../lib/libft/include/ft_string.h"
 #include "./../../lib/libft/include/ft_stdio.h"
 #include "./../../include/minishell.h"
