@@ -52,7 +52,7 @@ t_errno	expand_var(t_expstr *expstr, size_t *exp_len, t_msh *msh)
 	name_len = get_varname(&name, &expstr->str[expstr->i + 1]);
 	if (name == NULL)
 		return (MSH_MEMFAIL);
-	exp = varsearch(name, msh->var);
+	exp = var_search(name, msh);
 	*exp_len += ft_strlen(exp);
 	free(name);
 	return (expstr_resize(expstr, name_len, exp, *exp_len));

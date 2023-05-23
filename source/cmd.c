@@ -14,6 +14,9 @@
 
 #include <stddef.h>
 #include <stdlib.h>
+#include <unistd.h>
+
+static void	cmd_free_common(t_cmd *cmd);
 
 t_cmd	*cmd_init(size_t argc, char **argv)
 {
@@ -24,6 +27,9 @@ t_cmd	*cmd_init(size_t argc, char **argv)
 		return (NULL);
 	cmd->argc = argc;
 	cmd->argv.array = argv;
+	cmd->io.in = -1;
+	cmd->io.out = -1;
+	cmd->io.err = -1;
 	return (cmd);
 }
 
@@ -32,11 +38,22 @@ void	cmd_free(t_cmd *cmd)
 	while (cmd->argc)
 		free(cmd->argv.array[--cmd->argc]);
 	free(cmd->argv.array);
-	free(cmd);
+	cmd_free_common(cmd);
 }
 
-void	cmd_destroy(t_cmd **cmd)
+void	cmd_free_list(t_cmd *cmd)
 {
-	cmd_free(*cmd);
-	*cmd = NULL;
+	list_clear(&cmd->argv.list, free);
+	cmd_free_common(cmd);
+}
+
+static void	cmd_free_common(t_cmd *cmd)
+{
+	if (cmd->io.in != STDIN_FILENO)
+		close(cmd->io.in);
+	if (cmd->io.out != STDOUT_FILENO)
+		close(cmd->io.out);
+	if (cmd->io.err != STDERR_FILENO)
+		close(cmd->io.err);
+	free(cmd);
 }

@@ -19,10 +19,11 @@
 #include <stddef.h>
 #include <stdlib.h>
 
-static t_errno		expand_loop(t_expstr *expstr, t_msh *msh);
+static t_errno		exp_loop(t_expstr *expstr, t_msh *msh);
 static inline t_expop		get_expop(char c, t_quote *lquote, size_t *exp_len);
-static inline int			expand_process_quote(char c, t_quote *lquote);
+static inline int			exp_process_quote(char c, t_quote *lquote);
 
+//Expands the string stored in `str` to a list of words. This consumes `*str`!
 t_errno	expand(t_list **words, char **str, t_msh *msh)
 {
 	t_expstr	expstr;
@@ -33,17 +34,17 @@ t_errno	expand(t_list **words, char **str, t_msh *msh)
 	if (expstr.ops == NULL)
 		return (MSH_MEMFAIL);
 	expstr.i = 0;
-	errno = expand_loop(&expstr, msh);
+	errno = exp_loop(&expstr, msh);
 	if (errno != MSH_SUCCESS)
 		return (free(expstr.str), free(expstr.ops), errno);
-	errno = expand_fieldsplit(words, &expstr);
-	free(expstr.str);
+	if (words)
+		errno = expand_fieldsplit(words, &expstr);
+	*str = expstr.str;
 	free(expstr.ops);
-	*str = NULL;
 	return (errno);
 }
 
-static t_errno	expand_loop(t_expstr *expstr, t_msh *msh)
+static t_errno	exp_loop(t_expstr *expstr, t_msh *msh)
 {
 	t_quote	lquote;
 	size_t	exp_len;
@@ -76,12 +77,12 @@ static inline t_expop	get_expop(char c, t_quote *lquote, size_t *exp_len)
 			return (EXPOP_ENDW);
 		(*exp_len)--;
 	}
-	else if (expand_process_quote(c, lquote))
+	else if (exp_process_quote(c, lquote))
 		return (EXPOP_SKIP);
 	return (EXPOP_COPY);
 }
 
-static inline int	expand_process_quote(char c, t_quote *lquote)
+static inline int	exp_process_quote(char c, t_quote *lquote)
 {
 	t_quote const	rquote = is_quote(c);
 

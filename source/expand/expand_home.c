@@ -20,7 +20,7 @@
 t_errno	expand_home(t_expstr *expstr, size_t *exp_len, t_msh *msh)
 {
 	char const	*exp;
-	
+
 	if (var_search(&exp, "HOME", msh) != MSH_SUCCESS)
 		return (MSH_MEMFAIL);
 	*exp_len += ft_strlen(exp);

@@ -60,11 +60,13 @@ t_token	*token_get_word(char const **str)
 t_token	*token_get_meta(char const **str)
 {
 	char const *const	metatokens[N_TOK_META] = {
-		TOK_PIPE_STR, TOK_STDIN_STR, TOK_HEREDOC_STR,
+		TOK_STDIN_STR, TOK_HEREDOC_STR,
 		TOK_STDOUT_STR, TOK_STDOUT_APPEND_STR,
-		TOK_AND_STR, TOK_OR_STR};
+		TOK_PIPE_STR,
+		TOK_AND_STR, TOK_OR_STR,
+		TOK_OPENPAR_STR, TOK_CLOSEPAR_STR};
 	size_t const		metatokens_len[N_TOK_META] = {
-		1, 1, 2, 1, 2, 2, 2,};
+		1, 2, 1, 2, 1, 2, 2, 1, 1};
 	t_toktype			type;
 
 	type = N_TOK_META;

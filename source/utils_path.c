@@ -1,5 +1,16 @@
-#include <stddef.h>
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        ::::::::            */
+/*   utils_path.c                                       :+:    :+:            */
+/*                                                     +:+                    */
+/*   By: dbasting <dbasting@codam.nl>                 +#+                     */
+/*                                                   +#+                      */
+/*   Created: 2023/05/22 08:45:31 by dbasting      #+#    #+#                 */
+/*   Updated: 2023/05/22 08:45:46 by dbasting      ########   odam.nl         */
+/*                                                                            */
+/* ************************************************************************** */
 
+#include <stddef.h>
 #include "ft_string.h"
 
 char	*get_path(char *pathname)

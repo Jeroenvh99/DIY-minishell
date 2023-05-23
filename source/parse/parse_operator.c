@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   parse_meta.c                                       :+:    :+:            */
+/*   parse_operator.c                                   :+:    :+:            */
 /*                                                     +:+                    */
 /*   By: dbasting <marvin@codam.nl>                   +#+                     */
 /*                                                   +#+                      */
@@ -16,20 +16,19 @@
 #include "msh_utils.h"
 
 #include "ft_list.h"
-#include <stdlib.h>
 
-t_errno	parse_and(t_list **cmds, t_list **tokens, t_msh *msh)
+t_errno	parse_and(t_cmdtree *tree, t_list **tokens, t_msh *msh)
 {
-	(void) cmds;
+	(void) tree;
 	(void) msh;
-	free(list_pop_ptr(tokens));
+	token_free(list_pop_ptr(tokens));
 	return (MSH_SUCCESS);
 }
 
-t_errno	parse_or(t_list **cmds, t_list **tokens, t_msh *msh)
+t_errno	parse_or(t_cmdtree **tree, t_list **tokens, t_msh *msh)
 {
-	(void) cmds;
+	(void) tree;
 	(void) msh;
-	free(list_pop_ptr(tokens));
+	token_free(list_pop_ptr(tokens));
 	return (MSH_SUCCESS);
 }

@@ -6,7 +6,7 @@
 /*   By: dbasting <marvin@codam.nl>                   +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/04/18 13:51:16 by dbasting      #+#    #+#                 */
-/*   Updated: 2023/05/15 16:46:36 by dbasting      ########   odam.nl         */
+/*   Updated: 2023/05/22 15:28:22 by dbasting      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 # define MSH_H
 
 # include "msh_error.h"
+# include "msh_env.h"
 
 # include "ft_hash.h"
 # include "ft_list.h"
@@ -39,32 +40,21 @@ typedef enum e_out_mode {
 
 typedef int	t_fd;
 
-typedef union u_file {
-	char	*name;
-	t_fd	fd;
-}	t_file;
-
 /* I/O information.
- * @param in		The name of the file used for input.
- * @param out		The name of the file used for output.
- * @param err		The name of the file used for errors.
- * @param in_mode	The mode in which the input stream is redirected.
- * @param out_mode	The mode in which the output stream is redirected.
- * @param err_mode	The mode in which the error stream is redirected.
+ * @param in	The file descriptor used for input.
+ * @param out	The file descriptor used for output.
+ * @param err	The file descriptor used for errors.
  */
 typedef struct s_io {
-	t_file		in;
-	t_fd		out;
-	t_fd		err;
-	t_in_mode	in_mode;
-	t_out_mode	out_mode;
-	t_out_mode	err_mode;
+	t_fd	in;
+	t_fd	out;
+	t_fd	err;
 }	t_io;
 
-typedef union u_argv {
+/*typedef union u_argv {
 	t_list	*list;
 	char	**array;
-}	t_argv;
+}	t_argv;*/
 
 /* Simple command object.
  * @param path	The path to the executable (or the name of the builtin).
@@ -74,37 +64,55 @@ typedef union u_argv {
  */
 typedef struct s_cmd {
 	size_t	argc;
-	t_argv	argv;
+	union u_argv {
+		t_list	*list;
+		char	**array;
+	} argv;
 	t_io	io;
 }	t_cmd;
 
+/* Command tree object.
+ * @param pipeline	The command pipeline.
+ * @param branches	The left and right-hand nodes.
+ * @param parent	The parent node.
+ * @param op		The operation to be performed
+ * NOTE: A node will only have branches if its `op` member has been set to a
+ * non-NULL value.
+ */
+typedef struct s_cmdtree {
+	union u_data {
+		t_list				*pipeline;
+		struct s_cmdtree	*branches[2];
+	} u_data;
+	struct s_cmdtree		*parent;
+	int						op;
+}	t_cmdtree;
+
 /* Shell data object.
  * @param env	The shell environment.
- * @param var	The shell's local variables.
+ * @param var	The shell's local variables. ## UPCOMING ##
  * @param cmds	The current command queue.
  * @param exit	The exit status of the most recently executed foreground pipe.
  * @param errno	The current error code.
  */
 typedef struct s_msh {
-	char		**env;
+	t_env		env;
 	t_hashtable	*var;
 	t_list		*cmds;
 	int			exit;
 	t_errno		errno;
 }	t_msh;
 
-/* Environment object.
- * @param envp	The array of strings.
- */
-typedef struct s_env {
-	char	**envp;
-}	t_env;
+/* Base functions. */
+t_errno	readcmdline(t_list **token_list, char const *prompt);
+void	msh_deinit(t_msh *msh);
 
-t_errno		readcmdline(t_list **token_list, char const *prompt);
-
-// Command functions.
-t_cmd		*cmd_init(size_t argc, char **argv);
-void		cmd_free(t_cmd *cmd);
-void		cmd_destroy(t_cmd **cmd);
+/* Command functions. */
+t_cmd	*cmd_init(size_t argc, char **argv);
+t_errno	cmd_finish(t_cmd *cmd);
+void	cmd_free(t_cmd *cmd);
+void	cmd_free_wrapper(void *cmd);
+void	cmd_free_list(t_cmd *cmd);
+void	cmd_destroy(t_cmd **cmd);
 
 #endif

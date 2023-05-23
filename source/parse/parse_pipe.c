@@ -19,34 +19,27 @@
 #include "ft_stdlib.h"
 #include <stddef.h>
 #include <stdlib.h>
+#include <unistd.h>
 
-static inline int	cmd_is_undef(t_cmd *cmd);
+static inline int	cmd_is_undefined(t_cmd *cmd);
 
-t_errno	parse_pipe(t_list **cmds, t_list **tokens, t_msh *msh)
+t_errno	parse_pipe(t_cmd *cmd, t_list **tokens, t_msh *msh)
 {
-	t_cmd *const	pipe_from = cmd_get_current(*cmds);
-	t_cmd			*pipe_to;
-
 	(void) msh;
-	free(list_pop_ptr(tokens));
-	if (cmd_is_undef(pipe_from))
+	if (*tokens == NULL || ((t_token *)((*tokens)->content))->type != TOK_PIPE)
+		return (MSH_SUCCESS);
+	if (cmd_is_undefined(cmd))
 		return (MSH_SYNTAX_ERROR);
-	if (cmd_argvconvert(pipe_from) != MSH_SUCCESS)
-		return (MSH_MEMFAIL);
-	if (*tokens == NULL && readcmdline(tokens, PROMPT_PIPE) != MSH_SUCCESS)
-		return (MSH_MEMFAIL);
-	pipe_to = ft_calloc(1, sizeof(t_cmd));
-	if (pipe_to == NULL)
-		return (MSH_MEMFAIL);
-	if (list_append_ptr(cmds, pipe_to) != MSH_SUCCESS)
-		return (free(pipe_to), MSH_MEMFAIL);
+	token_free(list_pop_ptr(tokens));
+	if (*tokens == NULL)
+		return (readcmdline(tokens, PROMPT_PIPE));
 	return (MSH_SUCCESS);
 }
 
-static inline int	cmd_is_undef(t_cmd *cmd)
+static inline int	cmd_is_undefined(t_cmd *cmd)
 {
-	return (!(cmd && (cmd->argv.list
-				|| cmd->io.in_mode
-				|| cmd->io.out_mode
-				|| cmd->io.err_mode)));
+	return (!cmd || (cmd->argc == 0
+			&& cmd->io.in == STDIN_FILENO
+			&& cmd->io.out == STDOUT_FILENO
+			&& cmd->io.err == STDERR_FILENO));
 }

@@ -12,70 +12,52 @@
 
 #include "msh_parse.h"
 #include "msh.h"
+#include "msh_error.h"
+#include "msh_expand.h"
 #include "msh_utils.h"
 
 #include "ft_list.h"
 #include <stddef.h>
 #include <stdlib.h>
 
-t_cmd	*cmd_get_current(t_list *cmds)
+int	is_argtok(t_token const *token)
 {
-	t_list	*cmd_node;
-
-	cmd_node = list_last(cmds);
-	if (!cmd_node)
-		return (NULL);
-	return ((t_cmd *)cmd_node->content);
+	return (token && token->type < TOK_PIPE);
 }
 
-t_errno	cmd_argvconvert(t_cmd *cmd)
+int	is_ctltok(t_token const *token)
 {
-	t_list	*argv_list;
-	size_t	size;
-	char	*word;
-
-	argv_list = cmd->argv.list;
-	cmd->argc = list_size(argv_list);
-	size = cmd->argc + 1;
-	cmd->argv.array = malloc(size * sizeof(char *));
-	if (cmd->argv.array == NULL)
-		return (list_clear(&argv_list, free), MSH_MEMFAIL);
-	cmd->argv.array[--size] = NULL;
-	while (size--)
-	{
-		word = list_pop_ptr(&argv_list);
-		cmd->argv.array[size] = word;
-	}
-	return (MSH_SUCCESS);
+	return (token && token->type >= TOK_AND && token->type < TOK_INVALID);
 }
 
 t_errno	parse_iofile(char **name, t_list **tokens, t_msh *msh)
 {
 	char	*str;
 	t_list	*words;
+	t_errno	errno;
 
 	str = token_to_str(list_pop_ptr(tokens));
 	if (!str)
 		return (MSH_SYNTAX_ERROR);
 	words = NULL;
-	if (expand(&owords, &str, msh) != MSH_SUCCESS)
-		return (list_clear(&words, free), free(str), MSH_MEMFAIL);
+	errno = expand(&words, &str, msh);
+	free(str);
+	if (errno != MSH_SUCCESS)
+		return (list_clear(&words, free), MSH_MEMFAIL);
 	if (words->next)
 		return (list_clear(&words, free), MSH_SYNTAX_ERROR);
-	free(cmd->io.out.name);
-	*name = words->content;
-	free(word);
+	*name = list_pop_ptr(&words);
+	list_clear(&words, free);
 	return (MSH_SUCCESS);
 }
 
-char	*token_to_str(t_list *token)
+char	*token_to_str(t_token *token)
 {
 	char	*str;
 
-	if (!(token && token->content))
+	if (!token)
 		return (NULL);
-	str = ((t_token *)token->content)->str;
-	free(token->content);
+	str = token->str;
 	free(token);
 	return (str);
 }
