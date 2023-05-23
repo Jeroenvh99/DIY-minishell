@@ -154,6 +154,18 @@ else
 fi
 rm ${OUT}
 
+echo 'testing -n with an argument'
+(../echo hello -n > .txt)
+diff .txt .txt > ${OUT}
+
+if [ ! -s "${OUT}" ]
+then
+	echo 'OK'
+else
+	echo 'KO'
+fi
+rm ${OUT}
+
 echo 'testing -- with an argument'
 (../echo -- > one_argument_2.txt)
 diff one_argument_2.txt one_arg_2.txt > ${OUT}

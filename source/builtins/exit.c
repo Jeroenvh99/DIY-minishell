@@ -6,7 +6,7 @@
 /*   By: jvan-hal <marvin@codam.nl>                   +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/04/18 13:45:34 by jvan-hal      #+#    #+#                 */
-/*   Updated: 2023/05/22 15:35:33 by jvan-hal      ########   odam.nl         */
+/*   Updated: 2023/05/23 12:20:43 by jvan-hal      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ int	msh_exit(t_cmd *cmd, t_msh *msh)
 		if (check_arg(cmd->argv.array[1], cmd->io->err))
 			status = ft_atoi(cmd->argv.array[1]);
 	}
-	free_msh(msh);
+	msh_deinit(msh);
 	exit(status);
 }
 

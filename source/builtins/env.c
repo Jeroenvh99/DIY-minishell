@@ -6,7 +6,7 @@
 /*   By: jvan-hal <jvan-hal@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/04/20 16:51:40 by jvan-hal      #+#    #+#                 */
-/*   Updated: 2023/05/16 14:50:18 by jvan-hal      ########   odam.nl         */
+/*   Updated: 2023/05/23 13:23:10 by jvan-hal      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,18 +31,18 @@ int	ft_isonlydash(char *str)
 	return (str[i] == '\0' && i != 2);
 }
 
-int	msh_env(int argc, char **argv, t_msh *msh)
+int	msh_env(t_cmd *cmd, t_msh *msh)
 {
 	int	i;
 
 	i = 1;
-	while (argv[i])
+	while (cmd->argv.array[i])
 	{
-		if (argc == 2 && ft_isonlydash(argv[i]))
+		if (cmd->argc == 2 && ft_isonlydash(cmd->argv.array[i]))
 			return (0);
-		if (i == argc - 1 && !(i == 1 && ft_strncmp(argv[i], "--", 3) == 0))
+		if (i == cmd->argc - 1 && !(i == 1 && ft_strncmp(cmd->argv.array[i], "--", 3) == 0))
 		{
-			env_error(2, argv[i]);
+			env_error(2, cmd->argv.array[i]);
 			return (127);
 		}
 		++i;
