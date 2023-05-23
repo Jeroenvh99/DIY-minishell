@@ -6,7 +6,7 @@
 /*   By: jvan-hal <jvan-hal@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/04/20 16:51:03 by jvan-hal      #+#    #+#                 */
-/*   Updated: 2023/05/15 16:44:38 by jvan-hal      ########   odam.nl         */
+/*   Updated: 2023/05/23 14:27:50 by jvan-hal      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 #include <fcntl.h>
 #include <unistd.h>
 
-void	exp_print_env(t_msh *msh)
+int	exp_print_env(t_msh *msh, t_cmd *cmd)
 {
 	int	i;
 	int	j;
@@ -22,7 +22,8 @@ void	exp_print_env(t_msh *msh)
 	i = 0;
 	while (msh->env[i])
 	{
-		write(msh->outfd, "declare -x ", 11);
+		if (write(cmd->io->out, "declare -x ", 11) == -1)
+			return (-1);
 		j = 0;
 		while (msh->env[i][j])
 		{
@@ -30,14 +31,15 @@ void	exp_print_env(t_msh *msh)
 				break ;
 			++j;
 		}
-		write(msh->outfd, msh->env[i], j + 1);
-		ft_printf("\"%s\"\n", msh->env[i] + j + 1);
+		if (write(cmd->io->out, msh->env[i], j + 1) == 0)
+			return (-1);
+		ft_dprintf(cmd->io->out, "\"%s\"\n", msh->env[i] + j + 1);
 		++i;
 	}
-	close(msh->outfd);
+	return (0);
 }
 
-void	realloc_env(t_msh *msh, int extra_size)
+int	realloc_env(t_msh *msh, int extra_size)
 {
 	int		i;
 	char	**new_env;
@@ -45,6 +47,8 @@ void	realloc_env(t_msh *msh, int extra_size)
 	msh->envspc += extra_size;
 	i = msh->envspc;
 	new_env = (char **)malloc(i * sizeof(char *));
+	if (!new_env)
+		return (-1);
 	--i;
 	new_env[i] = NULL;
 	i -= extra_size;
@@ -55,26 +59,34 @@ void	realloc_env(t_msh *msh, int extra_size)
 	}
 	free(msh->env);
 	msh->env = new_env;
+	return (0);
 }
 
-int	msh_export(int argc, char **argv, t_msh *msh)
+int	msh_export(t_cmd *cmd, t_msh *msh)
 {
 	int		i;
 	int		j;
 	char	*var;
 
-	if (argc == 0)
-		exp_print_env(msh);
-	i = 1;
-	while (argv[i])
+	if (cmd->argc == 0)
 	{
-		if (ft_strchr(argv[i], '-'))
-			return (0); // usage message
-		if (ft_strchr(argv[i], '='))
+		if (exp_print_env(msh, cmd) == -1)
+			return (-1);
+	}
+	i = 1;
+	while (cmd->argv.array[i])
+	{
+		if (ft_strchr(cmd->argv.array[i], '-'))
+			return (0); // invalid option
+		if (ft_strchr(cmd->argv.array[i], '='))
 		{
+			// check if the name already exists in env and update if necessary
 			if (msh->envused == msh->envspc)
-				realloc_env(msh, argc - 1 - i);
-			var = ft_strdup(argv[i]);
+			{
+				if (realloc_env(msh, cmd->argc - 1 - i) == -1)
+					return (-1);
+			}
+			var = ft_strdup(cmd->argv.array[i]);
 			msh->env[msh->envused] = var;
 			++(msh->envused);
 		}

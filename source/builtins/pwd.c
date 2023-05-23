@@ -6,7 +6,7 @@
 /*   By: jvan-hal <jvan-hal@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/04/20 16:27:41 by jvan-hal      #+#    #+#                 */
-/*   Updated: 2023/05/16 13:20:11 by jvan-hal      ########   odam.nl         */
+/*   Updated: 2023/05/23 13:29:35 by jvan-hal      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,10 +14,12 @@
 #include <stdlib.h>
 #include <unistd.h>
 
-int	msh_pwd(int argc, char **argv)
+int	msh_pwd(t_cmd *cmd, t_msh *msh)
 {
 	char	*buf;
 
+	(void)cmd;
+	(void)msh;
 	buf = NULL;
 	buf = getcwd(buf, 0);
 	if (buf)

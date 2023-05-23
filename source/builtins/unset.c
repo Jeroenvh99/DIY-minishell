@@ -6,7 +6,7 @@
 /*   By: jvan-hal <jvan-hal@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/04/20 16:50:13 by jvan-hal      #+#    #+#                 */
-/*   Updated: 2023/05/15 17:54:43 by jvan-hal      ########   odam.nl         */
+/*   Updated: 2023/05/23 13:28:29 by jvan-hal      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,24 +15,19 @@
 #include "./../../include/minishell.h"
 #include <stdlib.h>
 
-int	msh_unset(int argc, char **argv, t_msh *msh)
+int	msh_unset(t_cmd *cmd, t_msh *msh)
 {
 	int	i;
 	int	j;
 
-	if (argc == 1)
+	if (cmd->argc == 1)
 		return (0);
 	i = 1;
-	while (argv[i])
+	while (cmd->argv.array[i])
 	{
-		if (!ft_strchr(argv[i], '-'))
+		if (!ft_strchr(cmd->argv.array[i], '-'))
 		{
-			j = remove_var(argv[i], msh->env);
-			while (msh->env[j + 1])
-			{
-				msh->env[j] = msh->env[j + 1];
-				++j;
-			}
+			j = remove_var(cmd->argv.array[i], msh->env);
 			msh->env[j] = NULL;
 			++i;
 		}
