@@ -6,7 +6,7 @@
 /*   By: jvan-hal <marvin@codam.nl>                   +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/04/18 13:45:34 by jvan-hal      #+#    #+#                 */
-/*   Updated: 2023/05/10 17:54:40 by jvan-hal      ########   odam.nl         */
+/*   Updated: 2023/05/22 15:35:33 by jvan-hal      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,14 +16,14 @@
 #include <stdlib.h>
 #include <unistd.h>
 
-int	check_arg(char *str)
+int	check_arg(char *str, int errfd)
 {
 	while (*str)
 	{
 		if (ft_isalpha(*str))
 		{
-			write(2, "exit\n", 5);
-			print_error("exit", argv[1], "numeric argument required");
+			write(errfd, "exit\n", 5);
+			ft_dprintf(errfd, "msh: %s: exit: numeric argument required", str);
 			return (0);
 		}
 		++str;
@@ -31,22 +31,22 @@ int	check_arg(char *str)
 	return (1);
 }
 
-int	msh_exit(int argc, char **argv, t_msh *msh)
+int	msh_exit(t_cmd *cmd, t_msh *msh)
 {
 	int	status;
 
 	status = 0;
-	if (argc > 2)
+	if (cmd->argc > 2)
 	{
-		write(2, "exit\n", 5);
-		print_error("exit", NULL, "too many arguments");
+		write(cmd->io->err, "exit\n", 5);
+		ft_dprintf(cmd->io->err, "msh: exit: too many arguments");
+		msh->status = 1;
 		return (1);
 	}
-	else if (argc == 2)
+	else if (cmd->argc == 2)
 	{
-		if (!check_arg(argv[1]))
-			return (1);
-		status = ft_atoi(argv[1]);
+		if (check_arg(cmd->argv.array[1], cmd->io->err))
+			status = ft_atoi(cmd->argv.array[1]);
 	}
 	free_msh(msh);
 	exit(status);
