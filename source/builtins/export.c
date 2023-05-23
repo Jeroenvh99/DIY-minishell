@@ -6,7 +6,7 @@
 /*   By: jvan-hal <jvan-hal@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/04/20 16:51:03 by jvan-hal      #+#    #+#                 */
-/*   Updated: 2023/05/12 16:09:54 by jvan-hal      ########   odam.nl         */
+/*   Updated: 2023/05/15 16:44:38 by jvan-hal      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,41 +22,39 @@ void	exp_print_env(t_msh *msh)
 	i = 0;
 	while (msh->env[i])
 	{
-		write(fd, "declare -x ", 11);
+		write(msh->outfd, "declare -x ", 11);
 		j = 0;
 		while (msh->env[i][j])
 		{
 			if (msh->env[i][j] == '=')
-			{
-				++j;
 				break ;
-			}
 			++j;
 		}
-		write(fd, msh->env[i], j);
-		ft_printf("\"%s\"\n", msh->env[i] + j);
+		write(msh->outfd, msh->env[i], j + 1);
+		ft_printf("\"%s\"\n", msh->env[i] + j + 1);
 		++i;
 	}
-	close(fd);
+	close(msh->outfd);
 }
 
-char	**realloc_env(char **env, int curr_size, int extra_size)
+void	realloc_env(t_msh *msh, int extra_size)
 {
 	int		i;
 	char	**new_env;
 
-	i = curr_size + extra_size;
+	msh->envspc += extra_size;
+	i = msh->envspc;
 	new_env = (char **)malloc(i * sizeof(char *));
 	--i;
 	new_env[i] = NULL;
 	i -= extra_size;
 	while (i > -1)
 	{
-		new_env[i] = env[i];
+		new_env[i] = msh->env[i];
 		--i;
 	}
-	free(env);
-	return (new_env);
+	free(msh->env);
+	msh->env = new_env;
 }
 
 int	msh_export(int argc, char **argv, t_msh *msh)
@@ -65,31 +63,24 @@ int	msh_export(int argc, char **argv, t_msh *msh)
 	int		j;
 	char	*var;
 
-	// check for invalid input
 	if (argc == 0)
-	{
 		exp_print_env(msh);
-		return (0);
-	}
-	else
+	i = 1;
+	while (argv[i])
 	{
-		i = 0;
-		while (argc[i])
+		if (ft_strchr(argv[i], '-'))
+			return (0); // usage message
+		if (ft_strchr(argv[i], '='))
 		{
-			if (msh->envused < msh->envspc)
-			{
-				var = hashtable_pop(msh->loc_var, argc[i]);
-				msh->env[msh->envused] = var;
-				++(msh->envused);
-				++i;
-			}
-			else
-			{
-				msh->env = realloc_env(msh->env, msh->envspc, argc - 1);
-				msh->envspc += argc - 1;
-			}
+			if (msh->envused == msh->envspc)
+				realloc_env(msh, argc - 1 - i);
+			var = ft_strdup(argv[i]);
+			msh->env[msh->envused] = var;
+			++(msh->envused);
 		}
+		++i;
 	}
+	return (0);
 }
 
 int	main(int argc, char **argv, char **envp)

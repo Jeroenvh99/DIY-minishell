@@ -62,6 +62,54 @@ else
 fi
 rm ${OUT}
 
+echo 'testing -f(invalid option)'
+(../echo -f > inv_opt.txt)
+diff inv_opt.txt invalid_opt.txt > ${OUT}
+
+if [ ! -s "${OUT}" ]
+then
+	echo 'OK'
+else
+	echo 'KO'
+	echo 'your output: '
+	cat inv_opt.txt
+	echo 'expected output: '
+	cat invalid_opt.txt
+fi
+rm ${OUT}
+
+echo 'testing -f(invalid option) with an argument'
+(../echo -f hello > inv_opt_arg.txt)
+diff inv_opt_arg.txt invalid_opt_arg.txt > ${OUT}
+
+if [ ! -s "${OUT}" ]
+then
+	echo 'OK'
+else
+	echo 'KO'
+	echo 'your output: '
+	cat inv_opt_arg.txt
+	echo 'expected output: '
+	cat invalid_opt_arg.txt
+fi
+rm ${OUT}
+
+echo 'testing -ng without an argument'
+(../echo -ng > inv_opt_2.txt)
+diff inv_opt_2.txt invalid_opt_2.txt > ${OUT}
+
+if [ ! -s "${OUT}" ]
+then
+	echo 'OK'
+else
+	echo 'KO'
+	echo 'your output: '
+	cat inv_opt_2.txt
+	echo 'expected output: '
+	cat invalid_opt_2.txt
+fi
+rm ${OUT}
+
 echo 'testing -nnnnn without an argument'
 (../echo -nnnnn > just_no_nl.txt)
 diff just_no_nl.txt no_nl_error.txt > ${OUT}
@@ -71,6 +119,10 @@ then
 	echo 'OK'
 else
 	echo 'KO'
+	echo 'your output: '
+	cat just_no_nl.txt
+	echo 'expected output: '
+	cat no_nl_error.txt
 fi
 rm ${OUT}
 
@@ -83,12 +135,28 @@ then
 	echo 'OK'
 else
 	echo 'KO'
+	echo 'your output: '
+	cat just_no_nl.txt
+	echo 'expected output: '
+	cat no_nl_error.txt
 fi
 rm ${OUT}
 
 echo 'testing -n with an argument'
 (../echo -n hello > no_newline.txt)
 diff no_newline.txt no_nl.txt > ${OUT}
+
+if [ ! -s "${OUT}" ]
+then
+	echo 'OK'
+else
+	echo 'KO'
+fi
+rm ${OUT}
+
+echo 'testing -- with an argument'
+(../echo -- > one_argument_2.txt)
+diff one_argument_2.txt one_arg_2.txt > ${OUT}
 
 if [ ! -s "${OUT}" ]
 then
