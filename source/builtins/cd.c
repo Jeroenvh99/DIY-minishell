@@ -6,7 +6,7 @@
 /*   By: jvan-hal <jvan-hal@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/04/20 16:52:40 by jvan-hal      #+#    #+#                 */
-/*   Updated: 2023/05/16 14:46:56 by jvan-hal      ########   odam.nl         */
+/*   Updated: 2023/05/17 15:17:42 by jvan-hal      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,19 +86,19 @@ char	*get_dstdir(int argc, char **argv, t_msh *msh)
 	return (dstdir);
 }
 
-int	msh_cd(int argc, char **argv, t_msh *msh)
+int	msh_cd(t_cmd *cmd, t_msh *msh)
 {
 	char	*dstdir;
 	char	*newdir;
 	char	*buf;
 	int		i;
 
-	if (argc > 1 && !ft_strnstr(argv[1], "-", 2) && !ft_strnstr(argv[1], "--", 3))
+	if (cmd->argc > 1 && !ft_strnstr(argv[1], "-", 2) && !ft_strnstr(argv[1], "--", 3))
 	{
 		ft_dprintf(msh->outfd, "msh: cd: %s: invalid argument\ncd: usage: cd [-|--] [dir]\n");
 		return (0);
 	}
-	dstdir = get_dstdir(argc, argv, msh);
+	dstdir = get_dstdir(cmd->argc, argv, msh);
 	if (dstdir[0] == '/')
 		newdir = ft_strdup(dstdir);
 	else

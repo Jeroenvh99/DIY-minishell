@@ -8,6 +8,7 @@ Voorlopige indeling van de variabelenopslag-struct (env en lokale):
 	N.B. execve() vereist envp als char ** waarbij iedere variabele de vorm `<naam>=<waarde>` heeft. Conversiefunctie?
 
 ## executor
+Voor forken env consolideren
 Vier opties:
 1. geen pad, naam is builtin: Voer builtin uit.
 2. geen pad, naam is geen builtin: Zoek $PATH af naar naam; voer uit indien gevonden.
