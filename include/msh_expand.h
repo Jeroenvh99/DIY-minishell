@@ -71,6 +71,6 @@ t_errno	expand_spec_shname(t_expstr *expstr, size_t *exp_len, t_msh *msh);
 
 // Miscellaneous functions.
 t_errno	expstr_resize(t_expstr *expstr, size_t name_len, char const *exp,
-		size_t exp_len);
+			size_t exp_len);
 
 #endif

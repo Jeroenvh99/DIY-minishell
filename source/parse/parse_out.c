@@ -21,43 +21,36 @@
 #include <stdlib.h>
 #include <unistd.h>
 
-t_errno	parse_output(t_list **cmds, t_list **tokens, t_msh *msh)
+t_errno	parse_output(t_cmd *cmd, t_list **tokens, t_msh *msh)
 {
-	t_cmd	*cmd;
 	char	*path;
 	t_errno	errno;
 
-	free(list_pop_ptr(tokens));
-	cmd = cmd_get_current(*cmds);
-	cmd->io.out_mode = OUT_REDIRECT;
-	path = NULL;
+	token_free(list_pop_ptr(tokens));
 	errno = parse_iofile(&path, tokens, msh);
 	if (errno != MSH_SUCCESS)
-		return (free(path), errno);
+		return (errno);
 	close(cmd->io.out);
-	cmd->io.out = open(path, O_WRONLY | O_CREAT);
+	cmd->io.out = open(path, O_WRONLY | O_CREAT, 00644);
 	free(path);
-	if (cmd->io.out < 0)
+	if (cmd->io.out == -1)
 		return (MSH_FILEFAIL);
 	return (MSH_SUCCESS);
 }
 
-t_errno	parse_output_append(t_list **cmds, t_list **tokens, t_msh *msh)
+t_errno	parse_output_append(t_cmd *cmd, t_list **tokens, t_msh *msh)
 {
-	t_cmd	*cmd;
 	char	*path;
 	t_errno	errno;
 
-	free(list_pop_ptr(tokens));
-	cmd = cmd_get_current(*cmds);
-	cmd->io.out_mode = OUT_APPEND;
-	path = NULL;
+	token_free(list_pop_ptr(tokens));
 	errno = parse_iofile(&path, tokens, msh);
 	if (errno != MSH_SUCCESS)
-		return (free(path), errno);
-	cmd->io.out = open(path, O_WRONLY | O_CREAT);
+		return (errno);
+	close(cmd->io.out);
+	cmd->io.out = open(path, O_WRONLY | O_CREAT | O_APPEND, 00644);
 	free(path);
-	if (cmd->io.out < 0)
+	if (cmd->io.out == -1)
 		return (MSH_FILEFAIL);
 	return (MSH_SUCCESS);
 }

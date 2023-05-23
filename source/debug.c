@@ -23,29 +23,38 @@ void	token_view(t_token *token)
 	printf("TOKEN: (%d) %s\n", token->type, token->str);
 }
 
+void	tokens_view(t_list *tokens)
+{
+	while (tokens)
+	{
+		token_view(tokens->content);
+		tokens = tokens->next;
+	}
+}
+
 void	cmd_view(t_cmd *cmd)
 {
 	size_t	i;
 
-	printf("COMMAND:\n"
-		"- argc: %zu\n"
-		"- argv:", cmd->argc);
+	printf("> COMMAND:\n"
+		"  - argc: %zu\n"
+		"  - argv:", cmd->argc);
 	i = 0;
 	while (i < cmd->argc)
 		printf(" <%s>", cmd->argv.array[i++]);
-	printf("\n- input: %s (mode %d)\n"
-		"- output: %s (mode %d)\n"
-		"- error: %s (mode %d)\n",
-		cmd->io.in.name, cmd->io.in_mode,
-		cmd->io.out.name, cmd->io.out_mode,
-		cmd->io.err.name, cmd->io.err_mode);
+	printf("\n  - input: %d\n"
+		"  - output: %d\n"
+		"  - error: %d\n",
+		cmd->io.in, cmd->io.out, cmd->io.err);
 }
 
 void	cmds_view(t_list *cmds)
 {
+	printf("PIPELINE:\n");
 	while (cmds)
 	{
 		cmd_view(cmds->content);
 		cmds = cmds->next;
 	}
+	printf("---------\n");
 }
