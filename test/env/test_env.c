@@ -6,7 +6,7 @@
 /*   By: dbasting <marvin@codam.nl>                   +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/22 15:41:23 by dbasting      #+#    #+#                 */
-/*   Updated: 2023/05/22 17:30:23 by dbasting      ########   odam.nl         */
+/*   Updated: 2023/05/23 10:33:30 by dbasting      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@ static void	env_view(t_env *env);
 
 int	main(int argc, char **argv, char **envp)
 {
+	t_env	*env;
 	t_errno	errno;
 
 	(void) argc;
@@ -58,6 +59,8 @@ static void	env_test_interactive(t_env *env)
 			env_view(env);
 		else if (line[0] == '-')
 			env_unset_wrapper(env, line + 1);
+		else if (ft_strchr(line, '=') == NULL)
+			dprintf(2, "- Value of %s: %s\n", line, env_search(env, line));
 		else
 			env_set_wrapper(env, line);
 		free(line);
@@ -73,10 +76,7 @@ static void	env_set_wrapper(t_env *env, char *line)
 	errno = var_parse(&keyval[0], &keyval[1], line);
 	if (errno != MSH_SUCCESS)
 		return (free(keyval[0]), free(keyval[1]));
-	if (keyval[1] && keyval[1][0] == '\0')
-		printf("- Value of %s: %s\n", keyval[0], env_search(env, keyval[0]));
-	else
-		errno = env_set(env, line);
+	errno = env_set(env, line);
 	free(keyval[0]);
 	free(keyval[1]);
 }
@@ -91,14 +91,15 @@ static void	env_view(t_env *env)
 {
 	size_t	i;
 
-	printf("ENVIRONMENT at %p:\n", env);
+	dprintf(2, "ENVIRONMENT at %p:\n", env);
 	if (!env)
 		return ;
-	printf("len = %zu\nused = %zu\nenvp (%p):\n", env->len, env->used, env->envp);
+	dprintf(2, "len = %zu\nused = %zu\nenvp (%p):\n", env->len, env->used, env->envp);
 	i = 0;
 	while (i < env->len + 1)
 	{
-		printf("> (%p) %s\n", env->envp[i], env->envp[i]);
+		dprintf(2, "> ");
+		ft_printf("%s\n", env->envp[i]);
 		i++;
 	}
 }
