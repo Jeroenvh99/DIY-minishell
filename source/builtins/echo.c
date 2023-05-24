@@ -6,11 +6,12 @@
 /*   By: jvan-hal <jvan-hal@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/04/18 15:16:12 by jvan-hal      #+#    #+#                 */
-/*   Updated: 2023/05/24 11:47:01 by jvan-hal      ########   odam.nl         */
+/*   Updated: 2023/05/24 13:07:21 by jvan-hal      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "./../../lib/libft/include/ft_string.h"
+#include "ft_string.h"
+#include "msh.h"
 #include <unistd.h>
 
 int	msh_echo(t_cmd *cmd, t_msh *msh)
