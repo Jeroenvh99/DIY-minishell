@@ -26,7 +26,7 @@ void	assert_echo_case(t_cmd *cmd, char *expected)
 	cr_assert_stdout_eq_str(expected);
 }
 
-TestSuite(echo, .init=redirect_stdout);
+TestSuite(echo);
 
 Test(echo, input_empty)
 {
