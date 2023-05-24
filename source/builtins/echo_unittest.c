@@ -16,6 +16,11 @@
 # include <criterion/assert.h>
 # include <criterion/internal/assert.h>
 
+void redirect_stdout(void)
+{
+    cr_redirect_stdout();
+}
+
 void	assert_echo_case(t_cmd *cmd, char *expected)
 {
 	t_msh	msh;
@@ -26,14 +31,15 @@ void	assert_echo_case(t_cmd *cmd, char *expected)
 	cr_assert_stdout_eq_str(expected);
 }
 
-TestSuite(echo);
+TestSuite(echo, .init=redirect_stdout);
 
 Test(echo, input_empty)
 {
 	t_cmd cmd;
 
-	cmd.argv.array = {"echo", NULL};
-	cmd.io.out = 1;
+	char		*input[] = {"echo", NULL};
 	char		*expected = "\n";
+	cmd.argv.array = input;
+	cmd.io.out = 1;
 	assert_echo_case(&cmd, expected);
 }
