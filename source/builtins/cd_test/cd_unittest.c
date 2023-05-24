@@ -16,27 +16,19 @@
 # include <criterion/assert.h>
 # include <criterion/internal/assert.h>
 
-TestSuite(pwd, .init=redirect_all_std);
+// Test(cd, no_arg_with_home)
+// {
+// 	t_msh	msh;
+// 	t_cmd	cmd;
 
-void	assert_pwd_cases(char **in, t_status expected_status)
-{
-	char		*cwd;
-	t_msh	shell;
+// 	char	*environ[] = {"HOME=/tmp/cd-no_arg_with_home", NULL};
+// 	char	*input[] = {"cd", NULL};
+// 	cmd.argv.array = input;
+// 	msh.env = environ;
 
-	bzero(&shell, sizeof(t_minishell));
-	cwd = realpath(".", NULL);
-	if (!cwd)
-		return ;
-	cwd = ft_strjoin_free(cwd, "\n");
-	msh_pwd(in, &shell);
-	fflush(stdout);
-	cr_assert_stdout_eq_str(cwd);
-	cr_assert_eq(shell.status, expected_status);
-	free(cwd);
-}
-
-Test(pwd, no_arg)
-{
-	char	*in[] = {"pwd", NULL};
-	assert_pwd_cases(in, E_USAGE);
-}
+// 	system("mkdir /tmp/cd-no_arg_with_home");
+// 	msh_cd(&cmd, &msh);
+// 	//check if working directory changed
+// 	system("rmdir /tmp/cd-no_arg_with_home");
+// 	dict_destroy(&shell.env);
+// }
