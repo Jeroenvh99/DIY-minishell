@@ -6,7 +6,7 @@
 /*   By: jvan-hal <jvan-hal@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/04/18 15:16:12 by jvan-hal      #+#    #+#                 */
-/*   Updated: 2023/05/24 13:07:21 by jvan-hal      ########   odam.nl         */
+/*   Updated: 2023/05/24 13:19:03 by jvan-hal      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,12 +32,12 @@ int	msh_echo(t_cmd *cmd, t_msh *msh)
 		}
 		else
 		{
-			if (write(cmd->io->out, cmd->argv.array[i],
+			if (write(cmd->io.out, cmd->argv.array[i],
 					ft_strlen(cmd->argv.array[i])) == -1)
 				return (-1);
 			if (cmd->argv.array[i + 1])
 			{
-				if (write(cmd->io->out, " ", 1) == -1)
+				if (write(cmd->io.out, " ", 1) == -1)
 					return (-1);
 			}
 			content = 1;
@@ -46,7 +46,7 @@ int	msh_echo(t_cmd *cmd, t_msh *msh)
 	}
 	if (newline)
 	{
-		if (write(cmd->io->out, "\n", 1) == -1)
+		if (write(cmd->io.out, "\n", 1) == -1)
 			return (-1);
 	}
 	return (0);

@@ -33,6 +33,7 @@ Test(echo, input_empty)
 	t_cmd cmd;
 
 	cmd.argv.array = {"echo", NULL};
+	cmd.io.out = 1;
 	char		*expected = "\n";
 	assert_echo_case(&cmd, expected);
 }
