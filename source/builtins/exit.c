@@ -6,7 +6,7 @@
 /*   By: jvan-hal <marvin@codam.nl>                   +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/04/18 13:45:34 by jvan-hal      #+#    #+#                 */
-/*   Updated: 2023/05/23 12:20:43 by jvan-hal      ########   odam.nl         */
+/*   Updated: 2023/05/23 15:05:59 by jvan-hal      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,6 @@ int	msh_exit(t_cmd *cmd, t_msh *msh)
 	{
 		write(cmd->io->err, "exit\n", 5);
 		ft_dprintf(cmd->io->err, "msh: exit: too many arguments");
-		msh->status = 1;
 		return (1);
 	}
 	else if (cmd->argc == 2)

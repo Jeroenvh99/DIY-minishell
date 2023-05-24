@@ -1,0 +1,22 @@
+name: minishell test
+run-name: checking if pr by ${{ github.actor }} passes all tests
+on:
+  pull_request:
+    branches: [ master ]
+jobs:
+  unit-test:
+    timeout-minutes: 10
+    runs-on: macos-latest
+
+    steps:
+    - name: Clone repository
+      uses: actions/checkout@v3
+    - name: Install Dependencies
+      run: |
+        brew update
+        brew install readline
+        brew install criterion
+    # - name: build minishell
+    #   run: make
+    - name: run minishell tests
+      run: make test

@@ -6,7 +6,7 @@
 #    By: dbasting <marvin@codam.nl>                   +#+                      #
 #                                                    +#+                       #
 #    Created: 2022/12/28 12:06:53 by dbasting      #+#    #+#                  #
-#    Updated: 2023/05/15 15:38:26 by dbasting      ########   odam.nl          #
+#    Updated: 2023/05/24 11:23:01 by jvan-hal      ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -95,3 +95,6 @@ fclean: clean
 	@rm -f $(NAME)
 
 re: fclean all
+
+test:
+	cc source/builtins/echo_unittest.c source/builtins/libft.a && a.out

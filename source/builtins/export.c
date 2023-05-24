@@ -6,7 +6,7 @@
 /*   By: jvan-hal <jvan-hal@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/04/20 16:51:03 by jvan-hal      #+#    #+#                 */
-/*   Updated: 2023/05/23 14:27:50 by jvan-hal      ########   odam.nl         */
+/*   Updated: 2023/05/23 17:03:30 by jvan-hal      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,11 +62,40 @@ int	realloc_env(t_msh *msh, int extra_size)
 	return (0);
 }
 
-int	msh_export(t_cmd *cmd, t_msh *msh)
+int	env_empty_loc(t_msh *msh)
 {
-	int		i;
+	int	j;
+
+	j = 0;
+	while (msh->env[j] && j <= msh->envused)
+		++j;
+	return (j);
+}
+
+void	write_new_var(t_cmd *cmd, t_msh *msh, int i)
+{
 	int		j;
 	char	*var;
+
+	// check if the name already exists in env and update if necessary
+	j = get_var_index(cmd->argv.array[i], msh->env);
+	if (j)
+	{
+		var = ft_strjoin(msh->env[j], ft_strchr(cmd->argv.array[i], '=') + 1);
+		free(msh->env[j]);
+	}
+	else
+	{
+		j = env_empty_loc(msh);
+		var = ft_strdup(cmd->argv.array[i]);
+	}
+	msh->env[j] = var;
+	++(msh->envused);
+}
+
+int	msh_export(t_cmd *cmd, t_msh *msh)
+{
+	int	i;
 
 	if (cmd->argc == 0)
 	{
@@ -80,15 +109,12 @@ int	msh_export(t_cmd *cmd, t_msh *msh)
 			return (0); // invalid option
 		if (ft_strchr(cmd->argv.array[i], '='))
 		{
-			// check if the name already exists in env and update if necessary
 			if (msh->envused == msh->envspc)
 			{
 				if (realloc_env(msh, cmd->argc - 1 - i) == -1)
 					return (-1);
 			}
-			var = ft_strdup(cmd->argv.array[i]);
-			msh->env[msh->envused] = var;
-			++(msh->envused);
+			write_new_var(cmd, msh, i);
 		}
 		++i;
 	}

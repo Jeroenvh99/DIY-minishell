@@ -6,17 +6,14 @@
 /*   By: jvan-hal <jvan-hal@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/09 15:57:34 by jvan-hal      #+#    #+#                 */
-/*   Updated: 2023/05/23 10:54:36 by jvan-hal      ########   odam.nl         */
+/*   Updated: 2023/05/23 16:53:01 by jvan-hal      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft_string.h"
-#include <stdlib.h>
-
-#include "./../../lib/libft/include/ft_string.h"
-#include "./../../lib/libft/include/ft_stdio.h"
+#include "./../../include/msh_error.h"
 #include "./../../include/minishell.h"
-#include "./../../header/msh_error.h"
+#include "./../../lib/libft/include/ft_stdio.h"
+#include "./../../lib/libft/include/ft_string.h"
 #include <stdlib.h>
 
 int	env_size(char **env)
@@ -58,6 +55,31 @@ void	print_2d_arr(char **arr)
 	}
 }
 
+int	get_var_index(char *name, char **env)
+{
+	int	i;
+	int	j;
+
+	i = 0;
+	while (env[i])
+	{
+		j = 0;
+		while (name[j] && env[i][j] && name[j] != '=' && env[i][j] != '=')
+		{
+			if ((name[j] == '+' && name[j + 1] == '=')
+				|| (name[j] != env[i][j]))
+				break ;
+			++j;
+		}
+		if (env[i][j] == '=')
+			break ;
+		++i;
+	}
+	if (env[i])
+		return (i);
+	return (0);
+}
+
 t_errno	get_env_var(char *name, char **value, char **env)
 {
 	int		i;
@@ -66,9 +88,6 @@ t_errno	get_env_var(char *name, char **value, char **env)
 	varname = ft_strjoin(name, "=");
 	if (!varname)
 		return (MSH_MEMFAIL);
-	i = 0;
-	while (env[i] && !ft_strnstr(env[i], varname, ft_strlen(varname)))
-		++i;
 	free(varname);
 	if (env[i])
 		*value = ft_strchr(env[i], '=') + 1;

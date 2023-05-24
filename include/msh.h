@@ -6,7 +6,7 @@
 /*   By: dbasting <marvin@codam.nl>                   +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/04/18 13:51:16 by dbasting      #+#    #+#                 */
-/*   Updated: 2023/05/22 15:28:22 by dbasting      ########   odam.nl         */
+/*   Updated: 2023/05/24 11:48:15 by jvan-hal      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,5 +114,8 @@ void	cmd_free(t_cmd *cmd);
 void	cmd_free_wrapper(void *cmd);
 void	cmd_free_list(t_cmd *cmd);
 void	cmd_destroy(t_cmd **cmd);
+
+/* builtin functions. */
+int	msh_echo(t_cmd *cmd, t_msh *msh);
 
 #endif
