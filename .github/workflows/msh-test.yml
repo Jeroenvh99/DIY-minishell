@@ -14,9 +14,8 @@ jobs:
     - name: Install Dependencies
       run: |
         brew update
-        brew install readline
         brew install criterion
-    # - name: build minishell
-    #   run: make
-    - name: run minishell tests
-      run: make test
+    - name: run echo tests
+      run: make test_echo
+    - name: run pwd tests
+      run: make test_pwd
