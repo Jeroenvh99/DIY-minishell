@@ -17,7 +17,17 @@ jobs:
       run: |
         brew update
         brew install criterion
+    - name: run cd tests
+      run: make test_cd
     - name: run echo tests
       run: make test_echo
+    - name: run env tests
+      run: make test_env
+    - name: run exit tests
+      run: make test_exit
+    - name: run export tests
+      run: make test_export
     - name: run pwd tests
       run: make test_pwd
+    - name: run unset tests
+      run: make test_unset

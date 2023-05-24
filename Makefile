@@ -6,7 +6,7 @@
 #    By: dbasting <marvin@codam.nl>                   +#+                      #
 #                                                    +#+                       #
 #    Created: 2022/12/28 12:06:53 by dbasting      #+#    #+#                  #
-#    Updated: 2023/05/24 13:41:58 by jvan-hal      ########   odam.nl          #
+#    Updated: 2023/05/24 16:15:36 by jvan-hal      ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -76,7 +76,7 @@ all: $(NAME)
 bonus: $(NAME)
 	@echo "Bonus is basis, vrind."
 
-$(NAME): $(addprefix $(OBJ_DIR),$(OBJ_FILES)) $(addprefix $(LIB_DIR),$(LIB_FILES))
+$(NAME): $(addpreix $(OBJ_DIR),$(OBJ_FILES)) $(addprefix $(LIB_DIR),$(LIB_FILES))
 	@$(CC) $(CFLAGS) $^ -lreadline -o $@
 
 $(OBJ_DIR)%.o: $(SRC_DIR)%.c $(addprefix $(HDR_DIR),$(HDR_FILES))
@@ -96,9 +96,37 @@ fclean: clean
 
 re: fclean all
 
+test_cd:
+	$(MAKE) -j -C lib/libft
+	cc $(CFLAGS) -lcriterion source/builtins/cd.c source/builtins/cd_test/cd_unittest.c lib/libft/libft.a && ./a.out
+	rm a.out
+
 test_echo:
 	$(MAKE) -j -C lib/libft
-	cc $(CFLAGS) -lcriterion source/builtins/echo.c source/builtins/echo_unittest.c lib/libft/libft.a && ./a.out
+	cc $(CFLAGS) -lcriterion source/builtins/echo.c source/builtins/echo_test/echo_unittest.c lib/libft/libft.a && ./a.out
+	rm a.out
+
+test_env:
+	$(MAKE) -j -C lib/libft
+	cc $(CFLAGS) -lcriterion source/builtins/env.c source/builtins/env_test/env_unittest.c lib/libft/libft.a && ./a.out
+	rm a.out
+
+test_exit:
+	$(MAKE) -j -C lib/libft
+	cc $(CFLAGS) -lcriterion source/builtins/exit.c source/builtins/exit_test/exit_unittest.c lib/libft/libft.a && ./a.out
+	rm a.out
+
+test_export:
+	$(MAKE) -j -C lib/libft
+	cc $(CFLAGS) -lcriterion source/builtins/export.c source/builtins/export_test/export_unittest.c lib/libft/libft.a && ./a.out
+	rm a.out
 
 test_pwd:
-	cc source/builtins/pwd.c source/builtins/pwd_unittest.c source/builtins/libft.a && ./a.out
+	$(MAKE) -j -C lib/libft
+	cc $(CFLAGS) -lcriterion source/builtins/pwd.c source/builtins/pwd_test/pwd_unittest.c lib/libft/libft.a && ./a.out
+	rm a.out
+
+test_unset:
+	$(MAKE) -j -C lib/libft
+	cc $(CFLAGS) -lcriterion source/builtins/unset.c source/builtins/unset_test/unset_unittest.c lib/libft/libft.a && ./a.out
+	rm a.out
