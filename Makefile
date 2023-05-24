@@ -6,7 +6,7 @@
 #    By: dbasting <marvin@codam.nl>                   +#+                      #
 #                                                    +#+                       #
 #    Created: 2022/12/28 12:06:53 by dbasting      #+#    #+#                  #
-#    Updated: 2023/05/24 12:47:00 by jvan-hal      ########   odam.nl          #
+#    Updated: 2023/05/24 12:50:08 by jvan-hal      ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -97,7 +97,7 @@ fclean: clean
 re: fclean all
 
 test_echo:
-	$(MAKE) -j -C .lib/libft
+	$(MAKE) -j -C lib/libft
 	cc source/builtins/echo.c source/builtins/echo_unittest.c lib/libft/libft.a && ./a.out
 
 test_pwd:
