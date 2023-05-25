@@ -6,13 +6,29 @@
 /*   By: jvan-hal <jvan-hal@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/04/18 15:16:12 by jvan-hal      #+#    #+#                 */
-/*   Updated: 2023/05/24 13:19:03 by jvan-hal      ########   odam.nl         */
+/*   Updated: 2023/05/25 11:12:04 by jvan-hal      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_string.h"
 #include "msh.h"
 #include <unistd.h>
+
+int	check_n_opt(char *str)
+{
+	int	i;
+
+	i = 0;
+	while (str[i])
+	{
+		if (i == 0 && str[i] != '-')
+			return (0);
+		if (i > 0 && str[i] != 'n')
+			return (0);
+		++i;
+	}
+	return (1);
+}
 
 int	msh_echo(t_cmd *cmd, t_msh *msh)
 {
@@ -26,7 +42,7 @@ int	msh_echo(t_cmd *cmd, t_msh *msh)
 	content = 0;
 	while (cmd->argv.array[i])
 	{
-		if (content == 0 && ft_strncmp(cmd->argv.array[i], "-n", 3) == 0)
+		if (content == 0 && check_n_opt(cmd->argv.array[i]))
 		{
 			newline = 0;
 		}
