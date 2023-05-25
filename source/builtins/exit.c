@@ -6,13 +6,13 @@
 /*   By: jvan-hal <marvin@codam.nl>                   +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/04/18 13:45:34 by jvan-hal      #+#    #+#                 */
-/*   Updated: 2023/05/23 15:05:59 by jvan-hal      ########   odam.nl         */
+/*   Updated: 2023/05/25 12:25:51 by jvan-hal      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "./../../include/minishell.h"
-#include "./../../lib/libft/include/ft_ctype.h"
-#include "./../../lib/libft/include/ft_stdlib.h"
+#include "ft_ctype.h"
+#include "ft_stdlib.h"
+#include "minishell.h"
 #include <stdlib.h>
 #include <unistd.h>
 
@@ -22,8 +22,8 @@ int	check_arg(char *str, int errfd)
 	{
 		if (ft_isalpha(*str))
 		{
-			write(errfd, "exit\n", 5);
-			ft_dprintf(errfd, "msh: %s: exit: numeric argument required", str);
+			ft_dprintf(errfd, "exit\nmsh:
+					%s: exit: numeric argument required\n", str);
 			return (0);
 		}
 		++str;
@@ -38,20 +38,21 @@ int	msh_exit(t_cmd *cmd, t_msh *msh)
 	status = 0;
 	if (cmd->argc > 2)
 	{
-		write(cmd->io->err, "exit\n", 5);
-		ft_dprintf(cmd->io->err, "msh: exit: too many arguments");
+		ft_dprintf(cmd->io->err, "exit\nmsh: exit: too many arguments\n");
 		return (1);
 	}
 	else if (cmd->argc == 2)
 	{
 		if (check_arg(cmd->argv.array[1], cmd->io->err))
 			status = ft_atoi(cmd->argv.array[1]);
+		else
+			status = 255;
 	}
 	msh_deinit(msh);
 	exit(status);
 }
 
-int	main(int argc, char **argv)
-{
-	msh_exit(argc, argv);
-}
+// int	main(int argc, char **argv)
+// {
+// 	msh_exit(argc, argv);
+// }

@@ -6,7 +6,7 @@
 /*   By: jvan-hal <jvan-hal@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/04/20 16:51:40 by jvan-hal      #+#    #+#                 */
-/*   Updated: 2023/05/23 13:23:10 by jvan-hal      ########   odam.nl         */
+/*   Updated: 2023/05/25 12:10:58 by jvan-hal      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,35 +51,35 @@ int	msh_env(t_cmd *cmd, t_msh *msh)
 	return (0);
 }
 
-int	main(int argc, char **argv, char **envp)
-{
-	t_msh	*msh;
-	char	**test_args;
+// int	main(int argc, char **argv, char **envp)
+// {
+// 	t_msh	*msh;
+// 	char	**test_args;
 
-	msh = (t_msh *)malloc(sizeof(t_msh));
-	msh->env = copy_env(envp);
+// 	msh = (t_msh *)malloc(sizeof(t_msh));
+// 	msh->env = copy_env(envp);
 
-	test_args = (char **)malloc(sizeof(char *) * 2);
-	ft_printf("testing \"env\"\n");
-	test_args[0] = ft_strdup("env");
-	test_args[1] = NULL;
-	free(test_args[0]);
-	free(test_args);
-	test_args = (char **)malloc(sizeof(char *) * 3);
-	ft_printf("testing \"env a\"\n");
-	test_args[0] = ft_strdup("env");
-	test_args[1] = ft_strdup("a");
-	test_args[2] = NULL;
-	msh_env(2, test_args, msh);
-	ft_printf("\n\n");
-	ft_printf("testing \"env -\"\n");
-	free(test_args[1]);
-	test_args[1] = ft_strdup("-");
-	msh_env(2, test_args, msh);
-	ft_printf("\n\n");
-	ft_printf("testing \"env --\"\n");
-	free(test_args[1]);
-	test_args[1] = ft_strdup("--");
-	msh_env(2, test_args, msh);
-	ft_printf("\n\n");
-}
+// 	test_args = (char **)malloc(sizeof(char *) * 2);
+// 	ft_printf("testing \"env\"\n");
+// 	test_args[0] = ft_strdup("env");
+// 	test_args[1] = NULL;
+// 	free(test_args[0]);
+// 	free(test_args);
+// 	test_args = (char **)malloc(sizeof(char *) * 3);
+// 	ft_printf("testing \"env a\"\n");
+// 	test_args[0] = ft_strdup("env");
+// 	test_args[1] = ft_strdup("a");
+// 	test_args[2] = NULL;
+// 	msh_env(2, test_args, msh);
+// 	ft_printf("\n\n");
+// 	ft_printf("testing \"env -\"\n");
+// 	free(test_args[1]);
+// 	test_args[1] = ft_strdup("-");
+// 	msh_env(2, test_args, msh);
+// 	ft_printf("\n\n");
+// 	ft_printf("testing \"env --\"\n");
+// 	free(test_args[1]);
+// 	test_args[1] = ft_strdup("--");
+// 	msh_env(2, test_args, msh);
+// 	ft_printf("\n\n");
+// }

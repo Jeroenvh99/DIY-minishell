@@ -66,6 +66,28 @@ Test(echo, input_one_1)
 	assert_echo_case(&cmd, expected);
 }
 
+Test(echo, input_one_2)
+{
+	t_cmd cmd;
+
+	char	*input[] = {"echo", "\n", NULL};
+	char	*expected = "\n\n";
+	cmd.argv.array = input;
+	cmd.io.out = 1;
+	assert_echo_case(&cmd, expected);
+}
+
+Test(echo, input_one_3)
+{
+	t_cmd cmd;
+
+	char	*input[] = {"echo", " ", NULL};
+	char	*expected = " \n";
+	cmd.argv.array = input;
+	cmd.io.out = 1;
+	assert_echo_case(&cmd, expected);
+}
+
 Test(echo, input_two_0)
 {
 	t_cmd cmd;
@@ -83,6 +105,17 @@ Test(echo, input_two_1)
 
 	char	*input[] = {"echo", "hello", "-n", NULL};
 	char	*expected = "hello -n\n";
+	cmd.argv.array = input;
+	cmd.io.out = 1;
+	assert_echo_case(&cmd, expected);
+}
+
+Test(echo, input_five_0)
+{
+	t_cmd cmd;
+
+	char	*input[] = {"echo", "text", "", "text", "", "hi" NULL};
+	char	*expected = "text  text  hi\n";
 	cmd.argv.array = input;
 	cmd.io.out = 1;
 	assert_echo_case(&cmd, expected);

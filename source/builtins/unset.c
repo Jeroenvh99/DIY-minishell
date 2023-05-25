@@ -6,7 +6,7 @@
 /*   By: jvan-hal <jvan-hal@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/04/20 16:50:13 by jvan-hal      #+#    #+#                 */
-/*   Updated: 2023/05/23 13:28:29 by jvan-hal      ########   odam.nl         */
+/*   Updated: 2023/05/25 12:10:52 by jvan-hal      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,14 +36,14 @@ int	msh_unset(t_cmd *cmd, t_msh *msh)
 	return (0);
 }
 
-int	main(int argc, char **argv, char **envp)
-{
-	t_msh *msh;
-	msh = (t_msh *)malloc(sizeof(t_msh));
-	msh->env = copy_env(envp);
-	msh->envspc = env_size(envp);
-	msh->envused = msh->envspc;
+// int	main(int argc, char **argv, char **envp)
+// {
+// 	t_msh *msh;
+// 	msh = (t_msh *)malloc(sizeof(t_msh));
+// 	msh->env = copy_env(envp);
+// 	msh->envspc = env_size(envp);
+// 	msh->envused = msh->envspc;
 
-	msh_unset(argc, argv, msh);
-	print_2d_arr(msh->env);
-}
+// 	msh_unset(argc, argv, msh);
+// 	print_2d_arr(msh->env);
+// }
