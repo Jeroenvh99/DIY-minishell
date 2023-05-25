@@ -116,6 +116,7 @@ void	cmd_free_list(t_cmd *cmd);
 void	cmd_destroy(t_cmd **cmd);
 
 /* builtin functions. */
+int	msh_cd(t_cmd *cmd, t_msh *msh);
 int	msh_echo(t_cmd *cmd, t_msh *msh);
 int	msh_pwd(t_cmd *cmd, t_msh *msh);
 
