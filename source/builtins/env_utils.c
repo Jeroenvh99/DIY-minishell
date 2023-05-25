@@ -6,7 +6,7 @@
 /*   By: jvan-hal <jvan-hal@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/09 15:57:34 by jvan-hal      #+#    #+#                 */
-/*   Updated: 2023/05/23 16:53:01 by jvan-hal      ########   odam.nl         */
+/*   Updated: 2023/05/25 16:44:08 by jvan-hal      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,14 +43,14 @@ char	**copy_env(char **env)
 	return (new_env);
 }
 
-void	print_2d_arr(char **arr)
+void	print_2d_arr(int fd, char **arr)
 {
 	int	i;
 
 	i = 0;
 	while (arr[i])
 	{
-		ft_printf("%s\n", arr[i]);
+		ft_dprintf(fd, "%s\n", arr[i]);
 		++i;
 	}
 }

@@ -114,7 +114,7 @@ Test(echo, input_five_0)
 {
 	t_cmd cmd;
 
-	char	*input[] = {"echo", "text", "", "text", "", "hi" NULL};
+	char	*input[] = {"echo", "text", "", "text", "", "hi", NULL};
 	char	*expected = "text  text  hi\n";
 	cmd.argv.array = input;
 	cmd.io.out = 1;

@@ -27,6 +27,7 @@ Test(cd, no_arg_with_home)
 	char	*input[] = {"cd", NULL};
 
 	buf = NULL;
+	cmd.argc = 1;
 	cmd.argv.array = input;
 	msh.env = environ;
 	system("mkdir /tmp/cd-no_arg_with_home");

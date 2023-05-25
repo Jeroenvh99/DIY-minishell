@@ -6,7 +6,7 @@
 /*   By: jvan-hal <jvan-hal@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/04/18 15:16:12 by jvan-hal      #+#    #+#                 */
-/*   Updated: 2023/05/25 11:32:17 by jvan-hal      ########   odam.nl         */
+/*   Updated: 2023/05/25 16:20:48 by jvan-hal      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,8 +69,3 @@ int	msh_echo(t_cmd *cmd, t_msh *msh)
 	}
 	return (0);
 }
-
-// int	main(int argc, char **argv)
-// {
-// 	msh_echo(argc, argv);
-// }
