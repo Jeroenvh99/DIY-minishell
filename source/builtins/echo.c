@@ -6,7 +6,7 @@
 /*   By: jvan-hal <jvan-hal@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/04/18 15:16:12 by jvan-hal      #+#    #+#                 */
-/*   Updated: 2023/05/25 11:26:13 by jvan-hal      ########   odam.nl         */
+/*   Updated: 2023/05/25 11:28:45 by jvan-hal      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ int	check_n_opt(char *str)
 	return (1);
 }
 
-int	write_args(t_cmd *cmd, int i)
+void	write_args(t_cmd *cmd, int i)
 {
 	while (cmd->argv.array[i])
 	{
