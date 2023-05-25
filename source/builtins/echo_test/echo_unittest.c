@@ -44,7 +44,7 @@ Test(echo, input_empty)
 	assert_echo_case(&cmd, expected);
 }
 
-Test(echo, input_one)
+Test(echo, input_one_0)
 {
 	t_cmd cmd;
 
@@ -55,7 +55,7 @@ Test(echo, input_one)
 	assert_echo_case(&cmd, expected);
 }
 
-Test(echo, input_one)
+Test(echo, input_one_1)
 {
 	t_cmd cmd;
 
@@ -66,7 +66,7 @@ Test(echo, input_one)
 	assert_echo_case(&cmd, expected);
 }
 
-Test(echo, input_two)
+Test(echo, input_two_0)
 {
 	t_cmd cmd;
 
@@ -77,7 +77,7 @@ Test(echo, input_two)
 	assert_echo_case(&cmd, expected);
 }
 
-Test(echo, input_two)
+Test(echo, input_two_1)
 {
 	t_cmd cmd;
 
@@ -88,7 +88,7 @@ Test(echo, input_two)
 	assert_echo_case(&cmd, expected);
 }
 
-Test(echo, input_n_opt)
+Test(echo, input_n_opt_0)
 {
 	t_cmd cmd;
 
@@ -99,7 +99,7 @@ Test(echo, input_n_opt)
 	assert_echo_case(&cmd, expected);
 }
 
-Test(echo, input_n_opt)
+Test(echo, input_n_opt_1)
 {
 	t_cmd cmd;
 
@@ -110,7 +110,7 @@ Test(echo, input_n_opt)
 	assert_echo_case(&cmd, expected);
 }
 
-Test(echo, input_n_opt)
+Test(echo, input_n_opt_2)
 {
 	t_cmd cmd;
 
@@ -121,7 +121,7 @@ Test(echo, input_n_opt)
 	assert_echo_case(&cmd, expected);
 }
 
-Test(echo, input_n_opt_arg)
+Test(echo, input_n_opt_arg_0)
 {
 	t_cmd cmd;
 
@@ -132,7 +132,7 @@ Test(echo, input_n_opt_arg)
 	assert_echo_case(&cmd, expected);
 }
 
-Test(echo, input_inv_opt)
+Test(echo, input_inv_opt_0)
 {
 	t_cmd cmd;
 
@@ -143,7 +143,7 @@ Test(echo, input_inv_opt)
 	assert_echo_case(&cmd, expected);
 }
 
-Test(echo, input_inv_opt)
+Test(echo, input_inv_opt_1)
 {
 	t_cmd cmd;
 
