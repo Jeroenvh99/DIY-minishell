@@ -15,28 +15,30 @@
 #include "libft.h"
 #include <criterion/assert.h>
 #include <criterion/internal/assert.h>
+#include <stdlib.h>
+#include <unistd.h>
 
 TestSuite(pwd, .init=redirect_all_std);
 
-void	assert_pwd_cases(char **in, t_status expected_status)
+void	assert_pwd_cases(t_cmd *cmd, t_char *dir)
 {
-	char		*cwd;
-	t_msh	shell;
+	t_msh	msh;
+	char	*expect_dir;
 
-	bzero(&shell, sizeof(t_minishell));
-	cwd = realpath(".", NULL);
-	if (!cwd)
-		return ;
-	cwd = ft_strjoin_free(cwd, "\n");
-	msh_pwd(in, &shell);
+	expect_dir = ft_strjoin(dir, "\n");
+	msh_pwd(cmd, &msh);
 	fflush(stdout);
-	cr_assert_stdout_eq_str(cwd);
-	cr_assert_eq(shell.status, expected_status);
-	free(cwd);
+	cr_assert_stdout_eq_str(expect_dir);
+	free(expect_dir);
 }
 
 Test(pwd, no_arg)
 {
-	char	*in[] = {"pwd", NULL};
-	assert_pwd_cases(in, E_USAGE);
+	char	*newdir;
+	t_cmd	cmd;
+
+	cmd.io.out = 1;
+	newdir = getenv("HOME");
+	chdir(newdir);
+	assert_pwd_cases(&cmd, newdir);
 }

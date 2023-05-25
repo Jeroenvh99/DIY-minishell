@@ -37,8 +37,8 @@ Test(echo, input_empty)
 {
 	t_cmd cmd;
 
-	char		*input[] = {"echo", NULL};
-	char		*expected = "\n";
+	char	*input[] = {"echo", NULL};
+	char	*expected = "\n";
 	cmd.argv.array = input;
 	cmd.io.out = 1;
 	assert_echo_case(&cmd, expected);
@@ -48,8 +48,8 @@ Test(echo, input_one)
 {
 	t_cmd cmd;
 
-	char		*input[] = {"echo", "hello", NULL};
-	char		*expected = "hello\n";
+	char	*input[] = {"echo", "hello", NULL};
+	char	*expected = "hello\n";
 	cmd.argv.array = input;
 	cmd.io.out = 1;
 	assert_echo_case(&cmd, expected);
@@ -59,8 +59,8 @@ Test(echo, input_one)
 {
 	t_cmd cmd;
 
-	char		*input[] = {"echo", "--", NULL};
-	char		*expected = "--\n";
+	char	*input[] = {"echo", "--", NULL};
+	char	*expected = "--\n";
 	cmd.argv.array = input;
 	cmd.io.out = 1;
 	assert_echo_case(&cmd, expected);
@@ -70,8 +70,8 @@ Test(echo, input_two)
 {
 	t_cmd cmd;
 
-	char		*input[] = {"echo", "hi", "again", NULL};
-	char		*expected = "hi again\n";
+	char	*input[] = {"echo", "hi", "again", NULL};
+	char	*expected = "hi again\n";
 	cmd.argv.array = input;
 	cmd.io.out = 1;
 	assert_echo_case(&cmd, expected);
@@ -81,8 +81,8 @@ Test(echo, input_two)
 {
 	t_cmd cmd;
 
-	char		*input[] = {"echo", "hello", "-n", NULL};
-	char		*expected = "hello -n\n";
+	char	*input[] = {"echo", "hello", "-n", NULL};
+	char	*expected = "hello -n\n";
 	cmd.argv.array = input;
 	cmd.io.out = 1;
 	assert_echo_case(&cmd, expected);
@@ -92,8 +92,8 @@ Test(echo, input_n_opt)
 {
 	t_cmd cmd;
 
-	char		*input[] = {"echo", "-n", NULL};
-	char		*expected = "";
+	char	*input[] = {"echo", "-n", NULL};
+	char	*expected = "";
 	cmd.argv.array = input;
 	cmd.io.out = 1;
 	assert_echo_case(&cmd, expected);
@@ -103,8 +103,8 @@ Test(echo, input_n_opt)
 {
 	t_cmd cmd;
 
-	char		*input[] = {"echo", "-nnnnnnn", NULL};
-	char		*expected = "";
+	char	*input[] = {"echo", "-nnnnnnn", NULL};
+	char	*expected = "";
 	cmd.argv.array = input;
 	cmd.io.out = 1;
 	assert_echo_case(&cmd, expected);
@@ -114,8 +114,8 @@ Test(echo, input_n_opt)
 {
 	t_cmd cmd;
 
-	char		*input[] = {"echo", "-n -n -n -n", NULL};
-	char		*expected = "";
+	char	*input[] = {"echo", "-n", "-n", "-n", "-n", NULL};
+	char	*expected = "";
 	cmd.argv.array = input;
 	cmd.io.out = 1;
 	assert_echo_case(&cmd, expected);
@@ -125,8 +125,8 @@ Test(echo, input_n_opt_arg)
 {
 	t_cmd cmd;
 
-	char		*input[] = {"echo", "-n", "hello", NULL};
-	char		*expected = "hello";
+	char	*input[] = {"echo", "-n", "hello", NULL};
+	char	*expected = "hello";
 	cmd.argv.array = input;
 	cmd.io.out = 1;
 	assert_echo_case(&cmd, expected);
@@ -136,8 +136,8 @@ Test(echo, input_inv_opt)
 {
 	t_cmd cmd;
 
-	char		*input[] = {"echo", "-f", NULL};
-	char		*expected = "-f\n";
+	char	*input[] = {"echo", "-f", NULL};
+	char	*expected = "-f\n";
 	cmd.argv.array = input;
 	cmd.io.out = 1;
 	assert_echo_case(&cmd, expected);
@@ -147,8 +147,8 @@ Test(echo, input_inv_opt)
 {
 	t_cmd cmd;
 
-	char		*input[] = {"echo", "-ng", NULL};
-	char		*expected = "-ng\n";
+	char	*input[] = {"echo", "-ng", NULL};
+	char	*expected = "-ng\n";
 	cmd.argv.array = input;
 	cmd.io.out = 1;
 	assert_echo_case(&cmd, expected);
