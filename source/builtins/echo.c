@@ -6,7 +6,7 @@
 /*   By: jvan-hal <jvan-hal@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/04/18 15:16:12 by jvan-hal      #+#    #+#                 */
-/*   Updated: 2023/05/25 11:28:45 by jvan-hal      ########   odam.nl         */
+/*   Updated: 2023/05/25 11:32:17 by jvan-hal      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ int	check_n_opt(char *str)
 	return (1);
 }
 
-void	write_args(t_cmd *cmd, int i)
+int	write_args(t_cmd *cmd, int i)
 {
 	while (cmd->argv.array[i])
 	{
@@ -44,6 +44,7 @@ void	write_args(t_cmd *cmd, int i)
 		}
 		++i;
 	}
+	return (0);
 }
 
 int	msh_echo(t_cmd *cmd, t_msh *msh)
@@ -59,7 +60,8 @@ int	msh_echo(t_cmd *cmd, t_msh *msh)
 		newline = 0;
 		++i;
 	}
-	write_args(cmd, i);
+	if (write_args(cmd, i) == -1)
+		return (-1);
 	if (newline)
 	{
 		if (write(cmd->io.out, "\n", 1) == -1)
