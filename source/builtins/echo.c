@@ -6,7 +6,7 @@
 /*   By: jvan-hal <jvan-hal@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/04/18 15:16:12 by jvan-hal      #+#    #+#                 */
-/*   Updated: 2023/05/25 11:12:04 by jvan-hal      ########   odam.nl         */
+/*   Updated: 2023/05/25 11:26:13 by jvan-hal      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,36 +30,36 @@ int	check_n_opt(char *str)
 	return (1);
 }
 
+int	write_args(t_cmd *cmd, int i)
+{
+	while (cmd->argv.array[i])
+	{
+		if (write(cmd->io.out, cmd->argv.array[i],
+				ft_strlen(cmd->argv.array[i])) == -1)
+			return (-1);
+		if (cmd->argv.array[i + 1])
+		{
+			if (write(cmd->io.out, " ", 1) == -1)
+				return (-1);
+		}
+		++i;
+	}
+}
+
 int	msh_echo(t_cmd *cmd, t_msh *msh)
 {
 	int	i;
 	int	newline;
-	int	content;
 
 	(void)msh;
 	i = 1;
 	newline = 1;
-	content = 0;
-	while (cmd->argv.array[i])
+	while (cmd->argv.array[i] && check_n_opt(cmd->argv.array[i]))
 	{
-		if (content == 0 && check_n_opt(cmd->argv.array[i]))
-		{
-			newline = 0;
-		}
-		else
-		{
-			if (write(cmd->io.out, cmd->argv.array[i],
-					ft_strlen(cmd->argv.array[i])) == -1)
-				return (-1);
-			if (cmd->argv.array[i + 1])
-			{
-				if (write(cmd->io.out, " ", 1) == -1)
-					return (-1);
-			}
-			content = 1;
-		}
+		newline = 0;
 		++i;
 	}
+	write_args(cmd, i);
 	if (newline)
 	{
 		if (write(cmd->io.out, "\n", 1) == -1)

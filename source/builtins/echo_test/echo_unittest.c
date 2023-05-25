@@ -126,7 +126,7 @@ Test(echo, input_n_opt_arg_0)
 	t_cmd cmd;
 
 	char	*input[] = {"echo", "-n", "hello", NULL};
-	char	*expected = "hello ";
+	char	*expected = "hello";
 	cmd.argv.array = input;
 	cmd.io.out = 1;
 	assert_echo_case(&cmd, expected);
