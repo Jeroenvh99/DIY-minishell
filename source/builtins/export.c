@@ -6,11 +6,11 @@
 /*   By: jvan-hal <jvan-hal@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/04/20 16:51:03 by jvan-hal      #+#    #+#                 */
-/*   Updated: 2023/05/25 16:21:06 by jvan-hal      ########   odam.nl         */
+/*   Updated: 2023/05/25 18:22:28 by jvan-hal      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "./../../lib/libft/include/ft_stdio.h"
+#include "ft_stdio.h"
 #include <fcntl.h>
 #include <unistd.h>
 
@@ -31,7 +31,7 @@ int	exp_print_env(t_msh *msh, t_cmd *cmd)
 				break ;
 			++j;
 		}
-		if (write(cmd->io->out, msh->env[i], j + 1) == 0)
+		if (write(cmd->io->out, msh->env[i], j + 1) == -1)
 			return (-1);
 		ft_dprintf(cmd->io->out, "\"%s\"\n", msh->env[i] + j + 1);
 		++i;
@@ -44,8 +44,8 @@ int	realloc_env(t_msh *msh, int extra_size)
 	int		i;
 	char	**new_env;
 
-	msh->envspc += extra_size;
-	i = msh->envspc;
+	msh->env.len += extra_size;
+	i = msh->env.len;
 	new_env = (char **)malloc(i * sizeof(char *));
 	if (!new_env)
 		return (-1);
@@ -67,7 +67,7 @@ int	env_empty_loc(t_msh *msh)
 	int	j;
 
 	j = 0;
-	while (msh->env[j] && j <= msh->envused)
+	while (msh->env[j] && j <= msh->used)
 		++j;
 	return (j);
 }
@@ -90,7 +90,7 @@ void	write_new_var(t_cmd *cmd, t_msh *msh, int i)
 		var = ft_strdup(cmd->argv.array[i]);
 	}
 	msh->env[j] = var;
-	++(msh->envused);
+	++(msh->env.used);
 }
 
 int	msh_export(t_cmd *cmd, t_msh *msh)
@@ -109,7 +109,7 @@ int	msh_export(t_cmd *cmd, t_msh *msh)
 			return (0); // invalid option
 		if (ft_strchr(cmd->argv.array[i], '='))
 		{
-			if (msh->envused == msh->envspc)
+			if (msh->env.used == msh->env.len)
 			{
 				if (realloc_env(msh, cmd->argc - 1 - i) == -1)
 					return (-1);

@@ -6,7 +6,7 @@
 /*   By: dbasting <marvin@codam.nl>                   +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/04/18 13:51:16 by dbasting      #+#    #+#                 */
-/*   Updated: 2023/05/25 12:10:48 by jvan-hal      ########   odam.nl         */
+/*   Updated: 2023/05/25 18:08:58 by jvan-hal      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,6 +114,14 @@ void	cmd_free(t_cmd *cmd);
 void	cmd_free_wrapper(void *cmd);
 void	cmd_free_list(t_cmd *cmd);
 void	cmd_destroy(t_cmd **cmd);
+
+/* env utils. */
+char	**copy_env(char **env);
+int		env_size(char **env);
+void	print_2d_arr(int fd, char **arr);
+void	print_error(char *command, char *argument, char *message);
+t_errno	get_env_var(char *name, char **value, char **env);
+int		remove_var(char *name, char **env);
 
 /* builtin functions. */
 int		msh_cd(t_cmd *cmd, t_msh *msh);

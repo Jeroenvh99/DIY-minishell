@@ -29,5 +29,5 @@ jobs:
     #   run: make test_export
     - name: run pwd tests
       run: make test_pwd
-    # - name: run unset tests
-    #   run: make test_unset
+    - name: run unset tests
+      run: make test_unset

@@ -18,7 +18,12 @@
 #include <stdlib.h>
 #include <unistd.h>
 
-TestSuite(pwd, .init=redirect_all_std);
+void redirect_stdout(void)
+{
+    cr_redirect_stdout();
+}
+
+TestSuite(pwd, .init=redirect_stdout);
 
 void	assert_pwd_cases(t_cmd *cmd, t_char *dir)
 {

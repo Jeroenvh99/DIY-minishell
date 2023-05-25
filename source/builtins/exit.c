@@ -6,13 +6,12 @@
 /*   By: jvan-hal <marvin@codam.nl>                   +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/04/18 13:45:34 by jvan-hal      #+#    #+#                 */
-/*   Updated: 2023/05/25 16:20:58 by jvan-hal      ########   odam.nl         */
+/*   Updated: 2023/05/25 18:11:13 by jvan-hal      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_ctype.h"
 #include "ft_stdlib.h"
-#include "minishell.h"
 #include <stdlib.h>
 #include <unistd.h>
 

@@ -6,13 +6,13 @@
 /*   By: jvan-hal <jvan-hal@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/04/20 16:51:40 by jvan-hal      #+#    #+#                 */
-/*   Updated: 2023/05/25 16:43:45 by jvan-hal      ########   odam.nl         */
+/*   Updated: 2023/05/25 18:09:54 by jvan-hal      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_string.h"
 #include "ft_stdio.h"
-#include "minishell.h"
+#include "msh.h"
 #include <stdio.h>
 #include <stdlib.h>
 

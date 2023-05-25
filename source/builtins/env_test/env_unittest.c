@@ -34,7 +34,7 @@ void	assert_env_case(t_cmd *cmd, char *expected)
 	char	*environ[] = {"LOGNAME=jvan-hal", NULL};
 
 	bzero(&msh, sizeof(msh));
-	msh.env = environ;
+	msh.env.envp = environ;
 	msh_env(cmd, &msh);
 	fflush(stdout);
 	cr_assert_stdout_eq_str(expected);
@@ -46,7 +46,7 @@ void	assert_env_case_error(t_cmd *cmd, char *expected)
 	char	*environ[] = {"LOGNAME=jvan-hal", NULL};
 
 	bzero(&msh, sizeof(msh));
-	msh.env = environ;
+	msh.env.envp = environ;
 	msh_env(cmd, &msh);
 	fflush(stderr);
 	cr_assert_stderr_eq_str(expected);
@@ -59,7 +59,7 @@ void	assert_env_status(t_cmd *cmd, int expected)
 	int		status;
 
 	bzero(&msh, sizeof(msh));
-	msh.env = environ;
+	msh.env.envp = environ;
 	status = msh_env(cmd, &msh);
 	cr_assert_eq(status, expected);
 }
