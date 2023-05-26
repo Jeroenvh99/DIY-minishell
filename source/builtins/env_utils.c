@@ -6,7 +6,7 @@
 /*   By: jvan-hal <jvan-hal@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/09 15:57:34 by jvan-hal      #+#    #+#                 */
-/*   Updated: 2023/05/26 16:58:32 by jvan-hal      ########   odam.nl         */
+/*   Updated: 2023/05/26 17:24:29 by jvan-hal      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,12 +84,17 @@ t_errno	get_env_var(char *name, char **value, char **env)
 	int		i;
 	char	*varname;
 
+	i = 0;
 	varname = ft_strjoin(name, "=");
 	if (!varname)
 		return (MSH_MEMFAIL);
-	free(varname);
+	while (env[i] && !ft_strnstr(env[i], varname, ft_strlen(varname)))
+		++i;
 	if (env[i])
 		*value = ft_strchr(env[i], '=') + 1;
+	else
+		return (MSH_NO_VARSTR);
+	free(varname);
 	return (MSH_SUCCESS);
 }
 
