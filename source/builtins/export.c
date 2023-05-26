@@ -6,7 +6,7 @@
 /*   By: jvan-hal <jvan-hal@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/04/20 16:51:03 by jvan-hal      #+#    #+#                 */
-/*   Updated: 2023/05/25 18:22:28 by jvan-hal      ########   odam.nl         */
+/*   Updated: 2023/05/26 17:00:32 by jvan-hal      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,7 @@ void	write_new_var(t_cmd *cmd, t_msh *msh, int i)
 	int		j;
 	char	*var;
 
-	// check if the name already exists in env and update if necessary
+	// check if the name already exists in env and update if necessary, += adds, -= gives an error
 	j = get_var_index(cmd->argv.array[i], msh->env);
 	if (j)
 	{
@@ -97,7 +97,7 @@ int	msh_export(t_cmd *cmd, t_msh *msh)
 {
 	int	i;
 
-	if (cmd->argc == 0)
+	if (cmd->argc == 1)
 	{
 		if (exp_print_env(msh, cmd) == -1)
 			return (-1);

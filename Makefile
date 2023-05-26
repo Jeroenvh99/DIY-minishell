@@ -6,7 +6,7 @@
 #    By: dbasting <marvin@codam.nl>                   +#+                      #
 #                                                    +#+                       #
 #    Created: 2022/12/28 12:06:53 by dbasting      #+#    #+#                  #
-#    Updated: 2023/05/24 16:15:36 by jvan-hal      ########   odam.nl          #
+#    Updated: 2023/05/26 16:19:55 by jvan-hal      ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -98,7 +98,7 @@ re: fclean all
 
 test_cd:
 	$(MAKE) -j -C lib/libft
-	cc $(CFLAGS) -lcriterion source/builtins/cd.c source/builtins/cd_test/cd_unittest.c lib/libft/libft.a && ./a.out
+	cc $(CFLAGS) -lcriterion source/builtins/cd.c source/builtins/env_utils.c source/builtins/cd_test/cd_unittest.c lib/libft/libft.a && ./a.out
 	rm a.out
 
 test_echo:
@@ -108,7 +108,7 @@ test_echo:
 
 test_env:
 	$(MAKE) -j -C lib/libft
-	cc $(CFLAGS) -lcriterion source/builtins/env.c source/builtins/env_test/env_unittest.c lib/libft/libft.a && ./a.out
+	cc $(CFLAGS) -lcriterion source/builtins/env.c source/builtins/env_utils.c source/builtins/env_test/env_unittest.c lib/libft/libft.a && ./a.out
 	rm a.out
 
 test_exit:
@@ -128,5 +128,5 @@ test_pwd:
 
 test_unset:
 	$(MAKE) -j -C lib/libft
-	cc $(CFLAGS) -lcriterion source/builtins/unset.c source/builtins/unset_test/unset_unittest.c lib/libft/libft.a && ./a.out
+	cc $(CFLAGS) -lcriterion source/builtins/unset.c source/builtins/env_utils.c source/builtins/unset_test/unset_unittest.c lib/libft/libft.a && ./a.out
 	rm a.out

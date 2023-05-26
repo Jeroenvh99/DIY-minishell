@@ -16,6 +16,25 @@
 #include <criterion/assert.h>
 #include <criterion/internal/assert.h>
 
+void redirect_stdout(void)
+{
+    cr_redirect_stdout();
+}
+
+void	assert_unset_case(t_cmd *cmd, char *expected)
+{
+	t_msh	msh;
+	char	*environ[] = {"HOME=/tmp/cd-no_arg_with_home", "SHLVL=2", "LANG=en_US.UTF-8", NULL};
+
+	bzero(&msh, sizeof(msh));
+	msh.env.envp = environ;
+	msh.env.len = 3;
+	msh_unset(cmd, &msh);
+	print_2d_arr(msh.env.envp);
+	fflush(stdout);
+	cr_assert_stdout_eq_str(expected);
+}
+
 void	assert_unset_envused(t_cmd *cmd, int expected)
 {
 	t_msh	msh;
@@ -28,7 +47,7 @@ void	assert_unset_envused(t_cmd *cmd, int expected)
 	cr_assert_eq(msh.env.used, expected);
 }
 
-TestSuite(unset);
+TestSuite(unset, .init=redirect_stdout);
 
 Test(unset, input_empty)
 {
@@ -52,7 +71,25 @@ Test(unset, input_one_1)
 {
 	t_cmd cmd;
 
+	char	*input[] = {"unset", "HOME", NULL};
+	cmd.argv.array = input;
+	assert_unset_case(&cmd, "SHLVL=2\nLANG=en_US.UTF-8\n");
+}
+
+Test(unset, input_one_2)
+{
+	t_cmd cmd;
+
 	char	*input[] = {"unset", "OLDPWD", NULL};
 	cmd.argv.array = input;
 	assert_unset_envused(&cmd, 3);
+}
+
+Test(unset, input_one_3)
+{
+	t_cmd cmd;
+
+	char	*input[] = {"unset", "OLDPWD", NULL};
+	cmd.argv.array = input;
+	assert_unset_case(&cmd, "HOME=/tmp/cd-no_arg_with_home\nSHLVL=2\nLANG=en_US.UTF-8\n");
 }

@@ -6,7 +6,7 @@
 /*   By: jvan-hal <jvan-hal@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/09 15:57:34 by jvan-hal      #+#    #+#                 */
-/*   Updated: 2023/05/25 18:10:13 by jvan-hal      ########   odam.nl         */
+/*   Updated: 2023/05/26 16:58:32 by jvan-hal      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,7 +103,8 @@ int	remove_var(char *name, char **env)
 	while (env[i] && !ft_strnstr(env[i], varname, ft_strlen(varname)))
 		++i;
 	free(varname);
-	if (env[i])
-		free(env[i]);
+	if (!env[i])
+		return (-1);
+	free(env[i]);
 	return (i);
 }
