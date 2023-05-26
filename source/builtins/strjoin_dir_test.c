@@ -6,11 +6,11 @@
 /*   By: jvan-hal <jvan-hal@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/10 12:15:03 by jvan-hal      #+#    #+#                 */
-/*   Updated: 2023/05/10 12:33:18 by jvan-hal      ########   odam.nl         */
+/*   Updated: 2023/05/26 15:55:27 by jvan-hal      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "./../../lib/libft/include/ft_string.h"
+#include "ft_string.h"
 #include <stdio.h>
 #include <stdlib.h>
 

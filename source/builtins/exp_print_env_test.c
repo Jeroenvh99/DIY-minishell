@@ -1,5 +1,5 @@
-#include "./../../lib/libft/include/ft_stdio.h"
-#include "./../../include/minishell.h"
+#include "ft_stdio.h"
+#include "minishell.h"
 #include <fcntl.h>
 #include <unistd.h>
 #include <stdlib.h>

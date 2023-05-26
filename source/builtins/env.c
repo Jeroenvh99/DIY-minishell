@@ -6,7 +6,7 @@
 /*   By: jvan-hal <jvan-hal@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/04/20 16:51:40 by jvan-hal      #+#    #+#                 */
-/*   Updated: 2023/05/25 18:09:54 by jvan-hal      ########   odam.nl         */
+/*   Updated: 2023/05/26 15:47:15 by jvan-hal      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ int	ft_isonlydash(char *str)
 
 int	msh_env(t_cmd *cmd, t_msh *msh)
 {
-	int	i;
+	size_t	i;
 
 	i = 1;
 	while (cmd->argv.array[i])
@@ -47,6 +47,6 @@ int	msh_env(t_cmd *cmd, t_msh *msh)
 		}
 		++i;
 	}
-	print_2d_arr(cmd->io.out, msh->env);
+	print_2d_arr(cmd->io.out, msh->env.envp);
 	return (0);
 }
