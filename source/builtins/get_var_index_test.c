@@ -1,6 +1,6 @@
 #include <stdlib.h>
 #include <stdio.h>
-#include "./../../include/minishell.h"
+#include "minishell.h"
 
 int	get_var_index(char *name, char **env)
 {

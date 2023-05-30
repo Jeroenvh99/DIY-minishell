@@ -6,7 +6,7 @@
 /*   By: jvan-hal <jvan-hal@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/04/18 18:34:07 by jvan-hal      #+#    #+#                 */
-/*   Updated: 2023/05/16 18:23:20 by jvan-hal      ########   odam.nl         */
+/*   Updated: 2023/05/25 18:02:35 by jvan-hal      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ typedef struct s_msh
 
 char					**copy_env(char **env);
 int						env_size(char **env);
-void					print_2d_arr(char **arr);
+void					print_2d_arr(int fd, char **arr);
 void					print_error(char *command, char *argument,
 							char *message);
 t_errno					get_env_var(char *name, char **value, char **env);

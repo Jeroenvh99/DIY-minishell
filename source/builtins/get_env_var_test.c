@@ -1,4 +1,4 @@
-#include "./../../lib/libft/include/ft_string.h"
+#include "ft_string.h"
 #include <stdio.h>
 
 char	*get_env_var(char *name, char **env)

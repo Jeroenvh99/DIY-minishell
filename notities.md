@@ -71,3 +71,6 @@ VAR=a cat in		<-- cat wordt uitgevoerd, VAR is leeg
 	- laat * staan indien aanvullingen ontbreken
 
 cd && pwd in een subshell verandert wel de directory
+
+### Environment
+- net als in bash moeten we een environment hebben die nooit helemaal leeg raakt, de _ blijft altijd staan

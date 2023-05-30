@@ -6,14 +6,13 @@
 /*   By: jvan-hal <jvan-hal@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/09 15:57:34 by jvan-hal      #+#    #+#                 */
-/*   Updated: 2023/05/23 16:53:01 by jvan-hal      ########   odam.nl         */
+/*   Updated: 2023/05/26 17:24:29 by jvan-hal      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "./../../include/msh_error.h"
-#include "./../../include/minishell.h"
-#include "./../../lib/libft/include/ft_stdio.h"
-#include "./../../lib/libft/include/ft_string.h"
+#include "msh_error.h"
+#include "ft_stdio.h"
+#include "ft_string.h"
 #include <stdlib.h>
 
 int	env_size(char **env)
@@ -43,14 +42,14 @@ char	**copy_env(char **env)
 	return (new_env);
 }
 
-void	print_2d_arr(char **arr)
+void	print_2d_arr(int fd, char **arr, int size)
 {
 	int	i;
 
 	i = 0;
-	while (arr[i])
+	while (i < size)
 	{
-		ft_printf("%s\n", arr[i]);
+		ft_dprintf(fd, "%s\n", arr[i]);
 		++i;
 	}
 }
@@ -85,12 +84,17 @@ t_errno	get_env_var(char *name, char **value, char **env)
 	int		i;
 	char	*varname;
 
+	i = 0;
 	varname = ft_strjoin(name, "=");
 	if (!varname)
 		return (MSH_MEMFAIL);
-	free(varname);
+	while (env[i] && !ft_strnstr(env[i], varname, ft_strlen(varname)))
+		++i;
 	if (env[i])
 		*value = ft_strchr(env[i], '=') + 1;
+	else
+		return (MSH_NO_VARSTR);
+	free(varname);
 	return (MSH_SUCCESS);
 }
 
@@ -104,7 +108,8 @@ int	remove_var(char *name, char **env)
 	while (env[i] && !ft_strnstr(env[i], varname, ft_strlen(varname)))
 		++i;
 	free(varname);
-	if (env[i])
-		free(env[i]);
+	if (!env[i])
+		return (-1);
+	free(env[i]);
 	return (i);
 }

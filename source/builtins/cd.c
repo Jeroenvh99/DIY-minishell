@@ -6,11 +6,11 @@
 /*   By: jvan-hal <jvan-hal@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/04/20 16:52:40 by jvan-hal      #+#    #+#                 */
-/*   Updated: 2023/05/17 15:17:42 by jvan-hal      ########   odam.nl         */
+/*   Updated: 2023/05/25 18:11:16 by jvan-hal      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "./../../lib/libft/include/ft_string.h"
+#include "ft_string.h"
 #include <stdlib.h>
 #include <unistd.h>
 
@@ -116,9 +116,4 @@ int	msh_cd(t_cmd *cmd, t_msh *msh)
 	free(buf);
 	free(newdir);
 	return (0);
-}
-
-int	main(int argc, char **argv)
-{
-	msh_cd(argc, argv);
 }
