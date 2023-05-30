@@ -34,12 +34,11 @@ int	ft_isonlydash(char *str)
 int	msh_env(t_cmd *cmd, t_msh *msh)
 {
 	size_t	i;
+    int     print_env;
 
 	i = 1;
 	while (cmd->argv.array[i])
 	{
-		if (cmd->argc == 2 && ft_strncmp(cmd->argv.array[i], "--", 3) == 0)
-			break ;
 		if (i == cmd->argc - 1 && !(i == 1 && ft_isonlydash(cmd->argv.array[i])))
 		{
 			env_error(cmd->io.err, cmd->argv.array[i]);
@@ -47,6 +46,7 @@ int	msh_env(t_cmd *cmd, t_msh *msh)
 		}
 		++i;
 	}
-	print_2d_arr(cmd->io.out, msh->env.envp);
+    if (!ft_isonlydash(cmd->argv.array[cmd->argc - 1]))
+	    print_2d_arr(cmd->io.out, msh->env.envp);
 	return (0);
 }
