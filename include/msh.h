@@ -115,14 +115,6 @@ void	cmd_free_wrapper(void *cmd);
 void	cmd_free_list(t_cmd *cmd);
 void	cmd_destroy(t_cmd **cmd);
 
-/* env utils. */
-char	**copy_env(char **env);
-int		env_size(char **env);
-void	print_2d_arr(int fd, char **arr);
-void	print_error(char *command, char *argument, char *message);
-t_errno	get_env_var(char *name, char **value, char **env);
-int		remove_var(char *name, char **env);
-
 /* builtin functions. */
 int		msh_cd(t_cmd *cmd, t_msh *msh);
 int		msh_echo(t_cmd *cmd, t_msh *msh);

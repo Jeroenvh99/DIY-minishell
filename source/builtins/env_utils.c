@@ -42,12 +42,12 @@ char	**copy_env(char **env)
 	return (new_env);
 }
 
-void	print_2d_arr(int fd, char **arr)
+void	print_2d_arr(int fd, char **arr, size)
 {
 	int	i;
 
 	i = 0;
-	while (arr[i])
+	while (i < size)
 	{
 		ft_dprintf(fd, "%s\n", arr[i]);
 		++i;

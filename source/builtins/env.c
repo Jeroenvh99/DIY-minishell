@@ -18,35 +18,23 @@
 
 void	env_error(int fd, char *arg)
 {
-	ft_dprintf(fd, "env: %s: No such file or directory", arg);
-}
-
-int	ft_isonlydash(char *str)
-{
-	int	i;
-
-	i = 0;
-	while (str[i] && str[i] == '-')
-		++i;
-	return (str[i] == '\0' && i != 2);
+	ft_dprintf(fd, "env: %s: No such file or directory\n", arg);
 }
 
 int	msh_env(t_cmd *cmd, t_msh *msh)
 {
 	size_t	i;
-    int     print_env;
 
 	i = 1;
 	while (cmd->argv.array[i])
 	{
-		if (i == cmd->argc - 1 && !(i == 1 && ft_isonlydash(cmd->argv.array[i])))
+		if (i == cmd->argc - 1)
 		{
 			env_error(cmd->io.err, cmd->argv.array[i]);
 			return (127);
 		}
 		++i;
 	}
-    if (!ft_isonlydash(cmd->argv.array[cmd->argc - 1]))
-	    print_2d_arr(cmd->io.out, msh->env.envp);
+    print_2d_arr(cmd->io.out, msh->env.envp, msh->env.len);
 	return (0);
 }

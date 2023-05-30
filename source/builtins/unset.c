@@ -23,7 +23,11 @@ int	msh_unset(t_cmd *cmd, t_msh *msh)
 	i = 1;
 	while (cmd->argv.array[i])
 	{
-		if (!ft_strchr(cmd->argv.array[i], '-'))
+        if (ft_strchr(cmd->argv.array[i], '-'))
+        {
+            not a valid identifier
+        }
+		if (!ft_strchr(cmd->argv.array[i], '_'))
 		{
 			j = remove_var(cmd->argv.array[i], msh->env.envp);
 			if (j > -1)
