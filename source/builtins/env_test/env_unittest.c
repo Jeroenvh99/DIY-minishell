@@ -35,6 +35,7 @@ void	assert_env_case(t_cmd *cmd, char *expected)
 
 	bzero(&msh, sizeof(msh));
 	msh.env.envp = environ;
+    msh.env.len = 1;
 	msh_env(cmd, &msh);
 	fflush(stdout);
 	cr_assert_stdout_eq_str(expected);
@@ -47,6 +48,7 @@ void	assert_env_case_error(t_cmd *cmd, char *expected)
 
 	bzero(&msh, sizeof(msh));
 	msh.env.envp = environ;
+    msh.env.len = 1;
 	msh_env(cmd, &msh);
 	fflush(stderr);
 	cr_assert_stderr_eq_str(expected);
@@ -60,6 +62,7 @@ void	assert_env_status(t_cmd *cmd, int expected)
 
 	bzero(&msh, sizeof(msh));
 	msh.env.envp = environ;
+    msh.env.len = 1;
 	status = msh_env(cmd, &msh);
 	cr_assert_eq(status, expected);
 }
