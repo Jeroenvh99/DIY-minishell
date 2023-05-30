@@ -42,7 +42,7 @@ char	**copy_env(char **env)
 	return (new_env);
 }
 
-void	print_2d_arr(int fd, char **arr, size)
+void	print_2d_arr(int fd, char **arr, int size)
 {
 	int	i;
 
