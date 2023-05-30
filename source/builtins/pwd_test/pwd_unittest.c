@@ -25,11 +25,12 @@ void redirect_stdout(void)
 
 TestSuite(pwd, .init=redirect_stdout);
 
-void	assert_pwd_cases(t_cmd *cmd, t_char *dir)
+void	assert_pwd_output(t_cmd *cmd, t_char *dir)
 {
 	t_msh	msh;
 	char	*expect_dir;
 
+    cmd->io.out = 1;
 	expect_dir = ft_strjoin(dir, "\n");
 	msh_pwd(cmd, &msh);
 	fflush(stdout);
@@ -42,8 +43,7 @@ Test(pwd, no_arg)
 	char	*newdir;
 	t_cmd	cmd;
 
-	cmd.io.out = 1;
 	newdir = getenv("HOME");
 	chdir(newdir);
-	assert_pwd_cases(&cmd, newdir);
+	assert_pwd_output(&cmd, newdir);
 }

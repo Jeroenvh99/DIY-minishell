@@ -64,7 +64,7 @@ char	*get_env_dir(char *name, t_msh *msh)
 	return (dstdir);
 }
 
-char	*get_dstdir(int argc, char **argv, t_msh *msh)
+char	*get_dstdir(int argc, char **argv, t_cmd *cmd, t_msh *msh)
 {
 	char	*dstdir;
 
@@ -78,7 +78,7 @@ char	*get_dstdir(int argc, char **argv, t_msh *msh)
 		if (ft_strncmp(argv[1], "-", 2) == 0)
 		{
 			dstdir = get_env_dir("OLDPWD", msh);
-			ft_printf("%s\n", dstdir);
+			ft_dprintf(cmd->io.out, "%s\n", dstdir);
 		}
 		else
 			dstdir = argv[1];
@@ -93,12 +93,11 @@ int	msh_cd(t_cmd *cmd, t_msh *msh)
 	char	*buf;
 	int		i;
 
-	if (cmd->argc > 1 && !ft_strnstr(argv[1], "-", 2) && !ft_strnstr(argv[1], "--", 3))
+	if (ft_strnstr(argv[1], "-", 2))
 	{
-		ft_dprintf(msh->outfd, "msh: cd: %s: invalid argument\ncd: usage: cd [-|--] [dir]\n");
-		return (0);
+		dstdir = oldpwd;
 	}
-	dstdir = get_dstdir(cmd->argc, argv, msh);
+	dstdir = get_dstdir(cmd->argc, argv, cmd, msh);
 	if (dstdir[0] == '/')
 		newdir = ft_strdup(dstdir);
 	else

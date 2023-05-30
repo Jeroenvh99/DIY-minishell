@@ -28,11 +28,12 @@ void redirect_stderr(void)
     cr_redirect_stderr();
 }
 
-void	assert_env_case(t_cmd *cmd, char *expected)
+void	assert_env_output(t_cmd *cmd, char *expected)
 {
 	t_msh	msh;
 	char	*environ[] = {"LOGNAME=jvan-hal", NULL};
 
+    cmd->io.out = 1;
 	bzero(&msh, sizeof(msh));
 	msh.env.envp = environ;
     msh.env.len = 1;
@@ -41,7 +42,7 @@ void	assert_env_case(t_cmd *cmd, char *expected)
 	cr_assert_stdout_eq_str(expected);
 }
 
-void	assert_env_case_error(t_cmd *cmd, char *expected)
+void	assert_env_output_error(t_cmd *cmd, char *expected)
 {
 	t_msh	msh;
 	char	*environ[] = {"LOGNAME=jvan-hal", NULL};
@@ -60,6 +61,8 @@ void	assert_env_status(t_cmd *cmd, int expected)
 	char	*environ[] = {"LOGNAME=jvan-hal", NULL};
 	int		status;
 
+    cmd->io.out = 1;
+    cmd->io.err = 2;
 	bzero(&msh, sizeof(msh));
 	msh.env.envp = environ;
     msh.env.len = 1;
@@ -79,8 +82,7 @@ Test(env, input_empty_0)
 	char	*expected = "LOGNAME=jvan-hal\n";
 	cmd.argc = 1;
 	cmd.argv.array = input;
-	cmd.io.out = 1;
-	assert_env_case(&cmd, expected);
+	assert_env_output(&cmd, expected);
 }
 
 Test(env, input_empty_1)
@@ -90,7 +92,6 @@ Test(env, input_empty_1)
 	char	*input[] = {"env", NULL};
 	cmd.argc = 1;
 	cmd.argv.array = input;
-	cmd.io.out = 1;
 	assert_env_status(&cmd, 0);
 }
 
@@ -102,8 +103,7 @@ Test(env, input_one_0)
 	char	*expected = "";
 	cmd.argc = 2;
 	cmd.argv.array = input;
-    cmd.io.err = 2;
-	assert_env_case(&cmd, expected);
+	assert_env_output(&cmd, expected);
 }
 
 Test(env, input_one_1)
@@ -113,7 +113,6 @@ Test(env, input_one_1)
     char	*input[] = {"env", "-", NULL};
     cmd.argc = 2;
     cmd.argv.array = input;
-    cmd.io.err = 2;
     assert_env_status(&cmd, 127);
 }
 
@@ -125,8 +124,7 @@ Test(env_err, input_one_2)
     char	*expected = "env: -: No such file or directory\n";
     cmd.argc = 2;
     cmd.argv.array = input;
-    cmd.io.err = 2;
-    assert_env_case_error(&cmd, expected);
+    assert_env_output_error(&cmd, expected);
 }
 
 Test(env, input_one_3)
@@ -137,8 +135,7 @@ Test(env, input_one_3)
 	char	*expected = "";
 	cmd.argc = 2;
 	cmd.argv.array = input;
-	cmd.io.err = 2;
-	assert_env_case(&cmd, expected);
+	assert_env_output(&cmd, expected);
 }
 
 Test(env, input_one_4)
@@ -148,7 +145,6 @@ Test(env, input_one_4)
     char	*input[] = {"env", "--", NULL};
     cmd.argc = 2;
     cmd.argv.array = input;
-    cmd.io.err = 2;
     assert_env_status(&cmd, 127);
 }
 
@@ -160,6 +156,5 @@ Test(env_err, input_one_5)
     char	*expected = "env: --: No such file or directory\n";
     cmd.argc = 2;
     cmd.argv.array = input;
-    cmd.io.err = 2;
-    assert_env_case_error(&cmd, expected);
+    assert_env_output_error(&cmd, expected);
 }

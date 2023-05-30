@@ -25,7 +25,7 @@ int	msh_unset(t_cmd *cmd, t_msh *msh)
 	{
         if (ft_strchr(cmd->argv.array[i], '-'))
         {
-            not a valid identifier
+            ft_dprintf(cmd->io.err, "msh: unset: %s: not a valid identifier", cmd->argv.array[i]);
         }
 		if (!ft_strchr(cmd->argv.array[i], '_'))
 		{
