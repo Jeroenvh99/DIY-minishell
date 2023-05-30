@@ -17,8 +17,8 @@ jobs:
       run: |
         brew update
         brew install criterion
-    # - name: run cd tests
-    #   run: make test_cd
+    - name: run cd tests
+      run: make test_cd
     - name: run echo tests
       run: make test_echo
     - name: run env tests
