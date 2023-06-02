@@ -6,7 +6,7 @@ on:
 jobs:
   unit-test:
     timeout-minutes: 10
-    runs-on: macos-Mojave
+    runs-on: macos-latest
 
     steps:
     - name: Clone repository
