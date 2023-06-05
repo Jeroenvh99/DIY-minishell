@@ -81,26 +81,23 @@ void	assert_cd_status(t_cmd *cmd, int expected, void (*env_init)(t_msh *))
 
 void	env_with_home(t_msh *msh)
 {
-	char	*environ[];
-
-	environ[] = {"HOME=/Users/jvan-hal", "LOGNAME=jvan-hal",
+	char	*environ[] = {"HOME=/Users/jvan-hal", "LOGNAME=jvan-hal",
 		"OLDPWD=/tmp/cd-dash", NULL};
+
 	msh->env.envp = environ;
 }
 
 void	env_without_home(t_msh *msh)
 {
-	char	*environ[];
+	char	*environ[] = {"LOGNAME=jvan-hal", "OLDPWD=/tmp/cd-dash", NULL};
 
-	environ[] = {"LOGNAME=jvan-hal", "OLDPWD=/tmp/cd-dash", NULL};
 	msh->env.envp = environ;
 }
 
 void	env_without_oldpwd(t_msh *msh)
 {
-	char	*environ[];
+	char	*environ[] = {"LOGNAME=jvan-hal", "HOME=/Users/jvan-hal", NULL};
 
-	environ[] = {"LOGNAME=jvan-hal", "HOME=/Users/jvan-hal", NULL};
 	msh->env.envp = environ;
 }
 
@@ -248,13 +245,11 @@ Test(cd_err, inv_dir_arg_1)
 {
 	t_cmd	cmd;
 	char	*input[] = {"cd", "trmp", NULL};
-	char	*expected;
+	char	*expected = "msh: cd: trmp: No such file or directory";
 
-	expected = "msh: cd: trmp: No such file or directory";
 	cmd.argc = 2;
 	cmd.argv.array = input;
 	assert_cd_output_error(&cmd, expected, &env_with_home);
-	free(buf);
 }
 
 Test(cd, inv_dir_arg_2)
