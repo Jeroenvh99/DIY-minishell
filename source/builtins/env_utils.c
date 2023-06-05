@@ -78,38 +78,3 @@ int	get_var_index(char *name, char **env)
 		return (i);
 	return (0);
 }
-
-t_errno	get_env_var(char *name, char **value, char **env)
-{
-	int		i;
-	char	*varname;
-
-	i = 0;
-	varname = ft_strjoin(name, "=");
-	if (!varname)
-		return (MSH_MEMFAIL);
-	while (env[i] && !ft_strnstr(env[i], varname, ft_strlen(varname)))
-		++i;
-	if (env[i])
-		*value = ft_strchr(env[i], '=') + 1;
-	else
-		return (MSH_NO_VARSTR);
-	free(varname);
-	return (MSH_SUCCESS);
-}
-
-int	remove_var(char *name, char **env)
-{
-	int		i;
-	char	*varname;
-
-	varname = ft_strjoin(name, "=");
-	i = 0;
-	while (env[i] && !ft_strnstr(env[i], varname, ft_strlen(varname)))
-		++i;
-	free(varname);
-	if (!env[i])
-		return (-1);
-	free(env[i]);
-	return (i);
-}
