@@ -98,7 +98,7 @@ re: fclean all
 
 test_cd:
 	$(MAKE) -j -C lib/libft
-	cc $(CFLAGS) -lcriterion source/builtins/cd.c source/builtins/env_utils.c source/builtins/cd_test/cd_unittest.c lib/libft/libft.a && ./a.out
+	cc $(CFLAGS) -lcriterion source/builtins/cd.c source/builtins/env_utils.c source/env/env_search.c source/env/env_set.c source/builtins/cd_test/cd_unittest.c lib/libft/libft.a && ./a.out
 	rm a.out
 
 test_echo:
