@@ -48,6 +48,7 @@ t_errno	env_init_(t_env *env, int len, ...)
     }
     va_end(ap);
     env->envp[env->used] = NULL;
+    return (MSH_SUCCES);
 }
 
 void	redirect_stdout(void)
