@@ -19,6 +19,14 @@
 #include <unistd.h>
 #include <stdarg.h>
 
+void	env_free(t_env *env)
+{
+    while (env->used--)
+        free(env->envp[env->used]);
+    free(env->envp);
+    free(env);
+}
+
 t_errno	env_init(t_env *env, int len, ...)
 {
     va_list ap;
@@ -61,6 +69,7 @@ void	assert_cd_output(t_cmd *cmd, char *expected, void (*env_init)(t_msh *))
 	msh_cd(cmd, &msh);
 	fflush(stdout);
 	cr_assert_stdout_eq_str(expected);
+    env_free(msh->env);
 }
 
 void	assert_cd_output_error(t_cmd *cmd, char *expected,
@@ -74,6 +83,7 @@ void	assert_cd_output_error(t_cmd *cmd, char *expected,
 	msh_cd(cmd, &msh);
 	fflush(stderr);
 	cr_assert_stderr_eq_str(expected);
+    env_free(msh->env);
 }
 
 void	assert_cd_dir(t_cmd *cmd, char *expected, void (*env_init)(t_msh *))
@@ -88,6 +98,7 @@ void	assert_cd_dir(t_cmd *cmd, char *expected, void (*env_init)(t_msh *))
 	msh_cd(cmd, &msh);
 	cr_assert_eq(getcwd(buf, 0), expected);
 	free(buf);
+    env_free(msh->env);
 }
 
 void	assert_cd_status(t_cmd *cmd, int expected, void (*env_init)(t_msh *))
@@ -100,6 +111,7 @@ void	assert_cd_status(t_cmd *cmd, int expected, void (*env_init)(t_msh *))
 	env_init(&msh);
 	status = msh_cd(cmd, &msh);
 	cr_assert_eq(status, expected);
+    env_free(msh->env);
 }
 
 void	env_with_home(t_msh *msh)
