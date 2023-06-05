@@ -53,7 +53,6 @@ char	*ft_strjoin_dir(char const *s1, char const *s2)
 char	*get_env_dir(char *name, t_cmd *cmd, t_msh *msh)
 {
 	char	*dstdir;
-	char	*errmsg;
 
 	dstdir = env_search(&msh->env, name);
 	if (!dstdir)
@@ -91,7 +90,6 @@ int	msh_cd(t_cmd *cmd, t_msh *msh)
 	char	*dstdir;
 	char	*newdir;
 	char	*buf;
-	int		i;
 
 	dstdir = get_dstdir(cmd, msh);
 	if (dstdir[0] == '/')
@@ -104,10 +102,8 @@ int	msh_cd(t_cmd *cmd, t_msh *msh)
 		newdir = ft_strjoin_dir(buf, dstdir); 
 	}
 	chdir(newdir);
-	i = env_unset(&msh->env, "OLDPWD");
-	msh->env.envp[i] = ft_strjoin("OLDPWD=", buf);
-	i = env_unset(&msh->env, "PWD");
-	msh->env.envp[i] = ft_strjoin("PWD=", newdir);
+	env_set(&msh->env, ft_strjoin("OLDPWD=", buf));
+	env_set(&msh->env, ft_strjoin("PWD=", newdir));
 	free(buf);
 	free(newdir);
 	return (0);
