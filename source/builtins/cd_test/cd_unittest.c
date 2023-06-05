@@ -42,7 +42,7 @@ t_errno	env_init_(t_env *env, int len, ...)
         s = va_arg(ap, char *);
         env->envp[env->used] = ft_strdup(s);
         if (env->envp[env->used] == NULL)
-            return (env_free(env), MSH_MEMFAIL);
+            return (env_free_(env), MSH_MEMFAIL);
         env->used++;
         len--;
     }
