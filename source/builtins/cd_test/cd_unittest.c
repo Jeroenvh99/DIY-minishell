@@ -111,9 +111,8 @@ TestSuite(cd_err, .init = redirect_stderr);
 Test(cd, no_arg_with_home_0)
 {
 	t_cmd	cmd;
-	char	*input[];
+	char	*input[] = {"cd", NULL};
 
-	input[] = {"cd", NULL};
 	cmd.argc = 1;
 	cmd.argv.array = input;
 	system("mkdir /tmp/cd-no_arg_with_home");
@@ -125,9 +124,8 @@ Test(cd, no_arg_with_home_0)
 Test(cd, no_arg_with_home_1)
 {
 	t_cmd	cmd;
-	char	*input[];
+	char	*input[] = {"cd", NULL};
 
-	input[] = {"cd", NULL};
 	cmd.argc = 1;
 	cmd.argv.array = input;
 	system("mkdir /tmp/cd-no_arg_with_home");
@@ -139,9 +137,8 @@ Test(cd, no_arg_with_home_1)
 Test(cd, no_arg_without_home_0)
 {
 	t_cmd	cmd;
-	char	*input[];
+	char	*input[] = {"cd", NULL};
 
-	input[] = {"cd", NULL};
 	cmd.argc = 1;
 	cmd.argv.array = input;
 	system("mkdir /tmp/cd-no_arg_with_home");
@@ -153,9 +150,8 @@ Test(cd, no_arg_without_home_0)
 Test(cd, dash_arg_with_oldpwd_0)
 {
 	t_cmd	cmd;
-	char	*input[];
+	char	*input[] = {"cd", "-", NULL};
 
-	input[] = {"cd", "-", NULL};
 	cmd.argc = 2;
 	cmd.argv.array = input;
 	system("mkdir /tmp/cd-no_arg_with_home");
@@ -169,9 +165,8 @@ Test(cd, dash_arg_with_oldpwd_0)
 Test(cd, dash_arg_with_oldpwd_1)
 {
 	t_cmd	cmd;
-	char	*input[];
+	char	*input[] = {"cd", "-", NULL};
 
-	input[] = {"cd", "-", NULL};
 	cmd.argc = 2;
 	cmd.argv.array = input;
 	system("mkdir /tmp/cd-no_arg_with_home");
@@ -185,9 +180,8 @@ Test(cd, dash_arg_with_oldpwd_1)
 Test(cd, dash_arg_with_oldpwd_2)
 {
 	t_cmd	cmd;
-	char	*input[];
+	char	*input[] = {"cd", "-", NULL};
 
-	input[] = {"cd", "-", NULL};
 	cmd.argc = 2;
 	cmd.argv.array = input;
 	system("mkdir /tmp/cd-no_arg_with_home");
@@ -201,9 +195,8 @@ Test(cd, dash_arg_with_oldpwd_2)
 Test(cd, dash_arg_without_oldpwd_0)
 {
 	t_cmd	cmd;
-	char	*input[];
+	char	*input[] = {"cd", "-", NULL};
 
-	input[] = {"cd", "-", NULL};
 	cmd.argc = 2;
 	cmd.argv.array = input;
 	system("mkdir /tmp/cd-no_arg_with_home");
@@ -217,9 +210,8 @@ Test(cd, dash_arg_without_oldpwd_0)
 Test(cd, dir_arg_0)
 {
 	t_cmd	cmd;
-	char	*input[];
+	char	*input[] = {"cd", "tmp", NULL};
 
-	input[] = {"cd", "tmp", NULL};
 	cmd.argc = 2;
 	cmd.argv.array = input;
 	system("mkdir /tmp/cd-no_arg_with_home");
@@ -230,9 +222,8 @@ Test(cd, dir_arg_0)
 Test(cd, dir_arg_1)
 {
 	t_cmd	cmd;
-	char	*input[];
+	char	*input[] = {"cd", "tmp", NULL};
 
-	input[] = {"cd", "tmp", NULL};
 	cmd.argc = 2;
 	cmd.argv.array = input;
 	system("mkdir /tmp/cd-no_arg_with_home");
@@ -243,10 +234,10 @@ Test(cd, dir_arg_1)
 Test(cd, inv_dir_arg_0)
 {
 	t_cmd	cmd;
-	char	*input[];
+	char	*input[] = {"cd", "trmp", NULL};
 	char	*buf;
 
-	input[] = {"cd", "trmp", NULL};
+	buf = NULL;
 	cmd.argc = 2;
 	cmd.argv.array = input;
 	assert_cd_dir(&cmd, getcwd(buf, 0), &env_with_home);
@@ -256,10 +247,9 @@ Test(cd, inv_dir_arg_0)
 Test(cd_err, inv_dir_arg_1)
 {
 	t_cmd	cmd;
-	char	*input[];
+	char	*input[] = {"cd", "trmp", NULL};
 	char	*expected;
 
-	input[] = {"cd", "trmp", NULL};
 	expected = "msh: cd: trmp: No such file or directory";
 	cmd.argc = 2;
 	cmd.argv.array = input;
