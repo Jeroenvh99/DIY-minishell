@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include "ft_string.h"
+#include "msh.h"
 #include <stdlib.h>
 #include <unistd.h>
 
@@ -39,7 +40,7 @@ char	*ft_strjoin_dir(char const *s1, char const *s2)
 	string = malloc((len1 + len2 + 2) * sizeof(char));
 	if (string == NULL)
 		return (NULL);
-	i = copy_str(s1, string, i, len1);
+	i = copy_str(s1, string, 0, len1);
 	string[i] = '/';
 	++i;
 	len2 += len1 + 1;
@@ -48,7 +49,7 @@ char	*ft_strjoin_dir(char const *s1, char const *s2)
 	return (string);
 }
 
-char	*get_env_dir(char *name, t_msh *msh)
+char	*get_env_dir(char *name, t_cmd *cmc, t_msh *msh)
 {
 	char	*dstdir;
 	char	*errmsg;
@@ -56,15 +57,13 @@ char	*get_env_dir(char *name, t_msh *msh)
 	dstdir = get_env_var(name, msh->env);
 	if (!dstdir)
 	{
-		errmsg = ft_strjoin(name, " not set");
-		print_error("cd", NULL, errmsg);
-		free(errmsg);
+		ft_dprintf(cmd->io.err, "msh: cd: %s not set", name);
 		return (0);
 	}
 	return (dstdir);
 }
 
-char	*get_dstdir(int argc, char **argv, t_msh *msh)
+char	*get_dstdir(int argc, char **argv, t_cmd *cmd, t_msh *msh)
 {
 	char	*dstdir;
 
@@ -77,8 +76,8 @@ char	*get_dstdir(int argc, char **argv, t_msh *msh)
 	{
 		if (ft_strncmp(argv[1], "-", 2) == 0)
 		{
-			dstdir = get_env_dir("OLDPWD", msh);
-			ft_printf("%s\n", dstdir);
+			dstdir = get_env_dir("OLDPWD", cmd, msh);
+			ft_dprintf(cmd->io.out, "%s\n", dstdir);
 		}
 		else
 			dstdir = argv[1];
@@ -93,12 +92,7 @@ int	msh_cd(t_cmd *cmd, t_msh *msh)
 	char	*buf;
 	int		i;
 
-	if (cmd->argc > 1 && !ft_strnstr(argv[1], "-", 2) && !ft_strnstr(argv[1], "--", 3))
-	{
-		ft_dprintf(msh->outfd, "msh: cd: %s: invalid argument\ncd: usage: cd [-|--] [dir]\n");
-		return (0);
-	}
-	dstdir = get_dstdir(cmd->argc, argv, msh);
+	dstdir = get_dstdir(cmd->argc, argv, cmd, msh);
 	if (dstdir[0] == '/')
 		newdir = ft_strdup(dstdir);
 	else

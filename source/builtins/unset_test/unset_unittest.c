@@ -21,11 +21,12 @@ void redirect_stdout(void)
     cr_redirect_stdout();
 }
 
-void	assert_unset_case(t_cmd *cmd, char *expected)
+void	assert_unset_output(t_cmd *cmd, char *expected)
 {
 	t_msh	msh;
 	char	*environ[] = {"HOME=/tmp/cd-no_arg_with_home", "SHLVL=2", "LANG=en_US.UTF-8", NULL};
 
+    cmd->io.out = 1;
 	bzero(&msh, sizeof(msh));
 	msh.env.envp = environ;
 	msh.env.len = 3;
@@ -73,7 +74,7 @@ Test(unset, input_one_1)
 
 	char	*input[] = {"unset", "HOME", NULL};
 	cmd.argv.array = input;
-	assert_unset_case(&cmd, "SHLVL=2\nLANG=en_US.UTF-8\n");
+	assert_unset_output(&cmd, "SHLVL=2\nLANG=en_US.UTF-8\n");
 }
 
 Test(unset, input_one_2)
@@ -91,5 +92,5 @@ Test(unset, input_one_3)
 
 	char	*input[] = {"unset", "OLDPWD", NULL};
 	cmd.argv.array = input;
-	assert_unset_case(&cmd, "HOME=/tmp/cd-no_arg_with_home\nSHLVL=2\nLANG=en_US.UTF-8\n");
+	assert_unset_output(&cmd, "HOME=/tmp/cd-no_arg_with_home\nSHLVL=2\nLANG=en_US.UTF-8\n");
 }

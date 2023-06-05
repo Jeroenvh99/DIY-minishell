@@ -21,10 +21,11 @@ void redirect_stdout(void)
     cr_redirect_stdout();
 }
 
-void	assert_echo_case(t_cmd *cmd, char *expected)
+void	assert_echo_output(t_cmd *cmd, char *expected)
 {
 	t_msh	msh;
 
+    cmd->io.out = 1;
 	bzero(&msh, sizeof(msh));
 	msh_echo(cmd, &msh);
 	fflush(stdout);
@@ -40,8 +41,7 @@ Test(echo, input_empty)
 	char	*input[] = {"echo", NULL};
 	char	*expected = "\n";
 	cmd.argv.array = input;
-	cmd.io.out = 1;
-	assert_echo_case(&cmd, expected);
+	assert_echo_output(&cmd, expected);
 }
 
 Test(echo, input_one_0)
@@ -51,8 +51,7 @@ Test(echo, input_one_0)
 	char	*input[] = {"echo", "hello", NULL};
 	char	*expected = "hello\n";
 	cmd.argv.array = input;
-	cmd.io.out = 1;
-	assert_echo_case(&cmd, expected);
+	assert_echo_output(&cmd, expected);
 }
 
 Test(echo, input_one_1)
@@ -62,8 +61,7 @@ Test(echo, input_one_1)
 	char	*input[] = {"echo", "--", NULL};
 	char	*expected = "--\n";
 	cmd.argv.array = input;
-	cmd.io.out = 1;
-	assert_echo_case(&cmd, expected);
+	assert_echo_output(&cmd, expected);
 }
 
 Test(echo, input_one_2)
@@ -73,8 +71,7 @@ Test(echo, input_one_2)
 	char	*input[] = {"echo", "\n", NULL};
 	char	*expected = "\n\n";
 	cmd.argv.array = input;
-	cmd.io.out = 1;
-	assert_echo_case(&cmd, expected);
+	assert_echo_output(&cmd, expected);
 }
 
 Test(echo, input_one_3)
@@ -84,8 +81,7 @@ Test(echo, input_one_3)
 	char	*input[] = {"echo", " ", NULL};
 	char	*expected = " \n";
 	cmd.argv.array = input;
-	cmd.io.out = 1;
-	assert_echo_case(&cmd, expected);
+	assert_echo_output(&cmd, expected);
 }
 
 Test(echo, input_two_0)
@@ -95,8 +91,7 @@ Test(echo, input_two_0)
 	char	*input[] = {"echo", "hi", "again", NULL};
 	char	*expected = "hi again\n";
 	cmd.argv.array = input;
-	cmd.io.out = 1;
-	assert_echo_case(&cmd, expected);
+	assert_echo_output(&cmd, expected);
 }
 
 Test(echo, input_two_1)
@@ -106,8 +101,7 @@ Test(echo, input_two_1)
 	char	*input[] = {"echo", "hello", "-n", NULL};
 	char	*expected = "hello -n\n";
 	cmd.argv.array = input;
-	cmd.io.out = 1;
-	assert_echo_case(&cmd, expected);
+	assert_echo_output(&cmd, expected);
 }
 
 Test(echo, input_five_0)
@@ -117,8 +111,7 @@ Test(echo, input_five_0)
 	char	*input[] = {"echo", "text", "", "text", "", "hi", NULL};
 	char	*expected = "text  text  hi\n";
 	cmd.argv.array = input;
-	cmd.io.out = 1;
-	assert_echo_case(&cmd, expected);
+	assert_echo_output(&cmd, expected);
 }
 
 Test(echo, input_n_opt_0)
@@ -128,8 +121,7 @@ Test(echo, input_n_opt_0)
 	char	*input[] = {"echo", "-n", NULL};
 	char	*expected = "";
 	cmd.argv.array = input;
-	cmd.io.out = 1;
-	assert_echo_case(&cmd, expected);
+	assert_echo_output(&cmd, expected);
 }
 
 Test(echo, input_n_opt_1)
@@ -139,8 +131,7 @@ Test(echo, input_n_opt_1)
 	char	*input[] = {"echo", "-nnnnnnn", NULL};
 	char	*expected = "";
 	cmd.argv.array = input;
-	cmd.io.out = 1;
-	assert_echo_case(&cmd, expected);
+	assert_echo_output(&cmd, expected);
 }
 
 Test(echo, input_n_opt_2)
@@ -150,8 +141,7 @@ Test(echo, input_n_opt_2)
 	char	*input[] = {"echo", "-n", "-n", "-n", "-n", NULL};
 	char	*expected = "";
 	cmd.argv.array = input;
-	cmd.io.out = 1;
-	assert_echo_case(&cmd, expected);
+	assert_echo_output(&cmd, expected);
 }
 
 Test(echo, input_n_opt_arg_0)
@@ -161,8 +151,7 @@ Test(echo, input_n_opt_arg_0)
 	char	*input[] = {"echo", "-n", "hello", NULL};
 	char	*expected = "hello";
 	cmd.argv.array = input;
-	cmd.io.out = 1;
-	assert_echo_case(&cmd, expected);
+	assert_echo_output(&cmd, expected);
 }
 
 Test(echo, input_inv_opt_0)
@@ -172,8 +161,7 @@ Test(echo, input_inv_opt_0)
 	char	*input[] = {"echo", "-f", NULL};
 	char	*expected = "-f\n";
 	cmd.argv.array = input;
-	cmd.io.out = 1;
-	assert_echo_case(&cmd, expected);
+	assert_echo_output(&cmd, expected);
 }
 
 Test(echo, input_inv_opt_1)
@@ -183,6 +171,5 @@ Test(echo, input_inv_opt_1)
 	char	*input[] = {"echo", "-ng", NULL};
 	char	*expected = "-ng\n";
 	cmd.argv.array = input;
-	cmd.io.out = 1;
-	assert_echo_case(&cmd, expected);
+	assert_echo_output(&cmd, expected);
 }
