@@ -98,7 +98,7 @@ void	assert_cd_dir(t_cmd *cmd, char *expected, void (*env_init)(t_msh *))
 	bzero(&msh, sizeof(msh));
 	env_init(&msh);
 	msh_cd(cmd, &msh);
-    buf = getcwd(NULL, 0);
+    buf = getcwd(buf, 0);
 	cr_assert_eq(buf, expected);
 	free(buf);
     env_free_(&msh.env);
