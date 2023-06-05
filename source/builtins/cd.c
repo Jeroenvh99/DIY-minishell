@@ -91,6 +91,7 @@ int	msh_cd(t_cmd *cmd, t_msh *msh)
 	char	*newdir;
 	char	*buf;
 
+    buf = NULL;
 	dstdir = get_dstdir(cmd, msh);
 	if (dstdir[0] == '/')
 		newdir = ft_strdup(dstdir);
@@ -99,7 +100,7 @@ int	msh_cd(t_cmd *cmd, t_msh *msh)
 		buf = getcwd(NULL, 0);
 		if (!buf)
 			return (1);
-		newdir = ft_strjoin_dir(buf, dstdir); 
+		newdir = ft_strjoin_dir(buf, dstdir);
 	}
 	chdir(newdir);
 	env_set(&msh->env, ft_strjoin("OLDPWD=", buf));
