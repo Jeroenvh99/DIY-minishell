@@ -34,6 +34,7 @@ t_errno	env_init_(t_env *env, int len, ...)
     env->envp = (char **)malloc(sizeof(char *) * (len + 1));
     if (env->envp == NULL)
         return (MSH_MEMFAIL);
+    env->len = len;
     env->used = 0;
     va_start(ap, len);
     while (len > 0)
@@ -97,7 +98,8 @@ void	assert_cd_dir(t_cmd *cmd, char *expected, void (*env_init)(t_msh *))
 	bzero(&msh, sizeof(msh));
 	env_init(&msh);
 	msh_cd(cmd, &msh);
-	cr_assert_eq(getcwd(buf, 0), expected);
+    buf = getcwd(NULL, 0);
+	cr_assert_eq(buf, expected);
 	free(buf);
     env_free_(&msh.env);
 }
