@@ -6,7 +6,7 @@
 #    By: dbasting <marvin@codam.nl>                   +#+                      #
 #                                                    +#+                       #
 #    Created: 2022/12/28 12:06:53 by dbasting      #+#    #+#                  #
-#    Updated: 2023/05/26 16:19:55 by jvan-hal      ########   odam.nl          #
+#    Updated: 2023/06/05 18:04:34 by dbasting      ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -32,8 +32,10 @@ SRC_FILES	:= main.c\
 			expand/expand_utils.c\
 			expand/expand_var.c\
 			lex/lex.c\
+			lex/token.c\
 			lex/lex_token_get.c\
 			lex/lex_utils.c\
+			minishell/readcmdline.c\
 			parse/parse.c\
 			parse/parse_in.c\
 			parse/parse_operator.c\
@@ -41,10 +43,8 @@ SRC_FILES	:= main.c\
 			parse/parse_pipe.c\
 			parse/parse_utils.c\
 			parse/parse_word.c\
-			readcmdline.c\
-			token.c\
-			utils_list.c\
-			utils_quotes.c\
+			utils/utils_list.c\
+			utils/utils_quotes.c\
 			var.c\
 			var_parse.c\
 			\
@@ -61,7 +61,7 @@ HDR_FILES	:= msh.h\
 LIB_FILES	:= libft.a
 
 SRC_DIR		:= ./source/
-SRC_SUBDIRS	:= builtins/ env/ expand/ lex/ parse/ test/
+SRC_SUBDIRS	:= builtins/ env/ expand/ lex/ minishell/ parse/ utils/
 OBJ_DIR		:= ./object/
 OBJ_SUBDIRS := $(SRC_SUBDIRS)
 HDR_DIR		:= ./include/
@@ -76,7 +76,7 @@ all: $(NAME)
 bonus: $(NAME)
 	@echo "Bonus is basis, vrind."
 
-$(NAME): $(addpreix $(OBJ_DIR),$(OBJ_FILES)) $(addprefix $(LIB_DIR),$(LIB_FILES))
+$(NAME): $(addprefix $(OBJ_DIR),$(OBJ_FILES)) $(addprefix $(LIB_DIR),$(LIB_FILES))
 	@$(CC) $(CFLAGS) $^ -lreadline -o $@
 
 $(OBJ_DIR)%.o: $(SRC_DIR)%.c $(addprefix $(HDR_DIR),$(HDR_FILES))

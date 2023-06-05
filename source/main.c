@@ -6,7 +6,7 @@
 /*   By: dbasting <marvin@codam.nl>                   +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/04/18 14:13:15 by dbasting      #+#    #+#                 */
-/*   Updated: 2023/05/22 15:27:52 by dbasting      ########   odam.nl         */
+/*   Updated: 2023/06/05 18:03:06 by dbasting      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@
 #include <stddef.h>
 #include <stdlib.h>
 
+#include "msh_debug.h"
 #include <stdio.h>
 
 static t_errno	msh_loop(t_msh *msh);
