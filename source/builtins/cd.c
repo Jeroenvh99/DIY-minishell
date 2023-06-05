@@ -100,15 +100,13 @@ int	msh_cd(t_cmd *cmd, t_msh *msh)
 	dstdir = get_dstdir(cmd, msh);
     if (!dstdir)
         return (1);
-	if (dstdir[0] == '/')
-		newdir = ft_strdup(dstdir);
+    buf = getcwd(NULL, 0);
+    if (!buf)
+        return (1);
+    if (dstdir[0] == '/')
+        newdir = ft_strdup(dstdir);
 	else
-	{
-		buf = getcwd(NULL, 0);
-		if (!buf)
-			return (1);
 		newdir = ft_strjoin_dir(buf, dstdir);
-	}
     if (!newdir)
         return (1);
 	chdir(newdir);
