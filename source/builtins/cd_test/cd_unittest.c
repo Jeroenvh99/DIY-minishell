@@ -228,7 +228,7 @@ Test(cd, dash_arg_without_oldpwd_0)
 
 	cmd.argc = 2;
 	cmd.argv.array = input;
-	system("mkdir /tmp/cd-no_arg_with_home");
+	system("mkdir -p /tmp/cd-no_arg_with_home");
 	system("mkdir /tmp/cd-dash");
 	system("cd /tmp/cd-no_arg_with_home");
 	assert_cd_dir(&cmd, "/tmp/cd-dash", &env_without_oldpwd);
