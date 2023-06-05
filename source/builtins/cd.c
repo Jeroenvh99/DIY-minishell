@@ -58,7 +58,7 @@ char	*get_env_dir(char *name, t_cmd *cmd, t_msh *msh)
 	if (!dstdir)
 	{
 		ft_dprintf(cmd->io.err, "msh: cd: %s not set", name);
-		return (0);
+		return (NULL);
 	}
 	return (dstdir);
 }
@@ -68,7 +68,7 @@ char	*get_dstdir(t_cmd *cmd, t_msh *msh)
 	char	*dstdir;
 
 	dstdir = NULL;
-	if (cmd->argc == 1 || ft_strncmp(cmd->argv.array[1], "--", 3) == 0)
+	if (cmd->argc == 1)
 	{
 		dstdir = get_env_dir("HOME", cmd, msh);
 	}
@@ -77,8 +77,13 @@ char	*get_dstdir(t_cmd *cmd, t_msh *msh)
 		if (ft_strncmp(cmd->argv.array[1], "-", 2) == 0)
 		{
 			dstdir = get_env_dir("OLDPWD", cmd, msh);
-			ft_dprintf(cmd->io.out, "%s\n", dstdir);
+            if (dstdir)
+			    ft_dprintf(cmd->io.out, "%s\n", dstdir);
 		}
+        else if (ft_strncmp(cmd->argv.array[1], "--", 3) == 0)
+        {
+            dstdir = get_env_dir("HOME", cmd, msh);
+        }
 		else
 			dstdir = cmd->argv.array[1];
 	}
@@ -93,6 +98,8 @@ int	msh_cd(t_cmd *cmd, t_msh *msh)
 
     buf = NULL;
 	dstdir = get_dstdir(cmd, msh);
+    if (!dstdir)
+        return (1);
 	if (dstdir[0] == '/')
 		newdir = ft_strdup(dstdir);
 	else
