@@ -70,7 +70,7 @@ void	assert_cd_output(t_cmd *cmd, char *expected, void (*env_init)(t_msh *))
 	msh_cd(cmd, &msh);
 	fflush(stdout);
 	cr_assert_stdout_eq_str(expected);
-    env_free_(msh.env);
+    env_free_(&msh.env);
 }
 
 void	assert_cd_output_error(t_cmd *cmd, char *expected,
@@ -84,7 +84,7 @@ void	assert_cd_output_error(t_cmd *cmd, char *expected,
 	msh_cd(cmd, &msh);
 	fflush(stderr);
 	cr_assert_stderr_eq_str(expected);
-    env_free_(msh.env);
+    env_free_(&msh.env);
 }
 
 void	assert_cd_dir(t_cmd *cmd, char *expected, void (*env_init)(t_msh *))
@@ -99,7 +99,7 @@ void	assert_cd_dir(t_cmd *cmd, char *expected, void (*env_init)(t_msh *))
 	msh_cd(cmd, &msh);
 	cr_assert_eq(getcwd(buf, 0), expected);
 	free(buf);
-    env_free_(msh.env);
+    env_free_(&msh.env);
 }
 
 void	assert_cd_status(t_cmd *cmd, int expected, void (*env_init)(t_msh *))
@@ -112,23 +112,23 @@ void	assert_cd_status(t_cmd *cmd, int expected, void (*env_init)(t_msh *))
 	env_init(&msh);
 	status = msh_cd(cmd, &msh);
 	cr_assert_eq(status, expected);
-    env_free_(msh.env);
+    env_free_(&msh.env);
 }
 
 void	env_with_home(t_msh *msh)
 {
-	env_init_(msh->env, 3, "HOME=/Users/jvan-hal", "LOGNAME=jvan-hal",
+	env_init_(&msh->env, 3, "HOME=/Users/jvan-hal", "LOGNAME=jvan-hal",
              "OLDPWD=/tmp/cd-dash");
 }
 
 void	env_without_home(t_msh *msh)
 {
-    env_init_(msh->env, 2, "LOGNAME=jvan-hal", "OLDPWD=/tmp/cd-dash");
+    env_init_(&msh->env, 2, "LOGNAME=jvan-hal", "OLDPWD=/tmp/cd-dash");
 }
 
 void	env_without_oldpwd(t_msh *msh)
 {
-    env_init_(msh->env, 2, "LOGNAME=jvan-hal", "HOME=/Users/jvan-hal");
+    env_init_(&msh->env, 2, "LOGNAME=jvan-hal", "HOME=/Users/jvan-hal");
 }
 
 TestSuite(cd, .init = redirect_stdout);
