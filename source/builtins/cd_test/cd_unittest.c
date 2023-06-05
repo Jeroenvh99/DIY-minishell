@@ -17,6 +17,29 @@
 #include <criterion/types.h>
 #include <stdlib.h>
 #include <unistd.h>
+#include <stdarg.h>
+
+t_errno	env_init(t_env *env, int len, ...)
+{
+    va_list ap;
+    char *s;
+
+    env->envp = (char **)malloc(sizeof(char *) * (len + 1));
+    if (env->envp == NULL)
+        return (MSH_MEMFAIL);
+    env->used = 0;
+    va_start(ap);
+    while (envp[env->used])
+    {
+        s = va_arg(ap, char *);
+        env->envp[env->used] = ft_strdup(s);
+        if (env->envp[env->used] == NULL)
+            return (env_free(env), MSH_MEMFAIL);
+        env->used++;
+    }
+    va_end(ap);
+    env->envp[env->used] = NULL;
+}
 
 void	redirect_stdout(void)
 {
@@ -81,24 +104,18 @@ void	assert_cd_status(t_cmd *cmd, int expected, void (*env_init)(t_msh *))
 
 void	env_with_home(t_msh *msh)
 {
-	char	*environ[] = {"HOME=/Users/jvan-hal", "LOGNAME=jvan-hal",
-		"OLDPWD=/tmp/cd-dash", NULL};
-
-	msh->env.envp = environ;
+	env_init(msh->env, 3, "HOME=/Users/jvan-hal", "LOGNAME=jvan-hal",
+             "OLDPWD=/tmp/cd-dash");
 }
 
 void	env_without_home(t_msh *msh)
 {
-	char	*environ[] = {"LOGNAME=jvan-hal", "OLDPWD=/tmp/cd-dash", NULL};
-
-	msh->env.envp = environ;
+    env_init(msh->env, 2, "LOGNAME=jvan-hal", "OLDPWD=/tmp/cd-dash");
 }
 
 void	env_without_oldpwd(t_msh *msh)
 {
-	char	*environ[] = {"LOGNAME=jvan-hal", "HOME=/Users/jvan-hal", NULL};
-
-	msh->env.envp = environ;
+    env_init(msh->env, 2, "LOGNAME=jvan-hal", "HOME=/Users/jvan-hal");
 }
 
 TestSuite(cd, .init = redirect_stdout);

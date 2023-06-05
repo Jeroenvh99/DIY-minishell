@@ -109,6 +109,8 @@ int	msh_cd(t_cmd *cmd, t_msh *msh)
 			return (1);
 		newdir = ft_strjoin_dir(buf, dstdir);
 	}
+    if (!newdir)
+        return (1);
 	chdir(newdir);
 	env_set(&msh->env, ft_strjoin("OLDPWD=", buf));
 	env_set(&msh->env, ft_strjoin("PWD=", newdir));
