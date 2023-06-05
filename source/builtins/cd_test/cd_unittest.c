@@ -24,7 +24,6 @@ void	env_free_(t_env *env)
     while (env->used--)
         free(env->envp[env->used]);
     free(env->envp);
-    free(env);
 }
 
 t_errno	env_init_(t_env *env, int len, ...)
