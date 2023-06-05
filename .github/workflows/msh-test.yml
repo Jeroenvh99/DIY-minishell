@@ -3,6 +3,8 @@ run-name: checking if pr by ${{ github.actor }} passes all tests
 on:
   pull_request:
     branches: [ master ]
+  push:
+    branches: [ jvan-hal ]
 jobs:
   unit-test:
     timeout-minutes: 10
@@ -23,8 +25,8 @@ jobs:
       run: make test_env
     - name: run exit tests
       run: make test_exit
-    # - name: run export tests
-    #   run: make test_export
+    - name: run export tests
+      run: make test_export
     - name: run pwd tests
       run: make test_pwd
     - name: run unset tests
