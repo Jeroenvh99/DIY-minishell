@@ -55,7 +55,7 @@ char	*get_env_dir(char *name, t_cmd *cmd, t_msh *msh)
 	char	*dstdir;
 	char	*errmsg;
 
-	dstdir = env_search(msh->env, name);
+	dstdir = env_search(&msh->env, name);
 	if (!dstdir)
 	{
 		ft_dprintf(cmd->io.err, "msh: cd: %s not set", name);
@@ -104,11 +104,11 @@ int	msh_cd(t_cmd *cmd, t_msh *msh)
 		newdir = ft_strjoin_dir(buf, dstdir); 
 	}
 	chdir(newdir);
-	i = env_unset(msh->env, "OLDPWD");
+	i = env_unset(&msh->env, "OLDPWD");
 	msh->env.envp[i] = ft_strjoin("OLDPWD=", buf);
-	i = env_unset(msh->env, "PWD");
+	i = env_unset(&msh->env, "PWD");
 	msh->env.envp[i] = ft_strjoin("PWD=", newdir);
 	free(buf);
-	free(newdir)
+	free(newdir);
 	return (0);
 }
