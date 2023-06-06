@@ -35,7 +35,7 @@ void	assert_exit_output(t_cmd *cmd, char *expected)
 	msh = (t_msh *)malloc(sizeof(t_msh));
 	bzero(msh, sizeof(t_msh));
 	msh->env = (t_env *)malloc(sizeof(t_env));
-	msh_exit(cmd, &msh);
+	msh_exit(cmd, msh);
 	fflush(stderr);
 	cr_assert_stdout_eq_str(expected);
 }
@@ -48,7 +48,7 @@ void	assert_exit_output_error(t_cmd *cmd, char *expected)
 	msh = (t_msh *)malloc(sizeof(t_msh));
 	bzero(msh, sizeof(t_msh));
 	msh->env = (t_env *)malloc(sizeof(t_env));
-	msh_exit(cmd, &msh);
+	msh_exit(cmd, msh);
 	fflush(stderr);
 	cr_assert_stderr_eq_str(expected);
 }
@@ -62,7 +62,7 @@ void	assert_exit_status(t_cmd *cmd, int expected)
 	msh = (t_msh *)malloc(sizeof(t_msh));
 	bzero(msh, sizeof(t_msh));
 	msh->env = (t_env *)malloc(sizeof(t_env));
-	status = msh_exit(cmd, &msh);
+	status = msh_exit(cmd, msh);
 	cr_assert_eq(status, expected);
 }
 
