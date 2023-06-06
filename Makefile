@@ -6,7 +6,7 @@
 #    By: dbasting <marvin@codam.nl>                   +#+                      #
 #                                                    +#+                       #
 #    Created: 2022/12/28 12:06:53 by dbasting      #+#    #+#                  #
-#    Updated: 2023/06/06 16:13:05 by jvan-hal      ########   odam.nl          #
+#    Updated: 2023/06/06 16:16:09 by jvan-hal      ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -113,7 +113,7 @@ test_env:
 
 test_exit:
 	$(MAKE) -j -C lib/libft
-	cc $(CFLAGS) -lcriterion source/builtins/exit.c source/cmd.c source/builtins/exit_test/exit_unittest.c lib/libft/libft.a && ./a.out
+	cc $(CFLAGS) -lcriterion source/builtins/exit.c source/cmd.c source/env/env.c source/builtins/exit_test/exit_unittest.c lib/libft/libft.a && ./a.out
 	rm a.out
 
 test_export:
