@@ -97,11 +97,11 @@ int	msh_cd(t_cmd *cmd, t_msh *msh)
 	char	*buf;
 
     buf = NULL;
-	dstdir = get_dstdir(cmd, msh);
-    if (!dstdir)
-        return (1);
     buf = getcwd(NULL, 0);
     if (!buf)
+        return (1);
+    dstdir = get_dstdir(cmd, msh);
+    if (!dstdir)
         return (1);
     if (dstdir[0] == '/')
         newdir = ft_strdup(dstdir);

@@ -37,6 +37,18 @@ t_errno	env_init_(t_env *env, int len, ...)
     return (MSH_SUCCESS);
 }
 
+void	print_2d_arr(int fd, char **arr, int size)
+{
+	int	i;
+
+	i = 0;
+	while (i < size)
+	{
+		ft_dprintf(fd, "%s\n", arr[i]);
+		++i;
+	}
+}
+
 void	assert_cd_dir(t_cmd *cmd, char *expected, void (*env_init)(t_msh *))
 {
     t_msh	msh;
@@ -48,8 +60,9 @@ void	assert_cd_dir(t_cmd *cmd, char *expected, void (*env_init)(t_msh *))
     env_init(&msh);
     msh_cd(cmd, &msh);
     buf = getcwd(NULL, 0);
-    ft_printf("%s\n", buf);
+    ft_printf("1 %s\n", buf);
     free(buf);
+	print_2d_arr(1, msh.env.envp, 4);
     env_free_(&msh.env);
 }
 
@@ -66,11 +79,12 @@ int main()
 
     cmd.argc = 2;
     cmd.argv.array = input;
-    system("mkdir /tmp/cd-no_arg_with_home");
-    system("mkdir /tmp/cd-dash");
-    system("cd /tmp/cd-no_arg_with_home");
+	system("mkdir ./../tmp");
+    system("mkdir ./../tmp/cd-no_arg_with_home");
+    system("mkdir ./../tmp/cd-dash");
+    system("cd ./../tmp/cd-no_arg_with_home");
     assert_cd_dir(&cmd, "/tmp/cd-dash", &env_with_home);
-    system("rmdir /tmp/cd-no_arg_with_home");
-    system("rmdir /tmp/cd-dash");
+    system("rmdir ./../tmp/cd-no_arg_with_home");
+    system("rmdir ./../tmp/cd-dash");
     return 0;
 }
