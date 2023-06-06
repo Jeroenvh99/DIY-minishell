@@ -15,6 +15,7 @@
 #include "libft.h"
 #include <criterion/assert.h>
 #include <criterion/internal/assert.h>
+#include <stdlib.h>
 
 void redirect_stderr(void)
 {
@@ -28,10 +29,12 @@ void redirect_stdout(void)
 
 void	assert_exit_output(t_cmd *cmd, char *expected)
 {
-	t_msh	msh;
+	t_msh	*msh;
 
     cmd->io.out = 1;
-	bzero(&msh, sizeof(msh));
+	msh = (msh *)malloc(sizeof(msh));
+	bzero(msh, sizeof(msh));
+	msh->env = (env *)malloc(sizeof(env));
 	msh_exit(cmd, &msh);
 	fflush(stderr);
 	cr_assert_stdout_eq_str(expected);
@@ -39,10 +42,12 @@ void	assert_exit_output(t_cmd *cmd, char *expected)
 
 void	assert_exit_output_error(t_cmd *cmd, char *expected)
 {
-	t_msh	msh;
+	t_msh	*msh;
 
     cmd->io.err = 2;
-	bzero(&msh, sizeof(msh));
+	msh = (msh *)malloc(sizeof(msh));
+	bzero(msh, sizeof(msh));
+	msh->env = (env *)malloc(sizeof(env));
 	msh_exit(cmd, &msh);
 	fflush(stderr);
 	cr_assert_stderr_eq_str(expected);
@@ -50,11 +55,13 @@ void	assert_exit_output_error(t_cmd *cmd, char *expected)
 
 void	assert_exit_status(t_cmd *cmd, int expected)
 {
-	t_msh	msh;
+	t_msh	*msh;
 	int		status;
 
     cmd->io.err = 2;
-	bzero(&msh, sizeof(msh));
+	msh = (msh *)malloc(sizeof(msh));
+	bzero(msh, sizeof(msh));
+	msh->env = (env *)malloc(sizeof(env));
 	status = msh_exit(cmd, &msh);
 	cr_assert_eq(status, expected);
 }

@@ -6,7 +6,7 @@
 /*   By: jvan-hal <marvin@codam.nl>                   +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/04/18 13:45:34 by jvan-hal      #+#    #+#                 */
-/*   Updated: 2023/06/06 16:13:12 by jvan-hal      ########   odam.nl         */
+/*   Updated: 2023/06/06 16:33:08 by jvan-hal      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,8 +21,8 @@
 void	msh_deinit(t_msh *msh)
 {
 	env_free(&msh->env);
-	hashtable_destroy(&msh->var, free);
 	list_clear(&msh->cmds, (t_freef)cmd_free);
+	free(msh);
 }
 
 int	check_arg(char *str, int errfd)
