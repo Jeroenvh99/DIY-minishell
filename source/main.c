@@ -6,22 +6,17 @@
 /*   By: dbasting <marvin@codam.nl>                   +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/04/18 14:13:15 by dbasting      #+#    #+#                 */
-/*   Updated: 2023/06/06 15:50:51 by dbasting      ########   odam.nl         */
+/*   Updated: 2023/06/06 16:22:16 by dbasting      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "msh.h"
 #include "msh_env.h"
 #include "msh_error.h"
-#include "msh_parse.h"
 #include "msh_utils.h"
 
 #include "ft_hash.h"
-#include "ft_stdlib.h"
-#include <stddef.h>
 #include <stdlib.h>
-
-#include <stdio.h>
 
 static t_errno	msh_init(t_msh *msh, int argc, char **argv, char **envp);
 
@@ -34,7 +29,6 @@ int	main(int argc, char **argv, char **envp)
 		return (msh.errno);
 	msh_loop(&msh);
 	msh_deinit(&msh);
-	printf("exit: %d\n", msh.errno);
 	return (msh.errno);
 }
 
