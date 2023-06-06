@@ -47,6 +47,7 @@ void	assert_env_output_error(t_cmd *cmd, char *expected)
 	t_msh	msh;
 	char	*environ[] = {"LOGNAME=jvan-hal", NULL};
 
+	cmd->io.err = 2;
 	bzero(&msh, sizeof(msh));
 	msh.env.envp = environ;
     msh.env.len = 1;
@@ -123,7 +124,6 @@ Test(env_err, input_one_2)
     char	*input[] = {"env", "-", NULL};
     char	*expected = "env: -: No such file or directory\n";
     cmd.argc = 2;
-	cmd.io.err = 2;
     cmd.argv.array = input;
     assert_env_output_error(&cmd, expected);
 }
@@ -156,7 +156,6 @@ Test(env_err, input_one_5)
     char	*input[] = {"env", "--", NULL};
     char	*expected = "env: --: No such file or directory\n";
     cmd.argc = 2;
-	cmd.io.err = 2;
     cmd.argv.array = input;
     assert_env_output_error(&cmd, expected);
 }
