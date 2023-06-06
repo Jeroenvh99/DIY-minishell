@@ -21,6 +21,22 @@ void redirect_stderr(void)
     cr_redirect_stderr();
 }
 
+void redirect_stdout(void)
+{
+    cr_redirect_stdout();
+}
+
+void	assert_exit_output(t_cmd *cmd, char *expected)
+{
+	t_msh	msh;
+
+    cmd->io.out = 1;
+	bzero(&msh, sizeof(msh));
+	msh_exit(cmd, &msh);
+	fflush(stderr);
+	cr_assert_stdout_eq_str(expected);
+}
+
 void	assert_exit_output_error(t_cmd *cmd, char *expected)
 {
 	t_msh	msh;
@@ -43,9 +59,21 @@ void	assert_exit_status(t_cmd *cmd, int expected)
 	cr_assert_eq(status, expected);
 }
 
-TestSuite(exit, .init=redirect_stderr);
+TestSuite(exit, .init=redirect_stdout);
+
+TestSuite(exit_err, .init=redirect_stderr);
 
 Test(exit, input_empty_0)
+{
+	t_cmd cmd;
+
+	char	*input[] = {"exit", NULL};
+	char	*expected = "exit\n";
+	cmd.argv.array = input;
+	assert_exit_output(&cmd, expected);
+}
+
+Test(exit_err, input_empty_1)
 {
 	t_cmd cmd;
 
@@ -55,7 +83,7 @@ Test(exit, input_empty_0)
 	assert_exit_output_error(&cmd, expected);
 }
 
-Test(exit, input_empty_1)
+Test(exit, input_empty_2)
 {
 	t_cmd cmd;
 
@@ -69,12 +97,22 @@ Test(exit, input_one_0)
 	t_cmd cmd;
 
 	char	*input[] = {"exit", "8", NULL};
+	char	*expected = "exit\n";
+	cmd.argv.array = input;
+	assert_exit_output(&cmd, expected);
+}
+
+Test(exit_err, input_one_1)
+{
+	t_cmd cmd;
+
+	char	*input[] = {"exit", "8", NULL};
 	char	*expected = "";
 	cmd.argv.array = input;
 	assert_exit_output_error(&cmd, expected);
 }
 
-Test(exit, input_one_1)
+Test(exit, input_one_2)
 {
 	t_cmd cmd;
 
@@ -83,17 +121,27 @@ Test(exit, input_one_1)
 	assert_exit_status(&cmd, 8);
 }
 
-Test(exit, input_one_2)
+Test(exit, input_one_3)
 {
 	t_cmd cmd;
 
 	char	*input[] = {"exit", "d", NULL};
-	char	*expected = "exit\nmsh: %s: exit: numeric argument required\n";
+	char	*expected = "exit\n";
+	cmd.argv.array = input;
+	assert_exit_output(&cmd, expected);
+}
+
+Test(exit_err, input_one_4)
+{
+	t_cmd cmd;
+
+	char	*input[] = {"exit", "d", NULL};
+	char	*expected = "msh: %s: exit: numeric argument required\n";
 	cmd.argv.array = input;
 	assert_exit_output_error(&cmd, expected);
 }
 
-Test(exit, input_one_3)
+Test(exit, input_one_5)
 {
 	t_cmd cmd;
 
@@ -107,12 +155,22 @@ Test(exit, input_two_0)
 	t_cmd cmd;
 
 	char	*input[] = {"exit", "5", "7", NULL};
-	char	*expected = "exit\nmsh: exit: too many arguments\n";
+	char	*expected = "";
+	cmd.argv.array = input;
+	assert_exit_output(&cmd, expected);
+}
+
+Test(exit_err, input_two_1)
+{
+	t_cmd cmd;
+
+	char	*input[] = {"exit", "5", "7", NULL};
+	char	*expected = "msh: exit: too many arguments\n";
 	cmd.argv.array = input;
 	assert_exit_output_error(&cmd, expected);
 }
 
-Test(exit, input_two_1)
+Test(exit, input_two_2)
 {
 	t_cmd cmd;
 

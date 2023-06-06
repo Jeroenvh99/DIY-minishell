@@ -6,7 +6,7 @@
 /*   By: jvan-hal <marvin@codam.nl>                   +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/04/18 13:45:34 by jvan-hal      #+#    #+#                 */
-/*   Updated: 2023/06/06 15:52:26 by jvan-hal      ########   odam.nl         */
+/*   Updated: 2023/06/06 16:02:28 by jvan-hal      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ int	check_arg(char *str, int errfd)
 	{
 		if (ft_isalpha(*str))
 		{
-			ft_dprintf(errfd, "exit\nmsh: %s: exit: numeric argument required\n", str);
+			ft_dprintf(errfd, "msh: %s: exit: numeric argument required\n", str);
 			return (0);
 		}
 		++str;
@@ -45,9 +45,10 @@ int	msh_exit(t_cmd *cmd, t_msh *msh)
 	status = 0;
 	if (cmd->argc > 2)
 	{
-		ft_dprintf(cmd->io.err, "exit\nmsh: exit: too many arguments\n");
+		ft_dprintf(cmd->io.err, "msh: exit: too many arguments\n");
 		return (1);
 	}
+	ft_dprintf(cmd->io.out, "exit\n");
 	else if (cmd->argc == 2)
 	{
 		if (check_arg(cmd->argv.array[1], cmd->io.err))
