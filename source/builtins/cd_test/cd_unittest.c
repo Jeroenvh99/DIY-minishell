@@ -19,6 +19,18 @@
 #include <unistd.h>
 #include <stdarg.h>
 
+void	print_env(char **arr)
+{
+	int	i;
+
+	i = 0;
+	while (arr[i])
+	{
+		ft_printf("%s\n", arr[i]);
+		++i;
+	}
+}
+
 void	env_free_(t_env *env)
 {
     while (env->used--)
@@ -117,6 +129,20 @@ void	assert_cd_status(t_cmd *cmd, int expected, void (*env_init)(t_msh *))
     env_free_(&msh.env);
 }
 
+// void	assert_cd_env(t_cmd *cmd, int expected, void (*env_init)(t_msh *))
+// {
+// 	t_msh	msh;
+
+// 	cmd->io.out = 1;
+// 	bzero(&msh, sizeof(msh));
+// 	env_init(&msh);
+// 	status = msh_cd(cmd, &msh);
+// 	print_env(msh.env.envp);
+// 	fflush(stdout);
+// 	cr_assert_stdout_eq_str(expected);
+//     env_free_(&msh.env);
+// }
+
 void	env_with_home(t_msh *msh)
 {
 	env_init_(&msh->env, 3, "HOME=/Users/jvan-hal", "LOGNAME=jvan-hal",
@@ -136,6 +162,8 @@ void	env_without_oldpwd(t_msh *msh)
 TestSuite(cd, .init = redirect_stdout);
 
 TestSuite(cd_err, .init = redirect_stderr);
+
+// test if oldpwd and pwd exist in the env
 
 Test(cd, no_arg_with_home_0)
 {
@@ -232,7 +260,7 @@ Test(cd, dash_arg_without_oldpwd_0)
 	system("mkdir -p /tmp/cd-no_arg_with_home");
 	system("mkdir /tmp/cd-dash");
 	system("cd /tmp/cd-no_arg_with_home");
-	assert_cd_dir(&cmd, "/tmp/cd-dash", &env_without_oldpwd);
+	assert_cd_dir(&cmd, "/private/tmp/cd-dash", &env_without_oldpwd);
 	system("rmdir /tmp/cd-no_arg_with_home");
 	system("rmdir /tmp/cd-dash");
 }
@@ -245,7 +273,7 @@ Test(cd, dir_arg_0)
 	cmd.argc = 2;
 	cmd.argv.array = input;
 	system("mkdir /tmp/cd-no_arg_with_home");
-	assert_cd_dir(&cmd, "/tmp", &env_with_home);
+	assert_cd_dir(&cmd, "/private/tmp", &env_with_home);
 	system("rmdir /tmp/cd-no_arg_with_home");
 }
 
