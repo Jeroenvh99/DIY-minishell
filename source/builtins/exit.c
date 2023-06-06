@@ -6,7 +6,7 @@
 /*   By: jvan-hal <marvin@codam.nl>                   +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/04/18 13:45:34 by jvan-hal      #+#    #+#                 */
-/*   Updated: 2023/06/06 16:02:28 by jvan-hal      ########   odam.nl         */
+/*   Updated: 2023/06/06 16:13:12 by jvan-hal      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 #include "ft_stdlib.h"
 #include "ft_stdio.h"
 #include "msh.h"
+#include "msh_utils.h"
 #include <stdlib.h>
 #include <unistd.h>
 
@@ -49,7 +50,7 @@ int	msh_exit(t_cmd *cmd, t_msh *msh)
 		return (1);
 	}
 	ft_dprintf(cmd->io.out, "exit\n");
-	else if (cmd->argc == 2)
+	if (cmd->argc == 2)
 	{
 		if (check_arg(cmd->argv.array[1], cmd->io.err))
 			status = ft_atoi(cmd->argv.array[1]);
