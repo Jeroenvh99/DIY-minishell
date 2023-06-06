@@ -191,17 +191,24 @@ Test(cd, no_arg_with_home_1)
 	system("rmdir /tmp/cd-no_arg_with_home");
 }
 
-Test(cd, no_arg_without_home_0)
+Test(cd_err, no_arg_without_home_0)
 {
 	t_cmd	cmd;
 	char	*input[] = {"cd", NULL};
 
 	cmd.argc = 1;
 	cmd.argv.array = input;
-	system("mkdir /tmp/cd-no_arg_with_home");
-	system("cd /tmp/cd-no_arg_with_home");
-	assert_cd_dir(&cmd, getenv("HOME"), &env_without_home);
-	system("rmdir /tmp/cd-no_arg_with_home");
+	assert_cd_output_error(&cmd, "msh: cd: HOME not set\n", &env_without_home);
+}
+
+Test(cd_err, no_arg_without_home_1)
+{
+	t_cmd	cmd;
+	char	*input[] = {"cd", NULL};
+
+	cmd.argc = 1;
+	cmd.argv.array = input;
+	assert_cd_status(&cmd, 1, &env_without_home);
 }
 
 Test(cd, dash_arg_with_oldpwd_0)
@@ -306,7 +313,7 @@ Test(cd_err, inv_dir_arg_1)
 {
 	t_cmd	cmd;
 	char	*input[] = {"cd", "trmp", NULL};
-	char	*expected = "msh: cd: trmp: No such file or directory";
+	char	*expected = "msh: cd: trmp: No such file or directory\n";
 
 	cmd.argc = 2;
 	cmd.argv.array = input;

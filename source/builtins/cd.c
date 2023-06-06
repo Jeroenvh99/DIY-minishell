@@ -6,7 +6,7 @@
 /*   By: jvan-hal <jvan-hal@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/04/20 16:52:40 by jvan-hal      #+#    #+#                 */
-/*   Updated: 2023/05/25 18:11:16 by jvan-hal      ########   odam.nl         */
+/*   Updated: 2023/06/06 13:59:17 by jvan-hal      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ char	*get_env_dir(char *name, t_cmd *cmd, t_msh *msh)
 	dstdir = env_search(&msh->env, name);
 	if (!dstdir)
 	{
-		ft_dprintf(cmd->io.err, "msh: cd: %s not set", name);
+		ft_dprintf(cmd->io.err, "msh: cd: %s not set\n", name);
 		return (NULL);
 	}
 	return (dstdir);
@@ -109,7 +109,11 @@ int	msh_cd(t_cmd *cmd, t_msh *msh)
 		newdir = ft_strjoin_dir(buf, dstdir);
     if (!newdir)
         return (1);
-	chdir(newdir);
+	if (chdir(newdir) != 0)
+	{
+		ft_dprintf(cmd->io.err, "msh: cd: %s: No such file or directory\n", newdir);
+		return (1);
+	}
 	env_set(&msh->env, ft_strjoin("OLDPWD=", buf));
 	env_set(&msh->env, ft_strjoin("PWD=", newdir));
 	free(buf);
