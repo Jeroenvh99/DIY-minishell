@@ -6,7 +6,7 @@
 /*   By: dbasting <marvin@codam.nl>                   +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/04/18 13:51:16 by dbasting      #+#    #+#                 */
-/*   Updated: 2023/05/25 18:08:58 by jvan-hal      ########   odam.nl         */
+/*   Updated: 2023/06/06 16:07:35 by dbasting      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,6 +104,7 @@ typedef struct s_msh {
 }	t_msh;
 
 /* Base functions. */
+void	msh_loop(t_msh *msh);
 t_errno	readcmdline(t_list **token_list, char const *prompt);
 void	msh_deinit(t_msh *msh);
 
@@ -115,7 +116,7 @@ void	cmd_free_wrapper(void *cmd);
 void	cmd_free_list(t_cmd *cmd);
 void	cmd_destroy(t_cmd **cmd);
 
-/* builtin functions. */
+/* Builtin functions. */ /* Moet dit niet naar msh_exec.h? */
 int		msh_cd(t_cmd *cmd, t_msh *msh);
 int		msh_echo(t_cmd *cmd, t_msh *msh);
 int		msh_env(t_cmd *cmd, t_msh *msh);

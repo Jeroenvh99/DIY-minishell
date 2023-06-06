@@ -6,7 +6,7 @@
 /*   By: dbasting <dbasting@codam.nl>                 +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/22 08:42:57 by dbasting      #+#    #+#                 */
-/*   Updated: 2023/05/22 08:43:03 by dbasting      ########   odam.nl         */
+/*   Updated: 2023/06/06 15:47:06 by dbasting      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 
 typedef enum e_errno {
 	MSH_SUCCESS = 0,
+	MSH_NOCMDLINE,
 	MSH_ENDCMD_PIPE,
 	MSH_ENDCMD_CTL,
 	MSH_GENERIC,

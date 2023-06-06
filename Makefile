@@ -6,7 +6,7 @@
 #    By: dbasting <marvin@codam.nl>                   +#+                      #
 #                                                    +#+                       #
 #    Created: 2022/12/28 12:06:53 by dbasting      #+#    #+#                  #
-#    Updated: 2023/06/06 15:40:41 by dbasting      ########   odam.nl          #
+#    Updated: 2023/06/06 16:06:21 by dbasting      ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -36,6 +36,7 @@ SRC_FILES	:= main.c\
 			minishell/cmd_finish.c\
 			minishell/error.c\
 			minishell/readcmdline.c\
+			minishell/msh_loop.c\
 			parse/parse.c\
 			parse/parse_in.c\
 			parse/parse_operator.c\
