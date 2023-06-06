@@ -123,6 +123,7 @@ Test(env_err, input_one_2)
     char	*input[] = {"env", "-", NULL};
     char	*expected = "env: -: No such file or directory\n";
     cmd.argc = 2;
+	cmd.io.err = 2;
     cmd.argv.array = input;
     assert_env_output_error(&cmd, expected);
 }
@@ -155,6 +156,7 @@ Test(env_err, input_one_5)
     char	*input[] = {"env", "--", NULL};
     char	*expected = "env: --: No such file or directory\n";
     cmd.argc = 2;
+	cmd.io.err = 2;
     cmd.argv.array = input;
     assert_env_output_error(&cmd, expected);
 }
