@@ -215,10 +215,6 @@ Test(cd, dash_arg_with_oldpwd_0)
 {
 	t_cmd	cmd;
 	char	*input[] = {"cd", "-", NULL};
-	char	*buf = NULL;
-
-	buf = getcwd(NULL, 0);
-	ft_printf("%s\n", buf);
 
 	cmd.argc = 2;
 	cmd.argv.array = input;
@@ -241,7 +237,7 @@ Test(cd, dash_arg_with_oldpwd_1)
 	system("mkdir /tmp/cd-no_arg_with_home");
 	system("mkdir /tmp/cd-dash");
 	system("cd /tmp/cd-no_arg_with_home");
-	assert_cd_output(&cmd, "/tmp/cd-dash", &env_with_home);
+	assert_cd_output(&cmd, "/tmp/cd-dash\n", &env_with_home);
 	system("rmdir /tmp/cd-no_arg_with_home");
 	system("rmdir /tmp/cd-dash");
 }

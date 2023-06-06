@@ -6,7 +6,7 @@
 /*   By: jvan-hal <jvan-hal@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/04/20 16:52:40 by jvan-hal      #+#    #+#                 */
-/*   Updated: 2023/06/06 13:59:17 by jvan-hal      ########   odam.nl         */
+/*   Updated: 2023/06/06 14:24:22 by jvan-hal      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,7 +111,7 @@ int	msh_cd(t_cmd *cmd, t_msh *msh)
         return (1);
 	if (chdir(newdir) != 0)
 	{
-		ft_dprintf(cmd->io.err, "msh: cd: %s: No such file or directory\n", newdir);
+		ft_dprintf(cmd->io.err, "msh: cd: %s: No such file or directory\n", cmd->argv.array[1]);
 		return (1);
 	}
 	env_set(&msh->env, ft_strjoin("OLDPWD=", buf));
