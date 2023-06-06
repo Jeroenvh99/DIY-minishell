@@ -112,7 +112,7 @@ Test(exit, input_two_0)
 	assert_exit_output_error(&cmd, expected);
 }
 
-Test(exit, input_two_0)
+Test(exit, input_two_1)
 {
 	t_cmd cmd;
 
