@@ -174,7 +174,7 @@ Test(cd, no_arg_with_home_0)
 	cmd.argv.array = input;
 	system("mkdir /tmp/cd-no_arg_with_home");
 	system("cd /tmp/cd-no_arg_with_home");
-	assert_cd_dir(&cmd, getenv("HOME"), &env_with_home);
+	assert_cd_dir(&cmd, "/Users/jvan-hal", &env_with_home);
 	system("rmdir /tmp/cd-no_arg_with_home");
 }
 
@@ -185,8 +185,8 @@ Test(cd, no_arg_with_home_1)
 
 	cmd.argc = 1;
 	cmd.argv.array = input;
-	system("mkdir /tmp/cd-no_arg_with_home");
-	system("cd /tmp/cd-no_arg_with_home");
+	system("cd");
+	system("mkdir /Users/jvan-hal");
 	assert_cd_status(&cmd, 0, &env_with_home);
 	system("rmdir /tmp/cd-no_arg_with_home");
 }
@@ -195,7 +195,7 @@ Test(cd_err, no_arg_without_home_0)
 {
 	t_cmd	cmd;
 	char	*input[] = {"cd", NULL};
-
+	
 	cmd.argc = 1;
 	cmd.argv.array = input;
 	assert_cd_output_error(&cmd, "msh: cd: HOME not set\n", &env_without_home);
@@ -215,6 +215,10 @@ Test(cd, dash_arg_with_oldpwd_0)
 {
 	t_cmd	cmd;
 	char	*input[] = {"cd", "-", NULL};
+	char	*buf = NULL;
+
+	buf = getcwd(NULL, 0);
+	ft_printf("%s\n", buf);
 
 	cmd.argc = 2;
 	cmd.argv.array = input;
