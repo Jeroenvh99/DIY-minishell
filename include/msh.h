@@ -6,7 +6,7 @@
 /*   By: dbasting <marvin@codam.nl>                   +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/04/18 13:51:16 by dbasting      #+#    #+#                 */
-/*   Updated: 2023/06/06 16:07:35 by dbasting      ########   odam.nl         */
+/*   Updated: 2023/06/07 22:44:19 by dbasting      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@
 # include "ft_hash.h"
 # include "ft_list.h"
 # include <stddef.h>
+# include <sys/types.h>
 
 # define PROMPT			"msh$ "
 # define PROMPT_CONT	"> "
@@ -51,11 +52,6 @@ typedef struct s_io {
 	t_fd	err;
 }	t_io;
 
-/*typedef union u_argv {
-	t_list	*list;
-	char	**array;
-}	t_argv;*/
-
 /* Simple command object.
  * @param path	The path to the executable (or the name of the builtin).
  * @param argc	The number of arguments supplied.
@@ -83,24 +79,34 @@ typedef struct s_cmdtree {
 	union u_data {
 		t_list				*pipeline;
 		struct s_cmdtree	*branches[2];
-	} u_data;
+	} data;
 	struct s_cmdtree		*parent;
 	int						op;
 }	t_cmdtree;
 
+/* Global shell data structure.
+ * @param exit	The exit status of the most recently executed foreground pipe.
+ * @param child	The PID of the current child process.
+ */
+struct s_g_msh {
+	int		exit;
+	pid_t	child;
+};
+
 /* Shell data object.
+ * @param g_msh	Global portion of shell data:
  * @param env	The shell environment.
  * @param var	The shell's local variables. ## UPCOMING ##
  * @param cmds	The current command queue.
- * @param exit	The exit status of the most recently executed foreground pipe.
  * @param errno	The current error code.
  */
 typedef struct s_msh {
-	t_env		env;
-	t_hashtable	*var;
-	t_list		*cmds;
-	int			exit;
-	t_errno		errno;
+	struct s_g_msh	*g_msh;
+	t_env			env;
+	t_hashtable		*var;
+	t_list			*cmds;
+	int				exit;
+	t_errno			errno;
 }	t_msh;
 
 /* Base functions. */
@@ -115,6 +121,11 @@ void	cmd_free(t_cmd *cmd);
 void	cmd_free_wrapper(void *cmd);
 void	cmd_free_list(t_cmd *cmd);
 void	cmd_destroy(t_cmd **cmd);
+
+/* Signal functions. */
+void	handle_sigint(int signum);
+void	handle_sigint_heredoc(int signum);
+void	handle_sigint_relay(int signum);
 
 /* Builtin functions. */ /* Moet dit niet naar msh_exec.h? */
 int		msh_cd(t_cmd *cmd, t_msh *msh);
