@@ -6,7 +6,7 @@
 /*   By: dbasting <marvin@codam.nl>                   +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/04/18 13:51:16 by dbasting      #+#    #+#                 */
-/*   Updated: 2023/06/07 22:44:19 by dbasting      ########   odam.nl         */
+/*   Updated: 2023/06/09 17:17:58 by dbasting      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@
 # define PROMPT			"msh$ "
 # define PROMPT_CONT	"> "
 # define PROMPT_PIPE	"pipe> "
+# define PROMPT_QUOTE	"dquot> "
 
 typedef enum e_in_mode {
 	IN_STD,
@@ -111,7 +112,7 @@ typedef struct s_msh {
 
 /* Base functions. */
 void	msh_loop(t_msh *msh);
-t_errno	readcmdline(t_list **token_list, char const *prompt);
+t_errno	readcmdline(t_list **tokens);
 void	msh_deinit(t_msh *msh);
 
 /* Command functions. */
