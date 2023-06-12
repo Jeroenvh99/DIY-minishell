@@ -296,18 +296,18 @@ Test(cd, dash_arg_with_oldpwd_2)
 // 	system("rmdir /tmp/cd-no_arg_with_home");
 // }
 
-// Test(cd, inv_dir_arg_0)
-// {
-// 	t_cmd	cmd;
-// 	char	*input[] = {"cd", "trmp", NULL};
-// 	char	*buf;
+Test(cd, inv_dir_arg_0)
+{
+    t_cmd	cmd;
+    char	*input[] = {"cd", "trmp", NULL};
+    char	*buf;
 
-// 	buf = NULL;
-// 	cmd.argc = 2;
-// 	cmd.argv.array = input;
-// 	assert_cd_dir(&cmd, getcwd(buf, 0), &env_with_home);
-// 	free(buf);
-// }
+    buf = NULL;
+    cmd.argc = 2;
+    cmd.argv.array = input;
+    assert_cd_dir(&cmd, getcwd(buf, 0), &env_with_home);
+    free(buf);
+}
 
 Test(cd_err, inv_dir_arg_1)
 {
