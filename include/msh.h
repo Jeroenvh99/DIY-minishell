@@ -6,7 +6,7 @@
 /*   By: dbasting <marvin@codam.nl>                   +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/04/18 13:51:16 by dbasting      #+#    #+#                 */
-/*   Updated: 2023/06/09 17:17:58 by dbasting      ########   odam.nl         */
+/*   Updated: 2023/06/12 18:02:40 by dbasting      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@
 # define PROMPT			"msh$ "
 # define PROMPT_CONT	"> "
 # define PROMPT_PIPE	"pipe> "
-# define PROMPT_QUOTE	"dquot> "
+# define PROMPT_QUOTE	"dquote> "
 
 typedef enum e_in_mode {
 	IN_STD,
@@ -40,7 +40,9 @@ typedef enum e_out_mode {
 	N_OUT_MODE,
 }	t_out_mode;
 
-typedef int	t_fd;
+typedef void	(*t_handler)(int);
+typedef int		t_fd;
+typedef int		t_pipe[2];
 
 /* I/O information.
  * @param in	The file descriptor used for input.
@@ -86,12 +88,14 @@ typedef struct s_cmdtree {
 }	t_cmdtree;
 
 /* Global shell data structure.
- * @param exit	The exit status of the most recently executed foreground pipe.
- * @param child	The PID of the current child process.
+ * @param exit		The exit status of the most recently executed pipe.
+ * @param child		The PID of the current child process.
+ * @param heredoc	The current heredoc.
  */
 struct s_g_msh {
 	int		exit;
 	pid_t	child;
+	t_pipe	heredoc;
 };
 
 /* Shell data object.
@@ -124,6 +128,7 @@ void	cmd_free_list(t_cmd *cmd);
 void	cmd_destroy(t_cmd **cmd);
 
 /* Signal functions. */
+void	handler_set(int signum, t_handler handler);
 void	handle_sigint(int signum);
 void	handle_sigint_heredoc(int signum);
 void	handle_sigint_relay(int signum);

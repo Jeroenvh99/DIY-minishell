@@ -6,7 +6,7 @@
 /*   By: dbasting <dbasting@codam.nl>                 +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/06/06 15:33:46 by dbasting      #+#    #+#                 */
-/*   Updated: 2023/06/12 17:35:00 by dbasting      ########   odam.nl         */
+/*   Updated: 2023/06/12 18:02:20 by dbasting      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,13 @@
 #include <unistd.h>
 
 extern struct s_g_msh	g_msh;
+
+void	handler_set(int signum, t_handler handler)
+{
+	struct sigaction const	act = {.sa_handler = handler};
+
+	sigaction(signum, &act, NULL);
+}
 
 void	handle_sigint(int signum)
 {

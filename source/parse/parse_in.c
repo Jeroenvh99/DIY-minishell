@@ -6,7 +6,7 @@
 /*   By: dbasting <marvin@codam.nl>                   +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/04/18 14:13:15 by dbasting      #+#    #+#                 */
-/*   Updated: 2023/06/12 17:35:10 by dbasting      ########   odam.nl         */
+/*   Updated: 2023/06/12 18:03:46 by dbasting      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@
 #include "ft_list.h"
 #include <stdio.h>
 #include <readline/readline.h>
+#include <signal.h>
 #include <stddef.h>
 #include <stdlib.h>
 #include <unistd.h>
@@ -62,21 +63,25 @@ t_errno	parse_heredoc(t_cmd *cmd, t_list **tokens, t_msh *msh)
 
 static int	read_heredoc(char const *delim, t_msh *msh)
 {
-	int		fds[2];
 	char	*line;
 
-	if (pipe(fds) != 0)
+	if (pipe(msh->g_msh->heredoc) != 0)
 		return (-1);
+	handler_set(SIGINT, handle_sigint_heredoc);
 	line = readline(PROMPT_CONT);
 	while (line && ft_strncmp(line, delim, -1) != 0)
 	{
 		if (expand(NULL, &line, msh) != MSH_SUCCESS)
-			return (free(line), close(fds[0]), close(fds[1]), -1);
-		write(fds[0], line, ft_strlen(line));
+			return (free(line),
+					close(msh->g_msh->heredoc[0]),
+					close(msh->g_msh->heredoc[1]),
+					-1);
+		write(msh->g_msh->heredoc[0], line, ft_strlen(line));
 		free(line);
 		line = readline(PROMPT_CONT);
 	}
 	free(line);
-	close(fds[0]);
-	return (fds[1]);
+	close(msh->g_msh->heredoc[0]);
+	handler_set(SIGINT, handle_sigint);
+	return (msh->g_msh->heredoc[1]);
 }
