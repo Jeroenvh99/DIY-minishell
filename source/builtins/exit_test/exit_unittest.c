@@ -150,7 +150,7 @@ Test(exit_err, input_one_4)
 	t_cmd cmd;
 
 	char	*input[] = {"exit", "d", NULL};
-	char	*expected = "msh: %s: exit: numeric argument required\n";
+	char	*expected = "msh: d: exit: numeric argument required\n";
 	cmd.argc = 2;
 	cmd.argv.array = input;
 	assert_exit_output_error(&cmd, expected);
