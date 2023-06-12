@@ -55,9 +55,9 @@ int	msh_exit(t_cmd *cmd, t_msh *msh)
 	ft_dprintf(cmd->io.out, "exit\n");
 	if (cmd->argc == 2)
 	{
-		if (check_arg(cmd->argv.array[1], cmd->io.err))
+		check_arg(cmd->argv.array[1], cmd->io.err);
 //			status = ft_atoi(cmd->argv.array[1]);
-		else
+//		else
 //			status = 255;
 	}
 	msh_deinit(msh);
