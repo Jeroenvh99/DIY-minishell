@@ -107,6 +107,7 @@ void	assert_cd_dir(t_cmd *cmd, char *expected, void (*env_init)(t_msh *))
 
 	buf = NULL;
 	cmd->io.out = 1;
+    cmd->io.err = 2;
 	bzero(&msh, sizeof(msh));
 	env_init(&msh);
 	msh_cd(cmd, &msh);
