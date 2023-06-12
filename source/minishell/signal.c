@@ -6,7 +6,7 @@
 /*   By: dbasting <dbasting@codam.nl>                 +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/06/06 15:33:46 by dbasting      #+#    #+#                 */
-/*   Updated: 2023/06/12 18:02:20 by dbasting      ########   odam.nl         */
+/*   Updated: 2023/06/12 18:09:20 by dbasting      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,10 @@ void	handle_sigint(int signum)
 void	handle_sigint_heredoc(int signum)
 {
 	(void) signum;
+	close(g_msh.heredoc[0]);
+	close(g_msh.heredoc[1]);
+	g_msh.heredoc[0] = -1;
+	g_msh.heredoc[1] = -1;
 }
 
 void	handle_sigint_relay(int signum)
