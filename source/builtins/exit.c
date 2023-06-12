@@ -61,5 +61,5 @@ int	msh_exit(t_cmd *cmd, t_msh *msh)
 			status = 255;
 	}
 	msh_deinit(msh);
-	exit(status);
+//	exit(status);
 }
