@@ -29,7 +29,7 @@ int	check_arg(char *str, int errfd)
 {
 	while (*str)
 	{
-		if (ft_isalpha(*str))
+		if (!ft_isdigit(*str))
 		{
 			ft_dprintf(errfd, "msh: %s: exit: numeric argument required\n", str);
 			return (0);
