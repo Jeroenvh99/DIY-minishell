@@ -27,14 +27,17 @@ void	msh_deinit(t_msh *msh)
 
 int	check_arg(char *str, int errfd)
 {
-	while (*str)
+    int i;
+
+    i = 0;
+	while (str[i])
 	{
-		if (!ft_isdigit(*str))
+		if (!ft_isdigit(str[i]))
 		{
 			ft_dprintf(errfd, "msh: %s: exit: numeric argument required\n", str);
 			return (0);
 		}
-		++str;
+		++i;
 	}
 	return (1);
 }
