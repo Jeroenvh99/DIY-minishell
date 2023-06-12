@@ -6,13 +6,14 @@
 /*   By: dbasting <dbasting@codam.nl>                 +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/06/06 15:33:46 by dbasting      #+#    #+#                 */
-/*   Updated: 2023/06/07 22:52:18 by dbasting      ########   odam.nl         */
+/*   Updated: 2023/06/12 17:35:00 by dbasting      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "msh.h"
 
-#include <readline/readline.h>
+#include <stdio.h>
+#include "readline/readline.h"
 #include <signal.h>
 #include <stdlib.h>
 #include <unistd.h>

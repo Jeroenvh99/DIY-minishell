@@ -6,15 +6,13 @@
 #    By: dbasting <marvin@codam.nl>                   +#+                      #
 #                                                    +#+                       #
 #    Created: 2022/12/28 12:06:53 by dbasting      #+#    #+#                  #
-<<<<<<< HEAD
-#    Updated: 2023/06/05 18:04:34 by dbasting      ########   odam.nl          #
-=======
-#    Updated: 2023/06/07 22:48:44 by dbasting      ########   odam.nl          #
->>>>>>> 1359a19b93be50313859d4673d79c3da65b29344
+#    Updated: 2023/06/12 17:42:51 by dbasting      ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
 NAME 		:= minishell
+
+OS			:= $(shell uname -s)
 
 SRC_FILES	:= main.c\
 			env/env.c\
@@ -36,16 +34,12 @@ SRC_FILES	:= main.c\
 			lex/token.c\
 			lex/lex_token_get.c\
 			lex/lex_utils.c\
-<<<<<<< HEAD
-			minishell/readcmdline.c\
-=======
 			minishell/cmd.c\
 			minishell/cmd_finish.c\
 			minishell/error.c\
 			minishell/readcmdline.c\
 			minishell/msh_loop.c\
 			minishell/signal.c\
->>>>>>> 1359a19b93be50313859d4673d79c3da65b29344
 			parse/parse.c\
 			parse/parse_in.c\
 			parse/parse_operator.c\
@@ -55,13 +49,8 @@ SRC_FILES	:= main.c\
 			parse/parse_word.c\
 			utils/utils_list.c\
 			utils/utils_quotes.c\
-<<<<<<< HEAD
-			var.c\
-			var_parse.c\
-=======
 			var/var.c\
 			var/var_parse.c\
->>>>>>> 1359a19b93be50313859d4673d79c3da65b29344
 			\
 			debug.c
 OBJ_FILES	:= $(patsubst %.c,%.o,$(SRC_FILES))
@@ -76,17 +65,18 @@ HDR_FILES	:= msh.h\
 LIB_FILES	:= libft.a
 
 SRC_DIR		:= ./source/
-<<<<<<< HEAD
-SRC_SUBDIRS	:= builtins/ env/ expand/ lex/ minishell/ parse/ utils/
-=======
 SRC_SUBDIRS	:= builtins/ env/ expand/ lex/ minishell/ parse/ test/ utils/ var/
->>>>>>> 1359a19b93be50313859d4673d79c3da65b29344
 OBJ_DIR		:= ./object/
 OBJ_SUBDIRS := $(SRC_SUBDIRS)
 HDR_DIR		:= ./include/
 LIB_DIR		:= ./lib/
 
 CFLAGS		:= -Wall -Wextra -Werror -I$(LIB_DIR)libft/include/ -I$(HDR_DIR) -g -fsanitize=address
+LDFLAGS	:= -lreadline
+ifeq ($(OS),Darwin)
+LDFLAGS	+= -L$(HOME)/.brew/opt/readline/lib/ 
+CFLAGS	+= -I$(HOME)/.brew/opt/readline/include
+endif
 
 .PHONY: all bonus clean fclean re
 
@@ -96,7 +86,7 @@ bonus: $(NAME)
 	@echo "Bonus is basis, vrind."
 
 $(NAME): $(addprefix $(OBJ_DIR),$(OBJ_FILES)) $(addprefix $(LIB_DIR),$(LIB_FILES))
-	@$(CC) $(CFLAGS) $^ -lreadline -o $@
+	@$(CC) $(CFLAGS) $^ $(LDFLAGS) -o $@
 
 $(OBJ_DIR)%.o: $(SRC_DIR)%.c $(addprefix $(HDR_DIR),$(HDR_FILES))
 	@mkdir -p $(addprefix $(OBJ_DIR),$(OBJ_SUBDIRS))

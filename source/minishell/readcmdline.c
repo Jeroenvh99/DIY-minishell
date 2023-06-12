@@ -6,7 +6,7 @@
 /*   By: dbasting <marvin@codam.nl>                   +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/04/18 14:13:15 by dbasting      #+#    #+#                 */
-/*   Updated: 2023/06/09 17:35:07 by dbasting      ########   odam.nl         */
+/*   Updated: 2023/06/12 17:34:12 by dbasting      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@
 
 #include "ft_list.h"
 #include "ft_string.h"
+#include <stdio.h>
 #include <readline/history.h>
 #include <readline/readline.h>
 #include <stdlib.h>
