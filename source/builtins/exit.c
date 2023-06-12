@@ -44,9 +44,9 @@ int	check_arg(char *str, int errfd)
 
 int	msh_exit(t_cmd *cmd, t_msh *msh)
 {
-//	int	status;
-//
-//	status = 0;
+	int	status;
+
+	status = 0;
 	if (cmd->argc > 2)
 	{
 		ft_dprintf(cmd->io.err, "msh: exit: too many arguments\n");
@@ -55,11 +55,12 @@ int	msh_exit(t_cmd *cmd, t_msh *msh)
 	ft_dprintf(cmd->io.out, "exit\n");
 	if (cmd->argc == 2)
 	{
-		check_arg(cmd->argv.array[1], cmd->io.err);
-//			status = ft_atoi(cmd->argv.array[1]);
-//		else
-//			status = 255;
+		if (check_arg(cmd->argv.array[1], cmd->io.err))
+			status = ft_atoi(cmd->argv.array[1]);
+		else
+			status = 255;
 	}
 	msh_deinit(msh);
 //	exit(status);
+    return (status);
 }
