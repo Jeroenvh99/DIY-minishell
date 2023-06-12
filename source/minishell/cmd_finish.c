@@ -6,7 +6,7 @@
 /*   By: dbasting <dbasting@codam.nl>                 +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/22 08:45:23 by dbasting      #+#    #+#                 */
-/*   Updated: 2023/05/22 08:45:24 by dbasting      ########   odam.nl         */
+/*   Updated: 2023/06/06 10:00:27 by dbasting      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,8 +18,8 @@
 #include <stdlib.h>
 #include <unistd.h>
 
-static t_errno	cmd_argconvert(t_cmd *cmd);
-static t_errno	cmd_fdconvert(t_cmd *cmd);
+static inline t_errno	cmd_argconvert(t_cmd *cmd);
+static inline t_errno	cmd_fdconvert(t_cmd *cmd);
 
 t_errno	cmd_finish(t_cmd *cmd)
 {
@@ -31,7 +31,7 @@ t_errno	cmd_finish(t_cmd *cmd)
 	return (cmd_fdconvert(cmd));
 }
 
-static t_errno	cmd_argconvert(t_cmd *cmd)
+static inline t_errno	cmd_argconvert(t_cmd *cmd)
 {
 	t_list	*argv_list;
 	size_t	size;
@@ -52,7 +52,7 @@ static t_errno	cmd_argconvert(t_cmd *cmd)
 	return (MSH_SUCCESS);
 }
 
-static t_errno	cmd_fdconvert(t_cmd *cmd)
+static inline t_errno	cmd_fdconvert(t_cmd *cmd)
 {
 	if (cmd->io.in == -1)
 		cmd->io.in = STDIN_FILENO;

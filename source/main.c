@@ -6,27 +6,33 @@
 /*   By: dbasting <marvin@codam.nl>                   +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/04/18 14:13:15 by dbasting      #+#    #+#                 */
+<<<<<<< HEAD
 /*   Updated: 2023/06/05 18:03:06 by dbasting      ########   odam.nl         */
+=======
+/*   Updated: 2023/06/07 22:54:16 by dbasting      ########   odam.nl         */
+>>>>>>> 1359a19b93be50313859d4673d79c3da65b29344
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "msh.h"
 #include "msh_env.h"
 #include "msh_error.h"
-#include "msh_parse.h"
 #include "msh_utils.h"
 
 #include "ft_hash.h"
-#include "ft_list.h"
-#include "ft_stdlib.h"
-#include <stddef.h>
+#include "ft_stdio.h"
 #include <stdlib.h>
 
+<<<<<<< HEAD
 #include "msh_debug.h"
 #include <stdio.h>
 
 static t_errno	msh_loop(t_msh *msh);
+=======
+>>>>>>> 1359a19b93be50313859d4673d79c3da65b29344
 static t_errno	msh_init(t_msh *msh, int argc, char **argv, char **envp);
+
+struct s_g_msh	g_msh = {.exit = 0, .child = 0};
 
 int	main(int argc, char **argv, char **envp)
 {
@@ -35,32 +41,10 @@ int	main(int argc, char **argv, char **envp)
 	msh.errno = msh_init(&msh, argc, argv, envp);
 	if (msh.errno != MSH_SUCCESS)
 		return (msh.errno);
-	msh.errno = msh_loop(&msh);
+	msh_loop(&msh);
 	msh_deinit(&msh);
-	printf("exit: %d\n", msh.errno);
+	ft_printf("Goodbye! (%d)\n", msh.errno);
 	return (msh.errno);
-}
-
-/* Add errno check at the beginning of every function contained within the loop.
- */
-static t_errno	msh_loop(t_msh *msh)
-{
-	t_list	*tokens;
-
-	tokens = NULL;
-	while (1)
-	{
-		msh->errno = readcmdline(&tokens, PROMPT);
-		if (tokens == NULL)
-			break ;
-		msh->errno = parse(msh, &tokens);
-		if (msh->errno != MSH_SUCCESS)
-			msh_strerror(msh->errno);
-		else
-			cmds_view(msh->cmds);
-		list_clear(&msh->cmds, (t_freef)cmd_free);
-	}
-	return (msh->errno);
 }
 
 void	msh_deinit(t_msh *msh)
@@ -76,6 +60,7 @@ static t_errno	msh_init(t_msh *msh, int argc, char **argv, char **envp)
 
 	(void) argc;
 	(void) argv;
+	msh->g_msh = &g_msh;
 	errno = env_init(&msh->env, envp);
 	if (errno != MSH_SUCCESS)
 		return (errno);

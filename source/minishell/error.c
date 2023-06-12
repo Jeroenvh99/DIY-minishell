@@ -6,7 +6,7 @@
 /*   By: jvan-hal <jvan-hal@student.codam.nl>         +#+                     */
 /*       dbasting <dbasting@student.codam.nl>        +#+                      */
 /*   Created: 2023/04/18 18:27:29 by jvan-hal      #+#    #+#                 */
-/*   Updated: 2023/04/21 16:08:27 by jvan-hal      ########   odam.nl         */
+/*   Updated: 2023/06/06 15:44:50 by dbasting      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@ void	msh_strerror(t_errno errno)
 {
 	char const *const	errmsg[N_ERRNO] = {
 		"Everything went better than expected.",
+		"NOCMDLINE",
 		"ENDCMD_PIPE",
 		"ENDCMD_CTL",
 		"Something went wrong.",
