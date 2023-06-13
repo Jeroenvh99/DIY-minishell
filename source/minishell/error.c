@@ -6,7 +6,7 @@
 /*   By: jvan-hal <jvan-hal@student.codam.nl>         +#+                     */
 /*       dbasting <dbasting@student.codam.nl>        +#+                      */
 /*   Created: 2023/04/18 18:27:29 by jvan-hal      #+#    #+#                 */
-/*   Updated: 2023/06/06 15:44:50 by dbasting      ########   odam.nl         */
+/*   Updated: 2023/06/13 14:20:53 by dbasting      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,9 @@ void	msh_strerror(t_errno errno)
 		"Syntax error.",
 		"NO_VARSTR",
 		"INCOMPLETE_TOKEN",
+		"Failed to establish pipeline.",
 		"Failed to open file.",
+		"Couldn't create fork.",
 		"Couldn't allocate memory.",};
 
 	ft_dprintf(STDERR_FILENO, "Error: %s\n", errmsg[errno]);

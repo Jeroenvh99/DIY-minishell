@@ -6,7 +6,7 @@
 #    By: dbasting <marvin@codam.nl>                   +#+                      #
 #                                                    +#+                       #
 #    Created: 2022/12/28 12:06:53 by dbasting      #+#    #+#                  #
-#    Updated: 2023/06/12 17:42:51 by dbasting      ########   odam.nl          #
+#    Updated: 2023/06/13 13:27:54 by dbasting      ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -37,6 +37,7 @@ SRC_FILES	:= main.c\
 			minishell/cmd.c\
 			minishell/cmd_finish.c\
 			minishell/error.c\
+			minishell/heredoc.c\
 			minishell/readcmdline.c\
 			minishell/msh_loop.c\
 			minishell/signal.c\

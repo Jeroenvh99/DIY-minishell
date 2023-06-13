@@ -6,27 +6,25 @@
 /*   By: dbasting <marvin@codam.nl>                   +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/04/18 14:13:15 by dbasting      #+#    #+#                 */
-/*   Updated: 2023/06/12 18:03:46 by dbasting      ########   odam.nl         */
+/*   Updated: 2023/06/13 14:45:16 by dbasting      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "msh_parse.h"
 #include "msh.h"
 #include "msh_error.h"
-#include "msh_expand.h"
 #include "msh_utils.h"
 
 #include <fcntl.h>
-#include "ft_string.h"
 #include "ft_list.h"
 #include <stdio.h>
 #include <readline/readline.h>
-#include <signal.h>
 #include <stddef.h>
 #include <stdlib.h>
+#include <sys/wait.h>
 #include <unistd.h>
 
-static int	read_heredoc(char const *delim, t_msh *msh);
+static t_errno	open_heredoc(int *fd, char const *delim, t_msh *msh);
 
 t_errno	parse_input(t_cmd *cmd, t_list **tokens, t_msh *msh)
 {
@@ -47,6 +45,7 @@ t_errno	parse_input(t_cmd *cmd, t_list **tokens, t_msh *msh)
 
 t_errno	parse_heredoc(t_cmd *cmd, t_list **tokens, t_msh *msh)
 {
+	t_errno	errno;
 	char	*delim;
 
 	token_free(list_pop_ptr(tokens));
@@ -54,34 +53,33 @@ t_errno	parse_heredoc(t_cmd *cmd, t_list **tokens, t_msh *msh)
 	if (delim == NULL)
 		return (MSH_SYNTAX_ERROR);
 	close(cmd->io.in);
-	cmd->io.in = read_heredoc(delim, msh);
+	errno = open_heredoc(&cmd->io.in, delim, msh);
 	free(delim);
-	if (cmd->io.in == -1)
-		return (MSH_FILEFAIL);
-	return (MSH_SUCCESS);
+	return (errno);
 }
 
-static int	read_heredoc(char const *delim, t_msh *msh)
+static t_errno	open_heredoc(int *fd, char const *delim, t_msh *msh)
 {
-	char	*line;
+	int		fds[2];
+	pid_t	child;
+	int		wstatus;
 
-	if (pipe(msh->g_msh->heredoc) != 0)
-		return (-1);
+	*fd = -1;
 	handler_set(SIGINT, handle_sigint_heredoc);
-	line = readline(PROMPT_CONT);
-	while (line && ft_strncmp(line, delim, -1) != 0)
+	if (pipe(fds) != 0)
+		return (MSH_PIPEFAIL);
+	child = fork();
+	if (child == -1)
+		return (MSH_FORKFAIL);
+	if (child == 0)
+		heredoc(delim, fds[0], msh);
+	waitpid(child, &wstatus, WUNTRACED);
+	close(fds[0]);
+	if (WIFSIGNALED(wstatus))
 	{
-		if (expand(NULL, &line, msh) != MSH_SUCCESS)
-			return (free(line),
-					close(msh->g_msh->heredoc[0]),
-					close(msh->g_msh->heredoc[1]),
-					-1);
-		write(msh->g_msh->heredoc[0], line, ft_strlen(line));
-		free(line);
-		line = readline(PROMPT_CONT);
+		close(fds[1]);
+		return (MSH_NOCMDLINE);
 	}
-	free(line);
-	close(msh->g_msh->heredoc[0]);
-	handler_set(SIGINT, handle_sigint);
-	return (msh->g_msh->heredoc[1]);
+	*fd = fds[1];
+	return (WEXITSTATUS(wstatus));
 }
