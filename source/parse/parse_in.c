@@ -6,7 +6,7 @@
 /*   By: dbasting <marvin@codam.nl>                   +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/04/18 14:13:15 by dbasting      #+#    #+#                 */
-/*   Updated: 2023/06/13 14:45:16 by dbasting      ########   odam.nl         */
+/*   Updated: 2023/06/13 15:25:52 by dbasting      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,26 +60,23 @@ t_errno	parse_heredoc(t_cmd *cmd, t_list **tokens, t_msh *msh)
 
 static t_errno	open_heredoc(int *fd, char const *delim, t_msh *msh)
 {
-	int		fds[2];
+	int		pipefd[2];
 	pid_t	child;
 	int		wstatus;
 
 	*fd = -1;
 	handler_set(SIGINT, handle_sigint_heredoc);
-	if (pipe(fds) != 0)
+	if (pipe(pipefd) != 0)
 		return (MSH_PIPEFAIL);
 	child = fork();
 	if (child == -1)
 		return (MSH_FORKFAIL);
 	if (child == 0)
-		heredoc(delim, fds[0], msh);
+		heredoc(delim, pipefd[PIPE_WRITE], msh);
 	waitpid(child, &wstatus, WUNTRACED);
-	close(fds[0]);
+	close(pipefd[PIPE_WRITE]);
+	*fd = pipefd[PIPE_READ];
 	if (WIFSIGNALED(wstatus))
-	{
-		close(fds[1]);
 		return (MSH_NOCMDLINE);
-	}
-	*fd = fds[1];
 	return (WEXITSTATUS(wstatus));
 }

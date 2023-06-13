@@ -6,7 +6,7 @@
 /*   By: dbasting <marvin@codam.nl>                   +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/04/18 13:51:16 by dbasting      #+#    #+#                 */
-/*   Updated: 2023/06/13 14:24:50 by dbasting      ########   odam.nl         */
+/*   Updated: 2023/06/13 15:27:23 by dbasting      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,11 @@ typedef enum e_out_mode {
 
 typedef void	(*t_handler)(int);
 typedef int		t_fd;
-typedef int		t_pipe[2];
+
+enum e_pipeends {
+	PIPE_READ = 0,
+	PIPE_WRITE,
+};
 
 /* I/O information.
  * @param in	The file descriptor used for input.
@@ -90,12 +94,10 @@ typedef struct s_cmdtree {
 /* Global shell data structure.
  * @param exit		The exit status of the most recently executed pipe.
  * @param child		The PID of the current child process.
- * @param heredoc	The current heredoc.
  */
 struct s_g_msh {
 	int		exit;
 	pid_t	child;
-	t_pipe	heredoc;
 };
 
 /* Shell data object.
