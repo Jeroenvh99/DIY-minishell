@@ -6,7 +6,7 @@
 /*   By: dbasting <dbasting@codam.nl>                 +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/06/06 15:33:46 by dbasting      #+#    #+#                 */
-/*   Updated: 2023/06/13 14:46:26 by dbasting      ########   odam.nl         */
+/*   Updated: 2023/06/13 15:33:45 by dbasting      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ void	handle_sigint_heredoc(int signum)
 	write(STDERR_FILENO, "\n", 1);
 }
 
-void	handle_sigint_relay(int signum)
+void	handle_relay(int signum)
 {
 	kill(g_msh.child, signum);
 }

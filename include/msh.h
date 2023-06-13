@@ -6,7 +6,7 @@
 /*   By: dbasting <marvin@codam.nl>                   +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/04/18 13:51:16 by dbasting      #+#    #+#                 */
-/*   Updated: 2023/06/13 15:27:23 by dbasting      ########   odam.nl         */
+/*   Updated: 2023/06/13 15:34:14 by dbasting      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -134,7 +134,7 @@ void	cmd_destroy(t_cmd **cmd);
 void	handler_set(int signum, t_handler handler);
 void	handle_sigint(int signum);
 void	handle_sigint_heredoc(int signum);
-void	handle_sigint_relay(int signum);
+void	handle_relay(int signum);
 
 /* Builtin functions. */ /* Moet dit niet naar msh_exec.h? */
 int		msh_cd(t_cmd *cmd, t_msh *msh);

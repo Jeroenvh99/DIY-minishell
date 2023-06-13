@@ -6,7 +6,7 @@
 /*   By: dbasting <dbasting@codam.nl>                 +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/06/06 15:49:21 by dbasting      #+#    #+#                 */
-/*   Updated: 2023/06/13 14:39:28 by dbasting      ########   odam.nl         */
+/*   Updated: 2023/06/13 15:33:24 by dbasting      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,7 @@ void	msh_loop(t_msh *msh)
 	while (1)
 	{
 		handler_set(SIGINT, handle_sigint);
+		handler_set(SIGQUIT, SIG_IGN);
 		msh->errno = readcmdline(&tokens);
 		if (msh->errno == MSH_NOCMDLINE)
 		{
@@ -37,7 +38,8 @@ void	msh_loop(t_msh *msh)
 		msh->errno = parse(msh, &tokens);
 		if (msh->errno == MSH_SUCCESS)
 		{
-			handler_set(SIGINT, handle_sigint_relay);
+			handler_set(SIGINT, handle_relay);
+			handler_set(SIGQUIT, handle_relay);
 			cmds_view(msh->cmds); //insert executor here
 		}
 		list_clear(&msh->cmds, (t_freef)cmd_free);
