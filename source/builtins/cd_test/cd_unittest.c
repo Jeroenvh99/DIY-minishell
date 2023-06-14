@@ -130,19 +130,18 @@ void	assert_cd_status(t_cmd *cmd, int expected, void (*env_init)(t_msh *))
     env_free_(&msh.env);
 }
 
-// void	assert_cd_env(t_cmd *cmd, int expected, void (*env_init)(t_msh *))
-// {
-// 	t_msh	msh;
+void	assert_cd_env(t_cmd *cmd, char *name, void (*env_init)(t_msh *))
+{
+	t_msh	msh;
 
-// 	cmd->io.out = 1;
-// 	bzero(&msh, sizeof(msh));
-// 	env_init(&msh);
-// 	status = msh_cd(cmd, &msh);
-// 	print_env(msh.env.envp);
-// 	fflush(stdout);
-// 	cr_assert_stdout_eq_str(expected);
-//     env_free_(&msh.env);
-// }
+	cmd->io.out = 1;
+	bzero(&msh, sizeof(msh));
+	env_init(&msh);
+	msh_cd(cmd, &msh);
+	// print_env(msh.env.envp);
+	cr_assert_not_null(env_search(msh.env, name));
+    env_free_(&msh.env);
+}
 
 void	env_with_home(t_msh *msh)
 {
