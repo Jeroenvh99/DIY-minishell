@@ -21,3 +21,16 @@ void redirect_stderr(void)
 {
     cr_redirect_stderr();
 }
+
+void	assert_cd_env(t_cmd *cmd, const char *name, void (*env_init)(t_msh *))
+{
+	t_msh	msh;
+
+	cmd->io.out = 1;
+	bzero(&msh, sizeof(msh));
+	env_init(&msh);
+	msh_cd(cmd, &msh);
+	// print_env(msh.env.envp);
+	cr_assert_not_null(env_search(&msh.env, name));
+    env_free_(&msh.env);
+}
