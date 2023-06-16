@@ -6,7 +6,7 @@
 /*   By: jvan-hal <jvan-hal@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/06/14 18:23:39 by jvan-hal      #+#    #+#                 */
-/*   Updated: 2023/06/14 18:24:09 by jvan-hal      ########   odam.nl         */
+/*   Updated: 2023/06/16 17:20:32 by jvan-hal      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,11 +16,14 @@
 #include "msh_var.h"
 #include <stdlib.h>
 
-t_errno	env_append_val(t_env *env, char const *name)
+t_errno	env_append_val(t_env *env, char const *entry)
 {
-	char const	*newentry;
+	char	*varname;
+	char	*newentry;
 
-	size_t const entry_i = env_entry_get(env, name);
+	var_parse(&varname, NULL, entry);
+	size_t const entry_i = env_entry_get(env, varname);
+	free(varname);
 	if (entry_i == env->len)
 		return (MSH_NO_VARSTR);
 	newentry = ft_strjoin(msh->env.envp[i], ft_strchr(name, '=') + 1);
