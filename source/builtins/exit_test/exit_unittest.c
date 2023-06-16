@@ -113,7 +113,18 @@ Test(exit, input_one_0)
 	assert_exit_output(&cmd, expected);
 }
 
-Test(exit, input_one_1)
+Test(exit_err, input_one_1)
+{
+	t_cmd cmd;
+
+	char	*input[] = {"exit", "8", NULL};
+	char	*expected = "";
+	cmd.argc = 2;
+	cmd.argv.array = input;
+	assert_exit_output_error(&cmd, expected);
+}
+
+Test(exit, input_one_2)
 {
 	t_cmd cmd;
 
