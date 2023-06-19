@@ -50,17 +50,10 @@ int	msh_export(t_cmd *cmd, t_msh *msh)
 			return (-1);
 	}
 	i = 1;
-    while (ft_strchr(cmd->argv.array[i], '-'))
-        ++i;
 	while (cmd->argv.array[i])
 	{
 		if (ft_strchr(cmd->argv.array[i], '='))
-		{
-            if (ft_strchr(cmd->argv.array[i], '+'))
-                env_append_val(msh->env, (const char)cmd->argv.array[i]);
-            else
-			    env_set(msh->env, (const char)cmd->argv.array[i]);
-		}
+            env_set(msh->env, (const char)cmd->argv.array[i]);
 		++i;
 	}
 	return (0);

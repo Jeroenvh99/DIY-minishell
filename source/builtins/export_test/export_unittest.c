@@ -207,6 +207,37 @@ Test(export, input_one_2)
     assert_export_env_val(&cmd, "n", "n=6", &env_with_home);
 }
 
+Test(export, input_one_3)
+{
+    t_cmd   cmd;
+    char    *input[] = {"export", "n=-6", NULL};
+
+    cmd.argc = 2;
+    cmd.argv.array = input;
+    assert_export_env(&cmd, "n", 1, &env_with_home);
+}
+
+Test(export, input_one_4)
+{
+    t_cmd   cmd;
+    char    *input[] = {"export", "n=-6", NULL};
+    char    *expected = "";
+
+    cmd.argc = 2;
+    cmd.argv.array = input;
+    assert_export_output_err(&cmd, expected, &env_with_home);
+}
+
+Test(export, input_one_5)
+{
+    t_cmd   cmd;
+    char    *input[] = {"export", "n=-6", NULL};
+
+    cmd.argc = 2;
+    cmd.argv.array = input;
+    assert_export_env_val(&cmd, "n", "n=-6", &env_with_home);
+}
+
 Test(export, input_one_duplicate_0)
 {
     t_cmd   cmd;

@@ -49,11 +49,21 @@ static inline size_t	is_varstr(char const *str)
 	size_t	i;
 
 	i = 0;
-	while (str[i])
+    if (str[i] == '=' || str[i] == '+')
+        return (0);
+	while (str[i] != '=')
 	{
-		if (str[i] == CHR_VAR_ASSIGN)
-			return (i);
-		i++;
+        if (str[i] == '\0')
+            return (0);
+		if (str[i] == '-')
+            return (0);
+        if (str[i] == '+')
+        {
+            if (str[i + i] == '=')
+                break ;
+            return (0);
+        }
+        ++i;
 	}
-	return (0);
+	return (i - 1);
 }

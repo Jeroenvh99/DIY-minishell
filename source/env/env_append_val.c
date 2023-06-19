@@ -16,13 +16,11 @@
 #include "msh_var.h"
 #include <stdlib.h>
 
-t_errno	env_append_val(t_env *env, char const *entry)
+t_errno	env_append_val(t_env *env, char const *entry, char const *name)
 {
-	char	*varname;
 	char	*newentry;
 
-	var_parse(&varname, NULL, entry);
-	size_t const entry_i = env_entry_get(env, varname);
+	size_t const entry_i = env_entry_get(env, name);
 	free(varname);
 	if (entry_i == env->len)
 		return (MSH_NO_VARSTR);
