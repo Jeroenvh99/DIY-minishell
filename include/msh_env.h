@@ -32,7 +32,7 @@ typedef struct s_env {
 t_errno	env_init(t_env *env, char **envp);
 void	env_free(t_env *env);
 t_errno	env_set(t_env *env, char const *entry);
-t_errno env_append_val(t_env *env, char const *name);
+t_errno env_append_val(t_env *env, char const *entry, char const *name);
 void	env_unset(t_env *env, char const *name);
 char	*env_search(t_env *env, char const *name);
 

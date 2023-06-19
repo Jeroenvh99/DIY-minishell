@@ -20,7 +20,6 @@
 #define REALLOC_SIZE	3
 
 static t_errno	env_assign_val(t_env *env, char const *name, char *entry);
-t_errno	env_append_val(t_env *env, char const *entry, char const *name)
 static t_errno	env_insert(t_env *env, char *entry);
 static t_errno	env_realloc(t_env *env, char *entry);
 static t_errno	env_overwrite(char **old_entry, char *entry);
@@ -36,9 +35,9 @@ t_errno	env_set(t_env *env, char const *entry)
 
 	if (copy == NULL)
 		return (MSH_MEMFAIL);
-	errno = var_parse(&name, NULL, entry);
+	errno = var_parse(&name, entry);
     if (errno == MSH_SUCCESS)
-        errno = env_assign_val(env, &name, entry);
+        errno = env_assign_val(env, name, entry);
     else if (errno == MSH_VAR_APPEND)
         errno = env_append_val(env, entry, name);
     else
