@@ -16,7 +16,7 @@
 #include "msh_var.h"
 #include <stdlib.h>
 
-t_errno	env_append_val(t_env *env, char const *entry, char const *name)
+t_errno	env_append_val(t_env *env, char *entry, char const *name)
 {
 	char	*newentry;
 

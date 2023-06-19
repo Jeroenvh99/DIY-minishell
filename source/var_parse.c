@@ -23,7 +23,7 @@ static inline size_t	is_varstr(char const *str);
  * MSH_NO_VARSTR if `str` is not a varstring, MSH_MEMFAIL on memory allocation
  * failure or MSH_SUCCESS on success.
  */
-t_errno	var_parse(char **name, char **value, char const *str)
+t_errno	var_parse(char **name, char const *str)
 {
 	size_t const	boundary = is_varstr(str);
 
@@ -35,13 +35,9 @@ t_errno	var_parse(char **name, char **value, char const *str)
 		if (*name == NULL)
 			return (MSH_MEMFAIL);
 	}
-	if (value)
-	{
-		*value = ft_substr(str, boundary + 1, -1);
-		if (*value == NULL)
-			return (MSH_MEMFAIL);
-	}
-	return (MSH_SUCCESS);
+    if (str[boundary] == '+')
+        return (MSH_VAR_APPEND);
+	return (MSH_VAR_ASSIGN);
 }
 
 static inline size_t	is_varstr(char const *str)

@@ -30,16 +30,15 @@ t_errno	env_set(t_env *env, char const *entry)
 {
 	char *const	copy = ft_strdup(entry);
 	char		*name;
-	size_t		entry_i;
 	t_errno		errno;
 
 	if (copy == NULL)
 		return (MSH_MEMFAIL);
 	errno = var_parse(&name, entry);
-    if (errno == MSH_SUCCESS)
-        errno = env_assign_val(env, name, entry);
+    if (errno == MSH_VAR_ASSIGN)
+        errno = env_assign_val(env, name, copy);
     else if (errno == MSH_VAR_APPEND)
-        errno = env_append_val(env, entry, name);
+        errno = env_append_val(env, copy, name);
     else
         return (free(copy), free(name), errno);
     free(name);
@@ -55,7 +54,7 @@ static t_errno	env_assign_val(t_env *env, char const *name, char *entry)
 
     entry_i = env_entry_get(env, name);
     if (env->envp[entry_i])
-        return (env_overwrite(&env->envp[entry_i], copy));
+        return (env_overwrite(&env->envp[entry_i], entry));
     if (env->used < env->len)
         return (env_insert(env, entry));
     return (env_realloc(env, entry));
