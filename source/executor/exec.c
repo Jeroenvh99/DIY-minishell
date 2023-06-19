@@ -6,50 +6,37 @@
 /*   By: jvan-hal <jvan-hal@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/16 15:12:17 by jvan-hal      #+#    #+#                 */
-/*   Updated: 2023/06/02 11:29:15 by jvan-hal      ########   odam.nl         */
+/*   Updated: 2023/06/19 18:08:44 by dbasting      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_string.h"
 #include "msh.h"
+#include <stdlib.h>
+#include <sys/wait.h>
 #include <unistd.h>
 
-int	getbuiltin(char *cmd)
-{
-	if (ft_strnstr(cmd, "cd", 3))
-		return (0);
-	if (ft_strnstr(cmd, "echo", 5))
-		return (1);
-	if (ft_strnstr(cmd, "env", 4))
-		return (2);
-	if (ft_strnstr(cmd, "exit", 5))
-		return (3);
-	if (ft_strnstr(cmd, "pwd", 4))
-		return (4);
-	if (ft_strnstr(cmd, "unset", 6))
-		return (5);
-	return (-1);
-}
+t_errno	execute(t_list **pipeline, t_msh *msh)
 
-int	exec(t_msh *msh)
+int	execute_cmd(t_cmd *cmd, t_msh *msh)
 {
-	int		*status;
-	pid_t	pid;
-	int		bi;
-	const int	(*builtins[6])(t_cmd * cmd, t_msh * msh) = { cd, echo, env, exit, pwd, unset };
+	t_builtinf const	builtin = is_builtin(cmd->argv.array[0]);
+	int					wstatus;
+	pid_t				pid;
 
-	while (msh->cmds)
-	{
-		bi = getbuiltin(msh->cmds->cmd->argv.array[0]) if (bi > -1)
-		{
-			msh->status = builtins[bi](msh->cmds->cmd, msh);
-		}
-		else
-		{
-			execve(path, msh->cmds->cmd->argv.array, msh->env);
-		}
-	}
-	return (0);
+	if (builtin)
+		return (builtin(cmd->argc, cmd->argv.array, msh->env.envp)); // tenzij builtin in pijplin zit; dan moet er een subshell komen / fork()
+	pid = fork();
+	if (pid == -1)
+		return (perror("msh:"), MSH_FORKFAIL);
+	if (pid == 0)
+		execve(path, msh->cmds->cmd->argv.array, msh->env.envp);
+	waitpid(pid, &wstatus);
+	if (WIFEXITED(wstatus))
+		return (WEXITSTATUS(wstatus));
+	if (WIFSIGNALED(wstatus))
+		return (128 + WTERMSIG(wstatus));
+	return (EXIT_SUCCESS);
 }
 
 static void	child_process(int *tube, char **envp, int fd, t_info *state)
@@ -80,7 +67,7 @@ static void	parent_end(t_info *state, int child_id, int *tube)
 	}
 	waitpid(child_id, &status, 0);
 	if (WIFEXITED(status))
-		msh->last_status = status;
+		msh->last_status = WEXITSTATUS(status);
 }
 
 int	exec_command(char **envp, int fd, t_info *state)
