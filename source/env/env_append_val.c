@@ -21,13 +21,12 @@ t_errno	env_append_val(t_env *env, char *entry, char const *name)
 	char	*newentry;
 
 	size_t const entry_i = env_entry_get(env, name);
-	free(varname);
 	if (entry_i == env->len)
 		return (MSH_NO_VARSTR);
-	newentry = ft_strjoin(msh->env.envp[i], ft_strchr(name, '=') + 1);
+	newentry = ft_strjoin(env->envp[entry_i], ft_strchr(entry, '=') + 1);
 	if (!newentry)
 		return (MSH_MEMFAIL);
-	free(msh->env.envp[i]);
-	msh->env.envp[i] = newentry;
+	free(env->envp[entry_i]);
+	env->envp[entry_i] = newentry;
 	return (MSH_SUCCESS);
 }
