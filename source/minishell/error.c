@@ -6,7 +6,7 @@
 /*   By: jvan-hal <jvan-hal@student.codam.nl>         +#+                     */
 /*       dbasting <dbasting@student.codam.nl>        +#+                      */
 /*   Created: 2023/04/18 18:27:29 by jvan-hal      #+#    #+#                 */
-/*   Updated: 2023/06/13 14:20:53 by dbasting      ########   odam.nl         */
+/*   Updated: 2023/06/20 17:57:57 by dbasting      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ void	msh_strerror(t_errno errno)
 		"ENDCMD_CTL",
 		"Something went wrong.",
 		"Syntax error.",
-		"NO_VARSTR",
+		"Invalid identifier",
 		"INCOMPLETE_TOKEN",
 		"Failed to establish pipeline.",
 		"Failed to open file.",

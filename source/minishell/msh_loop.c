@@ -6,7 +6,7 @@
 /*   By: dbasting <dbasting@codam.nl>                 +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/06/06 15:49:21 by dbasting      #+#    #+#                 */
-/*   Updated: 2023/06/13 15:33:24 by dbasting      ########   odam.nl         */
+/*   Updated: 2023/06/20 14:55:38 by dbasting      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ void	msh_loop(t_msh *msh)
 			cmds_view(msh->cmds); //insert executor here
 		}
 		list_clear(&msh->cmds, (t_freef)cmd_free);
-		if (msh->errno > MSH_NOCMDLINE)
+		if (msh->errno >= MSH_GENERIC)
 			msh_strerror(msh->errno);
 	}
 }

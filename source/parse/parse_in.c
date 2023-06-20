@@ -6,7 +6,7 @@
 /*   By: dbasting <marvin@codam.nl>                   +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/04/18 14:13:15 by dbasting      #+#    #+#                 */
-/*   Updated: 2023/06/20 14:34:58 by dbasting      ########   odam.nl         */
+/*   Updated: 2023/06/20 21:28:36 by dbasting      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,9 @@
 
 static t_errno	open_heredoc(int *fd, char const *delim, t_msh *msh);
 
+/* Parse input tokens: open a file and assign its descriptor to `cmd`. 
+ * Preexisting files are closed.
+ */
 t_errno	parse_input(t_cmd *cmd, t_list **tokens, t_msh *msh)
 {
 	char	*path;
@@ -35,7 +38,8 @@ t_errno	parse_input(t_cmd *cmd, t_list **tokens, t_msh *msh)
 	errno = parse_iofile(&path, tokens, msh);
 	if (errno != MSH_SUCCESS)
 		return (errno);
-	close(cmd->io[IO_IN]);
+	if (cmd->io[IO_IN] > STDERR_FILENO)
+		close(cmd->io[IO_IN]);
 	cmd->io[IO_IN] = open(path, O_RDONLY);
 	free(path);
 	if (cmd->io[IO_IN] < 0)
@@ -43,6 +47,9 @@ t_errno	parse_input(t_cmd *cmd, t_list **tokens, t_msh *msh)
 	return (MSH_SUCCESS);
 }
 
+/* Parse heredoc tokens: open a heredoc and assign its descriptor to `cmd`.
+ * Preexisting files are closed.
+ */
 t_errno	parse_heredoc(t_cmd *cmd, t_list **tokens, t_msh *msh)
 {
 	t_errno	errno;
@@ -52,12 +59,16 @@ t_errno	parse_heredoc(t_cmd *cmd, t_list **tokens, t_msh *msh)
 	delim = token_to_str(list_pop_ptr(tokens));
 	if (delim == NULL)
 		return (MSH_SYNTAX_ERROR);
-	close(cmd->io[IO_IN]);
+	if (cmd->io[IO_IN] > STDERR_FILENO)
+		close(cmd->io[IO_IN]);
 	errno = open_heredoc(&cmd->io[IO_IN], delim, msh);
 	free(delim);
 	return (errno);
 }
 
+/* Open a heredoc: create a pipe, read input (by way of a separate process)
+ * and write to the pipe.
+ */
 static t_errno	open_heredoc(int *fd, char const *delim, t_msh *msh)
 {
 	int		pipefd[2];

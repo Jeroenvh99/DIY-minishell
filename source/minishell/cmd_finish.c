@@ -6,7 +6,7 @@
 /*   By: dbasting <dbasting@codam.nl>                 +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/22 08:45:23 by dbasting      #+#    #+#                 */
-/*   Updated: 2023/06/20 14:27:43 by dbasting      ########   odam.nl         */
+/*   Updated: 2023/06/20 17:06:12 by dbasting      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ static inline t_errno	cmd_fdconvert(t_cmd *cmd);
 t_errno	cmd_finish(t_cmd *cmd)
 {
 	t_errno	errno;
-
+	
 	errno = cmd_argconvert(cmd);
 	if (errno != MSH_SUCCESS)
 		return (errno);
@@ -54,14 +54,6 @@ static inline t_errno	cmd_argconvert(t_cmd *cmd)
 
 static inline t_errno	cmd_fdconvert(t_cmd *cmd)
 {
-	int	i;
-
-	i = 0;
-	while (i < N_IO)
-	{
-		if (cmd->io[i] == -1)
-			cmd->io[i] = i;
-		i++;
-	}
+	cmd->io[IO_ERR] = STDERR_FILENO;
 	return (MSH_SUCCESS);
 }

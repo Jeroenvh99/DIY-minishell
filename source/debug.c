@@ -6,7 +6,7 @@
 /*   By: dbasting <marvin@codam.nl>                   +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/01 16:54:58 by dbasting      #+#    #+#                 */
-/*   Updated: 2023/06/20 14:40:42 by dbasting      ########   odam.nl         */
+/*   Updated: 2023/06/20 20:16:41 by dbasting      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,19 +36,17 @@ void	tokens_view(t_list *tokens)
 void	cmd_view(t_cmd *cmd)
 {
 	size_t	i;
-	char	in[1000];
 
-	read(cmd->io[IO_IN], in, 1000);
 	printf("> COMMAND:\n"
 		"  - argc: %zu\n"
 		"  - argv:", cmd->argc);
 	i = 0;
 	while (i < cmd->argc)
 		printf(" <%s>", cmd->argv.array[i++]);
-	printf("\n  - input (%d): %s\n"
+	printf("\n  - input (%d) [%s]\n"
 		"  - output (%d)\n"
 		"  - error (%d)\n",
-		cmd->io[IO_IN], in, cmd->io[IO_OUT], cmd->io[IO_ERR]);
+		cmd->io[IO_IN], "", cmd->io[IO_OUT], cmd->io[IO_ERR]);
 }
 
 void	cmds_view(t_list *cmds)

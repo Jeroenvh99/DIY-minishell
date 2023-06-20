@@ -6,7 +6,7 @@
 /*   By: dbasting <marvin@codam.nl>                   +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/04/18 14:13:15 by dbasting      #+#    #+#                 */
-/*   Updated: 2023/06/20 14:35:47 by dbasting      ########   odam.nl         */
+/*   Updated: 2023/06/20 17:20:05 by dbasting      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,9 @@
 #include <stdlib.h>
 #include <unistd.h>
 
+/* Parse output: open a file (creating it if necessary) and assign its
+ * descriptor to `cmd`. Preexisting files are closed.
+ */
 t_errno	parse_output(t_cmd *cmd, t_list **tokens, t_msh *msh)
 {
 	char	*path;
@@ -38,6 +41,9 @@ t_errno	parse_output(t_cmd *cmd, t_list **tokens, t_msh *msh)
 	return (MSH_SUCCESS);
 }
 
+/* Parse output: open a file in append mode and assign its descriptor to `cmd`.
+ * Preexisting files are closed.
+ */
 t_errno	parse_output_append(t_cmd *cmd, t_list **tokens, t_msh *msh)
 {
 	char	*path;
