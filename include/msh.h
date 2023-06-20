@@ -6,7 +6,7 @@
 /*   By: dbasting <marvin@codam.nl>                   +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/04/18 13:51:16 by dbasting      #+#    #+#                 */
-/*   Updated: 2023/06/20 14:21:24 by dbasting      ########   odam.nl         */
+/*   Updated: 2023/06/20 21:46:11 by dbasting      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,7 +120,6 @@ void	msh_deinit(t_msh *msh);
 
 /* Command functions. */
 t_cmd	*cmd_init(size_t argc, char **argv);
-t_errno	cmd_finish(t_cmd *cmd);
 void	cmd_free(t_cmd *cmd);
 void	cmd_free_wrapper(void *cmd);
 void	cmd_free_list(t_cmd *cmd);

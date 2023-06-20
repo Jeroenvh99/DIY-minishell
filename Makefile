@@ -6,7 +6,7 @@
 #    By: dbasting <marvin@codam.nl>                   +#+                      #
 #                                                    +#+                       #
 #    Created: 2022/12/28 12:06:53 by dbasting      #+#    #+#                  #
-#    Updated: 2023/06/20 14:40:57 by dbasting      ########   odam.nl          #
+#    Updated: 2023/06/20 21:51:13 by dbasting      ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -35,13 +35,13 @@ SRC_FILES	:= main.c\
 			lex/lex_token_get.c\
 			lex/lex_utils.c\
 			minishell/cmd.c\
-			minishell/cmd_finish.c\
 			minishell/error.c\
 			minishell/heredoc.c\
 			minishell/readcmdline.c\
 			minishell/msh_loop.c\
 			minishell/signal.c\
 			parse/parse.c\
+			parse/parse_cmd.c\
 			parse/parse_in.c\
 			parse/parse_operator.c\
 			parse/parse_out.c\

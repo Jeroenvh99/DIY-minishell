@@ -6,7 +6,7 @@
 /*   By: dbasting <marvin@codam.nl>                   +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/04/18 14:13:15 by dbasting      #+#    #+#                 */
-/*   Updated: 2023/05/15 16:01:21 by dbasting      ########   odam.nl         */
+/*   Updated: 2023/06/20 21:42:17 by dbasting      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,9 @@
 #include <stddef.h>
 #include <stdlib.h>
 
+/* Parse a word: perform expansion and word splitting and append the results
+ * onto `cmd`.
+ */
 t_errno	parse_word(t_cmd *cmd, t_list **tokens, t_msh *msh)
 {
 	char	*str;
