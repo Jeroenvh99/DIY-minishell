@@ -6,7 +6,7 @@
 /*   By: dbasting <marvin@codam.nl>                   +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/04/18 14:13:15 by dbasting      #+#    #+#                 */
-/*   Updated: 2023/06/13 15:25:52 by dbasting      ########   odam.nl         */
+/*   Updated: 2023/06/20 14:34:58 by dbasting      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,10 +35,10 @@ t_errno	parse_input(t_cmd *cmd, t_list **tokens, t_msh *msh)
 	errno = parse_iofile(&path, tokens, msh);
 	if (errno != MSH_SUCCESS)
 		return (errno);
-	close(cmd->io.in);
-	cmd->io.in = open(path, O_RDONLY);
+	close(cmd->io[IO_IN]);
+	cmd->io[IO_IN] = open(path, O_RDONLY);
 	free(path);
-	if (cmd->io.in < 0)
+	if (cmd->io[IO_IN] < 0)
 		return (MSH_FILEFAIL);
 	return (MSH_SUCCESS);
 }
@@ -52,8 +52,8 @@ t_errno	parse_heredoc(t_cmd *cmd, t_list **tokens, t_msh *msh)
 	delim = token_to_str(list_pop_ptr(tokens));
 	if (delim == NULL)
 		return (MSH_SYNTAX_ERROR);
-	close(cmd->io.in);
-	errno = open_heredoc(&cmd->io.in, delim, msh);
+	close(cmd->io[IO_IN]);
+	errno = open_heredoc(&cmd->io[IO_IN], delim, msh);
 	free(delim);
 	return (errno);
 }

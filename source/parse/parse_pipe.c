@@ -6,7 +6,7 @@
 /*   By: dbasting <marvin@codam.nl>                   +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/01 13:59:35 by dbasting      #+#    #+#                 */
-/*   Updated: 2023/06/09 14:59:29 by dbasting      ########   odam.nl         */
+/*   Updated: 2023/06/20 14:37:36 by dbasting      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ t_errno	parse_pipe(t_cmd *cmd, t_list **tokens, t_msh *msh)
 static inline int	cmd_is_undefined(t_cmd *cmd)
 {
 	return (!cmd || (cmd->argc == 0
-			&& cmd->io.in == STDIN_FILENO
-			&& cmd->io.out == STDOUT_FILENO
-			&& cmd->io.err == STDERR_FILENO));
+			&& cmd->io[IO_IN] == STDIN_FILENO
+			&& cmd->io[IO_OUT] == STDOUT_FILENO
+			&& cmd->io[IO_ERR] == STDERR_FILENO));
 }

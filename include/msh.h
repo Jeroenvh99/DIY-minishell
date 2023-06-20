@@ -6,7 +6,7 @@
 /*   By: dbasting <marvin@codam.nl>                   +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/04/18 13:51:16 by dbasting      #+#    #+#                 */
-/*   Updated: 2023/06/13 15:34:14 by dbasting      ########   odam.nl         */
+/*   Updated: 2023/06/20 14:21:24 by dbasting      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,16 +48,12 @@ enum e_pipeends {
 	PIPE_WRITE,
 };
 
-/* I/O information.
- * @param in	The file descriptor used for input.
- * @param out	The file descriptor used for output.
- * @param err	The file descriptor used for errors.
- */
-typedef struct s_io {
-	t_fd	in;
-	t_fd	out;
-	t_fd	err;
-}	t_io;
+enum e_io {
+	IO_IN = 0,
+	IO_OUT,
+	IO_ERR,
+	N_IO,
+};
 
 /* Simple command object.
  * @param path	The path to the executable (or the name of the builtin).
@@ -71,7 +67,7 @@ typedef struct s_cmd {
 		t_list	*list;
 		char	**array;
 	} argv;
-	t_io	io;
+	t_fd	io[N_IO];
 }	t_cmd;
 
 /* Command tree object.
