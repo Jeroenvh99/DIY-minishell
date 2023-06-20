@@ -6,7 +6,7 @@
 /*   By: dbasting <marvin@codam.nl>                   +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/04/18 14:13:15 by dbasting      #+#    #+#                 */
-/*   Updated: 2023/06/20 21:48:51 by dbasting      ########   odam.nl         */
+/*   Updated: 2023/06/20 21:54:41 by dbasting      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,6 +67,9 @@ t_errno	parse_pipeline(t_list **pipeline, t_list **tokens, t_msh *msh)
 	return (MSH_SUCCESS);
 }
 
+/* Throw an MSH_SYNTAX_ERROR if an invalid token is encountered. This should
+ * never happen. If it does, the lexer is likely broken.
+ */
 t_errno	parse_invalid(t_cmd *cmd, t_list **tokens, t_msh *msh)
 {
 	(void) cmd;
