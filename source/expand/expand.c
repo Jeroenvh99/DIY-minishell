@@ -6,7 +6,7 @@
 /*   By: dbasting <marvin@codam.nl>                   +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/08 12:23:49 by dbasting      #+#    #+#                 */
-/*   Updated: 2023/05/08 18:19:03 by dbasting      ########   odam.nl         */
+/*   Updated: 2023/06/20 21:37:25 by dbasting      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,9 @@ static t_errno		exp_loop(t_expstr *expstr, t_msh *msh);
 static inline t_expop		get_expop(char c, t_quote *lquote, size_t *exp_len);
 static inline int			exp_process_quote(char c, t_quote *lquote);
 
-//Expands the string stored in `str` to a list of words. This consumes `*str`!
+/* Expand the string stored in `str` and perform word splitting. `str` is
+ * replaced with its own expansion.
+ */
 t_errno	expand(t_list **words, char **str, t_msh *msh)
 {
 	t_expstr	expstr;
@@ -44,6 +46,9 @@ t_errno	expand(t_list **words, char **str, t_msh *msh)
 	return (errno);
 }
 
+/* Loop through `expstr`'s `str` member, inserting expansions into it as
+ * necessary and writing expansion operations to `ops`.
+ */
 static t_errno	exp_loop(t_expstr *expstr, t_msh *msh)
 {
 	t_quote	lquote;
@@ -69,6 +74,9 @@ static t_errno	exp_loop(t_expstr *expstr, t_msh *msh)
 	return (MSH_SUCCESS);
 }
 
+/* Return the expansion operation, based on the current quote mode and
+ * whether the current part of the string was inserted during an expansion.
+ */
 static inline t_expop	get_expop(char c, t_quote *lquote, size_t *exp_len)
 {
 	if (*exp_len)
@@ -82,6 +90,9 @@ static inline t_expop	get_expop(char c, t_quote *lquote, size_t *exp_len)
 	return (EXPOP_COPY);
 }
 
+/* Alter the value of `lquote` to denote the current quote mode.
+ * Return 1 if the quote mode was changed, 0 if it was unchanged. 
+ */
 static inline int	exp_process_quote(char c, t_quote *lquote)
 {
 	t_quote const	rquote = is_quote(c);
