@@ -6,7 +6,7 @@
 /*   By: jvan-hal <jvan-hal@student.codam.nl>         +#+                     */
 /*       dbasting <dbasting@student.codam.nl>        +#+                      */
 /*   Created: 2023/04/18 18:27:29 by jvan-hal      #+#    #+#                 */
-/*   Updated: 2023/04/21 16:08:27 by jvan-hal      ########   odam.nl         */
+/*   Updated: 2023/06/20 17:57:57 by dbasting      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,13 +20,16 @@ void	msh_strerror(t_errno errno)
 {
 	char const *const	errmsg[N_ERRNO] = {
 		"Everything went better than expected.",
+		"NOCMDLINE",
 		"ENDCMD_PIPE",
 		"ENDCMD_CTL",
 		"Something went wrong.",
 		"Syntax error.",
-		"NO_VARSTR",
+		"Invalid identifier",
 		"INCOMPLETE_TOKEN",
+		"Failed to establish pipeline.",
 		"Failed to open file.",
+		"Couldn't create fork.",
 		"Couldn't allocate memory.",};
 
 	ft_dprintf(STDERR_FILENO, "Error: %s\n", errmsg[errno]);

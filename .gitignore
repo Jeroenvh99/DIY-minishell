@@ -3,5 +3,6 @@
 *.dSYM
 .vscode
 minishell
+!source/minishell/
 argtest
 *.swp

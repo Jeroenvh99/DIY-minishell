@@ -6,7 +6,7 @@
 /*   By: dbasting <marvin@codam.nl>                   +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/04/18 14:13:15 by dbasting      #+#    #+#                 */
-/*   Updated: 2023/05/15 17:30:07 by dbasting      ########   odam.nl         */
+/*   Updated: 2023/06/20 17:20:05 by dbasting      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,9 @@
 #include <stdlib.h>
 #include <unistd.h>
 
+/* Parse output: open a file (creating it if necessary) and assign its
+ * descriptor to `cmd`. Preexisting files are closed.
+ */
 t_errno	parse_output(t_cmd *cmd, t_list **tokens, t_msh *msh)
 {
 	char	*path;
@@ -30,14 +33,17 @@ t_errno	parse_output(t_cmd *cmd, t_list **tokens, t_msh *msh)
 	errno = parse_iofile(&path, tokens, msh);
 	if (errno != MSH_SUCCESS)
 		return (errno);
-	close(cmd->io.out);
-	cmd->io.out = open(path, O_WRONLY | O_CREAT, 00644);
+	close(cmd->io[IO_OUT]);
+	cmd->io[IO_OUT] = open(path, O_WRONLY | O_CREAT, 00644);
 	free(path);
-	if (cmd->io.out == -1)
+	if (cmd->io[IO_OUT] == -1)
 		return (MSH_FILEFAIL);
 	return (MSH_SUCCESS);
 }
 
+/* Parse output: open a file in append mode and assign its descriptor to `cmd`.
+ * Preexisting files are closed.
+ */
 t_errno	parse_output_append(t_cmd *cmd, t_list **tokens, t_msh *msh)
 {
 	char	*path;
@@ -47,10 +53,10 @@ t_errno	parse_output_append(t_cmd *cmd, t_list **tokens, t_msh *msh)
 	errno = parse_iofile(&path, tokens, msh);
 	if (errno != MSH_SUCCESS)
 		return (errno);
-	close(cmd->io.out);
-	cmd->io.out = open(path, O_WRONLY | O_CREAT | O_APPEND, 00644);
+	close(cmd->io[IO_OUT]);
+	cmd->io[IO_OUT] = open(path, O_WRONLY | O_CREAT | O_APPEND, 00644);
 	free(path);
-	if (cmd->io.out == -1)
+	if (cmd->io[IO_OUT] == -1)
 		return (MSH_FILEFAIL);
 	return (MSH_SUCCESS);
 }

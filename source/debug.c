@@ -6,7 +6,7 @@
 /*   By: dbasting <marvin@codam.nl>                   +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/01 16:54:58 by dbasting      #+#    #+#                 */
-/*   Updated: 2023/05/08 17:50:32 by dbasting      ########   odam.nl         */
+/*   Updated: 2023/06/20 20:16:41 by dbasting      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@
 
 #include "ft_list.h"
 #include <stdio.h>
+#include <unistd.h>
 
 void	token_view(t_token *token)
 {
@@ -42,10 +43,10 @@ void	cmd_view(t_cmd *cmd)
 	i = 0;
 	while (i < cmd->argc)
 		printf(" <%s>", cmd->argv.array[i++]);
-	printf("\n  - input: %d\n"
-		"  - output: %d\n"
-		"  - error: %d\n",
-		cmd->io.in, cmd->io.out, cmd->io.err);
+	printf("\n  - input (%d) [%s]\n"
+		"  - output (%d)\n"
+		"  - error (%d)\n",
+		cmd->io[IO_IN], "", cmd->io[IO_OUT], cmd->io[IO_ERR]);
 }
 
 void	cmds_view(t_list *cmds)

@@ -6,7 +6,7 @@
 /*   By: dbasting <marvin@codam.nl>                   +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/04/18 13:51:16 by dbasting      #+#    #+#                 */
-/*   Updated: 2023/05/25 18:08:58 by jvan-hal      ########   odam.nl         */
+/*   Updated: 2023/06/20 21:46:11 by dbasting      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,10 +19,12 @@
 # include "ft_hash.h"
 # include "ft_list.h"
 # include <stddef.h>
+# include <sys/types.h>
 
 # define PROMPT			"msh$ "
 # define PROMPT_CONT	"> "
 # define PROMPT_PIPE	"pipe> "
+# define PROMPT_QUOTE	"dquote> "
 
 typedef enum e_in_mode {
 	IN_STD,
@@ -38,23 +40,20 @@ typedef enum e_out_mode {
 	N_OUT_MODE,
 }	t_out_mode;
 
-typedef int	t_fd;
+typedef void	(*t_handler)(int);
+typedef int		t_fd;
 
-/* I/O information.
- * @param in	The file descriptor used for input.
- * @param out	The file descriptor used for output.
- * @param err	The file descriptor used for errors.
- */
-typedef struct s_io {
-	t_fd	in;
-	t_fd	out;
-	t_fd	err;
-}	t_io;
+enum e_pipeends {
+	PIPE_READ = 0,
+	PIPE_WRITE,
+};
 
-/*typedef union u_argv {
-	t_list	*list;
-	char	**array;
-}	t_argv;*/
+enum e_io {
+	IO_IN = 0,
+	IO_OUT,
+	IO_ERR,
+	N_IO,
+};
 
 /* Simple command object.
  * @param path	The path to the executable (or the name of the builtin).
@@ -68,7 +67,7 @@ typedef struct s_cmd {
 		t_list	*list;
 		char	**array;
 	} argv;
-	t_io	io;
+	t_fd	io[N_IO];
 }	t_cmd;
 
 /* Command tree object.
@@ -83,39 +82,56 @@ typedef struct s_cmdtree {
 	union u_data {
 		t_list				*pipeline;
 		struct s_cmdtree	*branches[2];
-	} u_data;
+	} data;
 	struct s_cmdtree		*parent;
 	int						op;
 }	t_cmdtree;
 
+/* Global shell data structure.
+ * @param exit		The exit status of the most recently executed pipe.
+ * @param child		The PID of the current child process.
+ */
+struct s_g_msh {
+	int		exit;
+	pid_t	child;
+};
+
 /* Shell data object.
+ * @param g_msh	Global portion of shell data:
  * @param env	The shell environment.
  * @param var	The shell's local variables. ## UPCOMING ##
  * @param cmds	The current command queue.
- * @param exit	The exit status of the most recently executed foreground pipe.
  * @param errno	The current error code.
  */
 typedef struct s_msh {
-	t_env		env;
-	t_hashtable	*var;
-	t_list		*cmds;
-	int			exit;
-	t_errno		errno;
+	struct s_g_msh	*g_msh;
+	t_env			env;
+	t_hashtable		*var;
+	t_list			*cmds;
+	int				exit;
+	t_errno			errno;
 }	t_msh;
 
 /* Base functions. */
-t_errno	readcmdline(t_list **token_list, char const *prompt);
+void	msh_loop(t_msh *msh);
+t_errno	readcmdline(t_list **tokens);
+void	heredoc(char const *delim, int fd, t_msh *msh);
 void	msh_deinit(t_msh *msh);
 
 /* Command functions. */
 t_cmd	*cmd_init(size_t argc, char **argv);
-t_errno	cmd_finish(t_cmd *cmd);
 void	cmd_free(t_cmd *cmd);
 void	cmd_free_wrapper(void *cmd);
 void	cmd_free_list(t_cmd *cmd);
 void	cmd_destroy(t_cmd **cmd);
 
-/* builtin functions. */
+/* Signal functions. */
+void	handler_set(int signum, t_handler handler);
+void	handle_sigint(int signum);
+void	handle_sigint_heredoc(int signum);
+void	handle_relay(int signum);
+
+/* Builtin functions. */ /* Moet dit niet naar msh_exec.h? */
 int		msh_cd(t_cmd *cmd, t_msh *msh);
 int		msh_echo(t_cmd *cmd, t_msh *msh);
 int		msh_env(t_cmd *cmd, t_msh *msh);
