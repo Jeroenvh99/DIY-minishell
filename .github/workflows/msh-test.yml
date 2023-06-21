@@ -42,5 +42,9 @@ jobs:
         submodules: true
     - name: Install Dependencies
       run: brew install criterion
+    - name: run lexer tests
+      run: make test_lexer
+    - name: run expander tests
+      run: make test_expander
     - name: run parser tests
-      run: make test_cd
+      run: make test_parser
