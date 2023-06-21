@@ -6,7 +6,7 @@
 /*   By: jvan-hal <jvan-hal@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/09 15:57:34 by jvan-hal      #+#    #+#                 */
-/*   Updated: 2023/05/26 17:24:29 by jvan-hal      ########   odam.nl         */
+/*   Updated: 2023/06/06 16:25:05 by jvan-hal      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,64 +52,4 @@ void	print_2d_arr(int fd, char **arr, int size)
 		ft_dprintf(fd, "%s\n", arr[i]);
 		++i;
 	}
-}
-
-int	get_var_index(char *name, char **env)
-{
-	int	i;
-	int	j;
-
-	i = 0;
-	while (env[i])
-	{
-		j = 0;
-		while (name[j] && env[i][j] && name[j] != '=' && env[i][j] != '=')
-		{
-			if ((name[j] == '+' && name[j + 1] == '=')
-				|| (name[j] != env[i][j]))
-				break ;
-			++j;
-		}
-		if (env[i][j] == '=')
-			break ;
-		++i;
-	}
-	if (env[i])
-		return (i);
-	return (0);
-}
-
-t_errno	get_env_var(char *name, char **value, char **env)
-{
-	int		i;
-	char	*varname;
-
-	i = 0;
-	varname = ft_strjoin(name, "=");
-	if (!varname)
-		return (MSH_MEMFAIL);
-	while (env[i] && !ft_strnstr(env[i], varname, ft_strlen(varname)))
-		++i;
-	if (env[i])
-		*value = ft_strchr(env[i], '=') + 1;
-	else
-		return (MSH_NO_VARSTR);
-	free(varname);
-	return (MSH_SUCCESS);
-}
-
-int	remove_var(char *name, char **env)
-{
-	int		i;
-	char	*varname;
-
-	varname = ft_strjoin(name, "=");
-	i = 0;
-	while (env[i] && !ft_strnstr(env[i], varname, ft_strlen(varname)))
-		++i;
-	free(varname);
-	if (!env[i])
-		return (-1);
-	free(env[i]);
-	return (i);
 }

@@ -47,7 +47,6 @@ void	env_free(t_env *env)
 	while (env->used--)
 		free(env->envp[env->used]);
 	free(env->envp);
-	free(env);
 }
 
 static size_t	env_len(char **envp)

@@ -1,38 +1,32 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   unset.c                                            :+:    :+:            */
+/*   env_append_val.c                                   :+:    :+:            */
 /*                                                     +:+                    */
 /*   By: jvan-hal <jvan-hal@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
-/*   Created: 2023/04/20 16:50:13 by jvan-hal      #+#    #+#                 */
-/*   Updated: 2023/05/26 16:59:39 by jvan-hal      ########   odam.nl         */
+/*   Created: 2023/06/14 18:23:39 by jvan-hal      #+#    #+#                 */
+/*   Updated: 2023/06/16 17:20:32 by jvan-hal      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_string.h"
-#include "ft_stdio.h"
-#include "msh.h"
+#include "msh_env.h"
+#include "msh_error.h"
+#include "msh_var.h"
 #include <stdlib.h>
 
-int	msh_unset(t_cmd *cmd, t_msh *msh)
+t_errno	env_append_val(t_env *env, char *entry, char const *name)
 {
-	int	i;
-	int	j;
+	char	*newentry;
 
-	i = 1;
-    while (ft_strchr(cmd->argv.array[i], '-'))
-    {
-        ft_dprintf(cmd->io.err, "msh: unset: %s: not a valid identifier", cmd->argv.array[i]);
-        ++i;
-    }
-	while (cmd->argv.array[i])
-	{
-		if (!ft_strchr(cmd->argv.array[i], '_'))
-		{
-			env_unset(msh->env, (char const)cmd->argv.array[i]);
-		}
-		++i;
-	}
-	return (0);
+	size_t const entry_i = env_entry_get(env, name);
+	if (entry_i == env->len)
+		return (MSH_NO_VARSTR);
+	newentry = ft_strjoin(env->envp[entry_i], ft_strchr(entry, '=') + 1);
+	if (!newentry)
+		return (MSH_MEMFAIL);
+	free(env->envp[entry_i]);
+	env->envp[entry_i] = newentry;
+	return (MSH_SUCCESS);
 }

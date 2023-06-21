@@ -6,11 +6,12 @@
 /*   By: jvan-hal <jvan-hal@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/04/20 16:52:40 by jvan-hal      #+#    #+#                 */
-/*   Updated: 2023/05/25 18:11:16 by jvan-hal      ########   odam.nl         */
+/*   Updated: 2023/06/06 14:24:22 by jvan-hal      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_string.h"
+#include "ft_stdio.h"
 #include "msh.h"
 #include <stdlib.h>
 #include <unistd.h>
@@ -49,38 +50,42 @@ char	*ft_strjoin_dir(char const *s1, char const *s2)
 	return (string);
 }
 
-char	*get_env_dir(char *name, t_cmd *cmc, t_msh *msh)
+char	*get_env_dir(char *name, t_cmd *cmd, t_msh *msh)
 {
 	char	*dstdir;
-	char	*errmsg;
 
-	dstdir = get_env_var(name, msh->env);
+	dstdir = env_search(&msh->env, name);
 	if (!dstdir)
 	{
-		ft_dprintf(cmd->io.err, "msh: cd: %s not set", name);
-		return (0);
+		ft_dprintf(cmd->io.err, "msh: cd: %s not set\n", name);
+		return (NULL);
 	}
 	return (dstdir);
 }
 
-char	*get_dstdir(int argc, char **argv, t_cmd *cmd, t_msh *msh)
+char	*get_dstdir(t_cmd *cmd, t_msh *msh)
 {
 	char	*dstdir;
 
 	dstdir = NULL;
-	if (argc == 1 || ft_strncmp(argv[1], "--", 3) == 0)
+	if (cmd->argc == 1)
 	{
-		dstdir = get_env_dir("HOME", msh);
+		dstdir = get_env_dir("HOME", cmd, msh);
 	}
 	else
 	{
-		if (ft_strncmp(argv[1], "-", 2) == 0)
+		if (ft_strncmp(cmd->argv.array[1], "-", 2) == 0)
 		{
 			dstdir = get_env_dir("OLDPWD", cmd, msh);
-			ft_dprintf(cmd->io.out, "%s\n", dstdir);
+            if (dstdir)
+			    ft_dprintf(cmd->io.out, "%s\n", dstdir);
 		}
+        else if (ft_strncmp(cmd->argv.array[1], "--", 3) == 0)
+        {
+            dstdir = get_env_dir("HOME", cmd, msh);
+        }
 		else
-			dstdir = argv[1];
+			dstdir = cmd->argv.array[1];
 	}
 	return (dstdir);
 }
@@ -90,23 +95,27 @@ int	msh_cd(t_cmd *cmd, t_msh *msh)
 	char	*dstdir;
 	char	*newdir;
 	char	*buf;
-	int		i;
 
-	dstdir = get_dstdir(cmd->argc, argv, cmd, msh);
-	if (dstdir[0] == '/')
-		newdir = ft_strdup(dstdir);
+    buf = NULL;
+    buf = getcwd(NULL, 0);
+    if (!buf)
+        return (1);
+    dstdir = get_dstdir(cmd, msh);
+    if (!dstdir)
+        return (1);
+    if (dstdir[0] == '/')
+        newdir = ft_strdup(dstdir);
 	else
+		newdir = ft_strjoin_dir(buf, dstdir);
+    if (!newdir)
+        return (1);
+	if (chdir(newdir) != 0)
 	{
-		buf = getcwd(NULL, 0);
-		if (!buf)
-			return (1);
-		newdir = ft_strjoin_dir(buf, dstdir); 
+		ft_dprintf(cmd->io.err, "msh: cd: %s: No such file or directory\n", cmd->argv.array[1]);
+		return (1);
 	}
-	chdir(newdir);
-	i = remove_var("OLDPWD", msh->env);
-	msh->env[i] = ft_strjoin("OLDPWD=", buf);
-	i = remove_var("PWD", msh->env);
-	msh->env[i] = ft_strjoin("PWD=", newdir);
+	env_set(&msh->env, ft_strjoin("OLDPWD=", buf));
+	env_set(&msh->env, ft_strjoin("PWD=", newdir));
 	free(buf);
 	free(newdir);
 	return (0);
