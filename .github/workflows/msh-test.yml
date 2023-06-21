@@ -6,7 +6,7 @@ on:
   push:
     branches: [ jvan-hal ]
 jobs:
-  unit-test:
+  builtin_unit-test:
     timeout-minutes: 10
     runs-on: macos-latest
 
@@ -31,3 +31,16 @@ jobs:
       run: make test_pwd
     - name: run unset tests
       run: make test_unset
+  parser_unit-test:
+    timeout-minutes: 10
+    runs-on: macos-latest
+
+    steps:
+    - name: Clone repository
+      uses: actions/checkout@v3
+      with:
+        submodules: true
+    - name: Install Dependencies
+      run: brew install criterion
+    - name: run cd tests
+      run: make test_cd
