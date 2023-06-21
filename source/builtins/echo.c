@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include "ft_string.h"
+#include "ft_stdio.h"
 #include "msh.h"
 #include <unistd.h>
 

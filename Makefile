@@ -6,7 +6,7 @@
 #    By: dbasting <marvin@codam.nl>                   +#+                      #
 #                                                    +#+                       #
 #    Created: 2022/12/28 12:06:53 by dbasting      #+#    #+#                  #
-#    Updated: 2023/06/21 11:37:16 by jvan-hal      ########   odam.nl          #
+#    Updated: 2023/06/21 15:13:34 by jvan-hal      ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -108,7 +108,7 @@ re: fclean all
 
 test_cd:
 	$(MAKE) -j -C lib/libft
-	cc $(CFLAGS) -lcriterion source/builtins/cd.c source/env/env_append_val.c source/env/env_search.c source/env/env_set.c source/env/env_utils.c source/var/var_parse.c source/builtins/cd_test/cd_unittest.c lib/libft/libft.a && ./a.out
+	cc $(CFLAGS) -lcriterion source/builtins/cd.c source/env/env_append_val.c source/env/env_search.c source/env/env_set.c source/env/env_utils.c source/var/var_parse.c test/cd_test/cd_unittest.c lib/libft/libft.a && ./a.out
 	rm a.out
 
 test_echo:
@@ -118,25 +118,40 @@ test_echo:
 
 test_env:
 	$(MAKE) -j -C lib/libft
-	cc $(CFLAGS) -lcriterion source/builtins/env.c source/env/env_append_val.c source/env/env_utils.c source/builtins/env_utils.c source/builtins/env_test/env_unittest.c lib/libft/libft.a && ./a.out
+	cc $(CFLAGS) -lcriterion source/builtins/env.c source/env/env_append_val.c source/env/env_utils.c source/builtins/env_utils.c test/env_test/env_unittest.c lib/libft/libft.a && ./a.out
 	rm a.out
 
 test_exit:
 	$(MAKE) -j -C lib/libft
-	cc $(CFLAGS) -lcriterion source/builtins/exit.c source/cmd.c source/env/env_append_val.c source/env/env.c source/env/env_utils.c source/builtins/exit_test/exit_unittest.c lib/libft/libft.a && ./a.out
+	cc $(CFLAGS) -lcriterion source/builtins/exit.c source/cmd.c source/env/env_append_val.c source/env/env.c source/env/env_utils.c test/exit_test/exit_unittest.c lib/libft/libft.a && ./a.out
 	rm a.out
 
 test_export:
 	$(MAKE) -j -C lib/libft
-	cc $(CFLAGS) -lcriterion source/builtins/export.c source/env/env_append_val.c source/env/env_utils.c source/var/var_parse.c source/builtins/export_test/export_unittest.c lib/libft/libft.a && ./a.out
+	cc $(CFLAGS) -lcriterion source/builtins/export.c source/env/env_append_val.c source/env/env_utils.c source/var/var_parse.c test/export_test/export_unittest.c lib/libft/libft.a && ./a.out
 	rm a.out
 
 test_pwd:
 	$(MAKE) -j -C lib/libft
-	cc $(CFLAGS) -lcriterion source/builtins/pwd.c source/builtins/pwd_test/pwd_unittest.c lib/libft/libft.a && ./a.out
+	cc $(CFLAGS) -lcriterion source/builtins/pwd.c test/pwd_test/pwd_unittest.c lib/libft/libft.a && ./a.out
 	rm a.out
 
 test_unset:
 	$(MAKE) -j -C lib/libft
-	cc $(CFLAGS) -lcriterion source/builtins/unset.c source/env/env_append_val.c source/env/env_utils.c source/builtins/unset_test/unset_unittest.c lib/libft/libft.a && ./a.out
+	cc $(CFLAGS) -lcriterion source/builtins/unset.c source/env/env_append_val.c source/env/env_utils.c test/unset_test/unset_unittest.c lib/libft/libft.a && ./a.out
+	rm a.out
+
+test_lexer:
+	$(MAKE) -j -C lib/libft
+	cc $(CFLAGS) -lcriterion source/lex/token.c test/lex_test/lex_unittest.c lib/libft/libft.a && ./a.out
+	rm a.out
+
+test_expander:
+	$(MAKE) -j -C lib/libft
+	cc $(CFLAGS) -lcriterion test/expand_test/expand_unittest.c lib/libft/libft.a && ./a.out
+	rm a.out
+
+test_parser:
+	$(MAKE) -j -C lib/libft
+	cc $(CFLAGS) -lcriterion test/parse_test/parse_unittest.c lib/libft/libft.a && ./a.out
 	rm a.out
