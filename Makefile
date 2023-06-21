@@ -6,7 +6,7 @@
 #    By: dbasting <marvin@codam.nl>                   +#+                      #
 #                                                    +#+                       #
 #    Created: 2022/12/28 12:06:53 by dbasting      #+#    #+#                  #
-#    Updated: 2023/06/21 10:59:01 by jvan-hal      ########   odam.nl          #
+#    Updated: 2023/06/21 11:37:16 by jvan-hal      ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -108,7 +108,7 @@ re: fclean all
 
 test_cd:
 	$(MAKE) -j -C lib/libft
-	cc $(CFLAGS) -lcriterion source/builtins/cd.c source/env/env_append_val.c source/env/env_search.c source/env/env_set.c source/env/env_utils.c source/var_parse.c source/builtins/cd_test/cd_unittest.c lib/libft/libft.a && ./a.out
+	cc $(CFLAGS) -lcriterion source/builtins/cd.c source/env/env_append_val.c source/env/env_search.c source/env/env_set.c source/env/env_utils.c source/var/var_parse.c source/builtins/cd_test/cd_unittest.c lib/libft/libft.a && ./a.out
 	rm a.out
 
 test_echo:
@@ -128,7 +128,7 @@ test_exit:
 
 test_export:
 	$(MAKE) -j -C lib/libft
-	cc $(CFLAGS) -lcriterion source/builtins/export.c source/env/env_append_val.c source/env/env_utils.c source/var_parse.c source/builtins/export_test/export_unittest.c lib/libft/libft.a && ./a.out
+	cc $(CFLAGS) -lcriterion source/builtins/export.c source/env/env_append_val.c source/env/env_utils.c source/var/var_parse.c source/builtins/export_test/export_unittest.c lib/libft/libft.a && ./a.out
 	rm a.out
 
 test_pwd:

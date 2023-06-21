@@ -42,5 +42,5 @@ jobs:
         submodules: true
     - name: Install Dependencies
       run: brew install criterion
-    - name: run cd tests
+    - name: run parser tests
       run: make test_cd
