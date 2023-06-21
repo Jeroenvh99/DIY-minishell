@@ -6,7 +6,7 @@
 #    By: dbasting <marvin@codam.nl>                   +#+                      #
 #                                                    +#+                       #
 #    Created: 2022/12/28 12:06:53 by dbasting      #+#    #+#                  #
-#    Updated: 2023/06/20 21:51:13 by dbasting      ########   odam.nl          #
+#    Updated: 2023/06/21 10:59:01 by jvan-hal      ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -108,7 +108,7 @@ re: fclean all
 
 test_cd:
 	$(MAKE) -j -C lib/libft
-	cc $(CFLAGS) -lcriterion source/builtins/cd.c source/builtins/env_utils.c source/env/env_search.c source/env/env_set.c source/env/env_utils.c source/var_parse.c source/builtins/cd_test/cd_unittest.c lib/libft/libft.a && ./a.out
+	cc $(CFLAGS) -lcriterion source/builtins/cd.c source/env/env_append_val.c source/env/env_search.c source/env/env_set.c source/env/env_utils.c source/var_parse.c source/builtins/cd_test/cd_unittest.c lib/libft/libft.a && ./a.out
 	rm a.out
 
 test_echo:
@@ -118,17 +118,17 @@ test_echo:
 
 test_env:
 	$(MAKE) -j -C lib/libft
-	cc $(CFLAGS) -lcriterion source/builtins/env.c source/builtins/env_utils.c source/builtins/env_test/env_unittest.c lib/libft/libft.a && ./a.out
+	cc $(CFLAGS) -lcriterion source/builtins/env.c source/env/env_append_val.c source/env/env_utils.c source/builtins/env_utils.c source/builtins/env_test/env_unittest.c lib/libft/libft.a && ./a.out
 	rm a.out
 
 test_exit:
 	$(MAKE) -j -C lib/libft
-	cc $(CFLAGS) -lcriterion source/builtins/exit.c source/builtins/exit_test/exit_unittest.c lib/libft/libft.a && ./a.out
+	cc $(CFLAGS) -lcriterion source/builtins/exit.c source/cmd.c source/env/env_append_val.c source/env/env.c source/env/env_utils.c source/builtins/exit_test/exit_unittest.c lib/libft/libft.a && ./a.out
 	rm a.out
 
 test_export:
 	$(MAKE) -j -C lib/libft
-	cc $(CFLAGS) -lcriterion source/builtins/export.c source/builtins/export_test/export_unittest.c lib/libft/libft.a && ./a.out
+	cc $(CFLAGS) -lcriterion source/builtins/export.c source/env/env_append_val.c source/env/env_utils.c source/var_parse.c source/builtins/export_test/export_unittest.c lib/libft/libft.a && ./a.out
 	rm a.out
 
 test_pwd:
@@ -138,5 +138,5 @@ test_pwd:
 
 test_unset:
 	$(MAKE) -j -C lib/libft
-	cc $(CFLAGS) -lcriterion source/builtins/unset.c source/builtins/env_utils.c source/builtins/unset_test/unset_unittest.c lib/libft/libft.a && ./a.out
+	cc $(CFLAGS) -lcriterion source/builtins/unset.c source/env/env_append_val.c source/env/env_utils.c source/builtins/unset_test/unset_unittest.c lib/libft/libft.a && ./a.out
 	rm a.out
