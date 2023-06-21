@@ -30,7 +30,7 @@ void	assert_pwd_output(t_cmd *cmd, t_char *dir)
 	t_msh	msh;
 	char	*expect_dir;
 
-    cmd->io.out = 1;
+    cmd->io[1] = 1;
 	expect_dir = ft_strjoin(dir, "\n");
 	msh_pwd(cmd, &msh);
 	fflush(stdout);

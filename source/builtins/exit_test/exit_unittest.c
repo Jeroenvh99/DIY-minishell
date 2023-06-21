@@ -31,8 +31,8 @@ void	assert_exit_output(t_cmd *cmd, char *expected)
 {
 	t_msh	*msh;
 
-    cmd->io.out = 1;
-	cmd->io.err = 2;
+    cmd->io[1] = 1;
+	cmd->io[2] = 2;
 	msh = (t_msh *)malloc(sizeof(t_msh));
 	bzero(msh, sizeof(t_msh));
 	msh_exit(cmd, msh);
@@ -44,8 +44,8 @@ void	assert_exit_output_error(t_cmd *cmd, char *expected)
 {
 	t_msh	*msh;
 
-	cmd->io.out = 1;
-    cmd->io.err = 2;
+	cmd->io[1] = 1;
+    cmd->io[2] = 2;
     msh = (t_msh *)malloc(sizeof(t_msh));
 	bzero(msh, sizeof(t_msh));
 	msh_exit(cmd, msh);
@@ -58,8 +58,8 @@ void	assert_exit_status(t_cmd *cmd, int expected)
 	t_msh	*msh;
 	int		status;
 
-    cmd->io.out = 1;
-    cmd->io.err = 2;
+    cmd->io[1] = 1;
+    cmd->io[2] = 2;
 	msh = (t_msh *)malloc(sizeof(t_msh));
 	bzero(msh, sizeof(t_msh));
 	status = msh_exit(cmd, msh);

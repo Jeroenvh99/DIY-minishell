@@ -26,7 +26,7 @@ void	assert_unset_output(t_cmd *cmd, char *expected)
 	t_msh	msh;
 	char	*environ[] = {"HOME=/tmp/cd-no_arg_with_home", "SHLVL=2", "LANG=en_US.UTF-8", NULL};
 
-    cmd->io.out = 1;
+    cmd->io[1] = 1;
 	bzero(&msh, sizeof(msh));
 	msh.env.envp = environ;
 	msh.env.len = 3;

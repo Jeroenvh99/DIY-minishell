@@ -77,7 +77,7 @@ void	assert_cd_output(t_cmd *cmd, char *expected, void (*env_init)(t_msh *))
 {
 	t_msh	msh;
 
-	cmd->io.out = 1;
+	cmd->io[1] = 1;
 	bzero(&msh, sizeof(msh));
 	env_init(&msh);
 	msh_cd(cmd, &msh);
@@ -91,7 +91,7 @@ void	assert_cd_output_error(t_cmd *cmd, char *expected,
 {
 	t_msh	msh;
 
-	cmd->io.err = 2;
+	cmd->io[2] = 2;
 	bzero(&msh, sizeof(msh));
 	env_init(&msh);
 	msh_cd(cmd, &msh);
@@ -106,8 +106,8 @@ void	assert_cd_dir(t_cmd *cmd, char *expected, void (*env_init)(t_msh *))
 	char	*buf;
 
 	buf = NULL;
-	cmd->io.out = 1;
-    cmd->io.err = 2;
+	cmd->io[1] = 1;
+    cmd->io[2] = 2;
 	bzero(&msh, sizeof(msh));
 	env_init(&msh);
 	msh_cd(cmd, &msh);
@@ -122,7 +122,7 @@ void	assert_cd_status(t_cmd *cmd, int expected, void (*env_init)(t_msh *))
 	t_msh	msh;
 	int		status;
 
-	cmd->io.out = 1;
+	cmd->io[1] = 1;
 	bzero(&msh, sizeof(msh));
 	env_init(&msh);
 	status = msh_cd(cmd, &msh);
@@ -134,7 +134,7 @@ void	assert_cd_env(t_cmd *cmd, const char *name, int exists, void (*env_init)(t_
 {
 	t_msh	msh;
 
-	cmd->io.out = 1;
+	cmd->io[1] = 1;
 	bzero(&msh, sizeof(msh));
 	env_init(&msh);
 	msh_cd(cmd, &msh);

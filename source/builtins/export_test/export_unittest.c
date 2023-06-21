@@ -76,8 +76,8 @@ void	assert_export_output(t_cmd *cmd, char *expected, void (*env_init)(t_msh *))
 {
 	t_msh	msh;
 
-	cmd->io.out = 1;
-    cmd->io.out = 2;
+	cmd->io[1] = 1;
+    cmd->io[2] = 2;
 	bzero(&msh, sizeof(msh));
 	env_init(&msh);
 	msh_export(cmd, &msh);
@@ -90,8 +90,8 @@ void	assert_export_output_err(t_cmd *cmd, char *expected, void (*env_init)(t_msh
 {
 	t_msh	msh;
 
-	cmd->io.out = 1;
-    cmd->io.out = 2;
+	cmd->io[1] = 1;
+    cmd->io[2] = 2;
 	bzero(&msh, sizeof(msh));
 	env_init(&msh);
 	msh_export(cmd, &msh);
@@ -104,8 +104,8 @@ void	assert_export_env(t_cmd *cmd, const char *name, int exists, void (*env_init
 {
     t_msh	msh;
 
-    cmd->io.out = 1;
-    cmd->io.out = 2;
+    cmd->io[1] = 1;
+    cmd->io[2] = 2;
     bzero(&msh, sizeof(msh));
     env_init(&msh);
     msh_export(cmd, &msh);
@@ -121,8 +121,8 @@ void	assert_export_env_val(t_cmd *cmd, const char *name, char *name_val, void (*
 {
     t_msh	msh;
 
-    cmd->io.out = 1;
-    cmd->io.out = 2;
+    cmd->io[1] = 1;
+    cmd->io[2] = 2;
     bzero(&msh, sizeof(msh));
     env_init(&msh);
     msh_export(cmd, &msh);
