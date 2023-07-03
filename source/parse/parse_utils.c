@@ -59,5 +59,6 @@ char	*token_to_str(t_token *token)
 		return (NULL);
 	str = token->str;
 	free(token);
+    token = NULL;
 	return (str);
 }

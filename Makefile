@@ -153,5 +153,5 @@ test_expander:
 
 test_parser:
 	$(MAKE) -j -C lib/libft
-	cc $(CFLAGS) -lcriterion test/parse_test/parse_unittest.c lib/libft/libft.a && ./a.out
+	cc $(CFLAGS) -lcriterion test/parse_test/parse_unittest.c source/parse/parse_utils.c lib/libft/libft.a && ./a.out
 	rm a.out
