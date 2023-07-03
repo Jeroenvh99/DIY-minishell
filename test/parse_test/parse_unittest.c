@@ -22,7 +22,7 @@ void	assert_token_to_str(t_token *token, char *expected)
 {
     char	*str;
 
-    str = token_to_str(str);
+    str = token_to_str(token);
     cr_assert_eq(strcmp(str, expected), 0);
 }
 
@@ -39,13 +39,13 @@ TestSuite(parse);
 Test(parse, token_str_0)
 {
     t_token token;
-    token->str = "hi test";
+    token.str = "hi test";
     assert_token_to_str(&token, "hi test");
 }
 
 Test(parse, token_str_1, .signal = SIGSEGV)
 {
     t_token token;
-    token->str = "hi test";
+    token.str = "hi test";
     assert_token_to_str(&token, "hi test");
 }
