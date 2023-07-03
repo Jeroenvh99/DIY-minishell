@@ -33,6 +33,14 @@ void	assert_token_type(char *str, t_toktype type)
     cr_assert_eq(tok->type, type);
 }
 
+void	assert_metachr(char c, int expected)
+{
+    int	meta;
+
+    meta = is_metachr(c);
+    cr_assert_eq(meta, expected);
+}
+
 TestSuite(token);
 
 Test(token, input_empty_0)
@@ -47,4 +55,14 @@ Test(token, input_empty_1)
     char	*str = "echotest";
     t_toktype type = TOK_WORD;
     assert_token_type(str, type);
+}
+
+Test(token, meta_char_0)
+{
+    assert_metachr(' ', 1);
+}
+
+Test(token, meta_char_1)
+{
+    assert_metachr('h', 0);
 }

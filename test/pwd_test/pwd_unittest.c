@@ -23,22 +23,32 @@ void redirect_stdout(void)
     cr_redirect_stdout();
 }
 
-TestSuite(pwd, .init=redirect_stdout);
-
 void	assert_pwd_output(t_cmd *cmd, t_char *dir)
 {
-	t_msh	msh;
-	char	*expect_dir;
+    t_msh	msh;
+    char	*expect_dir;
 
     cmd->io[1] = 1;
-	expect_dir = ft_strjoin(dir, "\n");
-	msh_pwd(cmd, &msh);
-	fflush(stdout);
-	cr_assert_stdout_eq_str(expect_dir);
-	free(expect_dir);
+    expect_dir = ft_strjoin(dir, "\n");
+    msh_pwd(cmd, &msh);
+    fflush(stdout);
+    cr_assert_stdout_eq_str(expect_dir);
+    free(expect_dir);
 }
 
+TestSuite(pwd, .init=redirect_stdout);
+
 Test(pwd, no_arg)
+{
+	char	*newdir;
+	t_cmd	cmd;
+
+	newdir = getenv("HOME");
+	chdir(newdir);
+	assert_pwd_output(&cmd, newdir);
+}
+
+Test(pwd, symlink)
 {
 	char	*newdir;
 	t_cmd	cmd;
