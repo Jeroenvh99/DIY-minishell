@@ -30,7 +30,7 @@ void	assert_token_freed(t_token *token)
 {
     char	*str;
 
-    str = token_to_str(str);
+    str = token_to_str(token);
     token->str = "ha, this doesn't work";
 }
 
