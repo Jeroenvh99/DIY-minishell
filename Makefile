@@ -6,7 +6,7 @@
 #    By: dbasting <marvin@codam.nl>                   +#+                      #
 #                                                    +#+                       #
 #    Created: 2022/12/28 12:06:53 by dbasting      #+#    #+#                  #
-#    Updated: 2023/06/21 15:13:34 by jvan-hal      ########   odam.nl          #
+#    Updated: 2023/07/04 14:00:47 by jvan-hal      ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -113,7 +113,7 @@ test_cd:
 
 test_echo:
 	$(MAKE) -j -C lib/libft
-	cc $(CFLAGS) -lcriterion source/builtins/echo.c source/builtins/echo_test/echo_unittest.c lib/libft/libft.a && ./a.out
+	cc $(CFLAGS) -lcriterion source/builtins/echo.c test/echo_test/echo_unittest.c lib/libft/libft.a && ./a.out
 	rm a.out
 
 test_env:
