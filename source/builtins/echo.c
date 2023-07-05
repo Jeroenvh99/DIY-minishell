@@ -6,7 +6,7 @@
 /*   By: jvan-hal <jvan-hal@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/04/18 15:16:12 by jvan-hal      #+#    #+#                 */
-/*   Updated: 2023/06/21 11:45:20 by jvan-hal      ########   odam.nl         */
+/*   Updated: 2023/07/05 11:06:36 by jvan-hal      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ int	write_args(t_cmd *cmd, int i)
 {
 	while (cmd->argv.array[i])
 	{
-		if (ft_dprintf(cmd->io[2], "%s", cmd->argv.array[i]) == -1)
+		if (ft_dprintf(cmd->io[1], "%s", cmd->argv.array[i]) == -1)
 			return (-1);
 		if (cmd->argv.array[i + 1])
 		{
