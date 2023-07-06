@@ -6,15 +6,13 @@
 /*   By: jvan-hal <jvan-hal@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/04/20 16:51:40 by jvan-hal      #+#    #+#                 */
-/*   Updated: 2023/07/06 10:55:04 by jvan-hal      ########   odam.nl         */
+/*   Updated: 2023/07/06 16:48:31 by jvan-hal      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_stdio.h"
 #include "ft_string.h"
 #include "msh.h"
-#include <stdio.h>
-#include <stdlib.h>
 
 void	env_error(int fd, char *arg)
 {

@@ -34,7 +34,7 @@ void	assert_env_output(t_cmd *cmd, char *expected)
 	char	*environ[] = {"LOGNAME=jvan-hal", NULL};
 
     cmd->io[1] = 1;
-	bzero(&msh, sizeof(t_msh));
+	bzero(&msh, sizeof(msh));
 	msh.env.envp = environ;
     msh.env.len = 1;
 	msh_env(cmd, &msh);
@@ -48,7 +48,7 @@ void	assert_env_output_error(t_cmd *cmd, char *expected)
 	char	*environ[] = {"LOGNAME=jvan-hal", NULL};
 
 	cmd->io[2] = 2;
-	bzero(&msh, sizeof(t_msh));
+	bzero(&msh, sizeof(msh));
 	msh.env.envp = environ;
     msh.env.len = 1;
 	msh_env(cmd, &msh);
@@ -64,7 +64,7 @@ void	assert_env_status(t_cmd *cmd, int expected)
 
     cmd->io[1] = 1;
     cmd->io[2] = 2;
-	bzero(&msh, sizeof(t_msh));
+	bzero(&msh, sizeof(msh));
 	msh.env.envp = environ;
     msh.env.len = 1;
 	status = msh_env(cmd, &msh);
@@ -120,7 +120,7 @@ Test(env, input_one_0)
 	assert_env_output(&cmd, expected);
 }
 
-Test(env, input_one_1)
+Test(env_err, input_one_1)
 {
 	t_cmd cmd;
 
