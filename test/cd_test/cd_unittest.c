@@ -111,6 +111,8 @@ void	assert_cd_dir(t_cmd *cmd, char *expected, void (*env_init)(t_msh *))
 	bzero(&msh, sizeof(msh));
 	env_init(&msh);
 	msh_cd(cmd, &msh);
+	fflush(stdout);
+	fflush(stderr);
     buf = getcwd(buf, 0);
 	cr_assert_eq(strcmp(buf, expected), 0);
 	free(buf);
@@ -126,6 +128,7 @@ void	assert_cd_status(t_cmd *cmd, int expected, void (*env_init)(t_msh *))
 	bzero(&msh, sizeof(msh));
 	env_init(&msh);
 	status = msh_cd(cmd, &msh);
+	fflush(stdout);
 	cr_assert_eq(status, expected);
     env_free_(&msh.env);
 }
@@ -138,6 +141,7 @@ void	assert_cd_env(t_cmd *cmd, const char *name, int exists, void (*env_init)(t_
 	bzero(&msh, sizeof(msh));
 	env_init(&msh);
 	msh_cd(cmd, &msh);
+	fflush(stdout);
 	// print_env(msh.env.envp);
 	if (exists)
 		cr_assert_not_null(env_search(&msh.env, name));

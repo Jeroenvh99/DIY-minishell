@@ -68,6 +68,8 @@ void	assert_env_status(t_cmd *cmd, int expected)
 	msh.env.envp = environ;
     msh.env.len = 1;
 	status = msh_env(cmd, &msh);
+	fflush(stdout);
+	fflush(stderr);
 	cr_assert_eq(status, expected);
 }
 
