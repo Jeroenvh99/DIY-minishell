@@ -134,7 +134,7 @@ Test(exit, input_one_2)
 	assert_exit_status(&cmd, 8);
 }
 
-Test(exit, input_one_2)
+Test(exit, input_one_3)
 {
 	t_cmd cmd;
 
@@ -145,7 +145,7 @@ Test(exit, input_one_2)
 	assert_exit_output(&cmd, expected);
 }
 
-Test(exit_err, input_one_3)
+Test(exit_err, input_one_4)
 {
 	t_cmd cmd;
 
@@ -156,7 +156,7 @@ Test(exit_err, input_one_3)
 	assert_exit_output_error(&cmd, expected);
 }
 
-Test(exit, input_one_4)
+Test(exit, input_one_5)
 {
 	t_cmd cmd;
 
