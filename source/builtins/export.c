@@ -6,7 +6,7 @@
 /*   By: jvan-hal <jvan-hal@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/04/20 16:51:03 by jvan-hal      #+#    #+#                 */
-/*   Updated: 2023/07/07 10:40:34 by jvan-hal      ########   odam.nl         */
+/*   Updated: 2023/07/07 11:00:52 by jvan-hal      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ int	msh_export(t_cmd *cmd, t_msh *msh)
 	while (cmd->argv.array[i])
 	{
 		if (ft_strchr(cmd->argv.array[i], '='))
-            env_set(msh->env, (const char)cmd->argv.array[i]);
+            env_set(&msh->env, (const char)cmd->argv.array[i]);
 		++i;
 	}
 	return (0);

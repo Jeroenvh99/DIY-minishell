@@ -109,7 +109,6 @@ void	assert_export_env(t_cmd *cmd, const char *name, int exists, void (*env_init
     bzero(&msh, sizeof(msh));
     env_init(&msh);
     msh_export(cmd, &msh);
-    // print_env(msh.env.envp);
     if (exists)
         cr_assert_not_null(env_search(&msh.env, name));
     else
@@ -126,7 +125,6 @@ void	assert_export_env_val(t_cmd *cmd, const char *name, char *name_val, void (*
     bzero(&msh, sizeof(msh));
     env_init(&msh);
     msh_export(cmd, &msh);
-    // print_env(msh.env.envp);
     cr_assert_eq(strcmp(env_search(&msh.env, name), name_val), 0);
     env_free_(&msh.env);
 }
