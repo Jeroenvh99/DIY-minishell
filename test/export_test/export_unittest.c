@@ -200,7 +200,6 @@ Test(export, input_one_2)
 {
     t_cmd   cmd;
     char    *input[] = {"export", "n=6", NULL};
-    char    *expected = "";
 
     cmd.argc = 2;
     cmd.argv.array = input;

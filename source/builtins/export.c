@@ -6,7 +6,7 @@
 /*   By: jvan-hal <jvan-hal@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/04/20 16:51:03 by jvan-hal      #+#    #+#                 */
-/*   Updated: 2023/06/21 11:48:17 by jvan-hal      ########   odam.nl         */
+/*   Updated: 2023/07/07 10:40:34 by jvan-hal      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,20 +21,20 @@ int	exp_print_env(t_msh *msh, t_cmd *cmd)
 	int	j;
 
 	i = 0;
-	while (msh->env[i])
+	while (msh->env.envp[i])
 	{
 		if (write(cmd->io[1], "declare -x ", 11) == -1)
 			return (-1);
 		j = 0;
-		while (msh->env[i][j])
+		while (msh->env.envp[i][j])
 		{
-			if (msh->env[i][j] == '=')
+			if (msh->env.envp[i][j] == '=')
 				break ;
 			++j;
 		}
-		if (write(cmd->io[1], msh->env[i], j + 1) == -1)
+		if (write(cmd->io[1], msh->env.envp[i], j + 1) == -1)
 			return (-1);
-		ft_dprintf(cmd->io[1], "\"%s\"\n", msh->env[i] + j + 1);
+		ft_dprintf(cmd->io[1], "\"%s\"\n", msh->env.envp[i] + j + 1);
 		++i;
 	}
 	return (0);
