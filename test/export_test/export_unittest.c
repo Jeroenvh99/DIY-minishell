@@ -256,5 +256,5 @@ Test(export, input_one_duplicate_1)
 
     cmd.argc = 2;
     cmd.argv.array = input;
-    assert_export_err(&cmd, expected, &env_with_home);
+    assert_export_output(&cmd, expected, &env_with_home);
 }
