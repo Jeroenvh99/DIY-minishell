@@ -23,7 +23,7 @@ void redirect_stdout(void)
     cr_redirect_stdout();
 }
 
-void	assert_pwd_output(t_cmd *cmd, t_char *dir)
+void	assert_pwd_output(t_cmd *cmd, char *dir)
 {
     t_msh	msh;
     char	*expect_dir;
