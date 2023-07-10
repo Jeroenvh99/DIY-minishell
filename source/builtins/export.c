@@ -22,7 +22,7 @@ int	exp_print_env(t_msh *msh, t_cmd *cmd)
 	int	j;
 
 	i = 0;
-	while (i < msh->env.len)
+	while (msh->env.envp[i])
 	{
 		if (write(cmd->io[1], "declare -x ", 11) == -1)
 			return (-1);
