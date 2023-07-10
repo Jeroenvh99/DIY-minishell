@@ -26,5 +26,5 @@ t_errno	env_unset(t_env	*env, char const *name)
 	free(env->envp[entry_i]);
 	env->envp[entry_i] = NULL;
 	env->used--;
-    return (MSH_SUCCES);
+    return (MSH_SUCCESS);
 }
