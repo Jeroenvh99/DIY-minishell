@@ -69,6 +69,8 @@ void	assert_unset_envused(t_cmd *cmd, size_t expected)
 
 TestSuite(unset, .init=redirect_stdout);
 
+TestSuite(unset_err, .init=redirect_stderr);
+
 Test(unset, input_empty)
 {
 	t_cmd cmd;
@@ -114,7 +116,7 @@ Test(unset, input_one_3)
 	assert_unset_env(&cmd, "HOME=/tmp/cd-no_arg_with_home\nSHLVL=2\nLANG=en_US.UTF-8\n");
 }
 
-Test(unset, input_one_4)
+Test(unset_err, input_one_4)
 {
 	t_cmd cmd;
 
