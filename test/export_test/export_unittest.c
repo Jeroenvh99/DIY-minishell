@@ -166,7 +166,7 @@ Test(export, input_empty_2)
 {
     t_cmd   cmd;
     char    *input[] = {"export", NULL};
-    char    *expected = "declare -x HOME=\"/Users/jvan-hal\"\ndeclare -x LOGNAME=\"jvan-hal\"\ndeclare -x OLDPWD=\"/tmp/cd-dash\"";
+    char    *expected = "declare -x HOME=\"/Users/jvan-hal\"\ndeclare -x LOGNAME=\"jvan-hal\"\ndeclare -x OLDPWD=\"/tmp/cd-dash\"\n";
 
     cmd.argc = 1;
     cmd.argv.array = input;
