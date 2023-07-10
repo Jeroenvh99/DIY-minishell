@@ -116,7 +116,7 @@ void	assert_export_env(t_cmd *cmd, const char *name, int exists, void (*env_init
     env_free_(&msh.env);
 }
 
-void	assert_export_env_val(t_cmd *cmd, const char *name, char *name_val, void (*env_init)(t_msh *))
+void	assert_export_env_val(t_cmd *cmd, const char *name, char *val, void (*env_init)(t_msh *))
 {
     t_msh	msh;
 
