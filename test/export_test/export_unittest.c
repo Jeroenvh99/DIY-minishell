@@ -81,6 +81,7 @@ void	assert_export_output(t_cmd *cmd, char *expected, void (*env_init)(t_msh *))
 	bzero(&msh, sizeof(msh));
 	env_init(&msh);
 	msh_export(cmd, &msh);
+	fflush(stdout);
 	fflush(stderr);
     cr_assert_stdout_eq_str(expected);
     env_free_(&msh.env);
