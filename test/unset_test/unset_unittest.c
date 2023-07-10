@@ -36,7 +36,7 @@ void	assert_unset_env(t_cmd *cmd, char *expected)
 	msh.env.envp = environ;
 	msh.env.len = 3;
 	msh_unset(cmd, &msh);
-	print_2d_arr(msh.env.envp);
+	print_2d_arr(cmd->io[1], msh.env.envp, msh.env.len);
 	fflush(stdout);
 	cr_assert_stdout_eq_str(expected);
 }
@@ -55,7 +55,7 @@ void	assert_unset_output_error(t_cmd *cmd, char *expected)
 	cr_assert_stderr_eq_str(expected);
 }
 
-void	assert_unset_envused(t_cmd *cmd, int expected)
+void	assert_unset_envused(t_cmd *cmd, size_t expected)
 {
 	t_msh	msh;
 	char	*environ[] = {"HOME=/tmp/cd-no_arg_with_home", "SHLVL=2", "LANG=en_US.UTF-8", NULL};
@@ -93,7 +93,7 @@ Test(unset, input_one_1)
 
 	char	*input[] = {"unset", "HOME", NULL};
 	cmd.argv.array = input;
-	assert_unset_output_env(&cmd, "SHLVL=2\nLANG=en_US.UTF-8\n");
+	assert_unset_env(&cmd, "SHLVL=2\nLANG=en_US.UTF-8\n");
 }
 
 Test(unset, input_one_2)
@@ -111,7 +111,7 @@ Test(unset, input_one_3)
 
 	char	*input[] = {"unset", "OLDPWD", NULL};
 	cmd.argv.array = input;
-	assert_unset_output(&cmd, "HOME=/tmp/cd-no_arg_with_home\nSHLVL=2\nLANG=en_US.UTF-8\n");
+	assert_unset_env(&cmd, "HOME=/tmp/cd-no_arg_with_home\nSHLVL=2\nLANG=en_US.UTF-8\n");
 }
 
 Test(unset, input_one_4)
