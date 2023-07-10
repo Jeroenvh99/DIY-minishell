@@ -61,5 +61,5 @@ static inline size_t	is_varstr(char const *str)
         }
         ++i;
 	}
-	return (i - 1);
+	return (i);
 }
