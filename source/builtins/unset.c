@@ -18,7 +18,6 @@
 int	msh_unset(t_cmd *cmd, t_msh *msh)
 {
 	int	i;
-	int	j;
 
 	i = 1;
     while (ft_strchr(cmd->argv.array[i], '-'))
