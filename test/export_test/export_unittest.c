@@ -215,7 +215,7 @@ Test(export, input_one_3)
     assert_export_env(&cmd, "n", 1, &env_with_home);
 }
 
-Test(export, input_one_4)
+Test(export_err, input_one_4)
 {
     t_cmd   cmd;
     char    *input[] = {"export", "n=-6", NULL};
