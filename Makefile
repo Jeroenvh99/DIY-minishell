@@ -138,7 +138,7 @@ test_pwd:
 
 test_unset:
 	$(MAKE) -j -C lib/libft
-	cc $(CFLAGS) -lcriterion source/builtins/unset.c source/env/env_append_val.c source/env/env_utils.c test/unset_test/unset_unittest.c lib/libft/libft.a && ./a.out
+	cc $(CFLAGS) -lcriterion source/builtins/unset.c source/builtins/env_utils.c source/env/env_append_val.c source/env/env_unset.c source/env/env_utils.c test/unset_test/unset_unittest.c lib/libft/libft.a && ./a.out
 	rm a.out
 
 test_lexer:
