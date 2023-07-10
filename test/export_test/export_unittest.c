@@ -125,7 +125,7 @@ void	assert_export_env_val(t_cmd *cmd, const char *name, char *name_val, void (*
     bzero(&msh, sizeof(msh));
     env_init(&msh);
     msh_export(cmd, &msh);
-    cr_assert_eq(strcmp(env_search(&msh.env, name), name_val), 0);
+    cr_assert_eq(strcmp(env_search(&msh.env, name), val), 0);
     env_free_(&msh.env);
 }
 
@@ -201,7 +201,7 @@ Test(export, input_one_2)
 
     cmd.argc = 2;
     cmd.argv.array = input;
-    assert_export_env_val(&cmd, "n", "n=6", &env_with_home);
+    assert_export_env_val(&cmd, "n", "6", &env_with_home);
 }
 
 Test(export, input_one_3)
@@ -232,7 +232,7 @@ Test(export, input_one_5)
 
     cmd.argc = 2;
     cmd.argv.array = input;
-    assert_export_env_val(&cmd, "n", "n=-6", &env_with_home);
+    assert_export_env_val(&cmd, "n", "-6", &env_with_home);
 }
 
 Test(export, input_one_duplicate_0)
@@ -242,7 +242,7 @@ Test(export, input_one_duplicate_0)
 
     cmd.argc = 2;
     cmd.argv.array = input;
-    assert_export_env_val(&cmd, "HOME", "HOME=HERE", &env_with_home);
+    assert_export_env_val(&cmd, "HOME", "HERE", &env_with_home);
 }
 
 Test(export, input_one_duplicate_1)
