@@ -64,7 +64,7 @@ void	assert_unset_env(t_cmd *cmd, char *expected)
 
     cmd->io[1] = 1;
 	bzero(&msh, sizeof(msh));
-    env_init_(&msh->env, 3, "HOME=/tmp/cd-no_arg_with_home", "SHLVL=2",
+    env_init_(&msh.env, 3, "HOME=/tmp/cd-no_arg_with_home", "SHLVL=2",
               "LANG=en_US.UTF-8");
 	msh_unset(cmd, &msh);
 	print_2d_arr(cmd->io[1], msh.env.envp, msh.env.len);
@@ -78,7 +78,7 @@ void	assert_unset_output_error(t_cmd *cmd, char *expected)
 
     cmd->io[2] = 2;
 	bzero(&msh, sizeof(msh));
-    env_init_(&msh->env, 3, "HOME=/tmp/cd-no_arg_with_home", "SHLVL=2",
+    env_init_(&msh.env, 3, "HOME=/tmp/cd-no_arg_with_home", "SHLVL=2",
               "LANG=en_US.UTF-8");
 	msh_unset(cmd, &msh);
 	fflush(stderr);
@@ -90,7 +90,7 @@ void	assert_unset_envused(t_cmd *cmd, size_t expected)
 	t_msh	msh;
 
 	bzero(&msh, sizeof(msh));
-    env_init_(&msh->env, 3, "HOME=/tmp/cd-no_arg_with_home", "SHLVL=2",
+    env_init_(&msh.env, 3, "HOME=/tmp/cd-no_arg_with_home", "SHLVL=2",
               "LANG=en_US.UTF-8");
 	msh_unset(cmd, &msh);
 	cr_assert_eq(msh.env.used, expected);
