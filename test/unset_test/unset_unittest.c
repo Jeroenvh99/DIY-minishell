@@ -127,7 +127,7 @@ Test(unset, input_one_1)
 	char	*input[] = {"unset", "HOME", NULL};
     cmd.argc = 2;
 	cmd.argv.array = input;
-	assert_unset_env(&cmd, "SHLVL=2\nLANG=en_US.UTF-8\n");
+	assert_unset_env(&cmd, "(null)\nSHLVL=2\nLANG=en_US.UTF-8\n");
 }
 
 Test(unset, input_one_2)
