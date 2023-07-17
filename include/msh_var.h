@@ -23,6 +23,6 @@ char	*var_search(char const *name, t_msh *msh);
 char	*var_set(char const *name, char *value, t_hashtable *vars);
 char	*var_unset(char const *name, t_hashtable *vars);
 
-t_errno	var_parse(char **name, char **value, char const *entry);
+t_errno	var_parse(char **name, char const *entry);
 
 #endif

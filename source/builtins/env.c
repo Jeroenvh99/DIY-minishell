@@ -6,12 +6,12 @@
 /*   By: jvan-hal <jvan-hal@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/04/20 16:51:40 by jvan-hal      #+#    #+#                 */
-/*   Updated: 2023/05/26 15:47:15 by jvan-hal      ########   odam.nl         */
+/*   Updated: 2023/06/20 10:48:48 by jvan-hal      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft_string.h"
 #include "ft_stdio.h"
+#include "ft_string.h"
 #include "msh.h"
 #include <stdio.h>
 #include <stdlib.h>
@@ -35,6 +35,6 @@ int	msh_env(t_cmd *cmd, t_msh *msh)
 		}
 		++i;
 	}
-    print_2d_arr(cmd->io.out, msh->env.envp, msh->env.len);
+	print_2d_arr(cmd->io.out, msh->env.envp, msh->env.len);
 	return (0);
 }
