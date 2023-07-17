@@ -6,7 +6,7 @@
 /*   By: dbasting <dbasting@codam.nl>                 +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/22 08:45:12 by dbasting      #+#    #+#                 */
-/*   Updated: 2023/05/22 08:45:14 by dbasting      ########   odam.nl         */
+/*   Updated: 2023/07/17 12:45:38 by dbasting      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,8 +35,8 @@ t_errno	var_parse(char **name, char const *str)
 		if (*name == NULL)
 			return (MSH_MEMFAIL);
 	}
-    if (str[boundary] == '+')
-        return (MSH_VAR_APPEND);
+	if (str[boundary] == '+')
+		return (MSH_VAR_APPEND);
 	return (MSH_VAR_ASSIGN);
 }
 
@@ -45,21 +45,21 @@ static inline size_t	is_varstr(char const *str)
 	size_t	i;
 
 	i = 0;
-    if (str[i] == '=' || str[i] == '+')
-        return (0);
+	if (str[i] == '=' || str[i] == '+')
+		return (0);
 	while (str[i] != '=')
 	{
-        if (str[i] == '\0')
-            return (0);
+		if (str[i] == '\0')
+			return (0);
 		if (str[i] == '-')
-            return (0);
-        if (str[i] == '+')
-        {
-            if (str[i + i] == '=')
-                break ;
-            return (0);
-        }
-        ++i;
+			return (0);
+		if (str[i] == '+')
+		{
+			if (str[i + i] == '=')
+				break ;
+			return (0);
+		}
+		++i;
 	}
 	return (i - 1);
 }

@@ -6,7 +6,7 @@
 /*   By: jvan-hal <jvan-hal@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/06/14 18:23:39 by jvan-hal      #+#    #+#                 */
-/*   Updated: 2023/06/16 17:20:32 by jvan-hal      ########   odam.nl         */
+/*   Updated: 2023/07/17 09:51:43 by dbasting      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,9 +18,9 @@
 
 t_errno	env_append_val(t_env *env, char *entry, char const *name)
 {
-	char	*newentry;
-
-	size_t const entry_i = env_entry_get(env, name);
+	char			*newentry;
+	size_t const	entry_i = env_entry_get(env, name);
+	
 	if (entry_i == env->len)
 		return (MSH_NO_VARSTR);
 	newentry = ft_strjoin(env->envp[entry_i], ft_strchr(entry, '=') + 1);

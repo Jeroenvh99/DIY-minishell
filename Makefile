@@ -6,7 +6,7 @@
 #    By: dbasting <marvin@codam.nl>                   +#+                      #
 #                                                    +#+                       #
 #    Created: 2022/12/28 12:06:53 by dbasting      #+#    #+#                  #
-#    Updated: 2023/06/21 10:59:01 by jvan-hal      ########   odam.nl          #
+#    Updated: 2023/07/17 12:46:17 by dbasting      ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -16,6 +16,7 @@ OS			:= $(shell uname -s)
 
 SRC_FILES	:= main.c\
 			env/env.c\
+			env/env_append_val.c\
 			env/env_search.c\
 			env/env_set.c\
 			env/env_unset.c\
