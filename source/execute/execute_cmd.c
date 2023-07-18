@@ -6,7 +6,7 @@
 /*   By: jvan-hal <jvan-hal@student.codam.nl>         +#+                     */
 /*       dbasting <dbasting@student.codam.nl>        +#+                      */
 /*   Created: 2023/05/16 15:12:17 by jvan-hal      #+#    #+#                 */
-/*   Updated: 2023/07/18 16:52:37 by dbasting      ########   odam.nl         */
+/*   Updated: 2023/07/18 17:23:07 by dbasting      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,13 +50,16 @@ t_errno	execute_cmd(t_cmd *cmd, t_msh *msh)
 
 static void	launch(t_cmd *cmd, t_msh *msh)
 {
-	char		pname[NAME_MAX];
+	char		pname[PATH_MAX];
 	char *const	fname = cmd->argv.array[0];
 
 	if (fd_reset(cmd) != 0)
 	{
 		if (get_pathname(pname, fname, env_search(&msh->env, "PATH")) == 0)
+		{
+			printf("%s\n", pname);
 			execve(pname, cmd->argv.array, msh->env.envp);
+		}
 		else
 			ft_dprintf(STDERR_FILENO, "%s: command not found\n", fname);
 	}
