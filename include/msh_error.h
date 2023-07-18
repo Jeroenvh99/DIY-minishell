@@ -6,7 +6,7 @@
 /*   By: dbasting <dbasting@codam.nl>                 +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/22 08:42:57 by dbasting      #+#    #+#                 */
-/*   Updated: 2023/06/13 14:18:54 by dbasting      ########   odam.nl         */
+/*   Updated: 2023/07/18 13:34:21 by dbasting      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,8 +18,8 @@ typedef enum e_errno {
 	MSH_NOCMDLINE,
 	MSH_ENDCMD_PIPE,
 	MSH_ENDCMD_CTL,
-    MSH_VAR_ASSIGN,
-    MSH_VAR_APPEND,
+	MSH_VAR_ASSIGN,
+	MSH_VAR_APPEND,
 	MSH_GENERIC,
 	MSH_SYNTAX_ERROR,
 	MSH_NO_VARSTR,

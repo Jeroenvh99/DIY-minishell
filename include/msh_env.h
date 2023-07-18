@@ -6,7 +6,7 @@
 /*   By: dbasting <dbasting@codam.nl>                 +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/22 08:43:13 by dbasting      #+#    #+#                 */
-/*   Updated: 2023/05/22 17:00:55 by dbasting      ########   odam.nl         */
+/*   Updated: 2023/07/18 13:33:57 by dbasting      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ typedef struct s_env {
 t_errno	env_init(t_env *env, char **envp);
 void	env_free(t_env *env);
 t_errno	env_set(t_env *env, char const *entry);
-t_errno env_append_val(t_env *env, char *entry, char const *name);
+t_errno	env_append_val(t_env *env, char *entry, char const *name);
 void	env_unset(t_env *env, char const *name);
 char	*env_search(t_env *env, char const *name);
 
