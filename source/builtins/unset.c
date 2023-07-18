@@ -6,7 +6,7 @@
 /*   By: jvan-hal <jvan-hal@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/04/20 16:50:13 by jvan-hal      #+#    #+#                 */
-/*   Updated: 2023/05/26 16:59:39 by jvan-hal      ########   odam.nl         */
+/*   Updated: 2023/07/18 16:46:30 by dbasting      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,20 +18,17 @@
 int	msh_unset(t_cmd *cmd, t_msh *msh)
 {
 	int	i;
-	int	j;
 
 	i = 1;
     while (ft_strchr(cmd->argv.array[i], '-'))
     {
-        ft_dprintf(cmd->io.err, "msh: unset: %s: not a valid identifier", cmd->argv.array[i]);
+        ft_dprintf(cmd->io[IO_ERR], "msh: unset: %s: not a valid identifier", cmd->argv.array[i]);
         ++i;
     }
 	while (cmd->argv.array[i])
 	{
 		if (!ft_strchr(cmd->argv.array[i], '_'))
-		{
-			env_unset(msh->env, (char const)cmd->argv.array[i]);
-		}
+			env_unset(&msh->env, cmd->argv.array[i]);
 		++i;
 	}
 	return (0);

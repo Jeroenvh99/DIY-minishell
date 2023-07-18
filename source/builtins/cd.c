@@ -6,7 +6,7 @@
 /*   By: jvan-hal <jvan-hal@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/04/20 16:52:40 by jvan-hal      #+#    #+#                 */
-/*   Updated: 2023/06/06 14:24:22 by jvan-hal      ########   odam.nl         */
+/*   Updated: 2023/07/18 16:06:41 by dbasting      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ char	*get_env_dir(char *name, t_cmd *cmd, t_msh *msh)
 	dstdir = env_search(&msh->env, name);
 	if (!dstdir)
 	{
-		ft_dprintf(cmd->io.err, "msh: cd: %s not set\n", name);
+		ft_dprintf(cmd->io[IO_ERR], "msh: cd: %s not set\n", name);
 		return (NULL);
 	}
 	return (dstdir);
@@ -78,7 +78,7 @@ char	*get_dstdir(t_cmd *cmd, t_msh *msh)
 		{
 			dstdir = get_env_dir("OLDPWD", cmd, msh);
             if (dstdir)
-			    ft_dprintf(cmd->io.out, "%s\n", dstdir);
+			    ft_dprintf(cmd->io[IO_OUT], "%s\n", dstdir);
 		}
         else if (ft_strncmp(cmd->argv.array[1], "--", 3) == 0)
         {
@@ -111,7 +111,7 @@ int	msh_cd(t_cmd *cmd, t_msh *msh)
         return (1);
 	if (chdir(newdir) != 0)
 	{
-		ft_dprintf(cmd->io.err, "msh: cd: %s: No such file or directory\n", cmd->argv.array[1]);
+		ft_dprintf(cmd->io[IO_ERR], "msh: cd: %s: No such file or directory\n", cmd->argv.array[1]);
 		return (1);
 	}
 	env_set(&msh->env, ft_strjoin("OLDPWD=", buf));
