@@ -6,7 +6,7 @@
 /*   By: jvan-hal <jvan-hal@student.codam.nl>         +#+                     */
 /*       dbasting <dbasting@student.codam.nl>        +#+                      */
 /*   Created: 2023/05/16 15:12:17 by jvan-hal      #+#    #+#                 */
-/*   Updated: 2023/07/18 17:23:07 by dbasting      ########   odam.nl         */
+/*   Updated: 2023/07/18 17:48:45 by dbasting      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,12 +56,8 @@ static void	launch(t_cmd *cmd, t_msh *msh)
 	if (fd_reset(cmd) != 0)
 	{
 		if (get_pathname(pname, fname, env_search(&msh->env, "PATH")) == 0)
-		{
-			printf("%s\n", pname);
 			execve(pname, cmd->argv.array, msh->env.envp);
-		}
-		else
-			ft_dprintf(STDERR_FILENO, "%s: command not found\n", fname);
+		ft_dprintf(STDERR_FILENO, "msh: %s: command not found\n", fname);
 	}
 	else
 		perror("msh");
