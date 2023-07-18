@@ -6,20 +6,33 @@
 /*   By: dbasting <dbasting@codam.nl>                 +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/22 08:45:31 by dbasting      #+#    #+#                 */
-/*   Updated: 2023/06/21 00:28:52 by dbasting      ########   odam.nl         */
+/*   Updated: 2023/07/18 16:01:59 by dbasting      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "msh_execute.h"
+
+#include "ft_string.h"
+#include <limits.h>
 #include <stddef.h>
 #include <sys/stat.h>
-#include "ft_string.h"
 
-int	get_pathname(char *buf, char const *filename, char const *path)
+static char const	*path_read(char *const buf, char const *path);
+static int			ispathname(char const *name);
+
+/* Test whether `filename` is also a pathname (i.e. contains a '/' character).
+ * If `filename` is not a pathname, then `path` (the PATH variable should be 
+ * supplied here) is split into segments which are prepended to `filename`; 
+ * the resulting pathname is checked for validity.
+ * The first valid pathname encountered is copied into `buf`.
+ * @return	0: on success.
+ * @return	1: if the resulting pathname exceeds NAME_MAX in length.
+ */
+int	get_pathname(char *const buf, char const *filename, char const *path)
 {
-	struct stat sb; //mag NULL zijn?
+	struct stat	sb; //mag NULL zijn?
 
-	if (!ispathname(file) || !path)
+	if (!ispathname(filename) && path)
 	{
 		while (*path)
 		{
@@ -29,15 +42,18 @@ int	get_pathname(char *buf, char const *filename, char const *path)
 			if (stat(buf, &sb) == 0)
 				return (0);
 		}
-		*buf = '\0';
 	}
 	return (ft_strlcat(buf, filename, NAME_MAX) > NAME_MAX);
 }
 
-char	*path_read(char *buf, char const *path)
+/* Copy a segment from `path` to `buf`.
+ * @return	A pointer to the segment directly following the segment that was
+ * 			copied.
+ */
+static char const	*path_read(char *const buf, char const *path)
 {
 	size_t	i;
-	
+
 	i = 0;
 	while (path[i] && i < NAME_MAX)
 	{
@@ -53,7 +69,8 @@ char	*path_read(char *buf, char const *path)
 	return (&path[i]);
 }
 
-int	ispathname(char const *name)
+/* Check whether `name` is a pathname. */
+static int	ispathname(char const *name)
 {
 	while (*name)
 	{

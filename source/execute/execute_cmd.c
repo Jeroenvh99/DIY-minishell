@@ -6,38 +6,40 @@
 /*   By: jvan-hal <jvan-hal@student.codam.nl>         +#+                     */
 /*       dbasting <dbasting@student.codam.nl>        +#+                      */
 /*   Created: 2023/05/16 15:12:17 by jvan-hal      #+#    #+#                 */
-/*   Updated: 2023/06/21 00:49:27 by dbasting      ########   odam.nl         */
+/*   Updated: 2023/07/18 16:52:37 by dbasting      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "msh_execute.h"
 #include "msh.h"
 #include "msh_error.h"
+#include "msh_utils.h"
 
+#include "ft_stdio.h"
 #include "ft_string.h"
+#include <limits.h>
+#include <stdio.h>
 #include <stdlib.h>
 #include <sys/wait.h>
 #include <unistd.h>
 
-static void			launch(t_cmd *cmd, t_msh *msh);
-static t_builtinf	get_builtin(char const *cmd)
-static inline t_errno		fd_reset(t_cmd *cmd);
-
-t_errno	execute(t_list **pipeline, t_msh *msh)
+static void				launch(t_cmd *cmd, t_msh *msh);
+static t_builtinf		get_builtin(char const *cmd);
+static inline t_errno			fd_reset(t_cmd *cmd);
 
 t_errno	execute_cmd(t_cmd *cmd, t_msh *msh)
 {
-	t_builtinf const	builtin = is_builtin(cmd->argv.array[0]);
+	t_builtinf const	builtin = get_builtin(cmd->argv.array[0]);
 	int					wstatus;
 
 	if (builtin)
-		return (builtin(cmd->argc, cmd->argv.array, msh->env.envp));
+		return (builtin(cmd, msh));
 	msh->g_msh->child = fork();
 	if (msh->g_msh->child == -1)
 		return (perror("msh/execute"), MSH_FORKFAIL);
 	if (msh->g_msh->child == 0)
 		launch(cmd, msh);
-	waitpid(msh->g_msh->child, &wstatus);
+	waitpid(msh->g_msh->child, &wstatus, 0);
 	if (WIFEXITED(wstatus))
 		msh->g_msh->exit = WEXITSTATUS(wstatus);
 	else if (WIFSIGNALED(wstatus))
@@ -48,18 +50,18 @@ t_errno	execute_cmd(t_cmd *cmd, t_msh *msh)
 
 static void	launch(t_cmd *cmd, t_msh *msh)
 {
-	char		pathname[NAME_MAX];
-	char *const	filename = cmd->argv.array[0];
-	
+	char		pname[NAME_MAX];
+	char *const	fname = cmd->argv.array[0];
+
 	if (fd_reset(cmd) != 0)
-		msh_exit(MSH_FILEFAIL);
-	if (get_pathname(pathname, filename, env_search(msh->env, "PATH")));
 	{
-		execve(pathname, cmd->argv.array, msh->env.envp);
-		perror("msh");
+		if (get_pathname(pname, fname, env_search(&msh->env, "PATH")) == 0)
+			execve(pname, cmd->argv.array, msh->env.envp);
+		else
+			ft_dprintf(STDERR_FILENO, "%s: command not found\n", fname);
 	}
 	else
-		ft_dprintf(STDERR_FILENO, "%s: command not found\n", filename);
+		perror("msh");
 	//cleanup msh?
 	exit(EXIT_FAILURE);
 }
@@ -67,7 +69,7 @@ static void	launch(t_cmd *cmd, t_msh *msh)
 static t_builtinf	get_builtin(char const *cmd)
 {
 	t_builtinf const	builtins[N_BUILTIN] = {
-		cd, echo, env, exit, pwd, unset};
+		msh_cd, msh_echo, msh_env, msh_exit, msh_pwd, msh_unset};
 	char const *const	names[N_BUILTIN] = {
 		"cd", "echo", "env", "exit", "pwd", "unset"};
 	size_t				i;
@@ -82,9 +84,9 @@ static t_builtinf	get_builtin(char const *cmd)
 	return (NULL);
 }
 
-static inline t_errno	fd_reset(t_cmd *cmd);
+static inline t_errno	fd_reset(t_cmd *cmd)
 {
-	t_fd		fd;
+	t_fd	fd;
 
 	fd = STDIN_FILENO;
 	while (fd < N_IO)

@@ -6,7 +6,7 @@
 /*   By: jvan-hal <jvan-hal@student.codam.nl>         +#+                     */
 /*       dbasting <dbasting@student.codam.nl>        +#+                      */
 /*   Created: 2023/05/16 15:12:17 by jvan-hal      #+#    #+#                 */
-/*   Updated: 2023/06/20 22:11:41 by dbasting      ########   odam.nl         */
+/*   Updated: 2023/07/18 16:52:04 by dbasting      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ t_errno	execute(t_list **pipeline, t_msh *msh)
 }
 
 /* Execute all commands in `pipeline` `pipeline` is consumed. */
-t_errno execute_pipeline(t_list **pipeline, t_msh *msh)
+t_errno	execute_pipeline(t_list **pipeline, t_msh *msh)
 {
 	t_cmd	*cmd;
 	t_errno	errno;

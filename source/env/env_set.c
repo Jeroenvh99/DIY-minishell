@@ -6,7 +6,7 @@
 /*   By: jvan-hal <jvan-hal@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/09 15:57:34 by jvan-hal      #+#    #+#                 */
-/*   Updated: 2023/07/17 09:49:30 by dbasting      ########   odam.nl         */
+/*   Updated: 2023/07/18 16:45:10 by dbasting      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,13 +45,13 @@ t_errno	env_set(t_env *env, char const *entry)
 		free(copy);
 	return (errno);
 }
+//DB: Als entry geen varstring is: plak er een = achter en voeg gewoon toe.
 
 /* Append (i.e. do not overwrite) `entry`. */
 static t_errno	env_assign_val(t_env *env, char const *name, char *entry)
 {
-	size_t entry_i;
-	
-	entry_i = env_entry_get(env, name);
+	size_t const	entry_i = env_entry_get(env, name);
+
 	if (env->envp[entry_i])
 		return (env_overwrite(&env->envp[entry_i], entry));
 	if (env->used < env->len)
@@ -72,8 +72,7 @@ static t_errno	env_insert(t_env *env, char *entry)
 	return (MSH_SUCCESS);
 }
 
-/* Reallocate `env` to hold REALLOC_SIZE more entries and insert `entry`.
- */
+/* Reallocate `env` to hold REALLOC_SIZE more entries and insert `entry`. */
 static t_errno	env_realloc(t_env *env, char *entry)
 {
 	char	**nenvp;
@@ -91,8 +90,7 @@ static t_errno	env_realloc(t_env *env, char *entry)
 	return (MSH_SUCCESS);
 }
 
-/* Overwrite `old_entry` with `entry`.
- */
+/* Overwrite `old_entry` with `entry`. */
 static t_errno	env_overwrite(char **old_entry, char *entry)
 {
 	free(*old_entry);
