@@ -6,7 +6,7 @@
 /*   By: jvan-hal <marvin@codam.nl>                   +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/04/18 13:45:34 by jvan-hal      #+#    #+#                 */
-/*   Updated: 2023/07/18 16:51:42 by dbasting      ########   odam.nl         */
+/*   Updated: 2023/07/18 17:03:38 by dbasting      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,6 @@ int	msh_exit(t_cmd *cmd, t_msh *msh)
 			status = 255;
 	}
 	msh_deinit(msh);
-//	exit(status);
-    return (status);
+	exit(status);
+    return (0);
 }

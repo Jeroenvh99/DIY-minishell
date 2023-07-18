@@ -6,12 +6,13 @@
 /*   By: dbasting <dbasting@codam.nl>                 +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/06/06 15:49:21 by dbasting      #+#    #+#                 */
-/*   Updated: 2023/06/20 14:55:38 by dbasting      ########   odam.nl         */
+/*   Updated: 2023/07/18 17:02:05 by dbasting      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "msh.h"
 #include "msh_error.h"
+#include "msh_execute.h"
 #include "msh_parse.h"
 #include "msh_utils.h"
 
@@ -40,7 +41,8 @@ void	msh_loop(t_msh *msh)
 		{
 			handler_set(SIGINT, handle_relay);
 			handler_set(SIGQUIT, handle_relay);
-			cmds_view(msh->cmds); //insert executor here
+			msh->errno = execute(&msh->cmds, msh);
+			//cmds_view(msh->cmds); //insert executor here
 		}
 		list_clear(&msh->cmds, (t_freef)cmd_free);
 		if (msh->errno >= MSH_GENERIC)

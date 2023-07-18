@@ -6,7 +6,7 @@
 /*   By: dbasting <dbasting@codam.nl>                 +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/22 08:45:31 by dbasting      #+#    #+#                 */
-/*   Updated: 2023/07/18 16:01:59 by dbasting      ########   odam.nl         */
+/*   Updated: 2023/07/18 17:18:46 by dbasting      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ static int			ispathname(char const *name);
  * the resulting pathname is checked for validity.
  * The first valid pathname encountered is copied into `buf`.
  * @return	0: on success.
- * @return	1: if the resulting pathname exceeds NAME_MAX in length.
+ * @return	1: if the resulting pathname exceeds PATH_MAX in length.
  */
 int	get_pathname(char *const buf, char const *filename, char const *path)
 {
@@ -37,13 +37,14 @@ int	get_pathname(char *const buf, char const *filename, char const *path)
 		while (*path)
 		{
 			path = path_read(buf, path);
-			if (ft_strlcat(buf, filename, NAME_MAX) > NAME_MAX)
+			if (ft_strlcat(buf, filename, PATH_MAX) > PATH_MAX)
 				return (1);
 			if (stat(buf, &sb) == 0)
 				return (0);
 		}
 	}
-	return (ft_strlcat(buf, filename, NAME_MAX) > NAME_MAX);
+	buf[0] = '\0';
+	return (ft_strlcat(buf, filename, PATH_MAX) > PATH_MAX);
 }
 
 /* Copy a segment from `path` to `buf`.
@@ -55,7 +56,7 @@ static char const	*path_read(char *const buf, char const *path)
 	size_t	i;
 
 	i = 0;
-	while (path[i] && i < NAME_MAX)
+	while (path[i] && i < PATH_MAX)
 	{
 		if (buf[i] == ':')
 		{
