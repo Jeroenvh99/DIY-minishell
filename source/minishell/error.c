@@ -6,7 +6,7 @@
 /*   By: jvan-hal <jvan-hal@student.codam.nl>         +#+                     */
 /*       dbasting <dbasting@student.codam.nl>        +#+                      */
 /*   Created: 2023/04/18 18:27:29 by jvan-hal      #+#    #+#                 */
-/*   Updated: 2023/06/20 17:57:57 by dbasting      ########   odam.nl         */
+/*   Updated: 2023/07/18 16:02:28 by dbasting      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ void	msh_strerror(t_errno errno)
 		"Couldn't create fork.",
 		"Couldn't allocate memory.",};
 
-	ft_dprintf(STDERR_FILENO, "Error: %s\n", errmsg[errno]);
+	ft_dprintf(STDERR_FILENO, "msh: %s\n", errmsg[errno]);
 }
 
 void	print_error(char *command, char *argument, char *message)
