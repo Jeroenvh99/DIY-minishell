@@ -6,7 +6,7 @@
 /*   By: jvan-hal <jvan-hal@student.codam.nl>         +#+                     */
 /*       dbasting <dbasting@student.codam.nl>        +#+                      */
 /*   Created: 2023/05/16 15:12:17 by jvan-hal      #+#    #+#                 */
-/*   Updated: 2023/07/18 17:48:45 by dbasting      ########   odam.nl         */
+/*   Updated: 2023/07/21 16:55:54 by dbasting      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,8 +25,9 @@
 
 static void				launch(t_cmd *cmd, t_msh *msh);
 static t_builtinf		get_builtin(char const *cmd);
-static inline t_errno			fd_reset(t_cmd *cmd);
+static inline t_errno			fd_set_standard(t_cmd *cmd);
 
+/* Execute `cmd` */
 t_errno	execute_cmd(t_cmd *cmd, t_msh *msh)
 {
 	t_builtinf const	builtin = get_builtin(cmd->argv.array[0]);
@@ -48,12 +49,13 @@ t_errno	execute_cmd(t_cmd *cmd, t_msh *msh)
 	return (MSH_SUCCESS);
 }
 
+/* Execute `cmd` or exit on failure. */
 static void	launch(t_cmd *cmd, t_msh *msh)
 {
 	char		pname[PATH_MAX];
 	char *const	fname = cmd->argv.array[0];
 
-	if (fd_reset(cmd) != 0)
+	if (fd_set_standard(cmd) != 0)
 	{
 		if (get_pathname(pname, fname, env_search(&msh->env, "PATH")) == 0)
 			execve(pname, cmd->argv.array, msh->env.envp);
@@ -61,10 +63,13 @@ static void	launch(t_cmd *cmd, t_msh *msh)
 	}
 	else
 		perror("msh");
-	//cleanup msh?
+	msh_deinit(msh);
 	exit(EXIT_FAILURE);
 }
 
+/* Check whether the `cmd` string matches the name of a builtin utility.
+ * @return: A pointer to the utility function if found, or NULL otherwise. 
+ */
 static t_builtinf	get_builtin(char const *cmd)
 {
 	t_builtinf const	builtins[N_BUILTIN] = {
@@ -83,7 +88,8 @@ static t_builtinf	get_builtin(char const *cmd)
 	return (NULL);
 }
 
-static inline t_errno	fd_reset(t_cmd *cmd)
+/* Merge the file descriptors on `cmd` with the standard streams. */
+static inline t_errno	fd_set_standard(t_cmd *cmd)
 {
 	t_fd	fd;
 

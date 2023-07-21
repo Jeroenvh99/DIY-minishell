@@ -6,7 +6,7 @@
 /*   By: dbasting <dbasting@codam.nl>                 +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/22 08:45:31 by dbasting      #+#    #+#                 */
-/*   Updated: 2023/07/18 17:37:09 by dbasting      ########   odam.nl         */
+/*   Updated: 2023/07/21 17:10:59 by dbasting      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,6 @@
 #include <limits.h>
 #include <stddef.h>
 #include <sys/stat.h>
-
-#include <stdio.h>
 
 static char const	*path_read(char *const buf, char const *path);
 static int			ispathname(char const *name);
@@ -32,9 +30,14 @@ static int			ispathname(char const *name);
  */
 int	get_pathname(char *const buf, char const *filename, char const *path)
 {
-	struct stat	sb; //mag NULL zijn?
+	struct stat	sb;
 
-	if (!ispathname(filename) && path)
+	if (ispathname(filename))
+	{
+		buf[0] = '\0';
+		return (ft_strlcat(buf, filename, PATH_MAX) > PATH_MAX);
+	}
+	if (path)
 	{
 		while (*path)
 		{
@@ -47,8 +50,7 @@ int	get_pathname(char *const buf, char const *filename, char const *path)
 				return (0);
 		}
 	}
-	buf[0] = '\0';
-	return (ft_strlcat(buf, filename, PATH_MAX) > PATH_MAX);
+	return (1);
 }
 
 /* Copy a segment from `path` to `buf`.
