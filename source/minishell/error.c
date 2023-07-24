@@ -6,7 +6,7 @@
 /*   By: jvan-hal <jvan-hal@student.codam.nl>         +#+                     */
 /*       dbasting <dbasting@student.codam.nl>        +#+                      */
 /*   Created: 2023/04/18 18:27:29 by jvan-hal      #+#    #+#                 */
-/*   Updated: 2023/07/18 16:02:28 by dbasting      ########   odam.nl         */
+/*   Updated: 2023/07/23 23:20:06 by dbasting      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,8 @@
 
 #include "ft_stdio.h"
 #include "ft_string.h"
+#include <stdarg.h>
+#include <stdio.h>
 #include <unistd.h>
 
 void	msh_strerror(t_errno errno)
@@ -33,6 +35,18 @@ void	msh_strerror(t_errno errno)
 		"Couldn't allocate memory.",};
 
 	ft_dprintf(STDERR_FILENO, "msh: %s\n", errmsg[errno]);
+}
+
+void	msh_perror(unsigned int n, ...)
+{
+	va_list		ap;
+
+	va_start(ap, n);
+	ft_dprintf(2, "msh: ");
+	while (n--)
+		ft_dprintf(2, "%s: ", va_arg(ap, char *));
+	va_end(ap);
+	perror("");
 }
 
 void	print_error(char *command, char *argument, char *message)
