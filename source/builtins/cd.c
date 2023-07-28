@@ -6,7 +6,7 @@
 /*   By: jvan-hal <jvan-hal@student.codam.nl>         +#+                     */
 /*       dbasting <dbasting@student.codam.nl>        +#+                      */
 /*   Created: 2023/04/20 16:52:40 by jvan-hal      #+#    #+#                 */
-/*   Updated: 2023/07/24 11:01:38 by dbasting      ########   odam.nl         */
+/*   Updated: 2023/07/28 10:46:54 by dbasting      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@
 #include <stdlib.h>
 #include <unistd.h>
 
-static int	copy_str(const char *src, char *dst, int i, int n);
+//static int	copy_str(const char *src, char *dst, int i, int n);
 //static char	*ft_strjoin_dir(char const *s1, char const *s2);
 //static char	*get_env_dir(char *name, t_cmd *cmd, t_msh *msh);
 static char	*get_dstdir(t_cmd *cmd, t_msh *msh);
@@ -31,8 +31,8 @@ int	msh_cd(t_cmd *cmd, t_msh *msh)
 	char *const	cwd = getcwd(NULL, 0);
 	char		path[PATH_MAX];
 
-    if (!buf || !dstdir)
-        return (free(cwd), 1);
+	if (!cwd || !dstdir)
+		return (free(cwd), 1);
 	if (cmd->argc > 2)
 	{
 		ft_dprintf(2, "msh: cd: too many arguments\n"); //msh_strerror
@@ -42,8 +42,10 @@ int	msh_cd(t_cmd *cmd, t_msh *msh)
 		return (msh_perror(1, "cd"), 1);
 	if (chdir(path) != 0)
 		return (msh_perror(2, "cd", cmd->argv.array[1]), 1);
-	env_set(&msh->env, ft_strjoin("OLDPWD=", cwd));
-	env_set(&msh->env, ft_strjoin("PWD=", path));
+	if (env_update(&msh->env, "OLDPWD", cwd) > 1)
+		return (msh_perror(1, "cd"), 1);
+	if (env_update(&msh->env, "PWD", path) > 1)
+		return (msh_perror(1, "cd"), 1);
 	free(cwd);
 	return (0);
 }
