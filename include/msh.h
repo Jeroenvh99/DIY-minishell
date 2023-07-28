@@ -6,7 +6,7 @@
 /*   By: dbasting <marvin@codam.nl>                   +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/04/18 13:51:16 by dbasting      #+#    #+#                 */
-/*   Updated: 2023/07/18 13:31:00 by dbasting      ########   odam.nl         */
+/*   Updated: 2023/07/28 15:57:33 by dbasting      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,7 @@ enum e_io {
  * @param argc	The number of arguments supplied.
  * @param argv	The values of the command arguments.
  * @param io	Data pertaining to I/O processing.
+ * @param sub	Whether the command is to be executed in a subshell.
  */
 typedef struct s_cmd {
 	size_t	argc;
@@ -68,6 +69,7 @@ typedef struct s_cmd {
 		char	**array;
 	} argv;
 	t_fd	io[N_IO];
+	int		subsh;
 }	t_cmd;
 
 /* Command tree object.
