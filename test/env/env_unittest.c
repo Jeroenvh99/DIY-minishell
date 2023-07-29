@@ -93,3 +93,6 @@ Test(env, test_init_1)
 	env_init(&testenv, &environ);
 	env_output(testenv, "HOME=/Users/jvan-hal\nLOGNAME=jvan-hal\nOLDPWD=/tmp/cd-dash\n");
 }
+
+//test wether the initialized variables are there
+//test for nulls after calling env_pack

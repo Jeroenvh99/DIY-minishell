@@ -6,7 +6,7 @@
 #    By: dbasting <marvin@codam.nl>                   +#+                      #
 #                                                    +#+                       #
 #    Created: 2022/12/28 12:06:53 by dbasting      #+#    #+#                  #
-#    Updated: 2023/07/29 18:35:59 by jeroen        ########   odam.nl          #
+#    Updated: 2023/07/29 19:07:20 by jeroen        ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -108,7 +108,7 @@ re: fclean all
 
 test_cd:
 	$(MAKE) -j -C lib/libft
-	cc $(CFLAGS) -lcriterion source/builtins/cd.c source/env/env_append_val.c source/env/env_search.c source/env/env_set.c source/env/env_utils.c source/var/var_parse.c test/cd_test/cd_unittest.c lib/libft/libft.a && ./a.out
+	cc $(CFLAGS) -lcriterion source/builtins/cd.c source/env/env.c source/env/env_append_val.c source/env/env_search.c source/env/env_set.c source/env/env_utils.c source/var/var_parse.c test/cd_test/cd_unittest.c lib/libft/libft.a && ./a.out
 	rm a.out
 
 test_echo:
@@ -138,7 +138,7 @@ test_pwd:
 
 test_unset:
 	$(MAKE) -j -C lib/libft
-	cc $(CFLAGS) -lcriterion source/builtins/unset.c source/builtins/env_utils.c source/env/env_append_val.c source/env/env_unset.c source/env/env_utils.c test/unset_test/unset_unittest.c lib/libft/libft.a && ./a.out
+	cc $(CFLAGS) -lcriterion source/builtins/unset.c source/env/env.c source/builtins/env_utils.c source/env/env_append_val.c source/env/env_unset.c source/env/env_utils.c test/unset_test/unset_unittest.c lib/libft/libft.a && ./a.out
 	rm a.out
 
 test_lexer:
