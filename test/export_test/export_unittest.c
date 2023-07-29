@@ -84,7 +84,7 @@ void	assert_export_output(t_cmd *cmd, char *expected, void (*env_init)(t_msh *))
 	fflush(stdout);
 	fflush(stderr);
     cr_assert_stdout_eq_str(expected);
-    env_free_(&msh.env);
+    env_free(&msh.env);
 }
 
 void	assert_export_output_err(t_cmd *cmd, char *expected, void (*env_init)(t_msh *))
@@ -98,7 +98,7 @@ void	assert_export_output_err(t_cmd *cmd, char *expected, void (*env_init)(t_msh
 	msh_export(cmd, &msh);
 	fflush(stderr);
     cr_assert_stderr_eq_str(expected);
-    env_free_(&msh.env);
+    env_free(&msh.env);
 }
 
 void	assert_export_env(t_cmd *cmd, const char *name, int exists, void (*env_init)(t_msh *))
@@ -114,7 +114,7 @@ void	assert_export_env(t_cmd *cmd, const char *name, int exists, void (*env_init
         cr_assert_not_null(env_search(&msh.env, name));
     else
         cr_assert_null(env_search(&msh.env, name));
-    env_free_(&msh.env);
+    env_free(&msh.env);
 }
 
 void	assert_export_env_val(t_cmd *cmd, const char *name, char *val, void (*env_init)(t_msh *))
@@ -127,13 +127,13 @@ void	assert_export_env_val(t_cmd *cmd, const char *name, char *val, void (*env_i
     env_init(&msh);
     msh_export(cmd, &msh);
     cr_assert_eq(strcmp(env_search(&msh.env, name), val), 0);
-    env_free_(&msh.env);
+    env_free(&msh.env);
 }
 
 void	env_with_home(t_msh *msh)
 {
-    env_init_(&msh->env, 3, "HOME=/Users/jvan-hal", "LOGNAME=jvan-hal",
-              "OLDPWD=/tmp/cd-dash");
+	char	**env_sub = {"HOME=/Users/jvan-hal", "LOGNAME=jvan-hal", "OLDPWD=/tmp/cd-dash", NULL};
+    env_init(&msh->env, env_sub);
 }
 
 TestSuite(export, .init=redirect_stdout);

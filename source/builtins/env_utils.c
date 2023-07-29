@@ -6,7 +6,7 @@
 /*   By: jvan-hal <jvan-hal@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/09 15:57:34 by jvan-hal      #+#    #+#                 */
-/*   Updated: 2023/06/06 16:25:05 by jvan-hal      ########   odam.nl         */
+/*   Updated: 2023/07/29 18:14:03 by jeroen        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,23 +23,6 @@ int	env_size(char **env)
 	while (env[i])
 		++i;
 	return (i);
-}
-
-char	**copy_env(char **env)
-{
-	char	**new_env;
-	int		i;
-
-	i = env_size(env);
-	new_env = (char **)malloc(sizeof(char *) * (i + 1));
-	new_env[i] = NULL;
-	--i;
-	while (i >= 0)
-	{
-		new_env[i] = ft_strdup(env[i]);
-		--i;
-	}
-	return (new_env);
 }
 
 void	print_2d_arr(int fd, char **arr, int size)

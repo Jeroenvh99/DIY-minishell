@@ -6,7 +6,7 @@
 #    By: dbasting <marvin@codam.nl>                   +#+                      #
 #                                                    +#+                       #
 #    Created: 2022/12/28 12:06:53 by dbasting      #+#    #+#                  #
-#    Updated: 2023/07/07 11:10:21 by jvan-hal      ########   odam.nl          #
+#    Updated: 2023/07/29 18:24:12 by jeroen        ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -128,7 +128,7 @@ test_exit:
 
 test_export:
 	$(MAKE) -j -C lib/libft
-	cc $(CFLAGS) -lcriterion source/builtins/export.c source/env/env_append_val.c source/env/env_utils.c source/env/env_search.c source/env/env_set.c source/var/var_parse.c test/export_test/export_unittest.c lib/libft/libft.a && ./a.out
+	cc $(CFLAGS) -lcriterion source/builtins/export.c source/env/env.c source/env/env_append_val.c source/env/env_utils.c source/env/env_search.c source/env/env_set.c source/var/var_parse.c test/export_test/export_unittest.c lib/libft/libft.a && ./a.out
 	rm a.out
 
 test_pwd:
@@ -154,4 +154,9 @@ test_expander:
 test_parser:
 	$(MAKE) -j -C lib/libft
 	cc $(CFLAGS) -lcriterion test/parse_test/parse_unittest.c source/parse/parse_utils.c lib/libft/libft.a && ./a.out
+	rm a.out
+
+test_env:
+	$(MAKE) -j -C lib/libft
+	cc $(CFLAGS) -lcriterion test/env/env_unittest.c source/parse/parse_utils.c lib/libft/libft.a && ./a.out
 	rm a.out
