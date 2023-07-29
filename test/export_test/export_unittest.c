@@ -132,7 +132,7 @@ void	assert_export_env_val(t_cmd *cmd, const char *name, char *val, void (*env_i
 
 void	env_with_home(t_msh *msh)
 {
-	char	**env_sub = {"HOME=/Users/jvan-hal", "LOGNAME=jvan-hal", "OLDPWD=/tmp/cd-dash", NULL};
+	char	*env_sub[] = {"HOME=/Users/jvan-hal", "LOGNAME=jvan-hal", "OLDPWD=/tmp/cd-dash", NULL};
     env_init(&msh->env, env_sub);
 }
 
