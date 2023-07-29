@@ -83,7 +83,7 @@ void	assert_cd_output(t_cmd *cmd, char *expected, void (*env_init)(t_msh *))
 	msh_cd(cmd, &msh);
 	fflush(stdout);
 	cr_assert_stdout_eq_str(expected);
-    env_free_(&msh.env);
+    env_free(&msh.env);
 }
 
 void	assert_cd_output_error(t_cmd *cmd, char *expected,
@@ -97,7 +97,7 @@ void	assert_cd_output_error(t_cmd *cmd, char *expected,
 	msh_cd(cmd, &msh);
 	fflush(stderr);
 	cr_assert_stderr_eq_str(expected);
-    env_free_(&msh.env);
+    env_free(&msh.env);
 }
 
 void	assert_cd_dir(t_cmd *cmd, char *expected, void (*env_init)(t_msh *))
@@ -116,7 +116,7 @@ void	assert_cd_dir(t_cmd *cmd, char *expected, void (*env_init)(t_msh *))
     buf = getcwd(buf, 0);
 	cr_assert_eq(strcmp(buf, expected), 0);
 	free(buf);
-    env_free_(&msh.env);
+    env_free(&msh.env);
 }
 
 void	assert_cd_status(t_cmd *cmd, int expected, void (*env_init)(t_msh *))
@@ -130,7 +130,7 @@ void	assert_cd_status(t_cmd *cmd, int expected, void (*env_init)(t_msh *))
 	status = msh_cd(cmd, &msh);
 	fflush(stdout);
 	cr_assert_eq(status, expected);
-    env_free_(&msh.env);
+    env_free(&msh.env);
 }
 
 void	assert_cd_env(t_cmd *cmd, const char *name, int exists, void (*env_init)(t_msh *))
@@ -147,23 +147,24 @@ void	assert_cd_env(t_cmd *cmd, const char *name, int exists, void (*env_init)(t_
 		cr_assert_not_null(env_search(&msh.env, name));
 	else
 		cr_assert_null(env_search(&msh.env, name));
-	env_free_(&msh.env);
+	env_free(&msh.env);
 }
 
 void	env_with_home(t_msh *msh)
 {
-	env_init_(&msh->env, 3, "HOME=/Users/jvan-hal", "LOGNAME=jvan-hal",
-             "OLDPWD=/tmp/cd-dash");
+	char	*env_sub[] = {"HOME=/Users/jvan-hal", "LOGNAME=jvan-hal", "OLDPWD=/tmp/cd-dash", NULL};
+    env_init(&msh->env, env_sub);
 }
 
 void	env_without_home(t_msh *msh)
 {
-    env_init_(&msh->env, 2, "LOGNAME=jvan-hal", "OLDPWD=/tmp/cd-dash");
-}
+	char	*env_sub[] = {"LOGNAME=jvan-hal", "OLDPWD=/tmp/cd-dash", NULL};
+    env_init(&msh->env, env_sub);
 
 void	env_without_oldpwd(t_msh *msh)
 {
-    env_init_(&msh->env, 2, "LOGNAME=jvan-hal", "HOME=/Users/jvan-hal");
+	char	*env_sub[] = {"LOGNAME=jvan-hal", "HOME=/Users/jvan-hal", NULL};
+    env_init(&msh->env, env_sub);
 }
 
 TestSuite(cd, .init = redirect_stdout);

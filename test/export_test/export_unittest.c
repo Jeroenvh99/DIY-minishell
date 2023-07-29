@@ -30,38 +30,6 @@ void	print_env(char **arr)
 	}
 }
 
-void	env_free_(t_env *env)
-{
-    while (env->used--)
-        free(env->envp[env->used]);
-    free(env->envp);
-}
-
-t_errno	env_init_(t_env *env, int len, ...)
-{
-    va_list ap;
-    char *s;
-
-    env->envp = (char **)malloc(sizeof(char *) * (len + 1));
-    if (env->envp == NULL)
-        return (MSH_MEMFAIL);
-    env->len = len;
-    env->used = 0;
-    va_start(ap, len);
-    while (len > 0)
-    {
-        s = va_arg(ap, char *);
-        env->envp[env->used] = ft_strdup(s);
-        if (env->envp[env->used] == NULL)
-            return (env_free_(env), MSH_MEMFAIL);
-        env->used++;
-        len--;
-    }
-    va_end(ap);
-    env->envp[env->used] = NULL;
-    return (MSH_SUCCESS);
-}
-
 void redirect_stdout(void)
 {
     cr_redirect_stdout();
