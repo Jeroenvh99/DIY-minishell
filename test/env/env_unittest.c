@@ -76,11 +76,20 @@ void redirect_stdout(void)
 
 TestSuite(env, .init=redirect_stdout);
 
-Test(env, test_init)
+Test(env, test_init_0)
 {
 	t_env	testenv;
 	char	*environ[] = {"LOGNAME=jvan-hal", NULL};
 
 	env_init(&testenv, &environ);
-	env_output(testenv, "LOGNAME=jvan-hal");
+	env_output(testenv, "LOGNAME=jvan-hal\n");
+}
+
+Test(env, test_init_1)
+{
+	t_env	testenv;
+	char	*environ[] = {"HOME=/Users/jvan-hal", "LOGNAME=jvan-hal", "OLDPWD=/tmp/cd-dash", NULL};
+
+	env_init(&testenv, &environ);
+	env_output(testenv, "HOME=/Users/jvan-hal\nLOGNAME=jvan-hal\nOLDPWD=/tmp/cd-dash\n");
 }

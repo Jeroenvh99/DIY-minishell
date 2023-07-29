@@ -160,6 +160,7 @@ void	env_without_home(t_msh *msh)
 {
 	char	*env_sub[] = {"LOGNAME=jvan-hal", "OLDPWD=/tmp/cd-dash", NULL};
     env_init(&msh->env, env_sub);
+}
 
 void	env_without_oldpwd(t_msh *msh)
 {
