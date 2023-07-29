@@ -52,7 +52,7 @@ t_errno	env_init_(t_env *env, int len, ...)
 
 void	print_2d_arr(int fd, char **arr, size_t size)
 {
-	int	i;
+	size_t	i;
 
 	i = 0;
 	while (i < size)

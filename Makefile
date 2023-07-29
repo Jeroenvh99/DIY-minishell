@@ -6,7 +6,7 @@
 #    By: dbasting <marvin@codam.nl>                   +#+                      #
 #                                                    +#+                       #
 #    Created: 2022/12/28 12:06:53 by dbasting      #+#    #+#                  #
-#    Updated: 2023/07/29 18:24:12 by jeroen        ########   odam.nl          #
+#    Updated: 2023/07/29 18:35:59 by jeroen        ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -156,7 +156,7 @@ test_parser:
 	cc $(CFLAGS) -lcriterion test/parse_test/parse_unittest.c source/parse/parse_utils.c lib/libft/libft.a && ./a.out
 	rm a.out
 
-test_env:
-	$(MAKE) -j -C lib/libft
-	cc $(CFLAGS) -lcriterion test/env/env_unittest.c source/parse/parse_utils.c lib/libft/libft.a && ./a.out
-	rm a.out
+# test_msh_env:
+# 	$(MAKE) -j -C lib/libft
+# 	cc $(CFLAGS) -lcriterion test/env/env_unittest.c source/parse/parse_utils.c lib/libft/libft.a && ./a.out
+# 	rm a.out

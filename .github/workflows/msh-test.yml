@@ -58,4 +58,4 @@ jobs:
     - name: Install Dependencies
       run: brew install criterion
     - name: run env tests
-      run: make test_env
+      run: make test_msh_env
