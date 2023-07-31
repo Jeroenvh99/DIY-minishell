@@ -34,7 +34,7 @@ t_errno	env_init_(t_env *env, int len, ...)
         s = va_arg(ap, char *);
         env->envp[env->used] = ft_strdup(s);
         if (env->envp[env->used] == NULL)
-            return (env_free_(env), MSH_MEMFAIL);
+            return (env_free(env), MSH_MEMFAIL);
         env->used++;
         len--;
     }
@@ -80,7 +80,7 @@ Test(env, test_init_0)
 	char	*environ[] = {"LOGNAME=jvan-hal", NULL};
 
 	env_init(&testenv, environ);
-	env_output(testenv, "LOGNAME=jvan-hal\n");
+	env_output(&testenv, "LOGNAME=jvan-hal\n");
 }
 
 Test(env, test_init_1)
@@ -89,7 +89,7 @@ Test(env, test_init_1)
 	char	*environ[] = {"HOME=/Users/jvan-hal", "LOGNAME=jvan-hal", "OLDPWD=/tmp/cd-dash", NULL};
 
 	env_init(&testenv, environ);
-	env_output(testenv, "HOME=/Users/jvan-hal\nLOGNAME=jvan-hal\nOLDPWD=/tmp/cd-dash\n");
+	env_output(&testenv, "HOME=/Users/jvan-hal\nLOGNAME=jvan-hal\nOLDPWD=/tmp/cd-dash\n");
 }
 
 Test(env, test_init_2)
