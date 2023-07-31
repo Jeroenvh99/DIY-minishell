@@ -6,7 +6,7 @@
 /*   By: dbasting <dbasting@codam.nl>                 +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/06/13 13:15:11 by dbasting      #+#    #+#                 */
-/*   Updated: 2023/06/13 13:49:48 by dbasting      ########   odam.nl         */
+/*   Updated: 2023/06/19 17:15:07 by dbasting      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 #include "msh_error.h"
 
 #include "ft_string.h"
+#include <stdio.h>
 #include <readline/readline.h>
 #include <signal.h>
 #include <stdlib.h>

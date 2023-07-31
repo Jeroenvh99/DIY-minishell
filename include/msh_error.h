@@ -6,20 +6,22 @@
 /*   By: dbasting <dbasting@codam.nl>                 +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/22 08:42:57 by dbasting      #+#    #+#                 */
-/*   Updated: 2023/06/13 14:18:54 by dbasting      ########   odam.nl         */
+/*   Updated: 2023/07/23 23:21:12 by dbasting      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MSH_ERROR_H
 # define MSH_ERROR_H
 
+#include <stdarg.h>
+
 typedef enum e_errno {
 	MSH_SUCCESS = 0,
 	MSH_NOCMDLINE,
 	MSH_ENDCMD_PIPE,
 	MSH_ENDCMD_CTL,
-    MSH_VAR_ASSIGN,
-    MSH_VAR_APPEND,
+	MSH_VAR_ASSIGN,
+	MSH_VAR_APPEND,
 	MSH_GENERIC,
 	MSH_SYNTAX_ERROR,
 	MSH_NO_VARSTR,
@@ -31,6 +33,7 @@ typedef enum e_errno {
 	N_ERRNO,
 }	t_errno;
 
+void	msh_perror(unsigned int n, ...);
 void	msh_strerror(t_errno errno);
 
 #endif

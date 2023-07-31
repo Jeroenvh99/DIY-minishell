@@ -6,7 +6,7 @@
 #    By: dbasting <marvin@codam.nl>                   +#+                      #
 #                                                    +#+                       #
 #    Created: 2022/12/28 12:06:53 by dbasting      #+#    #+#                  #
-#    Updated: 2023/07/31 18:59:26 by jvan-hal      ########   odam.nl          #
+#    Updated: 2023/07/28 15:56:34 by dbasting      ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -15,11 +15,24 @@ NAME 		:= minishell
 OS			:= $(shell uname -s)
 
 SRC_FILES	:= main.c\
+			builtins/cd.c\
+			builtins/echo.c\
+			builtins/env.c\
+			builtins/exit.c\
+			builtins/export.c\
+			builtins/pwd.c\
+			builtins/unset.c\
 			env/env.c\
+			env/env_append_val.c\
 			env/env_search.c\
 			env/env_set.c\
 			env/env_unset.c\
+			env/env_update.c\
 			env/env_utils.c\
+			execute/execute.c\
+			execute/execute_cmd.c\
+			execute/execute_fork.c\
+			execute/path.c\
 			expand/expand.c\
 			expand/expand_fieldsplit.c\
 			expand/expand_spec_exit.c\
@@ -58,6 +71,7 @@ OBJ_FILES	:= $(patsubst %.c,%.o,$(SRC_FILES))
 HDR_FILES	:= msh.h\
 			msh_error.h\
 			msh_env.h\
+			msh_execute.h\
 			msh_expand.h\
 			msh_parse.h\
 			msh_var.h\

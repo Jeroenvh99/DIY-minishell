@@ -6,7 +6,7 @@
 /*   By: dbasting <marvin@codam.nl>                   +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/04/18 13:51:16 by dbasting      #+#    #+#                 */
-/*   Updated: 2023/06/20 21:46:11 by dbasting      ########   odam.nl         */
+/*   Updated: 2023/07/28 15:57:33 by dbasting      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,7 @@ enum e_io {
  * @param argc	The number of arguments supplied.
  * @param argv	The values of the command arguments.
  * @param io	Data pertaining to I/O processing.
+ * @param sub	Whether the command is to be executed in a subshell.
  */
 typedef struct s_cmd {
 	size_t	argc;
@@ -68,6 +69,7 @@ typedef struct s_cmd {
 		char	**array;
 	} argv;
 	t_fd	io[N_IO];
+	int		subsh;
 }	t_cmd;
 
 /* Command tree object.
@@ -130,14 +132,5 @@ void	handler_set(int signum, t_handler handler);
 void	handle_sigint(int signum);
 void	handle_sigint_heredoc(int signum);
 void	handle_relay(int signum);
-
-/* Builtin functions. */ /* Moet dit niet naar msh_exec.h? */
-int		msh_cd(t_cmd *cmd, t_msh *msh);
-int		msh_echo(t_cmd *cmd, t_msh *msh);
-int		msh_env(t_cmd *cmd, t_msh *msh);
-int		msh_exit(t_cmd *cmd, t_msh *msh);
-int		msh_export(t_cmd *cmd, t_msh *msh);
-int		msh_pwd(t_cmd *cmd, t_msh *msh);
-int		msh_unset(t_cmd *cmd, t_msh *msh);
 
 #endif

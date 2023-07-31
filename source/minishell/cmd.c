@@ -6,7 +6,7 @@
 /*   By: dbasting <marvin@codam.nl>                   +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/04/18 14:13:15 by dbasting      #+#    #+#                 */
-/*   Updated: 2023/06/20 14:33:46 by dbasting      ########   odam.nl         */
+/*   Updated: 2023/07/28 16:41:43 by dbasting      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,9 +20,8 @@ static void	cmd_free_common(t_cmd *cmd);
 
 t_cmd	*cmd_init(size_t argc, char **argv)
 {
-	t_cmd	*cmd;
+	t_cmd *const	cmd = malloc(sizeof(t_cmd));
 
-	cmd = malloc(sizeof(t_cmd));
 	if (cmd == NULL)
 		return (NULL);
 	cmd->argc = argc;
@@ -30,6 +29,7 @@ t_cmd	*cmd_init(size_t argc, char **argv)
 	cmd->io[IO_IN] = -1;
 	cmd->io[IO_OUT] = -1;
 	cmd->io[IO_ERR] = -1;
+	cmd->subsh = 0;
 	return (cmd);
 }
 

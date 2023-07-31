@@ -6,7 +6,7 @@
 /*   By: jvan-hal <jvan-hal@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/09 15:57:34 by jvan-hal      #+#    #+#                 */
-/*   Updated: 2023/05/22 16:45:42 by dbasting      ########   odam.nl         */
+/*   Updated: 2023/07/28 10:23:56 by dbasting      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,8 +24,7 @@ static t_errno	env_insert(t_env *env, char *entry);
 static t_errno	env_realloc(t_env *env, char *entry);
 static t_errno	env_overwrite(char **old_entry, char *entry);
 
-/* Sets (a copy of) entry as an environment variable.
- */
+/* Set (a copy of) entry as an environment variable. */
 t_errno	env_set(t_env *env, char const *entry)
 {
 	char *const	copy = ft_strdup(entry);
@@ -35,33 +34,32 @@ t_errno	env_set(t_env *env, char const *entry)
 	if (copy == NULL)
 		return (MSH_MEMFAIL);
 	errno = var_parse(&name, entry);
-    if (errno == MSH_VAR_ASSIGN)
-        errno = env_assign_val(env, name, copy);
-    else if (errno == MSH_VAR_APPEND)
-        errno = env_append_val(env, copy, name);
-    else
-        return (free(copy), free(name), errno);
-    free(name);
-    if (errno != MSH_SUCCESS)
-        free(copy);
-	return (MSH_SUCCESS);
+	if (errno == MSH_VAR_ASSIGN)
+		errno = env_assign_val(env, name, copy);
+	else if (errno == MSH_VAR_APPEND)
+		errno = env_append_val(env, copy, name);
+	else
+		return (free(copy), free(name), errno);
+	free(name);
+	if (errno != MSH_SUCCESS)
+		free(copy);
+	return (errno);
 }
-/* Append (i.e. do not overwrite) `entry`.
- */
+//DB: Als entry geen varstring is: plak er een = achter en voeg gewoon toe.
+
+/* Append (i.e. do not overwrite) `entry`. */
 static t_errno	env_assign_val(t_env *env, char const *name, char *entry)
 {
-    size_t entry_i;
+	size_t const	entry_i = env_entry_get(env, name);
 
-    entry_i = env_entry_get(env, name);
-    if (env->envp[entry_i])
-        return (env_overwrite(&env->envp[entry_i], entry));
-    if (env->used < env->len)
-        return (env_insert(env, entry));
-    return (env_realloc(env, entry));
+	if (env->envp[entry_i])
+		return (env_overwrite(&env->envp[entry_i], entry));
+	if (env->used < env->len)
+		return (env_insert(env, entry));
+	return (env_realloc(env, entry));
 }
 
-/* Insert `entry` into `env` without reallocating.
- */
+/* Insert `entry` into `env` without reallocating. */
 static t_errno	env_insert(t_env *env, char *entry)
 {
 	size_t	i;
@@ -74,8 +72,7 @@ static t_errno	env_insert(t_env *env, char *entry)
 	return (MSH_SUCCESS);
 }
 
-/* Reallocate `env` to hold REALLOC_SIZE more entries and insert `entry`.
- */
+/* Reallocate `env` to hold REALLOC_SIZE more entries and insert `entry`. */
 static t_errno	env_realloc(t_env *env, char *entry)
 {
 	char	**nenvp;
@@ -93,8 +90,7 @@ static t_errno	env_realloc(t_env *env, char *entry)
 	return (MSH_SUCCESS);
 }
 
-/* Overwrite `old_entry` with `entry`.
- */
+/* Overwrite `old_entry` with `entry`. */
 static t_errno	env_overwrite(char **old_entry, char *entry)
 {
 	free(*old_entry);
