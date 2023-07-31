@@ -18,13 +18,6 @@
 #include <stdlib.h>
 #include <stdarg.h>
 
-void	env_free_(t_env *env)
-{
-    while (env->used--)
-        free(env->envp[env->used]);
-    free(env->envp);
-}
-
 t_errno	env_init_(t_env *env, int len, ...)
 {
     va_list ap;
@@ -86,7 +79,7 @@ Test(env, test_init_0)
 	t_env	testenv;
 	char	*environ[] = {"LOGNAME=jvan-hal", NULL};
 
-	env_init(&testenv, &environ);
+	env_init(&testenv, environ);
 	env_output(testenv, "LOGNAME=jvan-hal\n");
 }
 
@@ -95,7 +88,7 @@ Test(env, test_init_1)
 	t_env	testenv;
 	char	*environ[] = {"HOME=/Users/jvan-hal", "LOGNAME=jvan-hal", "OLDPWD=/tmp/cd-dash", NULL};
 
-	env_init(&testenv, &environ);
+	env_init(&testenv, environ);
 	env_output(testenv, "HOME=/Users/jvan-hal\nLOGNAME=jvan-hal\nOLDPWD=/tmp/cd-dash\n");
 }
 
@@ -104,8 +97,24 @@ Test(env, test_init_2)
 	t_env	testenv;
 	char	*environ[] = {"HOME=/Users/jvan-hal", "LOGNAME=jvan-hal", "OLDPWD=/tmp/cd-dash", NULL};
 
-	env_init(&testenv, &environ);
-	env_output_val(testenv, "HOME", "/Users/jvan-hal");
+	env_init(&testenv, environ);
+	env_output_val(&testenv, "HOME", "/Users/jvan-hal");
 }
 
-//test for nulls after calling env_pack
+Test(env, pack_len_0)
+{
+    t_env   testenv;
+
+    env_init_(&testenv, 5, "HOME=/Users/jvan-hal", NULL, "LOGNAME=jvan-hal", NULL, "OLDPWD=/tmp/cd-dash");
+    env_pack(&testenv);
+    cr_assert_eq(testenv.len, 5);
+}
+
+Test(env, pack_len_1)
+{
+    t_env   testenv;
+
+    env_init_(&testenv, 5, "HOME=/Users/jvan-hal", NULL, "LOGNAME=jvan-hal", NULL, "OLDPWD=/tmp/cd-dash");
+    env_pack(&testenv);
+    cr_assert_eq(testenv.used, 3);
+}
