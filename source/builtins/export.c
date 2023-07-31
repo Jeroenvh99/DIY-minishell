@@ -6,11 +6,12 @@
 /*   By: jvan-hal <jvan-hal@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/04/20 16:51:03 by jvan-hal      #+#    #+#                 */
-/*   Updated: 2023/06/14 14:19:57 by jvan-hal      ########   odam.nl         */
+/*   Updated: 2023/07/07 11:05:25 by jvan-hal      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_stdio.h"
+#include "ft_string.h"
 #include "msh.h"
 #include <fcntl.h>
 #include <unistd.h>
@@ -21,20 +22,20 @@ int	exp_print_env(t_msh *msh, t_cmd *cmd)
 	int	j;
 
 	i = 0;
-	while (msh->env[i])
+	while (msh->env.envp[i])
 	{
-		if (write(cmd->io->out, "declare -x ", 11) == -1)
+		if (write(cmd->io[1], "declare -x ", 11) == -1)
 			return (-1);
 		j = 0;
-		while (msh->env[i][j])
+		while (msh->env.envp[i][j])
 		{
-			if (msh->env[i][j] == '=')
+			if (msh->env.envp[i][j] == '=')
 				break ;
 			++j;
 		}
-		if (write(cmd->io->out, msh->env[i], j + 1) == -1)
+		if (write(cmd->io[1], msh->env.envp[i], j + 1) == -1)
 			return (-1);
-		ft_dprintf(cmd->io->out, "\"%s\"\n", msh->env[i] + j + 1);
+		ft_dprintf(cmd->io[1], "\"%s\"\n", msh->env.envp[i] + j + 1);
 		++i;
 	}
 	return (0);
@@ -53,7 +54,7 @@ int	msh_export(t_cmd *cmd, t_msh *msh)
 	while (cmd->argv.array[i])
 	{
 		if (ft_strchr(cmd->argv.array[i], '='))
-            env_set(msh->env, (const char)cmd->argv.array[i]);
+            env_set(&msh->env, (char const *)cmd->argv.array[i]);
 		++i;
 	}
 	return (0);

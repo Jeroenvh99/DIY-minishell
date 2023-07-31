@@ -6,7 +6,7 @@
 /*   By: jvan-hal <jvan-hal@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/09 15:57:34 by jvan-hal      #+#    #+#                 */
-/*   Updated: 2023/06/06 16:25:05 by jvan-hal      ########   odam.nl         */
+/*   Updated: 2023/07/29 18:43:26 by jeroen        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,36 +15,9 @@
 #include "ft_string.h"
 #include <stdlib.h>
 
-int	env_size(char **env)
+void	print_2d_arr(int fd, char **arr, size_t size)
 {
-	int	i;
-
-	i = 0;
-	while (env[i])
-		++i;
-	return (i);
-}
-
-char	**copy_env(char **env)
-{
-	char	**new_env;
-	int		i;
-
-	i = env_size(env);
-	new_env = (char **)malloc(sizeof(char *) * (i + 1));
-	new_env[i] = NULL;
-	--i;
-	while (i >= 0)
-	{
-		new_env[i] = ft_strdup(env[i]);
-		--i;
-	}
-	return (new_env);
-}
-
-void	print_2d_arr(int fd, char **arr, int size)
-{
-	int	i;
+	size_t	i;
 
 	i = 0;
 	while (i < size)

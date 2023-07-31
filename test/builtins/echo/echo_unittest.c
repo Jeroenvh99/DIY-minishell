@@ -25,7 +25,7 @@ void	assert_echo_output(t_cmd *cmd, char *expected)
 {
 	t_msh	msh;
 
-    cmd->io.out = 1;
+    cmd->io[1] = 1;
 	bzero(&msh, sizeof(msh));
 	msh_echo(cmd, &msh);
 	fflush(stdout);

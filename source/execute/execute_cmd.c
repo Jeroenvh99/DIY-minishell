@@ -4,9 +4,9 @@
 /*   execute_cmd.c                                      :+:    :+:            */
 /*                                                     +:+                    */
 /*   By: jvan-hal <jvan-hal@student.codam.nl>         +#+                     */
-/*       dbasting <dbasting@student.codam.nl>        +#+                      */
+/*                                                   +#+                      */
 /*   Created: 2023/05/16 15:12:17 by jvan-hal      #+#    #+#                 */
-/*   Updated: 2023/06/20 14:30:26 by dbasting      ########   odam.nl         */
+/*   Updated: 2023/07/07 09:18:12 by jvan-hal      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ t_errno	execute(t_list **pipeline, t_msh *msh)
 
 t_errno	execute_cmd(t_cmd *cmd, t_msh *msh)
 {
-	t_builtinf const	builtin = is_builtin(cmd->argv.array[0]);
+	t_builtinf const	builtin = get_builtin(cmd->argv.array[0]);
 	int					wstatus;
 
 	if (builtin)
