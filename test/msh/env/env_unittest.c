@@ -69,6 +69,11 @@ void	env_output(t_env *env, char *expected)
 	cr_assert_stdout_eq_str(expected);
 }
 
+void    env_output_val(t_env *env, char *name, char *val)
+{
+    cr_assert_eq(strcmp(env_search(env, name), val), 0);
+}
+
 void redirect_stdout(void)
 {
     cr_redirect_stdout();
@@ -94,5 +99,13 @@ Test(env, test_init_1)
 	env_output(testenv, "HOME=/Users/jvan-hal\nLOGNAME=jvan-hal\nOLDPWD=/tmp/cd-dash\n");
 }
 
-//test wether the initialized variables are there
+Test(env, test_init_2)
+{
+	t_env	testenv;
+	char	*environ[] = {"HOME=/Users/jvan-hal", "LOGNAME=jvan-hal", "OLDPWD=/tmp/cd-dash", NULL};
+
+	env_init(&testenv, &environ);
+	env_output_val(testenv, "HOME", "/Users/jvan-hal");
+}
+
 //test for nulls after calling env_pack

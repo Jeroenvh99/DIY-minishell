@@ -108,55 +108,55 @@ re: fclean all
 
 test_cd:
 	$(MAKE) -j -C lib/libft
-	cc $(CFLAGS) -lcriterion source/builtins/cd.c source/env/env.c source/env/env_append_val.c source/env/env_search.c source/env/env_set.c source/env/env_utils.c source/var/var_parse.c test/cd_test/cd_unittest.c lib/libft/libft.a && ./a.out
+	cc $(CFLAGS) -lcriterion source/builtins/cd.c source/env/env.c source/env/env_append_val.c source/env/env_search.c source/env/env_set.c source/env/env_utils.c source/var/var_parse.c test/builtins/cd/cd_unittest.c lib/libft/libft.a && ./a.out
 	rm a.out
 
 test_echo:
 	$(MAKE) -j -C lib/libft
-	cc $(CFLAGS) -lcriterion source/builtins/echo.c test/echo_test/echo_unittest.c lib/libft/libft.a && ./a.out
+	cc $(CFLAGS) -lcriterion source/builtins/echo.c test/builtins/echo/echo_unittest.c lib/libft/libft.a && ./a.out
 	rm a.out
 
 test_env:
 	$(MAKE) -j -C lib/libft
-	cc $(CFLAGS) -lcriterion source/builtins/env.c source/env/env_append_val.c source/env/env_utils.c source/builtins/env_utils.c test/env_test/env_unittest.c lib/libft/libft.a && ./a.out
+	cc $(CFLAGS) -lcriterion source/builtins/env.c source/env/env_append_val.c source/env/env_utils.c source/builtins/env_utils.c test/builtins/env/env_unittest.c lib/libft/libft.a && ./a.out
 	rm a.out
 
 test_exit:
 	$(MAKE) -j -C lib/libft
-	cc $(CFLAGS) -lcriterion source/builtins/exit.c source/minishell/cmd.c source/env/env_append_val.c source/env/env.c source/env/env_utils.c test/exit_test/exit_unittest.c lib/libft/libft.a && ./a.out
+	cc $(CFLAGS) -lcriterion source/builtins/exit.c source/minishell/cmd.c source/env/env_append_val.c source/env/env.c source/env/env_utils.c test/builtins/exit/exit_unittest.c lib/libft/libft.a && ./a.out
 	rm a.out
 
 test_export:
 	$(MAKE) -j -C lib/libft
-	cc $(CFLAGS) -lcriterion source/builtins/export.c source/env/env.c source/env/env_append_val.c source/env/env_utils.c source/env/env_search.c source/env/env_set.c source/var/var_parse.c test/export_test/export_unittest.c lib/libft/libft.a && ./a.out
+	cc $(CFLAGS) -lcriterion source/builtins/export.c source/env/env.c source/env/env_append_val.c source/env/env_utils.c source/env/env_search.c source/env/env_set.c source/var/var_parse.c test/builtins/export/export_unittest.c lib/libft/libft.a && ./a.out
 	rm a.out
 
 test_pwd:
 	$(MAKE) -j -C lib/libft
-	cc $(CFLAGS) -lcriterion source/builtins/pwd.c test/pwd_test/pwd_unittest.c lib/libft/libft.a && ./a.out
+	cc $(CFLAGS) -lcriterion source/builtins/pwd.c test/builtins/pwd/pwd_unittest.c lib/libft/libft.a && ./a.out
 	rm a.out
 
 test_unset:
 	$(MAKE) -j -C lib/libft
-	cc $(CFLAGS) -lcriterion source/builtins/unset.c source/env/env.c source/builtins/env_utils.c source/env/env_append_val.c source/env/env_unset.c source/env/env_utils.c test/unset_test/unset_unittest.c lib/libft/libft.a && ./a.out
+	cc $(CFLAGS) -lcriterion source/builtins/unset.c source/env/env.c source/builtins/env_utils.c source/env/env_append_val.c source/env/env_unset.c source/env/env_utils.c test/builtins/unset/unset_unittest.c lib/libft/libft.a && ./a.out
 	rm a.out
 
 test_lexer:
 	$(MAKE) -j -C lib/libft
-	cc $(CFLAGS) -lcriterion source/lex/token.c test/lex_test/lex_unittest.c lib/libft/libft.a && ./a.out
+	cc $(CFLAGS) -lcriterion source/lex/token.c test/msh/lex/lex_unittest.c lib/libft/libft.a && ./a.out
 	rm a.out
 
 test_expander:
 	$(MAKE) -j -C lib/libft
-	cc $(CFLAGS) -lcriterion test/expand_test/expand_unittest.c lib/libft/libft.a && ./a.out
+	cc $(CFLAGS) -lcriterion test/msh/expand/expand_unittest.c lib/libft/libft.a && ./a.out
 	rm a.out
 
 test_parser:
 	$(MAKE) -j -C lib/libft
-	cc $(CFLAGS) -lcriterion test/parse_test/parse_unittest.c source/parse/parse_utils.c lib/libft/libft.a && ./a.out
+	cc $(CFLAGS) -lcriterion test/msh/parse/parse_unittest.c source/parse/parse_utils.c lib/libft/libft.a && ./a.out
 	rm a.out
 
-# test_msh_env:
-# 	$(MAKE) -j -C lib/libft
-# 	cc $(CFLAGS) -lcriterion test/env/env_unittest.c source/parse/parse_utils.c lib/libft/libft.a && ./a.out
-# 	rm a.out
+ test_msh_env:
+ 	$(MAKE) -j -C lib/libft
+ 	cc $(CFLAGS) -lcriterion test/msh/env/env_unittest.c source/parse/parse_utils.c lib/libft/libft.a && ./a.out
+ 	rm a.out
