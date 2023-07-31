@@ -121,22 +121,22 @@ Test(env, test_search_0)
 	env_output_val(&testenv, "HOME", "/Users/jvan-hal");
 }
 
-Test(env, test_search_0)
-{
-	t_env	testenv;
-	char	*environ[] = {"HOME=/Users/jvan-hal", "LOGNAME=jvan-hal", "OLDPWD=/tmp/cd-dash", NULL};
-
-	env_init(&testenv, environ);
-	cr_assert_eq_null(env_search(&testenv, "HOM"));
-}
-
 Test(env, test_search_1)
 {
 	t_env	testenv;
 	char	*environ[] = {"HOME=/Users/jvan-hal", "LOGNAME=jvan-hal", "OLDPWD=/tmp/cd-dash", NULL};
 
 	env_init(&testenv, environ);
-	cr_assert_eq_null(env_search(&testenv, "SHLVL"));
+	cr_assert_null(env_search(&testenv, "HOM"));
+}
+
+Test(env, test_search_2)
+{
+	t_env	testenv;
+	char	*environ[] = {"HOME=/Users/jvan-hal", "LOGNAME=jvan-hal", "OLDPWD=/tmp/cd-dash", NULL};
+
+	env_init(&testenv, environ);
+	cr_assert_null(env_search(&testenv, "SHLVL"));
 }
 
 Test(env, entry_get_0)
@@ -181,7 +181,7 @@ Test(env, entry_getval_1)
 	char	*environ[] = {"HOME=/Users/jvan-hal", "LOGNAME=jvan-hal", "OLDPWD=/tmp/cd-dash", NULL};
 
 	env_init(&testenv, environ);
-	cr_assert_eq_null(env_entry_getval(&testenv, "_"));
+	cr_assert_null(env_entry_getval(&testenv, "_"));
 }
 
 Test(env, entry_getval_2)
@@ -190,7 +190,7 @@ Test(env, entry_getval_2)
 	char	*environ[] = {"HOME=/Users/jvan-hal", "LOGNAME=jvan-hal", "OLDPWD=/tmp/cd-dash", NULL};
 
 	env_init(&testenv, environ);
-	cr_assert_eq_null(env_entry_getval(&testenv, "LOG"));
+	cr_assert_null(env_entry_getval(&testenv, "LOG"));
 }
 
 Test(env, entry_getval_3)
@@ -199,7 +199,7 @@ Test(env, entry_getval_3)
 	char	*environ[] = {"HOME=/Users/jvan-hal", "LOGNAME=jvan-hal", "OLDPWD=/tmp/cd-dash", NULL};
 
 	env_init(&testenv, environ);
-	cr_assert_eq_null(env_entry_getval(&testenv, ""));
+	cr_assert_null(env_entry_getval(&testenv, ""));
 }
 
 Test(env, unset_len_0)
