@@ -27,6 +27,8 @@ cd | pwd verandert niet de directory
 
 array van command structs doorgeven aan de executor
 
+shlvl verhoogt als je msh in msh opent
+
 ## msh\_lex
 
 `t_errno	lex(t_list **tokens, char const *line)`
