@@ -18,31 +18,6 @@
 #include <stdlib.h>
 #include <stdarg.h>
 
-t_errno	env_init_(t_env *env, int len, ...)
-{
-    va_list ap;
-    char *s;
-
-    env->envp = (char **)malloc(sizeof(char *) * (len + 1));
-    if (env->envp == NULL)
-        return (MSH_MEMFAIL);
-    env->len = len;
-    env->used = 0;
-    va_start(ap, len);
-    while (len > 0)
-    {
-        s = va_arg(ap, char *);
-        env->envp[env->used] = ft_strdup(s);
-        if (env->envp[env->used] == NULL)
-            return (env_free(env), MSH_MEMFAIL);
-        env->used++;
-        len--;
-    }
-    va_end(ap);
-    env->envp[env->used] = NULL;
-    return (MSH_SUCCESS);
-}
-
 void	print_2d_arr(int fd, char **arr, size_t size)
 {
 	size_t	i;
@@ -104,17 +79,23 @@ Test(env, test_init_2)
 Test(env, pack_len_0)
 {
     t_env   testenv;
+    char	*environ[] = {"HOME=/Users/jvan-hal", "LOGNAME=jvan-hal", "OLDPWD=/tmp/cd-dash", NULL};
 
-    env_init_(&testenv, 5, "HOME=/Users/jvan-hal", NULL, "LOGNAME=jvan-hal", NULL, "OLDPWD=/tmp/cd-dash");
+    env_init(&testenv, environ);
+    msh_unset(&testenv, "HOME");
+    msh_unset(&testenv, "OLDPWD");
     env_pack(&testenv);
-    cr_assert_eq(testenv.len, 5);
+    cr_assert_eq(testenv.len, 3);
 }
 
 Test(env, pack_len_1)
 {
     t_env   testenv;
+    char	*environ[] = {"HOME=/Users/jvan-hal", "LOGNAME=jvan-hal", "OLDPWD=/tmp/cd-dash", NULL};
 
-    env_init_(&testenv, 5, "HOME=/Users/jvan-hal", NULL, "LOGNAME=jvan-hal", NULL, "OLDPWD=/tmp/cd-dash");
+    env_init(&testenv, environ);
+    msh_unset(&testenv, "HOME");
+    msh_unset(&testenv, "OLDPWD");
     env_pack(&testenv);
-    cr_assert_eq(testenv.used, 3);
+    cr_assert_eq(testenv.used, 1);
 }

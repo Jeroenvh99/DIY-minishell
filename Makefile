@@ -158,5 +158,5 @@ test_parser:
 
 test_msh_env:
 	$(MAKE) -j -C lib/libft
-	cc $(CFLAGS) -lcriterion source/env/env.c source/env/env_utils.c source/env/env_search.c test/msh/env/env_unittest.c lib/libft/libft.a && ./a.out
+	cc $(CFLAGS) -lcriterion source/env/env.c source/env/env_utils.c source/env/env_search.c source/env/env_unset.c test/msh/env/env_unittest.c lib/libft/libft.a && ./a.out
 	rm a.out
