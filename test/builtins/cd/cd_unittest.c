@@ -31,38 +31,6 @@ void	print_env(char **arr)
 	}
 }
 
-void	env_free_(t_env *env)
-{
-    while (env->used--)
-        free(env->envp[env->used]);
-    free(env->envp);
-}
-
-t_errno	env_init_(t_env *env, int len, ...)
-{
-    va_list ap;
-    char *s;
-
-    env->envp = (char **)malloc(sizeof(char *) * (len + 1));
-    if (env->envp == NULL)
-        return (MSH_MEMFAIL);
-    env->len = len;
-    env->used = 0;
-    va_start(ap, len);
-    while (len > 0)
-    {
-        s = va_arg(ap, char *);
-        env->envp[env->used] = ft_strdup(s);
-        if (env->envp[env->used] == NULL)
-            return (env_free_(env), MSH_MEMFAIL);
-        env->used++;
-        len--;
-    }
-    va_end(ap);
-    env->envp[env->used] = NULL;
-    return (MSH_SUCCESS);
-}
-
 void	redirect_stdout(void)
 {
 	cr_redirect_stdout();
@@ -77,13 +45,13 @@ void	assert_cd_output(t_cmd *cmd, char *expected, void (*env_init)(t_msh *))
 {
 	t_msh	msh;
 
-	cmd->io.out = 1;
+	cmd->io[1] = 1;
 	bzero(&msh, sizeof(msh));
 	env_init(&msh);
 	msh_cd(cmd, &msh);
 	fflush(stdout);
 	cr_assert_stdout_eq_str(expected);
-    env_free_(&msh.env);
+    env_free(&msh.env);
 }
 
 void	assert_cd_output_error(t_cmd *cmd, char *expected,
@@ -91,13 +59,13 @@ void	assert_cd_output_error(t_cmd *cmd, char *expected,
 {
 	t_msh	msh;
 
-	cmd->io.err = 2;
+	cmd->io[2] = 2;
 	bzero(&msh, sizeof(msh));
 	env_init(&msh);
 	msh_cd(cmd, &msh);
 	fflush(stderr);
 	cr_assert_stderr_eq_str(expected);
-    env_free_(&msh.env);
+    env_free(&msh.env);
 }
 
 void	assert_cd_dir(t_cmd *cmd, char *expected, void (*env_init)(t_msh *))
@@ -106,15 +74,17 @@ void	assert_cd_dir(t_cmd *cmd, char *expected, void (*env_init)(t_msh *))
 	char	*buf;
 
 	buf = NULL;
-	cmd->io.out = 1;
-    cmd->io.err = 2;
+	cmd->io[1] = 1;
+    cmd->io[2] = 2;
 	bzero(&msh, sizeof(msh));
 	env_init(&msh);
 	msh_cd(cmd, &msh);
+	fflush(stdout);
+	fflush(stderr);
     buf = getcwd(buf, 0);
 	cr_assert_eq(strcmp(buf, expected), 0);
 	free(buf);
-    env_free_(&msh.env);
+    env_free(&msh.env);
 }
 
 void	assert_cd_status(t_cmd *cmd, int expected, void (*env_init)(t_msh *))
@@ -122,44 +92,48 @@ void	assert_cd_status(t_cmd *cmd, int expected, void (*env_init)(t_msh *))
 	t_msh	msh;
 	int		status;
 
-	cmd->io.out = 1;
+	cmd->io[1] = 1;
 	bzero(&msh, sizeof(msh));
 	env_init(&msh);
 	status = msh_cd(cmd, &msh);
+	fflush(stdout);
 	cr_assert_eq(status, expected);
-    env_free_(&msh.env);
+    env_free(&msh.env);
 }
 
 void	assert_cd_env(t_cmd *cmd, const char *name, int exists, void (*env_init)(t_msh *))
 {
 	t_msh	msh;
 
-	cmd->io.out = 1;
+	cmd->io[1] = 1;
 	bzero(&msh, sizeof(msh));
 	env_init(&msh);
 	msh_cd(cmd, &msh);
+	fflush(stdout);
 	// print_env(msh.env.envp);
 	if (exists)
 		cr_assert_not_null(env_search(&msh.env, name));
 	else
 		cr_assert_null(env_search(&msh.env, name));
-	env_free_(&msh.env);
+	env_free(&msh.env);
 }
 
 void	env_with_home(t_msh *msh)
 {
-	env_init_(&msh->env, 3, "HOME=/Users/jvan-hal", "LOGNAME=jvan-hal",
-             "OLDPWD=/tmp/cd-dash");
+	char	*env_sub[] = {"HOME=/Users/jvan-hal", "LOGNAME=jvan-hal", "OLDPWD=/tmp/cd-dash", NULL};
+    env_init(&msh->env, env_sub);
 }
 
 void	env_without_home(t_msh *msh)
 {
-    env_init_(&msh->env, 2, "LOGNAME=jvan-hal", "OLDPWD=/tmp/cd-dash");
+	char	*env_sub[] = {"LOGNAME=jvan-hal", "OLDPWD=/tmp/cd-dash", NULL};
+    env_init(&msh->env, env_sub);
 }
 
 void	env_without_oldpwd(t_msh *msh)
 {
-    env_init_(&msh->env, 2, "LOGNAME=jvan-hal", "HOME=/Users/jvan-hal");
+	char	*env_sub[] = {"LOGNAME=jvan-hal", "HOME=/Users/jvan-hal", NULL};
+    env_init(&msh->env, env_sub);
 }
 
 TestSuite(cd, .init = redirect_stdout);

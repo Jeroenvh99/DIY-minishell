@@ -4,7 +4,7 @@
 /*   execute_cmd.c                                      :+:    :+:            */
 /*                                                     +:+                    */
 /*   By: jvan-hal <jvan-hal@student.codam.nl>         +#+                     */
-/*       dbasting <dbasting@student.codam.nl>        +#+                      */
+/*                                                   +#+                      */
 /*   Created: 2023/05/16 15:12:17 by jvan-hal      #+#    #+#                 */
 /*   Updated: 2023/07/28 15:55:43 by dbasting      ########   odam.nl         */
 /*                                                                            */

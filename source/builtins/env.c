@@ -13,8 +13,6 @@
 #include "ft_stdio.h"
 #include "ft_string.h"
 #include "msh.h"
-#include <stdio.h>
-#include <stdlib.h>
 
 void	env_error(int fd, char *arg)
 {
@@ -35,10 +33,7 @@ void	print_2d_arr(int fd, char **arr, int size)
 
 int	msh_env(t_cmd *cmd, t_msh *msh)
 {
-	size_t	i;
-
-	i = 1;
-	while (cmd->argv.array[i])
+	if (cmd->argc > 1)
 	{
 		if (i == cmd->argc - 1)
 		{

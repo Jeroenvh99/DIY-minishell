@@ -19,6 +19,8 @@ int	msh_unset(t_cmd *cmd, t_msh *msh)
 {
 	int	i;
 
+    if (cmd->argc == 1)
+        return (0);
 	i = 1;
     while (ft_strchr(cmd->argv.array[i], '-'))
     {
@@ -28,7 +30,10 @@ int	msh_unset(t_cmd *cmd, t_msh *msh)
 	while (cmd->argv.array[i])
 	{
 		if (!ft_strchr(cmd->argv.array[i], '_'))
-			env_unset(&msh->env, cmd->argv.array[i]);
+		{
+			if (env_unset(&msh->env, (char const *)cmd->argv.array[i]) == MSH_NO_VARSTR)
+                ft_dprintf(cmd->io[IO_ERR], "msh: unset: %s does not exist\n", cmd->argv.array[i]);
+		}
 		++i;
 	}
 	return (0);
