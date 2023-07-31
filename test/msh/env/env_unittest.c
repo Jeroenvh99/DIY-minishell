@@ -76,14 +76,16 @@ Test(env, test_init_2)
 	env_output_val(&testenv, "HOME", "/Users/jvan-hal");
 }
 
+// unset tests
+
 Test(env, pack_len_0)
 {
     t_env   testenv;
     char	*environ[] = {"HOME=/Users/jvan-hal", "LOGNAME=jvan-hal", "OLDPWD=/tmp/cd-dash", NULL};
 
     env_init(&testenv, environ);
-    msh_unset(&testenv, "HOME");
-    msh_unset(&testenv, "OLDPWD");
+    env_unset(&testenv, "HOME");
+    env_unset(&testenv, "OLDPWD");
     env_pack(&testenv);
     cr_assert_eq(testenv.len, 3);
 }
@@ -94,8 +96,8 @@ Test(env, pack_len_1)
     char	*environ[] = {"HOME=/Users/jvan-hal", "LOGNAME=jvan-hal", "OLDPWD=/tmp/cd-dash", NULL};
 
     env_init(&testenv, environ);
-    msh_unset(&testenv, "HOME");
-    msh_unset(&testenv, "OLDPWD");
+    env_unset(&testenv, "HOME");
+    env_unset(&testenv, "OLDPWD");
     env_pack(&testenv);
     cr_assert_eq(testenv.used, 1);
 }
