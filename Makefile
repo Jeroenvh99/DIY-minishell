@@ -156,7 +156,7 @@ test_parser:
 	cc $(CFLAGS) -lcriterion test/msh/parse/parse_unittest.c source/parse/parse_utils.c lib/libft/libft.a && ./a.out
 	rm a.out
 
- test_msh_env:
- 	$(MAKE) -j -C lib/libft
- 	cc $(CFLAGS) -lcriterion test/msh/env/env_unittest.c source/parse/parse_utils.c lib/libft/libft.a && ./a.out
- 	rm a.out
+test_msh_env:
+	$(MAKE) -j -C lib/libft
+	cc $(CFLAGS) -lcriterion test/msh/env/env_unittest.c source/parse/parse_utils.c lib/libft/libft.a && ./a.out
+	rm a.out
