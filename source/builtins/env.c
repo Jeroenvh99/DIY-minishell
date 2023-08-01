@@ -6,7 +6,7 @@
 /*   By: jvan-hal <jvan-hal@student.codam.nl>         +#+                     */
 /*       dbasting <dbasting@student.codam.nl>        +#+                      */
 /*   Created: 2023/04/20 16:51:40 by jvan-hal      #+#    #+#                 */
-/*   Updated: 2023/08/01 16:50:59 by dbasting      ########   odam.nl         */
+/*   Updated: 2023/08/01 23:58:24 by dbasting      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ static void	_env_print(char **envp);
  */
 int	msh_env(t_cmd *cmd, t_msh *msh)
 {
-	if (cmd->argc == 0)
+	if (cmd->argc == 1)
 	{
 		_env_print(msh->env.envp);
 		return (0);

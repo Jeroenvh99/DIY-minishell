@@ -6,7 +6,7 @@
 /*   By: dbasting <dbasting@codam.nl>                 +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/22 08:43:13 by dbasting      #+#    #+#                 */
-/*   Updated: 2023/08/01 12:52:39 by dbasting      ########   odam.nl         */
+/*   Updated: 2023/08/01 23:42:26 by dbasting      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,8 +30,11 @@ typedef struct s_env {
 
 // Environment functions.
 t_errno	env_init(t_env *env, char **envp);
+t_errno	env_basevars_set(t_env *env);
 void	env_free(t_env *env);
-t_errno	env_set(t_env *env, char const *entry);
+t_errno	env_set(t_env *env, char const *name, char const *value);
+t_errno	env_set_entry(t_env *env, char const *entry);
+t_errno	env_set_main(t_env *env, char *entry);
 t_errno	env_append_val(t_env *env, char *entry, char const *name);
 int		env_update(t_env *env, char const *name, char const *value);
 t_errno	env_unset(t_env *env, char const *name);
@@ -39,6 +42,7 @@ char	*env_search(t_env *env, char const *name);
 
 // Utility functions.
 size_t	env_entry_get(t_env *env, char const *name);
+char	*env_entry_build(char const *name, char const *value);
 char	*env_entry_getval(char const *entry, char const *name);
 void	env_pack(t_env *env);
 

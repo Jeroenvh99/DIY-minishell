@@ -6,7 +6,7 @@
 /*   By: jvan-hal <jvan-hal@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/09 15:57:34 by jvan-hal      #+#    #+#                 */
-/*   Updated: 2023/05/22 17:07:59 by dbasting      ########   odam.nl         */
+/*   Updated: 2023/08/01 22:08:53 by dbasting      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,21 @@
 
 #include "ft_string.h"
 #include <stddef.h>
+#include <stdlib.h>
+
+/* Construct an environment string from `name` and `value`. */
+char	*env_entry_build(char const *name, char const *value)
+{
+	char *const	entry = malloc(ft_strlen(name) + ft_strlen(value) + 2);
+	
+	if (!entry)
+		return (NULL);
+	entry[0] = '\0';
+	ft_strlcat(entry, name, -1);
+	ft_strlcat(entry, "=", -1);
+	ft_strlcat(entry, value, -1);
+	return (entry);
+}	
 
 /* Return the index of the entry in `env` defining `name`. If `name` is not
  * defined in `envp`, the index will be equal to env->len.

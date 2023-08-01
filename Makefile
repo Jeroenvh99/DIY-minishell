@@ -6,7 +6,7 @@
 #    By: dbasting <marvin@codam.nl>                   +#+                      #
 #                                                    +#+                       #
 #    Created: 2022/12/28 12:06:53 by dbasting      #+#    #+#                  #
-#    Updated: 2023/08/01 15:51:24 by dbasting      ########   odam.nl          #
+#    Updated: 2023/08/01 23:44:00 by dbasting      ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -24,8 +24,10 @@ SRC_FILES	:= main.c\
 			builtins/unset.c\
 			env/env.c\
 			env/env_append_val.c\
+			env/env_basevars.c\
 			env/env_search.c\
 			env/env_set.c\
+			env/env_set_main.c\
 			env/env_unset.c\
 			env/env_update.c\
 			env/env_utils.c\

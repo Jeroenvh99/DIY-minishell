@@ -6,7 +6,7 @@
 /*   By: dbasting <dbasting@codam.nl>                 +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/06/06 15:49:21 by dbasting      #+#    #+#                 */
-/*   Updated: 2023/07/18 17:02:05 by dbasting      ########   odam.nl         */
+/*   Updated: 2023/08/01 19:43:17 by dbasting      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,9 @@
 #include <signal.h>
 
 #include "msh_debug.h"
+
+#include <stdio.h>
+#include <unistd.h>
 
 void	msh_loop(t_msh *msh)
 {
@@ -42,7 +45,6 @@ void	msh_loop(t_msh *msh)
 			handler_set(SIGINT, handle_relay);
 			handler_set(SIGQUIT, handle_relay);
 			msh->errno = execute(&msh->cmds, msh);
-			//cmds_view(msh->cmds); //insert executor here
 		}
 		list_clear(&msh->cmds, (t_freef)cmd_free);
 		if (msh->errno >= MSH_GENERIC)
