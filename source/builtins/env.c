@@ -6,7 +6,7 @@
 /*   By: jvan-hal <jvan-hal@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/04/20 16:51:40 by jvan-hal      #+#    #+#                 */
-/*   Updated: 2023/07/18 16:51:19 by dbasting      ########   odam.nl         */
+/*   Updated: 2023/08/01 12:46:45 by dbasting      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,12 +35,8 @@ int	msh_env(t_cmd *cmd, t_msh *msh)
 {
 	if (cmd->argc > 1)
 	{
-		if (i == cmd->argc - 1)
-		{
-			env_error(cmd->io[IO_ERR], cmd->argv.array[i]);
-			return (127);
-		}
-		++i;
+		env_error(cmd->io[IO_ERR], cmd->argv.array[cmd->argc - 1]);
+		return (127);
 	}
 	print_2d_arr(cmd->io[IO_OUT], msh->env.envp, msh->env.len);
 	return (0);
