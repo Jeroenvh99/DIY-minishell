@@ -6,7 +6,7 @@
 #    By: dbasting <marvin@codam.nl>                   +#+                      #
 #                                                    +#+                       #
 #    Created: 2022/12/28 12:06:53 by dbasting      #+#    #+#                  #
-#    Updated: 2023/07/28 15:56:34 by dbasting      ########   odam.nl          #
+#    Updated: 2023/08/01 15:51:24 by dbasting      ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -65,6 +65,7 @@ SRC_FILES	:= main.c\
 			utils/utils_quotes.c\
 			var/var.c\
 			var/var_parse.c\
+			var/var_utils.c\
 			\
 			debug.c
 OBJ_FILES	:= $(patsubst %.c,%.o,$(SRC_FILES))
