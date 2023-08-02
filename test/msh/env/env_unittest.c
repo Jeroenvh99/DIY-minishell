@@ -166,41 +166,41 @@ Test(env, entry_get_2)
 	cr_assert_eq(env_entry_get(&testenv, "LANG"), 3);
 }
 
-// Test(env, entry_getval_0)
-// {
-// 	t_env	testenv;
-// 	char	*environ[] = {"HOME=/Users/jvan-hal", "LOGNAME=jvan-hal", "OLDPWD=/tmp/cd-dash", NULL};
+Test(env, entry_getval_0)
+{
+	t_env	testenv;
+	char	*environ[] = {"HOME=/Users/jvan-hal", "LOGNAME=jvan-hal", "OLDPWD=/tmp/cd-dash", NULL};
 
-// 	env_init(&testenv, environ);
-// 	cr_assert_eq(strcmp(env_entry_getval(&testenv, "LOGNAME"), "jvan-hal"), 0);
-// }
+	env_init(&testenv, environ);
+	cr_assert_eq(strcmp(env_entry_getval(&testenv, "LOGNAME"), "jvan-hal"), 0);
+}
 
-// Test(env, entry_getval_1)
-// {
-// 	t_env	testenv;
-// 	char	*environ[] = {"HOME=/Users/jvan-hal", "LOGNAME=jvan-hal", "OLDPWD=/tmp/cd-dash", NULL};
+Test(env, entry_getval_1)
+{
+	t_env	testenv;
+	char	*environ[] = {"HOME=/Users/jvan-hal", "LOGNAME=jvan-hal", "OLDPWD=/tmp/cd-dash", NULL};
 
-// 	env_init(&testenv, environ);
-// 	cr_assert_null(env_entry_getval(&testenv, "_"));
-// }
+	env_init(&testenv, environ);
+	cr_assert_null(env_entry_getval(&testenv, "_"));
+}
 
-// Test(env, entry_getval_2)
-// {
-// 	t_env	testenv;
-// 	char	*environ[] = {"HOME=/Users/jvan-hal", "LOGNAME=jvan-hal", "OLDPWD=/tmp/cd-dash", NULL};
+Test(env, entry_getval_2)
+{
+	t_env	testenv;
+	char	*environ[] = {"HOME=/Users/jvan-hal", "LOGNAME=jvan-hal", "OLDPWD=/tmp/cd-dash", NULL};
 
-// 	env_init(&testenv, environ);
-// 	cr_assert_null(env_entry_getval(&testenv, "LOG"));
-// }
+	env_init(&testenv, environ);
+	cr_assert_null(env_entry_getval(&testenv, "LOG"));
+}
 
-// Test(env, entry_getval_3)
-// {
-// 	t_env	testenv;
-// 	char	*environ[] = {"HOME=/Users/jvan-hal", "LOGNAME=jvan-hal", "OLDPWD=/tmp/cd-dash", NULL};
+Test(env, entry_getval_3)
+{
+	t_env	testenv;
+	char	*environ[] = {"HOME=/Users/jvan-hal", "LOGNAME=jvan-hal", "OLDPWD=/tmp/cd-dash", NULL};
 
-// 	env_init(&testenv, environ);
-// 	cr_assert_null(env_entry_getval(&testenv, ""));
-// }
+	env_init(&testenv, environ);
+	cr_assert_null(env_entry_getval(&testenv, ""));
+}
 
 Test(env, unset_len_0)
 {
