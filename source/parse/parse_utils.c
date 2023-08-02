@@ -6,7 +6,7 @@
 /*   By: dbasting <marvin@codam.nl>                   +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/01 11:50:28 by dbasting      #+#    #+#                 */
-/*   Updated: 2023/05/15 17:09:47 by dbasting      ########   odam.nl         */
+/*   Updated: 2023/08/02 23:47:35 by dbasting      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,6 @@ char	*token_to_str(t_token *token)
 		return (NULL);
 	str = token->str;
 	free(token);
-    token = NULL;
+	token = NULL;
 	return (str);
 }

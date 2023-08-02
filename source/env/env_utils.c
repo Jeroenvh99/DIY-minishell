@@ -6,7 +6,7 @@
 /*   By: jvan-hal <jvan-hal@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/09 15:57:34 by jvan-hal      #+#    #+#                 */
-/*   Updated: 2023/08/01 22:08:53 by dbasting      ########   odam.nl         */
+/*   Updated: 2023/08/02 23:47:47 by dbasting      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@
 char	*env_entry_build(char const *name, char const *value)
 {
 	char *const	entry = malloc(ft_strlen(name) + ft_strlen(value) + 2);
-	
+
 	if (!entry)
 		return (NULL);
 	entry[0] = '\0';

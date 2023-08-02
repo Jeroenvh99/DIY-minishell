@@ -6,7 +6,7 @@
 /*   By: jvan-hal <jvan-hal@student.codam.nl>         +#+                     */
 /*       dbasting <dbasting@student.codam.nl>        +#+                      */
 /*   Created: 2023/04/18 13:45:34 by jvan-hal      #+#    #+#                 */
-/*   Updated: 2023/08/01 16:54:47 by dbasting      ########   odam.nl         */
+/*   Updated: 2023/08/02 23:47:09 by dbasting      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ int	msh_exit(t_cmd *cmd, t_msh *msh)
 	if (cmd->argc == 2)
 		status = get_status(cmd->argv.array[1]);
 	else
-		status = 0;	
+		status = 0;
 	msh_deinit(msh);
 	exit(status);
 	return (0);
@@ -60,9 +60,9 @@ static void	exit_strerror(int errno)
 
 static int	get_status(char const *str)
 {
-    int i;
+	int i;
 
-    i = 0;
+	i = 0;
 	while (str[i])
 	{
 		if (!ft_isdigit(str[i]))
