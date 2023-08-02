@@ -382,6 +382,84 @@ Test(env, set_len_5)
     cr_assert_eq(testenv.used, 3);
 }
 
+Test(env, update_output_0)
+{
+	t_env   testenv;
+    char	*environ[] = {"HOME=/Users/jvan-hal", "LOGNAME=jvan-hal", "OLDPWD=/tmp/cd-dash", NULL};
+
+    env_init(&testenv, environ);
+    env_update(&testenv, "LOGNAME", "1");
+    env_output(&testenv, "HOME=/Users/jvan-hal\nLOGNAME=1\nOLDPWD=/tmp/cd-dash\n");
+}
+
+Test(env, update_status_0)
+{
+	t_env   testenv;
+    char	*environ[] = {"HOME=/Users/jvan-hal", "LOGNAME=jvan-hal", "OLDPWD=/tmp/cd-dash", NULL};
+
+    env_init(&testenv, environ);
+    cr_assert_eq(env_update(&testenv, "LOGNAME", "1"), 0);
+}
+
+Test(env, update_len_0)
+{
+	t_env   testenv;
+    char	*environ[] = {"HOME=/Users/jvan-hal", "LOGNAME=jvan-hal", "OLDPWD=/tmp/cd-dash", NULL};
+
+    env_init(&testenv, environ);
+    env_update(&testenv, "LOGNAME", "1");
+    cr_assert_eq(testenv.len, 3);
+}
+
+Test(env, update_len_1)
+{
+	t_env   testenv;
+    char	*environ[] = {"HOME=/Users/jvan-hal", "LOGNAME=jvan-hal", "OLDPWD=/tmp/cd-dash", NULL};
+
+    env_init(&testenv, environ);
+    env_update(&testenv, "LOGNAME", "1");
+    cr_assert_eq(testenv.used, 3);
+}
+
+Test(env, update_output_1)
+{
+	t_env   testenv;
+    char	*environ[] = {"HOME=/Users/jvan-hal", "LOGNAME=jvan-hal", "OLDPWD=/tmp/cd-dash", NULL};
+
+    env_init(&testenv, environ);
+    env_update(&testenv, "SHLVL", "4");
+    env_output(&testenv, "HOME=/Users/jvan-hal\nLOGNAME=jvan-hal\nOLDPWD=/tmp/cd-dash\n");
+}
+
+Test(env, update_status_1)
+{
+	t_env   testenv;
+    char	*environ[] = {"HOME=/Users/jvan-hal", "LOGNAME=jvan-hal", "OLDPWD=/tmp/cd-dash", NULL};
+
+    env_init(&testenv, environ);
+    cr_assert_eq(env_update(&testenv, "SHLVL", "4"), 1);
+}
+
+Test(env, update_len_2)
+{
+	t_env   testenv;
+    char	*environ[] = {"HOME=/Users/jvan-hal", "LOGNAME=jvan-hal", "OLDPWD=/tmp/cd-dash", NULL};
+
+    env_init(&testenv, environ);
+    env_update(&testenv, "SHLVL", "4");
+    cr_assert_eq(testenv.len, 3);
+}
+
+Test(env, update_len_3)
+{
+	t_env   testenv;
+    char	*environ[] = {"HOME=/Users/jvan-hal", "LOGNAME=jvan-hal", "OLDPWD=/tmp/cd-dash", NULL};
+
+    env_init(&testenv, environ);
+    env_update(&testenv, "SHLVL", "4");
+    cr_assert_eq(testenv.used, 3);
+}
+
 Test(env, pack_len_0)
 {
     t_env   testenv;

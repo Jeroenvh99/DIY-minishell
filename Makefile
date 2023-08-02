@@ -6,7 +6,7 @@
 #    By: dbasting <marvin@codam.nl>                   +#+                      #
 #                                                    +#+                       #
 #    Created: 2022/12/28 12:06:53 by dbasting      #+#    #+#                  #
-#    Updated: 2023/07/28 15:56:34 by dbasting      ########   odam.nl          #
+#    Updated: 2023/08/02 10:06:09 by jvan-hal      ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -132,7 +132,7 @@ test_echo:
 
 test_env:
 	$(MAKE) -j -C lib/libft
-	cc $(CFLAGS) -lcriterion source/builtins/env.c source/env/env_append_val.c source/env/env_utils.c source/builtins/env_utils.c test/builtins/env/env_unittest.c lib/libft/libft.a && ./a.out
+	cc $(CFLAGS) -lcriterion source/builtins/env.c source/env/env_append_val.c source/env/env_utils.c test/builtins/env/env_unittest.c lib/libft/libft.a && ./a.out
 	rm a.out
 
 test_exit:
@@ -152,7 +152,7 @@ test_pwd:
 
 test_unset:
 	$(MAKE) -j -C lib/libft
-	cc $(CFLAGS) -lcriterion source/builtins/unset.c source/env/env.c source/builtins/env_utils.c source/env/env_append_val.c source/env/env_unset.c source/env/env_utils.c test/builtins/unset/unset_unittest.c lib/libft/libft.a && ./a.out
+	cc $(CFLAGS) -lcriterion source/builtins/unset.c source/env/env.c source/env/env_append_val.c source/env/env_unset.c source/env/env_utils.c test/builtins/unset/unset_unittest.c lib/libft/libft.a && ./a.out
 	rm a.out
 
 test_lexer:
