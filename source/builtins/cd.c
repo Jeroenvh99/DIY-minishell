@@ -6,7 +6,7 @@
 /*   By: jvan-hal <jvan-hal@student.codam.nl>         +#+                     */
 /*       dbasting <dbasting@student.codam.nl>        +#+                      */
 /*   Created: 2023/04/20 16:52:40 by jvan-hal      #+#    #+#                 */
-/*   Updated: 2023/08/01 14:49:40 by dbasting      ########   odam.nl         */
+/*   Updated: 2023/08/03 21:50:05 by dbasting      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ static void	cd_strerror(int errno)
 {
 	char const *const	errstrs[N_CD_ERRNO] = {
 		NULL,
-		"Error"
+		"Error",
 		"Too many arguments",
 		"HOME not set",
 		"OLDPWD not set",
