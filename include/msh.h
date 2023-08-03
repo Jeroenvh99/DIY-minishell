@@ -6,7 +6,7 @@
 /*   By: dbasting <marvin@codam.nl>                   +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/04/18 13:51:16 by dbasting      #+#    #+#                 */
-/*   Updated: 2023/07/28 15:57:33 by dbasting      ########   odam.nl         */
+/*   Updated: 2023/08/03 22:00:45 by dbasting      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,7 +110,6 @@ typedef struct s_msh {
 	t_env			env;
 	t_hashtable		*var;
 	t_list			*cmds;
-	int				exit;
 	t_errno			errno;
 }	t_msh;
 

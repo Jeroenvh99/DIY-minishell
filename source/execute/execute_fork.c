@@ -6,7 +6,7 @@
 /*   By: jvan-hal <jvan-hal@student.codam.nl>         +#+                     */
 /*       dbasting <dbasting@student.codam.nl>        +#+                      */
 /*   Created: 2023/05/16 15:12:17 by jvan-hal      #+#    #+#                 */
-/*   Updated: 2023/08/02 23:44:33 by dbasting      ########   odam.nl         */
+/*   Updated: 2023/08/03 21:56:56 by dbasting      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,8 +44,6 @@ t_errno	execute_builtin(t_builtinf const builtin, t_cmd *cmd, t_msh *msh)
 		}
 		msh->g_msh->exit = fork_wait(msh);
 	}
-	if (msh->g_msh->exit != 0)
-		msh_perror(1, cmd->argv.array[0]);
 	return (MSH_SUCCESS);
 }
 
