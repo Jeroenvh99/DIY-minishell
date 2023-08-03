@@ -6,7 +6,7 @@
 /*   By: jvan-hal <jvan-hal@student.codam.nl>         +#+                     */
 /*       dbasting <dbasting@student.codam.nl>        +#+                      */
 /*   Created: 2023/05/16 15:12:17 by jvan-hal      #+#    #+#                 */
-/*   Updated: 2023/08/03 21:33:37 by dbasting      ########   odam.nl         */
+/*   Updated: 2023/08/03 21:38:05 by dbasting      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 #include "msh_error.h"
 #include "msh_utils.h"
 
-#include <stdio.h>
+#include <signal.h>
 #include <stdlib.h>
 #include <unistd.h>
 
