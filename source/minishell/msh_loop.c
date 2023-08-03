@@ -6,7 +6,7 @@
 /*   By: dbasting <dbasting@codam.nl>                 +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/06/06 15:49:21 by dbasting      #+#    #+#                 */
-/*   Updated: 2023/08/03 21:37:39 by dbasting      ########   odam.nl         */
+/*   Updated: 2023/08/03 21:39:14 by dbasting      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@
 #include "msh_utils.h"
 
 #include "ft_list.h"
+#include <signal.h>
 #include <unistd.h>
 
 void	msh_loop(t_msh *msh)
