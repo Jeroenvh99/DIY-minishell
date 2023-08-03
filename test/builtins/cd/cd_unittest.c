@@ -1,5 +1,6 @@
 #include "libft.h"
 #include "msh.h"
+#include "msh_execute.h"
 #include <criterion/abort.h>
 #include <criterion/alloc.h>
 #include <criterion/assert.h>

@@ -4,9 +4,9 @@
 /*   execute_fork.c                                     :+:    :+:            */
 /*                                                     +:+                    */
 /*   By: jvan-hal <jvan-hal@student.codam.nl>         +#+                     */
-/*       dbasting <dbasting@student.codam.nl>        +#+                      */
+/*                                                   +#+                      */
 /*   Created: 2023/05/16 15:12:17 by jvan-hal      #+#    #+#                 */
-/*   Updated: 2023/07/28 16:39:34 by dbasting      ########   odam.nl         */
+/*   Updated: 2023/08/01 17:26:46 by jvan-hal      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,6 +61,7 @@ static int	fork_wait(t_msh *msh)
 	int	wstatus;
 	int	exit;
 
+	exit = 0;
 	waitpid(msh->g_msh->child, &wstatus, 0);
 	if (WIFEXITED(wstatus))
 		exit = WEXITSTATUS(wstatus);
