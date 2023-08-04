@@ -18,18 +18,6 @@
 #include <stdlib.h>
 #include <stdarg.h>
 
-void	print_2d_arr(int fd, char **arr, size_t size)
-{
-	size_t	i;
-
-	i = 0;
-	while (i < size)
-	{
-		ft_dprintf(fd, "%s\n", arr[i]);
-		++i;
-	}
-}
-
 void	env_output(t_env *env, char *expected)
 {
 	print_2d_arr(1, env->envp, env->len);
