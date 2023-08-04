@@ -6,7 +6,7 @@
 /*   By: dbasting <marvin@codam.nl>                   +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/04/18 13:51:16 by dbasting      #+#    #+#                 */
-/*   Updated: 2023/08/04 14:15:15 by dbasting      ########   odam.nl         */
+/*   Updated: 2023/08/04 15:36:45 by dbasting      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,12 @@ enum e_io {
 	IO_OUT,
 	IO_ERR,
 	N_IO,
+};
+
+enum e_treeop {
+	TREE_OP_NONE = 0,
+	TREE_OP_AND,
+	TREE_OP_OR,
 };
 
 /* Global shell data structure.
@@ -98,22 +104,26 @@ struct s_cmd {
 };
 
 /* Base functions. */
-void	msh_loop(t_msh *msh);
-t_errno	readcmdline(t_list **tokens);
-void	heredoc(char const *delim, int fd, t_msh *msh);
-void	msh_deinit(t_msh *msh);
+void		msh_loop(t_msh *msh);
+t_errno		readcmdline(t_list **tokens);
+void		heredoc(char const *delim, int fd, t_msh *msh);
+void		msh_deinit(t_msh *msh);
+
+/* Command tree functions. */
+t_cmdtree	*cmdtree_init(t_cmdtree *parent);
+void		cmdtree_free(t_cmdtree *tree);
 
 /* Command functions. */
-t_cmd	*cmd_init(size_t argc, char **argv);
-void	cmd_free(t_cmd *cmd);
-void	cmd_free_wrapper(void *cmd);
-void	cmd_free_list(t_cmd *cmd);
-void	cmd_destroy(t_cmd **cmd);
+t_cmd		*cmd_init(size_t argc, char **argv);
+void		cmd_free(t_cmd *cmd);
+void		cmd_free_wrapper(void *cmd);
+void		cmd_free_list(t_cmd *cmd);
+void		cmd_destroy(t_cmd **cmd);
 
 /* Signal functions. */
-void	handler_set(int signum, t_handler handler);
-void	handle_sigint(int signum);
-void	handle_sigint_heredoc(int signum);
-void	handle_relay(int signum);
+void		handler_set(int signum, t_handler handler);
+void		handle_sigint(int signum);
+void		handle_sigint_heredoc(int signum);
+void		handle_relay(int signum);
 
 #endif

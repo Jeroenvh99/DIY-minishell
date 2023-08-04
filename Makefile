@@ -6,7 +6,7 @@
 #    By: dbasting <marvin@codam.nl>                   +#+                      #
 #                                                    +#+                       #
 #    Created: 2022/12/28 12:06:53 by dbasting      #+#    #+#                  #
-#    Updated: 2023/08/01 23:44:00 by dbasting      ########   odam.nl          #
+#    Updated: 2023/08/04 14:33:28 by dbasting      ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -61,6 +61,7 @@ SRC_FILES	:= main.c\
 			parse/parse_operator.c\
 			parse/parse_out.c\
 			parse/parse_pipe.c\
+			parse/parse_pipeline.c\
 			parse/parse_utils.c\
 			parse/parse_word.c\
 			utils/utils_list.c\
