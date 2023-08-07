@@ -6,7 +6,7 @@
 /*   By: jvan-hal <jvan-hal@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/09 15:57:34 by jvan-hal      #+#    #+#                 */
-/*   Updated: 2023/08/07 11:28:27 by jvan-hal      ########   odam.nl         */
+/*   Updated: 2023/08/07 12:29:09 by jvan-hal      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 
 #include "ft_string.h"
 #include <stdlib.h>
+#include <stdio.h>
 
 #define REALLOC_SIZE	3
 
@@ -32,6 +33,7 @@ t_errno	env_set_main(t_env *env, char *entry)
 
 	name = NULL;
 	errno = var_parse(&name, entry);
+	printf("%s\n", name);
 	if (errno == MSH_VAR_ASSIGN)
 		errno = env_assign_val(env, name, entry);
 	else if (errno == MSH_VAR_APPEND)
