@@ -186,7 +186,7 @@ Test(exit_err, input_one_4)
 	t_cmd cmd;
 
 	char	*input[] = {"exit", "d", NULL};
-	char	*expected = "msh: d: exit: numeric argument required\n";
+	char	*expected = "msh: exit: d: numeric argument required\n";
 	cmd.argc = 2;
 	cmd.argv.array = input;
 	assert_exit_output_error(&cmd, expected);
@@ -218,7 +218,7 @@ Test(exit_err, input_two_1)
 	t_cmd cmd;
 
 	char	*input[] = {"exit", "5", "7", NULL};
-	char	*expected = "msh: exit: too many arguments\n";
+	char	*expected = "exit: too many arguments\n";
 	cmd.argc = 3;
 	cmd.argv.array = input;
 	assert_exit_output_error(&cmd, expected);

@@ -126,7 +126,7 @@ Test(env_err, input_one_1)
 	t_cmd cmd;
 
 	char	*input[] = {"env", "-", NULL};
-	char	*expected = "env: -: No such file or directory\n";
+	char	*expected = "msh: env: Invalid argument\n";
 	cmd.argc = 2;
 	cmd.argv.array = input;
 	assert_env_output_error(&cmd, expected);
@@ -158,7 +158,7 @@ Test(env_err, input_one_4)
     t_cmd cmd;
 
     char	*input[] = {"env", "--", NULL};
-    char	*expected = "env: --: No such file or directory\n";
+    char	*expected = "msh: env: Invalid argument\n";
     cmd.argc = 2;
     cmd.argv.array = input;
     assert_env_output_error(&cmd, expected);

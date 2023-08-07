@@ -6,7 +6,7 @@
 /*   By: jvan-hal <jvan-hal@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/04/20 16:27:41 by jvan-hal      #+#    #+#                 */
-/*   Updated: 2023/08/07 15:26:25 by jvan-hal      ########   odam.nl         */
+/*   Updated: 2023/08/07 16:53:28 by jvan-hal      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,8 +25,7 @@ int	msh_pwd(t_cmd *cmd, t_msh *msh)
 	buf = getcwd(buf, 0);
 	if (buf)
 	{
-		if (printf("%s\n", buf) == -1)
-			return (-1);
+		printf("%s\n", buf);
 		free(buf);
 		return (0);
 	}
