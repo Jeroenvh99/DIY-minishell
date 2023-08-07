@@ -6,7 +6,7 @@
 #    By: dbasting <marvin@codam.nl>                   +#+                      #
 #                                                    +#+                       #
 #    Created: 2022/12/28 12:06:53 by dbasting      #+#    #+#                  #
-#    Updated: 2023/07/28 15:56:34 by dbasting      ########   odam.nl          #
+#    Updated: 2023/08/04 11:27:51 by jvan-hal      ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -122,7 +122,7 @@ re: fclean all
 
 test_cd:
 	$(MAKE) -j -C lib/libft
-	cc $(CFLAGS) -lcriterion source/builtins/cd.c source/env/env.c source/env/env_append_val.c source/env/env_search.c source/env/env_set.c source/env/env_utils.c source/var/var_parse.c test/builtins/cd/cd_unittest.c lib/libft/libft.a && ./a.out
+	cc $(CFLAGS) -lcriterion source/builtins/cd.c source/env/env.c source/env/env_append_val.c source/env/env_search.c source/env/env_set.c source/env/env_update.c source/env/env_utils.c source/env/env_basevars.c source/minishell/error.c source/var/var_parse.c test/builtins/cd/cd_unittest.c lib/libft/libft.a && ./a.out
 	rm a.out
 
 test_echo:
@@ -132,7 +132,7 @@ test_echo:
 
 test_env:
 	$(MAKE) -j -C lib/libft
-	cc $(CFLAGS) -lcriterion source/builtins/env.c source/env/env_append_val.c source/env/env_utils.c source/builtins/env_utils.c test/builtins/env/env_unittest.c lib/libft/libft.a && ./a.out
+	cc $(CFLAGS) -lcriterion source/builtins/env.c source/env/env_append_val.c source/env/env_utils.c test/builtins/env/env_unittest.c lib/libft/libft.a && ./a.out
 	rm a.out
 
 test_exit:
@@ -142,7 +142,7 @@ test_exit:
 
 test_export:
 	$(MAKE) -j -C lib/libft
-	cc $(CFLAGS) -lcriterion source/builtins/export.c source/env/env.c source/env/env_append_val.c source/env/env_utils.c source/env/env_search.c source/env/env_set.c source/var/var_parse.c test/builtins/export/export_unittest.c lib/libft/libft.a && ./a.out
+	cc $(CFLAGS) -lcriterion source/builtins/export.c source/env/env.c source/env/env_append_val.c source/env/env_utils.c source/env/env_search.c source/env/env_set.c source/env/env_basevars.c source/var/var_parse.c test/builtins/export/export_unittest.c lib/libft/libft.a && ./a.out
 	rm a.out
 
 test_pwd:
@@ -152,7 +152,7 @@ test_pwd:
 
 test_unset:
 	$(MAKE) -j -C lib/libft
-	cc $(CFLAGS) -lcriterion source/builtins/unset.c source/env/env.c source/builtins/env_utils.c source/env/env_append_val.c source/env/env_unset.c source/env/env_utils.c test/builtins/unset/unset_unittest.c lib/libft/libft.a && ./a.out
+	cc $(CFLAGS) -lcriterion source/builtins/unset.c source/env/env.c source/env/env_append_val.c source/env/env_unset.c source/env/env_utils.c source/env/env_basevars.c test/builtins/unset/unset_unittest.c lib/libft/libft.a && ./a.out
 	rm a.out
 
 test_lexer:
@@ -172,5 +172,5 @@ test_parser:
 
 test_msh_env:
 	$(MAKE) -j -C lib/libft
-	cc $(CFLAGS) -lcriterion source/env/env.c source/env/env_utils.c source/env/env_search.c source/env/env_unset.c source/env/env_set.c source/var/var_parse.c test/msh/env/env_unittest.c lib/libft/libft.a && ./a.out
+	cc $(CFLAGS) -lcriterion source/env/env.c source/env/env_utils.c source/env/env_search.c source/env/env_unset.c source/env/env_set.c source/env/env_append_val.c source/env/env_update.c source/env/env_basevars.c source/var/var_parse.c test/msh/env/env_unittest.c lib/libft/libft.a && ./a.out
 	rm a.out

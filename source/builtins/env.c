@@ -6,7 +6,7 @@
 /*   By: jvan-hal <jvan-hal@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/04/20 16:51:40 by jvan-hal      #+#    #+#                 */
-/*   Updated: 2023/07/18 16:51:19 by dbasting      ########   odam.nl         */
+/*   Updated: 2023/08/01 10:12:20 by jvan-hal      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,28 +19,12 @@ void	env_error(int fd, char *arg)
 	ft_dprintf(fd, "env: %s: No such file or directory\n", arg);
 }
 
-void	print_2d_arr(int fd, char **arr, int size)
-{
-	int	i;
-
-	i = 0;
-	while (i < size)
-	{
-		ft_dprintf(fd, "%s\n", arr[i]);
-		++i;
-	}
-}
-
 int	msh_env(t_cmd *cmd, t_msh *msh)
 {
 	if (cmd->argc > 1)
 	{
-		if (i == cmd->argc - 1)
-		{
-			env_error(cmd->io[IO_ERR], cmd->argv.array[i]);
-			return (127);
-		}
-		++i;
+		env_error(cmd->io[IO_ERR], cmd->argv.array[cmd->argc - 1]);
+		return (127);
 	}
 	print_2d_arr(cmd->io[IO_OUT], msh->env.envp, msh->env.len);
 	return (0);

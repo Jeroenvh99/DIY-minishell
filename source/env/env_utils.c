@@ -6,7 +6,7 @@
 /*   By: jvan-hal <jvan-hal@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/09 15:57:34 by jvan-hal      #+#    #+#                 */
-/*   Updated: 2023/05/22 17:07:59 by dbasting      ########   odam.nl         */
+/*   Updated: 2023/08/01 17:28:17 by jvan-hal      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,20 @@
 #include "msh_var.h"
 
 #include "ft_string.h"
+#include "ft_stdio.h"
 #include <stddef.h>
+
+void	print_2d_arr(int fd, char **arr, size_t size)
+{
+	size_t	i;
+
+	i = 0;
+	while (i < size)
+	{
+		ft_dprintf(fd, "%s\n", arr[i]);
+		++i;
+	}
+}
 
 /* Return the index of the entry in `env` defining `name`. If `name` is not
  * defined in `envp`, the index will be equal to env->len.

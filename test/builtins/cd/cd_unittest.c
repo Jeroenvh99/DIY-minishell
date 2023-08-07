@@ -1,5 +1,6 @@
 #include "libft.h"
 #include "msh.h"
+#include "msh_execute.h"
 #include <criterion/abort.h>
 #include <criterion/alloc.h>
 #include <criterion/assert.h>
@@ -140,57 +141,56 @@ TestSuite(cd, .init = redirect_stdout);
 
 TestSuite(cd_err, .init = redirect_stderr);
 
-// Test(cd, no_arg_with_home_0)
-// {
-// 	t_cmd	cmd;
-// 	char	*input[] = {"cd", NULL};
+Test(cd, no_arg_with_home_0)
+{
+	t_cmd	cmd;
+	char	*input[] = {"cd", NULL};
 
-// 	cmd.argc = 1;
-// 	cmd.argv.array = input;
-// 	system("mkdir /tmp/cd-no_arg_with_home");
-// 	system("cd /tmp/cd-no_arg_with_home");
-// 	assert_cd_dir(&cmd, "/Users/jvan-hal", &env_with_home);
-// 	system("rmdir /tmp/cd-no_arg_with_home");
-// }
+	cmd.argc = 1;
+	cmd.argv.array = input;
+	system("cd");
+	system("mkdir /Users/jvan-hal");
+	system("mkdir /tmp/cd-no_arg_with_home");
+	system("cd /tmp/cd-no_arg_with_home");
+	assert_cd_dir(&cmd, "/Users/jvan-hal", &env_with_home);
+	system("rmdir /tmp/cd-no_arg_with_home");
+}
 
-// Test(cd, no_arg_with_home_1)
-// {
-// 	t_cmd	cmd;
-// 	char	*input[] = {"cd", NULL};
+Test(cd, no_arg_with_home_1)
+{
+	t_cmd	cmd;
+	char	*input[] = {"cd", NULL};
 
-// 	cmd.argc = 1;
-// 	cmd.argv.array = input;
-// 	system("cd");
-// 	system("mkdir /Users/jvan-hal");
-// 	assert_cd_status(&cmd, 0, &env_with_home);
-// 	system("rmdir /tmp/cd-no_arg_with_home");
-// }
+	cmd.argc = 1;
+	cmd.argv.array = input;
+	system("cd");
+	system("mkdir /Users/jvan-hal");
+	assert_cd_status(&cmd, 0, &env_with_home);
+}
 
-// Test(cd, no_arg_with_home_2)
-// {
-// 	t_cmd	cmd;
-// 	char	*input[] = {"cd", NULL};
+Test(cd, no_arg_with_home_2)
+{
+	t_cmd	cmd;
+	char	*input[] = {"cd", NULL};
 
-// 	cmd.argc = 1;
-// 	cmd.argv.array = input;
-// 	system("cd");
-// 	system("mkdir /Users/jvan-hal");
-// 	assert_cd_env(&cmd, "OLDPWD", 1, &env_with_home);
-// 	system("rmdir /tmp/cd-no_arg_with_home");
-// }
+	cmd.argc = 1;
+	cmd.argv.array = input;
+	system("cd");
+	system("mkdir /Users/jvan-hal");
+	assert_cd_env(&cmd, "OLDPWD", 1, &env_with_home);
+}
 
-// Test(cd, no_arg_with_home_3)
-// {
-// 	t_cmd	cmd;
-// 	char	*input[] = {"cd", NULL};
+Test(cd, no_arg_with_home_3)
+{
+	t_cmd	cmd;
+	char	*input[] = {"cd", NULL};
 
-// 	cmd.argc = 1;
-// 	cmd.argv.array = input;
-// 	system("cd");
-// 	system("mkdir /Users/jvan-hal");
-// 	assert_cd_env(&cmd, "PWD", 1, &env_with_home);
-// 	system("rmdir /tmp/cd-no_arg_with_home");
-// }
+	cmd.argc = 1;
+	cmd.argv.array = input;
+	system("cd");
+	system("mkdir /Users/jvan-hal");
+	assert_cd_env(&cmd, "PWD", 1, &env_with_home);
+}
 
 Test(cd_err, no_arg_without_home_0)
 {
