@@ -397,7 +397,6 @@ Test(env, update_output_0)
 
     env_init(&testenv, environ);
     env_update(&testenv, "LOGNAME", "1");
-	_env_print_test(testenv.envp);
     env_output(&testenv, "HOME=/Users/jvan-hal\nLOGNAME=1\nOLDPWD=/tmp/cd-dash\nSHLVL=1\n");
 }
 
