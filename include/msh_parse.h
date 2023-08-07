@@ -6,7 +6,7 @@
 /*   By: dbasting <marvin@codam.nl>                   +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/04/18 13:46:33 by dbasting      #+#    #+#                 */
-/*   Updated: 2023/06/20 21:52:47 by dbasting      ########   odam.nl         */
+/*   Updated: 2023/08/04 14:16:49 by dbasting      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,25 @@ typedef enum e_toktype {
 	N_TOK,
 }	t_toktype;
 
+enum e_in_mode {
+	IN_STD,
+	IN_REDIRECT,
+	IN_HEREDOC,
+	N_IN_MODE,
+};
+
+enum e_out_mode {
+	OUT_STD,
+	OUT_REDIRECT,
+	OUT_APPEND,
+	N_OUT_MODE,
+};
+
+enum e_pipeends {
+	PIPE_READ = 0,
+	PIPE_WRITE,
+};
+
 # define N_TOK_ARG				5 /* Tokens to pass as command arguments. */
 # define TOK_META_MIN			1 /* The first non-word token (TOK_STDIN). */
 # define N_TOK_META				9 /* Non-word tokens. */
@@ -66,7 +85,7 @@ typedef struct s_token {
 }	t_token;
 
 typedef t_errno	(*t_argparsef)(t_cmd *cmd, t_list **tokens, t_msh *msh);
-//typedef t_list	*(t_ctlparsef)(t_cmdtree *, t_list **tokens, t_msh *msh);
+typedef t_list	*(t_ctlparsef)(t_cmdtree *, t_list **tokens, t_msh *msh);
 
 // Token functions.
 t_token	*token_init(char *str, t_toktype type);
@@ -90,8 +109,8 @@ t_errno	parse_heredoc(t_cmd *cmd, t_list **tokens, t_msh *msh);
 t_errno	parse_output(t_cmd *cmd, t_list **tokens, t_msh *msh);
 t_errno	parse_output_append(t_cmd *cmd, t_list **tokens, t_msh *msh);
 
-//t_errno	parse_and(t_cmd *cmd, t_list **tokens, t_msh *msh);
-//t_errno	parse_or(t_cmd *cmd, t_list **tokens, t_msh *msh);
+t_errno	parse_and(t_cmdtree *tree, t_list **tokens, t_msh *msh);
+t_errno	parse_or(t_cmdtree *tree, t_list **tokens, t_msh *msh);
 
 t_errno	parse_iofile(char **name, t_list **tokens, t_msh *msh);
 

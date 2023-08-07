@@ -6,7 +6,7 @@
 /*   By: jvan-hal <jvan-hal@student.codam.nl>         +#+                     */
 /*       dbasting <dbasting@student.codam.nl>        +#+                      */
 /*   Created: 2023/04/20 16:52:40 by jvan-hal      #+#    #+#                 */
-/*   Updated: 2023/07/28 10:46:54 by dbasting      ########   odam.nl         */
+/*   Updated: 2023/08/03 21:50:05 by dbasting      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,27 +17,32 @@
 #include "ft_stdio.h"
 #include <limits.h>
 #include <stdlib.h>
+#include <stdio.h>
 #include <unistd.h>
 
-//static int	copy_str(const char *src, char *dst, int i, int n);
-//static char	*ft_strjoin_dir(char const *s1, char const *s2);
-//static char	*get_env_dir(char *name, t_cmd *cmd, t_msh *msh);
+enum e_cderrno {
+	CD_SUCCESS = 0,
+	CD_ERROR,
+	CD_MAXARG,
+	CD_NOHOME,
+	CD_NOOLDPWD,
+	N_CD_ERRNO,
+};
+
+static void	cd_strerror(int errno);
 static char	*get_dstdir(t_cmd *cmd, t_msh *msh);
 static int	get_path(char *buf, char const *cwd, char const *dir);
 
 int	msh_cd(t_cmd *cmd, t_msh *msh)
 {
-	char *const	dstdir = get_dstdir(cmd, msh);
-	char *const	cwd = getcwd(NULL, 0);
-	char		path[PATH_MAX];
+	char const *const	dstdir = get_dstdir(cmd, msh);
+	char *const			cwd = getcwd(NULL, 0);
+	char				path[PATH_MAX];
 
 	if (!cwd || !dstdir)
 		return (free(cwd), 1);
 	if (cmd->argc > 2)
-	{
-		ft_dprintf(2, "msh: cd: too many arguments\n"); //msh_strerror
-		return (free(cwd), 1);
-	}
+		return (cd_strerror(CD_MAXARG), free(cwd), 1);
 	if (get_path(path, cwd, dstdir) != 0)
 		return (msh_perror(1, "cd"), 1);
 	if (chdir(path) != 0)
@@ -49,7 +54,19 @@ int	msh_cd(t_cmd *cmd, t_msh *msh)
 	free(cwd);
 	return (0);
 }
-//DB: bash voegt OLDPWD en PWD niet toe als ze niet al bestaan
+
+static void	cd_strerror(int errno)
+{
+	char const *const	errstrs[N_CD_ERRNO] = {
+		NULL,
+		"Error",
+		"Too many arguments",
+		"HOME not set",
+		"OLDPWD not set",
+	};
+
+	ft_dprintf(STDERR_FILENO, "msh: cd: %s\n", errstrs[errno]);
+}
 
 static int	get_path(char *buf, char const *cwd, char const *dir)
 {
@@ -62,63 +79,24 @@ static int	get_path(char *buf, char const *cwd, char const *dir)
 	return (ft_strlcat(buf, dir, PATH_MAX) > PATH_MAX);
 }
 
-/*static int	copy_str(const char *src, char *dst, int i, int n)
-{
-	while (i < n)
-	{
-		dst[i] = *src;
-		++i;
-		++src;
-	}
-	return (i);
-}
-
-static char	*ft_strjoin_dir(char const *s1, char const *s2)
-{
-	char	*string;
-	size_t	len1;
-	size_t	len2;
-	int		i;
-
-	len1 = ft_strlen(s1);
-	len2 = ft_strlen(s2);
-	if (ft_strchr(s2, '/'))
-		--len2;
-	string = malloc((len1 + len2 + 2) * sizeof(char));
-	if (string == NULL)
-		return (NULL);
-	i = copy_str(s1, string, 0, len1);
-	string[i] = '/';
-	++i;
-	len2 += len1 + 1;
-	i = copy_str(s2, string, i, len2);
-	string[i] = '\0';
-	return (string);
-}*/
-
-static char	*get_env_dir(char *name, t_cmd *cmd, t_msh *msh)
-{
-	char *const	dstdir = env_search(&msh->env, name);
-
-	if (dstdir == NULL)
-		ft_dprintf(cmd->io[IO_ERR], "msh: cd: %s not set\n", name);
-	return (dstdir);
-}
-
 static char	*get_dstdir(t_cmd *cmd, t_msh *msh)
 {
 	char	*dstdir;
 
-	if (cmd->argc == 1)
-		dstdir = get_env_dir("HOME", cmd, msh);
+	if (cmd->argc == 1 || ft_strncmp(cmd->argv.array[1], "--", 3) == 0)
+	{
+		dstdir = env_search(&msh->env, "HOME");
+		if (!dstdir)
+			cd_strerror(CD_NOHOME);
+	}
 	else if (ft_strncmp(cmd->argv.array[1], "-", 2) == 0)
 	{
-		dstdir = get_env_dir("OLDPWD", cmd, msh);
+		dstdir = env_search(&msh->env, "OLDPWD");
 		if (dstdir)
-			ft_dprintf(cmd->io[IO_OUT], "%s\n", dstdir);
+			printf("%s\n", dstdir);
+		else
+			cd_strerror(CD_NOOLDPWD);
 	}
-	else if (ft_strncmp(cmd->argv.array[1], "--", 3) == 0)
-		dstdir = get_env_dir("HOME", cmd, msh);
 	else
 		dstdir = cmd->argv.array[1];
 	return (dstdir);

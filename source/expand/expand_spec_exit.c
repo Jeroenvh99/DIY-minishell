@@ -6,7 +6,7 @@
 /*   By: dbasting <marvin@codam.nl>                   +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/15 15:39:15 by dbasting      #+#    #+#                 */
-/*   Updated: 2023/05/15 15:39:16 by dbasting      ########   odam.nl         */
+/*   Updated: 2023/08/03 22:13:53 by dbasting      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,11 +20,10 @@
 
 t_errno	expand_spec_exit(t_expstr *expstr, size_t *exp_len, t_msh *msh)
 {
-	char	*exp;
-	t_errno	errno;
+	char *const	exp = ft_itoa(msh->g_msh->exit);
+	t_errno		errno;
 
-	exp = ft_itoa(msh->exit);
-	if (exp == NULL)
+	if (!exp)
 		return (MSH_MEMFAIL);
 	*exp_len += ft_strlen(exp);
 	errno = expstr_resize(expstr, 1, exp, *exp_len);

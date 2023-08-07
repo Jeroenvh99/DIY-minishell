@@ -6,7 +6,7 @@
 /*   By: dbasting <marvin@codam.nl>                   +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/15 15:39:32 by dbasting      #+#    #+#                 */
-/*   Updated: 2023/05/15 15:39:32 by dbasting      ########   odam.nl         */
+/*   Updated: 2023/08/03 22:13:15 by dbasting      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,28 +20,22 @@
 
 t_errno	expand_spec_pos1(t_expstr *expstr, size_t *exp_len, t_msh *msh)
 {
-	char	*exp;
-	t_errno	errno;
+	char const *const	exp = "";
+	t_errno				errno;
 
-	exp = ft_itoa(msh->exit);
-	if (exp == NULL)
-		return (MSH_MEMFAIL);
+	(void) msh;
 	*exp_len += ft_strlen(exp);
 	errno = expstr_resize(expstr, 1, exp, *exp_len);
-	free(exp);
 	return (errno);
 }
 
 t_errno	expand_spec_pos2(t_expstr *expstr, size_t *exp_len, t_msh *msh)
 {
-	char	*exp;
-	t_errno	errno;
+	char const *const	exp = "";
+	t_errno				errno;
 
-	exp = ft_itoa(msh->exit);
-	if (exp == NULL)
-		return (MSH_MEMFAIL);
+	(void) msh;
 	*exp_len += ft_strlen(exp);
 	errno = expstr_resize(expstr, 1, exp, *exp_len);
-	free(exp);
 	return (errno);
 }

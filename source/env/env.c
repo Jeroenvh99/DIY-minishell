@@ -4,9 +4,9 @@
 /*   env.c                                              :+:    :+:            */
 /*                                                     +:+                    */
 /*   By: jvan-hal <jvan-hal@student.codam.nl>         +#+                     */
-/*                                                   +#+                      */
+/*       dbasting <dbasting@student.codam.nl>        +#+                      */
 /*   Created: 2023/05/09 15:57:34 by jvan-hal      #+#    #+#                 */
-/*   Updated: 2023/05/22 16:41:39 by dbasting      ########   odam.nl         */
+/*   Updated: 2023/08/01 23:40:46 by dbasting      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,8 @@ t_errno	env_init(t_env *env, char **envp)
 		env->used++;
 	}
 	env->envp[env->used] = NULL;
+	if (env_basevars_set(env) != MSH_SUCCESS)
+		return (env_free(env), MSH_MEMFAIL);
 	return (MSH_SUCCESS);
 }
 

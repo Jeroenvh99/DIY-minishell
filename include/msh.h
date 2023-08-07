@@ -6,7 +6,7 @@
 /*   By: dbasting <marvin@codam.nl>                   +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/04/18 13:51:16 by dbasting      #+#    #+#                 */
-/*   Updated: 2023/07/28 15:57:33 by dbasting      ########   odam.nl         */
+/*   Updated: 2023/08/04 15:36:45 by dbasting      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,27 +26,11 @@
 # define PROMPT_PIPE	"pipe> "
 # define PROMPT_QUOTE	"dquote> "
 
-typedef enum e_in_mode {
-	IN_STD,
-	IN_REDIRECT,
-	IN_HEREDOC,
-	N_IN_MODE,
-}	t_in_mode;
-
-typedef enum e_out_mode {
-	OUT_STD,
-	OUT_REDIRECT,
-	OUT_APPEND,
-	N_OUT_MODE,
-}	t_out_mode;
-
-typedef void	(*t_handler)(int);
-typedef int		t_fd;
-
-enum e_pipeends {
-	PIPE_READ = 0,
-	PIPE_WRITE,
-};
+typedef struct s_msh		t_msh;
+typedef struct s_cmd		t_cmd;
+typedef struct s_cmdtree	t_cmdtree;
+typedef void				(*t_handler)(int);
+typedef int					t_fd;
 
 enum e_io {
 	IO_IN = 0,
@@ -55,39 +39,11 @@ enum e_io {
 	N_IO,
 };
 
-/* Simple command object.
- * @param path	The path to the executable (or the name of the builtin).
- * @param argc	The number of arguments supplied.
- * @param argv	The values of the command arguments.
- * @param io	Data pertaining to I/O processing.
- * @param sub	Whether the command is to be executed in a subshell.
- */
-typedef struct s_cmd {
-	size_t	argc;
-	union u_argv {
-		t_list	*list;
-		char	**array;
-	} argv;
-	t_fd	io[N_IO];
-	int		subsh;
-}	t_cmd;
-
-/* Command tree object.
- * @param pipeline	The command pipeline.
- * @param branches	The left and right-hand nodes.
- * @param parent	The parent node.
- * @param op		The operation to be performed
- * NOTE: A node will only have branches if its `op` member has been set to a
- * non-NULL value.
- */
-typedef struct s_cmdtree {
-	union u_data {
-		t_list				*pipeline;
-		struct s_cmdtree	*branches[2];
-	} data;
-	struct s_cmdtree		*parent;
-	int						op;
-}	t_cmdtree;
+enum e_treeop {
+	TREE_OP_NONE = 0,
+	TREE_OP_AND,
+	TREE_OP_OR,
+};
 
 /* Global shell data structure.
  * @param exit		The exit status of the most recently executed pipe.
@@ -105,32 +61,69 @@ struct s_g_msh {
  * @param cmds	The current command queue.
  * @param errno	The current error code.
  */
-typedef struct s_msh {
+struct s_msh {
 	struct s_g_msh	*g_msh;
 	t_env			env;
 	t_hashtable		*var;
 	t_list			*cmds;
-	int				exit;
 	t_errno			errno;
-}	t_msh;
+};
+
+/* Command tree object.
+ * @param pipeline	The command pipeline.
+ * @param branches	The left and right-hand nodes.
+ * @param parent	The parent node.
+ * @param op		The operation to be performed
+ * NOTE: A node will only have branches if its `op` member has been set to a
+ * non-NULL value.
+ */
+struct s_cmdtree {
+	union u_data {
+		t_list				*pipeline;
+		struct s_cmdtree	*branches[2];
+	} data;
+	struct s_cmdtree		*parent;
+	int						op;
+};
+
+/* Simple command object.
+ * @param path	The path to the executable (or the name of the builtin).
+ * @param argc	The number of arguments supplied.
+ * @param argv	The values of the command arguments.
+ * @param io	Data pertaining to I/O processing.
+ * @param sub	Whether the command is to be executed in a subshell.
+ */
+struct s_cmd {
+	size_t	argc;
+	union u_argv {
+		t_list	*list;
+		char	**array;
+	} argv;
+	t_fd	io[N_IO];
+	int		subsh;
+};
 
 /* Base functions. */
-void	msh_loop(t_msh *msh);
-t_errno	readcmdline(t_list **tokens);
-void	heredoc(char const *delim, int fd, t_msh *msh);
-void	msh_deinit(t_msh *msh);
+void		msh_loop(t_msh *msh);
+t_errno		readcmdline(t_list **tokens);
+void		heredoc(char const *delim, int fd, t_msh *msh);
+void		msh_deinit(t_msh *msh);
+
+/* Command tree functions. */
+t_cmdtree	*cmdtree_init(t_cmdtree *parent);
+void		cmdtree_free(t_cmdtree *tree);
 
 /* Command functions. */
-t_cmd	*cmd_init(size_t argc, char **argv);
-void	cmd_free(t_cmd *cmd);
-void	cmd_free_wrapper(void *cmd);
-void	cmd_free_list(t_cmd *cmd);
-void	cmd_destroy(t_cmd **cmd);
+t_cmd		*cmd_init(size_t argc, char **argv);
+void		cmd_free(t_cmd *cmd);
+void		cmd_free_wrapper(void *cmd);
+void		cmd_free_list(t_cmd *cmd);
+void		cmd_destroy(t_cmd **cmd);
 
 /* Signal functions. */
-void	handler_set(int signum, t_handler handler);
-void	handle_sigint(int signum);
-void	handle_sigint_heredoc(int signum);
-void	handle_relay(int signum);
+void		handler_set(int signum, t_handler handler);
+void		handle_sigint(int signum);
+void		handle_sigint_heredoc(int signum);
+void		handle_relay(int signum);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: jvan-hal <jvan-hal@student.codam.nl>         +#+                     */
 /*       dbasting <dbasting@student.codam.nl>        +#+                      */
 /*   Created: 2023/05/16 15:12:17 by jvan-hal      #+#    #+#                 */
-/*   Updated: 2023/07/18 16:52:04 by dbasting      ########   odam.nl         */
+/*   Updated: 2023/08/03 21:38:05 by dbasting      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,13 +15,15 @@
 #include "msh_error.h"
 #include "msh_utils.h"
 
-#include <stdio.h>
+#include <signal.h>
 #include <stdlib.h>
 #include <unistd.h>
 
 /* Execute `cmdtree`. `cmdtree` is consumed. */
 t_errno	execute(t_list **pipeline, t_msh *msh)
 {
+	handler_set(SIGINT, handle_relay);
+	handler_set(SIGQUIT, handle_relay);
 	env_pack(&msh->env);
 	return (execute_pipeline(pipeline, msh));
 }

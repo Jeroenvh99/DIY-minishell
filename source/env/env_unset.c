@@ -6,7 +6,7 @@
 /*   By: jvan-hal <jvan-hal@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/09 15:57:34 by jvan-hal      #+#    #+#                 */
-/*   Updated: 2023/05/22 16:17:45 by dbasting      ########   odam.nl         */
+/*   Updated: 2023/08/02 23:48:01 by dbasting      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,5 +25,5 @@ t_errno	env_unset(t_env	*env, char const *name)
 	free(env->envp[entry_i]);
 	env->envp[entry_i] = NULL;
 	env->used--;
-    return (MSH_SUCCESS);
+	return (MSH_SUCCESS);
 }

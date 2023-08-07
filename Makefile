@@ -6,7 +6,7 @@
 #    By: dbasting <marvin@codam.nl>                   +#+                      #
 #                                                    +#+                       #
 #    Created: 2022/12/28 12:06:53 by dbasting      #+#    #+#                  #
-#    Updated: 2023/08/04 11:27:51 by jvan-hal      ########   odam.nl          #
+#    Updated: 2023/08/04 14:33:28 by dbasting      ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -24,8 +24,10 @@ SRC_FILES	:= main.c\
 			builtins/unset.c\
 			env/env.c\
 			env/env_append_val.c\
+			env/env_basevars.c\
 			env/env_search.c\
 			env/env_set.c\
+			env/env_set_main.c\
 			env/env_unset.c\
 			env/env_update.c\
 			env/env_utils.c\
@@ -59,12 +61,14 @@ SRC_FILES	:= main.c\
 			parse/parse_operator.c\
 			parse/parse_out.c\
 			parse/parse_pipe.c\
+			parse/parse_pipeline.c\
 			parse/parse_utils.c\
 			parse/parse_word.c\
 			utils/utils_list.c\
 			utils/utils_quotes.c\
 			var/var.c\
 			var/var_parse.c\
+			var/var_utils.c\
 			\
 			debug.c
 OBJ_FILES	:= $(patsubst %.c,%.o,$(SRC_FILES))

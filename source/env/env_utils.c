@@ -6,7 +6,7 @@
 /*   By: jvan-hal <jvan-hal@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/09 15:57:34 by jvan-hal      #+#    #+#                 */
-/*   Updated: 2023/08/01 17:28:17 by jvan-hal      ########   odam.nl         */
+/*   Updated: 2023/08/02 23:47:47 by dbasting      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,21 @@
 #include "ft_string.h"
 #include "ft_stdio.h"
 #include <stddef.h>
+#include <stdlib.h>
+
+/* Construct an environment string from `name` and `value`. */
+char	*env_entry_build(char const *name, char const *value)
+{
+	char *const	entry = malloc(ft_strlen(name) + ft_strlen(value) + 2);
+
+	if (!entry)
+		return (NULL);
+	entry[0] = '\0';
+	ft_strlcat(entry, name, -1);
+	ft_strlcat(entry, "=", -1);
+	ft_strlcat(entry, value, -1);
+	return (entry);
+}	
 
 void	print_2d_arr(int fd, char **arr, size_t size)
 {

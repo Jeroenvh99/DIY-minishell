@@ -6,7 +6,7 @@
 /*   By: dbasting <dbasting@codam.nl>                 +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/22 08:45:12 by dbasting      #+#    #+#                 */
-/*   Updated: 2023/07/17 12:45:38 by dbasting      ########   odam.nl         */
+/*   Updated: 2023/08/01 15:07:49 by dbasting      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
 
 static inline size_t	is_varstr(char const *str);
 
-/* Attempts to parse `str` to yield a name and value, which are to be allocated
+/* Attempt to parse `str` to yield a name and value, which are to be allocated
  * to `name` and `value`. Passing NULL for either of these parameters will
  * cause the function to forego parsing of that particular datum. Returns
  * MSH_NO_VARSTR if `str` is not a varstring, MSH_MEMFAIL on memory allocation

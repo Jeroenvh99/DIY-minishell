@@ -6,7 +6,7 @@
 /*   By: dbasting <dbasting@codam.nl>                 +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/22 08:45:23 by dbasting      #+#    #+#                 */
-/*   Updated: 2023/06/20 21:50:42 by dbasting      ########   odam.nl         */
+/*   Updated: 2023/08/02 23:47:19 by dbasting      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ t_errno	parse_cmd(t_cmd *cmd, t_list **tokens, t_msh *msh)
 static t_errno	cmd_convert(t_cmd *cmd)
 {
 	t_errno	errno;
-	
+
 	errno = cmd_argconvert(cmd);
 	if (errno != MSH_SUCCESS)
 		return (errno);

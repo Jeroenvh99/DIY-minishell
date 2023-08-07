@@ -6,7 +6,7 @@
 /*   By: jvan-hal <jvan-hal@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/16 15:12:17 by jvan-hal      #+#    #+#                 */
-/*   Updated: 2023/08/01 17:26:46 by jvan-hal      ########   odam.nl         */
+/*   Updated: 2023/08/03 21:56:56 by dbasting      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,16 +30,20 @@ static t_errno	fd_set_standard(t_cmd *cmd);
 t_errno	execute_builtin(t_builtinf const builtin, t_cmd *cmd, t_msh *msh)
 {
 	if (cmd->subsh == 0)
-	{
 		msh->g_msh->exit = builtin(cmd, msh);
-		return (MSH_SUCCESS);
+	else
+	{
+		msh->g_msh->child = fork();
+		if (msh->g_msh->child == -1)
+			return (msh_perror(0), MSH_FORKFAIL);
+		if (msh->g_msh->child == 0)
+		{
+			if (fd_set_standard(cmd) != 0)
+				msh_perror(0);
+			exit(builtin(cmd, msh));
+		}
+		msh->g_msh->exit = fork_wait(msh);
 	}
-	msh->g_msh->child = fork();
-	if (msh->g_msh->child == -1)
-		return (msh_perror(0), MSH_FORKFAIL);
-	if (msh->g_msh->child == 0)
-		exit(builtin(cmd, msh));
-	msh->g_msh->exit = fork_wait(msh);
 	return (MSH_SUCCESS);
 }
 
@@ -77,7 +81,7 @@ static void	launch(t_cmd *cmd, t_msh *msh)
 	char		pname[PATH_MAX];
 	char *const	fname = cmd->argv.array[0];
 
-	if (fd_set_standard(cmd) != 0)
+	if (fd_set_standard(cmd) == 0)
 	{
 		if (get_pathname(pname, fname, env_search(&msh->env, "PATH")) == 0)
 			execve(pname, cmd->argv.array, msh->env.envp);
@@ -89,6 +93,18 @@ static void	launch(t_cmd *cmd, t_msh *msh)
 	exit(EXIT_FAILURE);
 }
 
+/* Wait for the child process. Return the child's exit status. */
+static int	fork_wait(t_msh *msh)
+{
+	int	wstatus;
+
+	waitpid(msh->g_msh->child, &wstatus, 0);
+	msh->g_msh->child = 0;
+	if (WIFSIGNALED(wstatus))
+		return (WTERMSIG(wstatus) + 128);
+	return (WEXITSTATUS(wstatus));
+}
+
 /* Merge the file descriptors on `cmd` with the standard streams. */
 static inline t_errno	fd_set_standard(t_cmd *cmd)
 {
@@ -97,10 +113,12 @@ static inline t_errno	fd_set_standard(t_cmd *cmd)
 	fd = STDIN_FILENO;
 	while (fd < N_IO)
 	{
-		if (dup2(cmd->io[fd], fd) != 0)
-			return (1);
-		close(cmd->io[fd]);
-		cmd->io[fd] = -1;
+		if (cmd->io[fd] != fd)
+		{
+			if (dup2(cmd->io[fd], fd) == -1)
+				return (1);
+			close(cmd->io[fd]);
+		}
 		fd++;
 	}
 	return (0);

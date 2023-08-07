@@ -6,7 +6,7 @@
 /*   By: dbasting <marvin@codam.nl>                   +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/04/18 14:13:15 by dbasting      #+#    #+#                 */
-/*   Updated: 2023/08/03 14:29:26 by jvan-hal      ########   odam.nl         */
+/*   Updated: 2023/08/03 22:01:41 by dbasting      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,5 @@ static t_errno	msh_init(t_msh *msh, int argc, char **argv, char **envp)
 	if (msh->var == NULL)
 		return (env_free(&msh->env), MSH_MEMFAIL);
 	msh->cmds = NULL;
-	msh->exit = 0;
 	return (MSH_SUCCESS);
 }

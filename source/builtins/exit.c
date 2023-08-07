@@ -3,57 +3,76 @@
 /*                                                        ::::::::            */
 /*   exit.c                                             :+:    :+:            */
 /*                                                     +:+                    */
-/*   By: jvan-hal <marvin@codam.nl>                   +#+                     */
-/*                                                   +#+                      */
+/*   By: jvan-hal <jvan-hal@student.codam.nl>         +#+                     */
+/*       dbasting <dbasting@student.codam.nl>        +#+                      */
 /*   Created: 2023/04/18 13:45:34 by jvan-hal      #+#    #+#                 */
 /*   Updated: 2023/08/04 11:30:29 by jvan-hal      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "msh_execute.h"
+#include "msh.h"
+
 #include "ft_ctype.h"
 #include "ft_stdlib.h"
 #include "ft_stdio.h"
-#include "msh.h"
-#include "msh_utils.h"
+#include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
 
-int	check_arg(char *str, int errfd)
-{
-    int i;
+enum e_exiterrno {
+	EXIT_SUCCESS_ = 0,
+	EXIT_INVARG,
+	N_EXIT_ERRNO,
+};
 
-    i = 0;
-	while (str[i])
-	{
-		if (!ft_isdigit(str[i]))
-		{
-			ft_dprintf(errfd, "msh: %s: exit: numeric argument required\n", str);
-			return (0);
-		}
-		++i;
-	}
-	return (1);
-}
+static void	exit_strerror(int errno);
+static int	get_status(char const *str);
 
+/**
+ * @brief	Exit the shell.
+ * @return	Never returns, or returns 1 on error.
+ */
 int	msh_exit(t_cmd *cmd, t_msh *msh)
 {
 	int	status;
 
 	status = msh->g_msh->exit;
 	if (cmd->argc > 2)
-	{
-		ft_dprintf(cmd->io[IO_ERR], "msh: exit: too many arguments\n");
-		return (1);
-	}
-	ft_dprintf(cmd->io[IO_OUT], "exit\n");
+		return (exit_strerror(EXIT_INVARG), 1);
+	printf("exit\n");
 	if (cmd->argc == 2)
-	{
-		if (check_arg(cmd->argv.array[1], cmd->io[IO_ERR]))
-			status = ft_atoi(cmd->argv.array[1]);
-		else
-			status = 255;
-	}
+		status = get_status(cmd->argv.array[1]);
+	else
+		status = 0;
 	msh_deinit(msh);
 	exit(status);
-    return (0);
+	return (0);
+}
+
+static void	exit_strerror(int errno)
+{
+	char const *const	errmsg[N_EXIT_ERRNO] = {
+		NULL,
+		"Too many arguments"};
+
+	ft_dprintf(STDERR_FILENO, "msh: exit: %s\n", errmsg[errno]);
+}
+
+static int	get_status(char const *str)
+{
+	int i;
+
+	i = 0;
+	while (str[i])
+	{
+		if (!ft_isdigit(str[i]))
+		{
+			ft_dprintf(STDERR_FILENO, "msh: exit: %s: numeric argument "
+				"required\n", str);
+			return (2);
+		}
+		++i;
+	}
+	return (ft_atoi(str));
 }

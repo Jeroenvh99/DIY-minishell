@@ -6,7 +6,7 @@
 /*   By: dbasting <dbasting@codam.nl>                 +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/07/28 10:37:04 by dbasting      #+#    #+#                 */
-/*   Updated: 2023/07/28 10:47:35 by dbasting      ########   odam.nl         */
+/*   Updated: 2023/08/01 23:02:55 by dbasting      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,37 +16,25 @@
 #include <stddef.h>
 #include <stdlib.h>
 
-static char	*entry_build(char const *name, char const *value);
-
-/* Check if `env` holds an entry under `name` and update it if it does. Do
- * nothing if the entry does not exist.
+/**
+ * @brief	Check if `env` holds an entry under `name` and update it if it
+ * does. Do nothing if the entry does not exist.
+ * @return	An exit status:
+ * 			- 0: `name` updated successfully.
+ * 			- 1: `name` is not defined.
+ * 			- 2: A memory allocation error occured.
  */
 int	env_update(t_env *env, char const *name, char const *value)
 {
-	char	*entry;
-	size_t	i;
+	char *const	entry = env_entry_build(name, value);
+	size_t		i;
 
-	i = env_entry_get(env, name);
-	if (!env->envp[i])
-		return (1);
-	entry = entry_build(name, value);
 	if (!entry)
 		return (2);
+	i = env_entry_get(env, name);
+	if (!env->envp[i])
+		return (free(entry), 1);
 	free(env->envp[i]);
 	env->envp[i] = entry;
 	return (0);
 }
-
-static char	*entry_build(char const *name, char const *value)
-{
-	char *const	entry = malloc(ft_strlen(name) + ft_strlen(value) + 2);
-	
-	if (!entry)
-		return (NULL);
-	entry[0] = '\0';
-	ft_strlcat(entry, name, -1);
-	ft_strlcat(entry, "=", -1);
-	ft_strlcat(entry, value, -1);
-	return (entry);
-}	
-

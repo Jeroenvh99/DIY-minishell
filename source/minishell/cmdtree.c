@@ -1,30 +1,38 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   expand_spec_nparam.c                               :+:    :+:            */
+/*   cmdtree.c                                          :+:    :+:            */
 /*                                                     +:+                    */
 /*   By: dbasting <marvin@codam.nl>                   +#+                     */
 /*                                                   +#+                      */
-/*   Created: 2023/05/15 15:39:20 by dbasting      #+#    #+#                 */
-/*   Updated: 2023/08/03 22:12:43 by dbasting      ########   odam.nl         */
+/*   Created: 2023/08/04 14:42:31 by dbasting      #+#    #+#                 */
+/*   Updated: 2023/08/04 15:03:07 by dbasting      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "msh_expand.h"
 #include "msh.h"
+#include "msh_error.h"
 
-#include "ft_string.h"
 #include "ft_stdlib.h"
-#include <stddef.h>
 #include <stdlib.h>
 
-t_errno	expand_spec_nparam(t_expstr *expstr, size_t *exp_len, t_msh *msh)
+t_cmdtree	*cmdtree_init(t_cmdtree *parent)
 {
-	char const *const	exp = "";
-	t_errno				errno;
+	t_cmdtree *const	tree = ft_calloc(1, sizeof(cmdtree));
 
-	(void) msh;
-	*exp_len += ft_strlen(exp);
-	errno = expstr_resize(expstr, 1, exp, *exp_len);
-	return (errno);
+	if (!tree)
+		return (NULL);
+	tree->parent = parent;
+	return (tree);
+}
+
+void	cmdtree_free(t_cmdtree *tree)
+{
+	if (!tree)
+		return ;
+	if (tree->op)
+		return (cmdtree_free(tree->data.branches[0]),
+			cmdtree_free(tree->data.branches[1]));
+	list_clear(&tree->data.pipeline, (t_freef)cmd_free);
+	free(tree);
 }

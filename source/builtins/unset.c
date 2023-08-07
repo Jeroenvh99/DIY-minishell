@@ -4,37 +4,48 @@
 /*   unset.c                                            :+:    :+:            */
 /*                                                     +:+                    */
 /*   By: jvan-hal <jvan-hal@student.codam.nl>         +#+                     */
-/*                                                   +#+                      */
+/*       dbasting <dbasting@student.codam.nl>        +#+                      */
 /*   Created: 2023/04/20 16:50:13 by jvan-hal      #+#    #+#                 */
-/*   Updated: 2023/07/18 16:46:30 by dbasting      ########   odam.nl         */
+/*   Updated: 2023/08/01 16:09:25 by dbasting      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft_string.h"
-#include "ft_stdio.h"
+#include "msh_execute.h"
 #include "msh.h"
-#include <stdlib.h>
+#include "msh_var.h"
 
+#include "ft_stdio.h"
+#include <stddef.h>
+#include <unistd.h>
+
+/**
+ * @brief	Unset an environment variable.
+ * @return	An exit status:
+ * 			- 0 on success;
+ * 			- 1 if `cmd` contained at least one invalid identifier.
+ * @note	All identifiers contained in `cmd` will be processed, irrespective
+ * 			of their validity.
+ */
 int	msh_unset(t_cmd *cmd, t_msh *msh)
 {
-	int	i;
+	size_t	i;
+	int		ret;
 
-    if (cmd->argc == 1)
-        return (0);
+	ret = 0;
 	i = 1;
-    while (ft_strchr(cmd->argv.array[i], '-'))
-    {
-        ft_dprintf(cmd->io[IO_ERR], "msh: unset: %s: not a valid identifier", cmd->argv.array[i]);
-        ++i;
-    }
 	while (cmd->argv.array[i])
 	{
-		if (!ft_strchr(cmd->argv.array[i], '_'))
+		if (var_isname(cmd->argv.array[i]) != 0)
 		{
-			if (env_unset(&msh->env, (char const *)cmd->argv.array[i]) == MSH_NO_VARSTR)
-                ft_dprintf(cmd->io[IO_ERR], "msh: unset: %s does not exist\n", cmd->argv.array[i]);
+			ft_dprintf(STDERR_FILENO, "msh: unset: `%s': not a valid "
+				"identifier\n", cmd->argv.array[i]);
+			ret = 1;
 		}
-		++i;
+		else
+			env_unset(&msh->env, cmd->argv.array[i]);
+		i++;
 	}
-	return (0);
+	return (ret);
 }
+/* DB: Bij mij geeft bash geen melding 'does not exist' bij een niet-bestaande
+ * naam. */

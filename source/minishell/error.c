@@ -6,7 +6,7 @@
 /*   By: jvan-hal <jvan-hal@student.codam.nl>         +#+                     */
 /*       dbasting <dbasting@student.codam.nl>        +#+                      */
 /*   Created: 2023/04/18 18:27:29 by jvan-hal      #+#    #+#                 */
-/*   Updated: 2023/07/23 23:20:06 by dbasting      ########   odam.nl         */
+/*   Updated: 2023/08/01 15:03:58 by dbasting      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,8 @@ void	msh_strerror(t_errno errno)
 		"NOCMDLINE",
 		"ENDCMD_PIPE",
 		"ENDCMD_CTL",
+		"VAR_ASSIGN",
+		"VAR_APPEND",
 		"Something went wrong.",
 		"Syntax error.",
 		"Invalid identifier",
