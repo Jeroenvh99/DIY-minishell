@@ -52,7 +52,7 @@ Test(env, test_init_1)
 	char	*environ[] = {"LOGNAME=jvan-hal", NULL};
 
 	env_init(&testenv, environ);
-	cr_assert_eq(testenv.len, 2);
+	cr_assert_eq(testenv.len, 4);
 }
 
 Test(env, test_init_2)
@@ -79,7 +79,7 @@ Test(env, test_init_4)
 	char	*environ[] = {"HOME=/Users/jvan-hal", "LOGNAME=jvan-hal", "OLDPWD=/tmp/cd-dash", NULL};
 
 	env_init(&testenv, environ);
-	cr_assert_eq(testenv.len, 4);
+	cr_assert_eq(testenv.len, 6);
 }
 
 Test(env, test_init_5)
@@ -97,7 +97,7 @@ Test(env, test_init_6)
 	char	*environ[] = {"HOME=/Users/jvan-hal", "LOGNAME=jvan-hal", NULL, "OLDPWD=/tmp/cd-dash", NULL};
 
 	env_init(&testenv, environ);
-	cr_assert_eq(testenv.len, 3);
+	cr_assert_eq(testenv.len, 5);
 }
 
 Test(env, test_init_7)
@@ -208,7 +208,7 @@ Test(env, unset_len_0)
 
     env_init(&testenv, environ);
     env_unset(&testenv, "HOME");
-    cr_assert_eq(testenv.len, 4);
+    cr_assert_eq(testenv.len, 6);
 }
 
 Test(env, unset_len_1)
@@ -228,7 +228,7 @@ Test(env, unset_len_2)
 
     env_init(&testenv, environ);
     env_unset(&testenv, "");
-    cr_assert_eq(testenv.len, 4);
+    cr_assert_eq(testenv.len, 6);
 }
 
 Test(env, unset_len_3)
@@ -298,7 +298,7 @@ Test(env, set_len_0)
 
     env_init(&testenv, environ);
     env_set(&testenv, "LANG", "1.6");
-    cr_assert_eq(testenv.len, 5);
+    cr_assert_eq(testenv.len, 6);
 }
 
 Test(env, set_len_1)
@@ -328,7 +328,7 @@ Test(env, set_len_2)
 
     env_init(&testenv, environ);
     env_set(&testenv, "HOME", "hier");
-    cr_assert_eq(testenv.len, 4);
+    cr_assert_eq(testenv.len, 6);
 }
 
 Test(env, set_len_3)
@@ -368,7 +368,7 @@ Test(env, set_len_4)
 
     env_init(&testenv, environ);
     env_set_entry(&testenv, "HOME+=hier");
-    cr_assert_eq(testenv.len, 4);
+    cr_assert_eq(testenv.len, 6);
 }
 
 Test(env, set_len_5)
@@ -407,7 +407,7 @@ Test(env, update_len_0)
 
     env_init(&testenv, environ);
     env_update(&testenv, "LOGNAME", "1");
-    cr_assert_eq(testenv.len, 4);
+    cr_assert_eq(testenv.len, 6);
 }
 
 Test(env, update_len_1)
@@ -446,7 +446,7 @@ Test(env, update_len_2)
 
     env_init(&testenv, environ);
     env_update(&testenv, "LANG", "4");
-    cr_assert_eq(testenv.len, 4);
+    cr_assert_eq(testenv.len, 6);
 }
 
 Test(env, update_len_3)
@@ -503,7 +503,7 @@ Test(env, pack_len_2)
     env_init(&testenv, environ);
     env_unset(&testenv, "LOGNAME");
     env_pack(&testenv);
-    cr_assert_eq(testenv.len, 4);
+    cr_assert_eq(testenv.len, 6);
 }
 
 Test(env, pack_len_3)
