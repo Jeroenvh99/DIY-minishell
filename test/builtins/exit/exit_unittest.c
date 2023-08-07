@@ -63,6 +63,7 @@ void	assert_exit_status(t_cmd *cmd, int expected)
     cmd->io[2] = 2;
 	msh = (t_msh *)malloc(sizeof(t_msh));
 	bzero(msh, sizeof(t_msh));
+	msh->g_msh->exit = expected;
 	status = msh_exit(cmd, msh);
 	cr_assert_eq(status, expected);
 }
@@ -109,7 +110,6 @@ Test(exit, input_empty_3)
 
 	char	*input[] = {"exit", NULL};
 	char	*expected = "exit\n";
-	msh->g_msh->exit = 3;
 	cmd.argc = 1;
 	cmd.argv.array = input;
 	assert_exit_output(&cmd, expected);
@@ -121,7 +121,6 @@ Test(exit_err, input_empty_4)
 
 	char	*input[] = {"exit", NULL};
 	char	*expected = "";
-	msh->g_msh->exit = 3;
 	cmd.argc = 1;
 	cmd.argv.array = input;
 	assert_exit_output_error(&cmd, expected);
@@ -132,7 +131,6 @@ Test(exit, input_empty_5)
 	t_cmd cmd;
 
 	char	*input[] = {"exit", NULL};
-	msh->g_msh->exit = 3;
 	cmd.argc = 1;
 	cmd.argv.array = input;
 	assert_exit_status(&cmd, 3);
