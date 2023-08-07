@@ -6,7 +6,7 @@
 /*   By: dbasting <dbasting@codam.nl>                 +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/22 08:45:12 by dbasting      #+#    #+#                 */
-/*   Updated: 2023/08/07 11:39:03 by jvan-hal      ########   odam.nl         */
+/*   Updated: 2023/08/07 11:54:28 by jvan-hal      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,10 @@ t_errno	var_parse(char **name, char const *str)
 		return (MSH_NO_VARSTR);
 	if (name)
 	{
-		*name = ft_substr(str, 0, boundary);
+		if (str[boundary] == '+')
+			*name = ft_substr(str, 0, boundary - 1);
+		else
+			*name = ft_substr(str, 0, boundary);
 		if (*name == NULL)
 			return (MSH_MEMFAIL);
 	}
