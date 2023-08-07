@@ -12,6 +12,7 @@
 #include <criterion/stats.h>
 #include <criterion/types.h>
 #include "msh.h"
+#include "msh_execute.h"
 #include "libft.h"
 #include <criterion/assert.h>
 #include <criterion/internal/assert.h>
