@@ -205,6 +205,39 @@ Test(export, input_one_5)
     assert_export_env_val(&cmd, "n", "-6", &env_with_home);
 }
 
+Test(export_err, input_one_6)
+{
+    t_cmd   cmd;
+    char    *input[] = {"export", "n-=6", NULL};
+    char    *expected = "msh: export: `n-=6': not a valid identifier\n";
+
+    cmd.argc = 2;
+    cmd.argv.array = input;
+    assert_export_output_err(&cmd, expected, &env_with_home);
+}
+
+Test(export_err, input_one_7)
+{
+    t_cmd   cmd;
+    char    *input[] = {"export", "-=6", NULL};
+    char    *expected = "msh: export: `-=6': not a valid identifier\n";
+
+    cmd.argc = 2;
+    cmd.argv.array = input;
+    assert_export_output_err(&cmd, expected, &env_with_home);
+}
+
+Test(export_err, input_one_8)
+{
+    t_cmd   cmd;
+    char    *input[] = {"export", "", NULL};
+    char    *expected = "msh: export: `': not a valid identifier\n";
+
+    cmd.argc = 2;
+    cmd.argv.array = input;
+    assert_export_output_err(&cmd, expected, &env_with_home);
+}
+
 Test(export, input_one_duplicate_0)
 {
     t_cmd   cmd;
@@ -224,4 +257,47 @@ Test(export, input_one_duplicate_1)
     cmd.argc = 2;
     cmd.argv.array = input;
     assert_export_output(&cmd, expected, &env_with_home);
+}
+
+Test(export_err, input_two_0)
+{
+    t_cmd   cmd;
+    char    *input[] = {"export", "n=-6", "-=ip", NULL};
+    char    *expected = "msh: export: `-=ip': not a valid identifier\n";
+
+    cmd.argc = 3;
+    cmd.argv.array = input;
+    assert_export_output_err(&cmd, expected, &env_with_home);
+}
+
+Test(export, input_two_1)
+{
+    t_cmd   cmd;
+    char    *input[] = {"export", "n=-6", "-=ip", NULL};
+
+    cmd.argc = 2;
+    cmd.argv.array = input;
+    assert_export_env_val(&cmd, "n", "-6", &env_with_home);
+}
+
+Test(export_err, input_three_0)
+{
+    t_cmd   cmd;
+    char    *input[] = {"export", "n=-6", "-=ip", "k=e", NULL};
+    char    *expected = "msh: export: `-=ip': not a valid identifier\n";
+
+    cmd.argc = 3;
+    cmd.argv.array = input;
+    assert_export_output_err(&cmd, expected, &env_with_home);
+}
+
+Test(export, input_three_1)
+{
+    t_cmd   cmd;
+    char    *input[] = {"export", "n=-6", "-=ip", "k=e", NULL};
+
+    cmd.argc = 2;
+    cmd.argv.array = input;
+    assert_export_env_val(&cmd, "n", "-6", &env_with_home);
+    assert_export_env_val(&cmd, "k", "e", &env_with_home);
 }
