@@ -20,7 +20,7 @@
 
 void	env_output(t_env *env, char *expected)
 {
-	print_2d_arr(1, env->envp, env->len);
+	print_2d_arr(1, env->envp, env->used);
 	fflush(stdout);
 	cr_assert_stdout_eq_str(expected);
 }
@@ -169,7 +169,7 @@ Test(env, entry_get_1)
 	char	*environ[] = {"HOME=/Users/jvan-hal", "LOGNAME=jvan-hal", "OLDPWD=/tmp/cd-dash", NULL};
 
 	env_init(&testenv, environ);
-	cr_assert_eq(env_entry_get(&testenv, "LOG"), 3);
+	cr_assert_eq(env_entry_get(&testenv, "LOG"), 4);
 }
 
 Test(env, entry_get_2)
@@ -178,7 +178,7 @@ Test(env, entry_get_2)
 	char	*environ[] = {"HOME=/Users/jvan-hal", "LOGNAME=jvan-hal", "OLDPWD=/tmp/cd-dash", NULL};
 
 	env_init(&testenv, environ);
-	cr_assert_eq(env_entry_get(&testenv, "LANG"), 3);
+	cr_assert_eq(env_entry_get(&testenv, "LANG"), 4);
 }
 
 Test(env, entry_getval_0)
@@ -468,7 +468,7 @@ Test(env, pack_len_0)
     env_unset(&testenv, "HOME");
     env_unset(&testenv, "OLDPWD");
     env_pack(&testenv);
-    cr_assert_eq(testenv.len, 4);
+    cr_assert_eq(testenv.len, 6);
 }
 
 Test(env, pack_len_1)
