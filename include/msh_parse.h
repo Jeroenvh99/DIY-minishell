@@ -6,7 +6,7 @@
 /*   By: dbasting <marvin@codam.nl>                   +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/04/18 13:46:33 by dbasting      #+#    #+#                 */
-/*   Updated: 2023/08/04 14:16:49 by dbasting      ########   odam.nl         */
+/*   Updated: 2023/08/07 17:01:04 by dbasting      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 # include "msh.h"
 # include "msh_error.h"
 
+# include "ft_list.h"
 # include <stddef.h>
 
 /* TOK_TRUNC varieties are equal to the negative of the corresponding e_quote
@@ -57,6 +58,11 @@ enum e_pipeends {
 	PIPE_WRITE,
 };
 
+enum e_tunion_tags {
+	TAG_PPL = 0,
+	TAG_CTL,
+};
+
 # define N_TOK_ARG				5 /* Tokens to pass as command arguments. */
 # define TOK_META_MIN			1 /* The first non-word token (TOK_STDIN). */
 # define N_TOK_META				9 /* Non-word tokens. */
@@ -75,17 +81,31 @@ enum e_pipeends {
 
 # define METACHARS				"|&<>() \t\n"
 
+typedef struct s_tunion	t_tunion;
+typedef struct s_token	t_token;
+
+typedef t_errno			(*t_argparsef)(t_cmd *, t_list **, t_msh *);
+
 /* Token object.
  * @param str	If the token is a word: the word.
  * @param type	The token's type.
  */
-typedef struct s_token {
+struct s_token {
 	char		*str;
 	t_toktype	type;
-}	t_token;
+};
 
-typedef t_errno	(*t_argparsef)(t_cmd *cmd, t_list **tokens, t_msh *msh);
-typedef t_list	*(t_ctlparsef)(t_cmdtree *, t_list **tokens, t_msh *msh);
+/* Parser's tagged union object.
+ * @param tag	Tag.
+ * @param data	Memory pointer (to either a single pipeline or a control token).
+ */
+struct s_tunion {
+	int		tag;
+	union	u_token {
+		t_list	*ppl;
+		t_token	*ctl;
+	}	data;
+};
 
 // Token functions.
 t_token	*token_init(char *str, t_toktype type);
@@ -109,8 +129,10 @@ t_errno	parse_heredoc(t_cmd *cmd, t_list **tokens, t_msh *msh);
 t_errno	parse_output(t_cmd *cmd, t_list **tokens, t_msh *msh);
 t_errno	parse_output_append(t_cmd *cmd, t_list **tokens, t_msh *msh);
 
-t_errno	parse_and(t_cmdtree *tree, t_list **tokens, t_msh *msh);
-t_errno	parse_or(t_cmdtree *tree, t_list **tokens, t_msh *msh);
+t_errno	ft_shuntingyard(t_list **out, t_list **in, t_msh *msh);
+
+//t_errno	parse_and(t_cmdtree *tree, t_list **tokens, t_msh *msh);
+//t_errno	parse_or(t_cmdtree *tree, t_list **tokens, t_msh *msh);
 
 t_errno	parse_iofile(char **name, t_list **tokens, t_msh *msh);
 

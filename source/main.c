@@ -6,7 +6,7 @@
 /*   By: dbasting <marvin@codam.nl>                   +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/04/18 14:13:15 by dbasting      #+#    #+#                 */
-/*   Updated: 2023/08/03 22:01:41 by dbasting      ########   odam.nl         */
+/*   Updated: 2023/08/07 13:24:09 by dbasting      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 #include "msh_utils.h"
 
 #include "ft_hash.h"
-#include "ft_stdio.h"
+#include <stdio.h>
 #include <stdlib.h>
 
 static t_errno	msh_init(t_msh *msh, int argc, char **argv, char **envp);
@@ -32,7 +32,7 @@ int	main(int argc, char **argv, char **envp)
 		return (msh.errno);
 	msh_loop(&msh);
 	msh_deinit(&msh);
-	ft_printf("Goodbye! (%d)\n", msh.errno);
+	printf("exit\n");
 	return (msh.errno);
 }
 

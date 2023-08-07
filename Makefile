@@ -6,7 +6,7 @@
 #    By: dbasting <marvin@codam.nl>                   +#+                      #
 #                                                    +#+                       #
 #    Created: 2022/12/28 12:06:53 by dbasting      #+#    #+#                  #
-#    Updated: 2023/08/04 14:33:28 by dbasting      ########   odam.nl          #
+#    Updated: 2023/08/07 16:57:06 by dbasting      ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -62,6 +62,7 @@ SRC_FILES	:= main.c\
 			parse/parse_out.c\
 			parse/parse_pipe.c\
 			parse/parse_pipeline.c\
+			parse/parse_shuntingyard.c\
 			parse/parse_utils.c\
 			parse/parse_word.c\
 			utils/utils_list.c\
@@ -70,7 +71,8 @@ SRC_FILES	:= main.c\
 			var/var_parse.c\
 			var/var_utils.c\
 			\
-			debug.c
+			debug.c\
+			parse/parse_debug.c
 OBJ_FILES	:= $(patsubst %.c,%.o,$(SRC_FILES))
 HDR_FILES	:= msh.h\
 			msh_error.h\
