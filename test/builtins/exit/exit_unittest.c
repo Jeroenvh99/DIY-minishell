@@ -102,6 +102,41 @@ Test(exit, input_empty_2)
 	assert_exit_status(&cmd, 0);
 }
 
+Test(exit, input_empty_3)
+{
+	t_cmd cmd;
+
+	char	*input[] = {"exit", NULL};
+	char	*expected = "exit\n";
+	msh->g_msh->exit = 3;
+	cmd.argc = 1;
+	cmd.argv.array = input;
+	assert_exit_output(&cmd, expected);
+}
+
+Test(exit_err, input_empty_4)
+{
+	t_cmd cmd;
+
+	char	*input[] = {"exit", NULL};
+	char	*expected = "";
+	msh->g_msh->exit = 3;
+	cmd.argc = 1;
+	cmd.argv.array = input;
+	assert_exit_output_error(&cmd, expected);
+}
+
+Test(exit, input_empty_5)
+{
+	t_cmd cmd;
+
+	char	*input[] = {"exit", NULL};
+	msh->g_msh->exit = 3;
+	cmd.argc = 1;
+	cmd.argv.array = input;
+	assert_exit_status(&cmd, 3);
+}
+
 Test(exit, input_one_0)
 {
 	t_cmd cmd;

@@ -15,6 +15,7 @@
 #include "msh_var.h"
 
 #include "ft_string.h"
+#include "ft_stdio.h"
 #include <stddef.h>
 #include <stdlib.h>
 
@@ -31,6 +32,18 @@ char	*env_entry_build(char const *name, char const *value)
 	ft_strlcat(entry, value, -1);
 	return (entry);
 }	
+
+void	print_2d_arr(int fd, char **arr, size_t size)
+{
+	size_t	i;
+
+	i = 0;
+	while (i < size)
+	{
+		ft_dprintf(fd, "%s\n", arr[i]);
+		++i;
+	}
+}
 
 /* Return the index of the entry in `env` defining `name`. If `name` is not
  * defined in `envp`, the index will be equal to env->len.

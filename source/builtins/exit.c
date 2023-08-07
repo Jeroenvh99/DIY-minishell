@@ -6,7 +6,7 @@
 /*   By: jvan-hal <jvan-hal@student.codam.nl>         +#+                     */
 /*       dbasting <dbasting@student.codam.nl>        +#+                      */
 /*   Created: 2023/04/18 13:45:34 by jvan-hal      #+#    #+#                 */
-/*   Updated: 2023/08/02 23:47:09 by dbasting      ########   odam.nl         */
+/*   Updated: 2023/08/04 11:30:29 by jvan-hal      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,7 @@ int	msh_exit(t_cmd *cmd, t_msh *msh)
 {
 	int	status;
 
+	status = msh->g_msh->exit;
 	if (cmd->argc > 2)
 		return (exit_strerror(EXIT_INVARG), 1);
 	printf("exit\n");
