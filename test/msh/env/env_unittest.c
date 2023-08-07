@@ -287,7 +287,7 @@ Test(env, set_output_0)
     char	*environ[] = {"HOME=/Users/jvan-hal", "LOGNAME=jvan-hal", "OLDPWD=/tmp/cd-dash", NULL};
 
     env_init(&testenv, environ);
-    env_set(&testenv, "LANG=1.6");
+    env_set(&testenv, "LANG", "1.6");
     env_output(&testenv, "HOME=/Users/jvan-hal\nLOGNAME=jvan-hal\nOLDPWD=/tmp/cd-dash\nSHLVL=1\nLANG=1.6\n");
 }
 
@@ -297,7 +297,7 @@ Test(env, set_len_0)
     char	*environ[] = {"HOME=/Users/jvan-hal", "LOGNAME=jvan-hal", "OLDPWD=/tmp/cd-dash", NULL};
 
     env_init(&testenv, environ);
-    env_set(&testenv, "LANG=1.6");
+    env_set(&testenv, "LANG", "1.6");
     cr_assert_eq(testenv.len, 5);
 }
 
@@ -307,7 +307,7 @@ Test(env, set_len_1)
     char	*environ[] = {"HOME=/Users/jvan-hal", "LOGNAME=jvan-hal", "OLDPWD=/tmp/cd-dash", NULL};
 
     env_init(&testenv, environ);
-    env_set(&testenv, "LANG=1.6");
+    env_set(&testenv, "LANG", "1.6");
     cr_assert_eq(testenv.used, 5);
 }
 
@@ -317,7 +317,7 @@ Test(env, set_output_1)
     char	*environ[] = {"HOME=/Users/jvan-hal", "LOGNAME=jvan-hal", "OLDPWD=/tmp/cd-dash", NULL};
 
     env_init(&testenv, environ);
-    env_set(&testenv, "HOME=hier");
+    env_set(&testenv, "HOME", "hier");
     env_output(&testenv, "HOME=hier\nLOGNAME=jvan-hal\nOLDPWD=/tmp/cd-dash\nSHLVL=1\n");
 }
 
@@ -327,7 +327,7 @@ Test(env, set_len_2)
     char	*environ[] = {"HOME=/Users/jvan-hal", "LOGNAME=jvan-hal", "OLDPWD=/tmp/cd-dash", NULL};
 
     env_init(&testenv, environ);
-    env_set(&testenv, "HOME=hier");
+    env_set(&testenv, "HOME", "hier");
     cr_assert_eq(testenv.len, 4);
 }
 
@@ -337,7 +337,7 @@ Test(env, set_len_3)
     char	*environ[] = {"HOME=/Users/jvan-hal", "LOGNAME=jvan-hal", "OLDPWD=/tmp/cd-dash", NULL};
 
     env_init(&testenv, environ);
-    env_set(&testenv, "HOME=hier");
+    env_set(&testenv, "HOME", "hier");
     cr_assert_eq(testenv.used, 4);
 }
 
@@ -347,7 +347,7 @@ Test(env, set_output_2)
     char	*environ[] = {"HOME=/Users/jvan-hal", "LOGNAME=jvan-hal", "OLDPWD=/tmp/cd-dash", NULL};
 
     env_init(&testenv, environ);
-    env_set(&testenv, "SHLVL+=1");
+    env_set_entry(&testenv, "SHLVL+=1");
     env_output(&testenv, "HOME=/Users/jvan-hal\nLOGNAME=jvan-hal\nOLDPWD=/tmp/cd-dash\nSHLVL=11\n");
 }
 
@@ -357,7 +357,7 @@ Test(env, set_output_3)
     char	*environ[] = {"HOME=/Users/jvan-hal", "LOGNAME=jvan-hal", "OLDPWD=/tmp/cd-dash", NULL};
 
     env_init(&testenv, environ);
-    env_set(&testenv, "HOME+=hier");
+    env_set_entry(&testenv, "HOME+=hier");
     env_output(&testenv, "HOME=/Users/jvan-halhier\nLOGNAME=jvan-hal\nOLDPWD=/tmp/cd-dash\nSHLVL=1\n");
 }
 
@@ -367,7 +367,7 @@ Test(env, set_len_4)
     char	*environ[] = {"HOME=/Users/jvan-hal", "LOGNAME=jvan-hal", "OLDPWD=/tmp/cd-dash", NULL};
 
     env_init(&testenv, environ);
-    env_set(&testenv, "HOME+=hier");
+    env_set_entry(&testenv, "HOME+=hier");
     cr_assert_eq(testenv.len, 4);
 }
 
@@ -377,7 +377,7 @@ Test(env, set_len_5)
     char	*environ[] = {"HOME=/Users/jvan-hal", "LOGNAME=jvan-hal", "OLDPWD=/tmp/cd-dash", NULL};
 
     env_init(&testenv, environ);
-    env_set(&testenv, "HOME+=hier");
+    env_set_entry(&testenv, "HOME+=hier");
     cr_assert_eq(testenv.used, 4);
 }
 
