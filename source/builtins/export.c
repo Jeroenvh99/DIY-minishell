@@ -6,18 +6,16 @@
 /*   By: jvan-hal <jvan-hal@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/04/20 16:51:03 by jvan-hal      #+#    #+#                 */
-/*   Updated: 2023/08/07 13:57:10 by jvan-hal      ########   odam.nl         */
+/*   Updated: 2023/08/07 15:25:40 by jvan-hal      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft_stdio.h"
 #include "ft_string.h"
 #include "msh.h"
 #include <fcntl.h>
-#include <unistd.h>
 #include <stdio.h>
 
-static int	exp_print_env(t_env *env, t_cmd *cmd);
+static int	exp_print_env(t_env *env);
 
 int	msh_export(t_cmd *cmd, t_msh *msh)
 {
@@ -25,7 +23,7 @@ int	msh_export(t_cmd *cmd, t_msh *msh)
 
 	if (cmd->argc == 1)
 	{
-		if (exp_print_env(&msh->env, cmd) == -1)
+		if (exp_print_env(&msh->env) == -1)
 			return (-1);
 	}
 	i = 1;
@@ -37,7 +35,7 @@ int	msh_export(t_cmd *cmd, t_msh *msh)
 	return (0);
 }
 
-static int	exp_print_env(t_env *env, t_cmd *cmd)
+static int	exp_print_env(t_env *env)
 {
 	int	i;
 	int	j;
@@ -45,7 +43,7 @@ static int	exp_print_env(t_env *env, t_cmd *cmd)
 	i = 0;
 	while (env->envp[i])
 	{
-		if (write(cmd->io[IO_OUT], "declare -x ", 11) == -1)
+		if (printf("declare -x ") == -1)
 			return (-1);
 		j = 0;
 		while (env->envp[i][j])
@@ -54,7 +52,7 @@ static int	exp_print_env(t_env *env, t_cmd *cmd)
 				break ;
 			++j;
 		}
-		if (write(cmd->io[IO_OUT], env->envp[i], j + 1) == -1)
+		if (printf("%.*s", j + 1, env->envp[i]) == -1)
 			return (-1);
 		printf("\"%s\"\n", env->envp[i] + j + 1);
 		++i;

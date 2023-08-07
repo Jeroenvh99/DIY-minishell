@@ -6,7 +6,7 @@
 /*   By: jvan-hal <jvan-hal@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/16 15:12:17 by jvan-hal      #+#    #+#                 */
-/*   Updated: 2023/08/07 09:10:43 by jvan-hal      ########   odam.nl         */
+/*   Updated: 2023/08/07 15:12:20 by jvan-hal      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,22 +59,6 @@ t_errno	execute_bin(t_cmd *cmd, t_msh *msh)
 	return (MSH_SUCCESS);
 }
 
-/* Wait for the child process. Return the child's exit status. */
-static int	fork_wait(t_msh *msh)
-{
-	int	wstatus;
-	int	exit;
-
-	exit = 0;
-	waitpid(msh->g_msh->child, &wstatus, 0);
-	if (WIFEXITED(wstatus))
-		exit = WEXITSTATUS(wstatus);
-	else if (WIFSIGNALED(wstatus))
-		exit = WTERMSIG(wstatus) + 128;
-	msh->g_msh->child = 0;
-	return (exit);
-}
-
 /* Find the utility specified by `cmd` and execute it, or exit on failure. */
 static void	launch(t_cmd *cmd, t_msh *msh)
 {
@@ -93,17 +77,17 @@ static void	launch(t_cmd *cmd, t_msh *msh)
 	exit(EXIT_FAILURE);
 }
 
-// /* Wait for the child process. Return the child's exit status. */
-// static int	fork_wait(t_msh *msh)
-// {
-// 	int	wstatus;
+/* Wait for the child process. Return the child's exit status. */
+static int	fork_wait(t_msh *msh)
+{
+	int	wstatus;
 
-// 	waitpid(msh->g_msh->child, &wstatus, 0);
-// 	msh->g_msh->child = 0;
-// 	if (WIFSIGNALED(wstatus))
-// 		return (WTERMSIG(wstatus) + 128);
-// 	return (WEXITSTATUS(wstatus));
-// }
+	waitpid(msh->g_msh->child, &wstatus, 0);
+	msh->g_msh->child = 0;
+	if (WIFSIGNALED(wstatus))
+		return (WTERMSIG(wstatus) + 128);
+	return (WEXITSTATUS(wstatus));
+}
 
 /* Merge the file descriptors on `cmd` with the standard streams. */
 static inline t_errno	fd_set_standard(t_cmd *cmd)

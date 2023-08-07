@@ -6,14 +6,13 @@
 /*   By: jvan-hal <jvan-hal@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/04/18 15:16:12 by jvan-hal      #+#    #+#                 */
-/*   Updated: 2023/08/07 14:21:59 by jvan-hal      ########   odam.nl         */
+/*   Updated: 2023/08/07 15:22:54 by jvan-hal      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_string.h"
 #include <stdio.h>
 #include "msh.h"
-#include <unistd.h>
 
 int	check_n_opt(char *str)
 {
@@ -67,7 +66,7 @@ int	msh_echo(t_cmd *cmd, t_msh *msh)
 		return (-1);
 	if (newline)
 	{
-		if (write(1, "\n", 1) == -1)
+		if (printf("\n") == -1)
 			return (-1);
 	}
 	return (0);
