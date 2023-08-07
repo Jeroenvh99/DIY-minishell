@@ -115,7 +115,7 @@ Test(env, test_init_8)
 	char	*environ[] = {"HOME=/Users/jvan-hal", "LOGNAME=jvan-hal", "OLDPWD=/tmp/cd-dash", NULL};
 
 	env_init(&testenv, environ);
-	env_output(&testenv, "HOME=/Users/jvan-hal\nSHLVL=1\nLOGNAME=jvan-hal\nOLDPWD=/tmp/cd-dash\n");
+	env_output(&testenv, "HOME=/Users/jvan-hal\nLOGNAME=jvan-hal\nOLDPWD=/tmp/cd-dash\nSHLVL=1\n");
 }
 
 Test(env, test_init_9)
@@ -208,7 +208,7 @@ Test(env, unset_len_0)
 
     env_init(&testenv, environ);
     env_unset(&testenv, "HOME");
-    cr_assert_eq(testenv.len, 3);
+    cr_assert_eq(testenv.len, 4);
 }
 
 Test(env, unset_len_1)
@@ -218,7 +218,7 @@ Test(env, unset_len_1)
 
     env_init(&testenv, environ);
     env_unset(&testenv, "HOME");
-    cr_assert_eq(testenv.used, 2);
+    cr_assert_eq(testenv.used, 3);
 }
 
 Test(env, unset_len_2)
@@ -228,7 +228,7 @@ Test(env, unset_len_2)
 
     env_init(&testenv, environ);
     env_unset(&testenv, "");
-    cr_assert_eq(testenv.len, 3);
+    cr_assert_eq(testenv.len, 4);
 }
 
 Test(env, unset_len_3)
@@ -238,7 +238,7 @@ Test(env, unset_len_3)
 
     env_init(&testenv, environ);
     env_unset(&testenv, "");
-    cr_assert_eq(testenv.used, 3);
+    cr_assert_eq(testenv.used, 4);
 }
 
 Test(env, unset_output_0)
@@ -268,7 +268,7 @@ Test(env, unset_output_2)
 
     env_init(&testenv, environ);
     env_unset(&testenv, "LOGN");
-    env_output(&testenv, "HOME=/Users/jvan-hal\nLOGNAME=jvan-hal\nOLDPWD=/tmp/cd-dash\n");
+    env_output(&testenv, "HOME=/Users/jvan-hal\nLOGNAME=jvan-hal\nOLDPWD=/tmp/cd-dash\nSHLVL=1\n");
 }
 
 Test(env, unset_output_3)
@@ -278,18 +278,18 @@ Test(env, unset_output_3)
 
     env_init(&testenv, environ);
     env_unset(&testenv, "");
-    env_output(&testenv, "HOME=/Users/jvan-hal\nLOGNAME=jvan-hal\nOLDPWD=/tmp/cd-dash\n");
+    env_output(&testenv, "HOME=/Users/jvan-hal\nLOGNAME=jvan-hal\nOLDPWD=/tmp/cd-dash\nSHLVL=1\n");
 }
 
-// Test(env, set_output_0)
-// {
-// 	t_env   testenv;
-//     char	*environ[] = {"HOME=/Users/jvan-hal", "LOGNAME=jvan-hal", "OLDPWD=/tmp/cd-dash", NULL};
+Test(env, set_output_0)
+{
+	t_env   testenv;
+    char	*environ[] = {"HOME=/Users/jvan-hal", "LOGNAME=jvan-hal", "OLDPWD=/tmp/cd-dash", NULL};
 
-//     env_init(&testenv, environ);
-//     env_set(&testenv, "SHLVL=1");
-//     env_output(&testenv, "HOME=/Users/jvan-hal\nLOGNAME=jvan-hal\nOLDPWD=/tmp/cd-dash\nSHLVL=1\n");
-// }
+    env_init(&testenv, environ);
+    env_set(&testenv, "LANG=1.6");
+    env_output(&testenv, "HOME=/Users/jvan-hal\nLOGNAME=jvan-hal\nOLDPWD=/tmp/cd-dash\nSHLVL=1\nLANG=1.6\n");
+}
 
 Test(env, set_len_0)
 {
@@ -297,8 +297,8 @@ Test(env, set_len_0)
     char	*environ[] = {"HOME=/Users/jvan-hal", "LOGNAME=jvan-hal", "OLDPWD=/tmp/cd-dash", NULL};
 
     env_init(&testenv, environ);
-    env_set(&testenv, "SHLVL=1");
-    cr_assert_eq(testenv.len, 4);
+    env_set(&testenv, "LANG=1.6");
+    cr_assert_eq(testenv.len, 5);
 }
 
 Test(env, set_len_1)
@@ -307,8 +307,8 @@ Test(env, set_len_1)
     char	*environ[] = {"HOME=/Users/jvan-hal", "LOGNAME=jvan-hal", "OLDPWD=/tmp/cd-dash", NULL};
 
     env_init(&testenv, environ);
-    env_set(&testenv, "SHLVL=1");
-    cr_assert_eq(testenv.used, 4);
+    env_set(&testenv, "LANG=1.6");
+    cr_assert_eq(testenv.used, 5);
 }
 
 Test(env, set_output_1)
@@ -318,7 +318,7 @@ Test(env, set_output_1)
 
     env_init(&testenv, environ);
     env_set(&testenv, "HOME=hier");
-    env_output(&testenv, "HOME=hier\nLOGNAME=jvan-hal\nOLDPWD=/tmp/cd-dash\n");
+    env_output(&testenv, "HOME=hier\nLOGNAME=jvan-hal\nOLDPWD=/tmp/cd-dash\nSHLVL=1\n");
 }
 
 Test(env, set_len_2)
@@ -328,7 +328,7 @@ Test(env, set_len_2)
 
     env_init(&testenv, environ);
     env_set(&testenv, "HOME=hier");
-    cr_assert_eq(testenv.len, 3);
+    cr_assert_eq(testenv.len, 4);
 }
 
 Test(env, set_len_3)
@@ -338,7 +338,7 @@ Test(env, set_len_3)
 
     env_init(&testenv, environ);
     env_set(&testenv, "HOME=hier");
-    cr_assert_eq(testenv.used, 3);
+    cr_assert_eq(testenv.used, 4);
 }
 
 Test(env, set_output_2)
@@ -348,7 +348,7 @@ Test(env, set_output_2)
 
     env_init(&testenv, environ);
     env_set(&testenv, "SHLVL+=1");
-    env_output(&testenv, "HOME=/Users/jvan-hal\nLOGNAME=jvan-hal\nOLDPWD=/tmp/cd-dash\nSHLVL=1\n");
+    env_output(&testenv, "HOME=/Users/jvan-hal\nLOGNAME=jvan-hal\nOLDPWD=/tmp/cd-dash\nSHLVL=11\n");
 }
 
 Test(env, set_output_3)
@@ -358,7 +358,7 @@ Test(env, set_output_3)
 
     env_init(&testenv, environ);
     env_set(&testenv, "HOME+=hier");
-    env_output(&testenv, "HOME=/Users/jvan-halhier\nLOGNAME=jvan-hal\nOLDPWD=/tmp/cd-dash\n");
+    env_output(&testenv, "HOME=/Users/jvan-halhier\nLOGNAME=jvan-hal\nOLDPWD=/tmp/cd-dash\nSHLVL=1\n");
 }
 
 Test(env, set_len_4)
@@ -368,7 +368,7 @@ Test(env, set_len_4)
 
     env_init(&testenv, environ);
     env_set(&testenv, "HOME+=hier");
-    cr_assert_eq(testenv.len, 3);
+    cr_assert_eq(testenv.len, 4);
 }
 
 Test(env, set_len_5)
@@ -378,7 +378,7 @@ Test(env, set_len_5)
 
     env_init(&testenv, environ);
     env_set(&testenv, "HOME+=hier");
-    cr_assert_eq(testenv.used, 3);
+    cr_assert_eq(testenv.used, 4);
 }
 
 Test(env, update_output_0)
@@ -388,7 +388,7 @@ Test(env, update_output_0)
 
     env_init(&testenv, environ);
     env_update(&testenv, "LOGNAME", "1");
-    env_output(&testenv, "HOME=/Users/jvan-hal\nLOGNAME=1\nOLDPWD=/tmp/cd-dash\n");
+    env_output(&testenv, "HOME=/Users/jvan-hal\nLOGNAME=1\nOLDPWD=/tmp/cd-dash\nSHLVL=1\n");
 }
 
 Test(env, update_status_0)
@@ -407,7 +407,7 @@ Test(env, update_len_0)
 
     env_init(&testenv, environ);
     env_update(&testenv, "LOGNAME", "1");
-    cr_assert_eq(testenv.len, 3);
+    cr_assert_eq(testenv.len, 4);
 }
 
 Test(env, update_len_1)
@@ -417,7 +417,7 @@ Test(env, update_len_1)
 
     env_init(&testenv, environ);
     env_update(&testenv, "LOGNAME", "1");
-    cr_assert_eq(testenv.used, 3);
+    cr_assert_eq(testenv.used, 4);
 }
 
 Test(env, update_output_1)
@@ -426,8 +426,8 @@ Test(env, update_output_1)
     char	*environ[] = {"HOME=/Users/jvan-hal", "LOGNAME=jvan-hal", "OLDPWD=/tmp/cd-dash", NULL};
 
     env_init(&testenv, environ);
-    env_update(&testenv, "SHLVL", "4");
-    env_output(&testenv, "HOME=/Users/jvan-hal\nLOGNAME=jvan-hal\nOLDPWD=/tmp/cd-dash\n");
+    env_update(&testenv, "LANG", "4");
+    env_output(&testenv, "HOME=/Users/jvan-hal\nLOGNAME=jvan-hal\nOLDPWD=/tmp/cd-dash\nSHLVL=1\n");
 }
 
 Test(env, update_status_1)
@@ -436,7 +436,7 @@ Test(env, update_status_1)
     char	*environ[] = {"HOME=/Users/jvan-hal", "LOGNAME=jvan-hal", "OLDPWD=/tmp/cd-dash", NULL};
 
     env_init(&testenv, environ);
-    cr_assert_eq(env_update(&testenv, "SHLVL", "4"), 1);
+    cr_assert_eq(env_update(&testenv, "LANG", "4"), 1);
 }
 
 Test(env, update_len_2)
@@ -445,8 +445,8 @@ Test(env, update_len_2)
     char	*environ[] = {"HOME=/Users/jvan-hal", "LOGNAME=jvan-hal", "OLDPWD=/tmp/cd-dash", NULL};
 
     env_init(&testenv, environ);
-    env_update(&testenv, "SHLVL", "4");
-    cr_assert_eq(testenv.len, 3);
+    env_update(&testenv, "LANG", "4");
+    cr_assert_eq(testenv.len, 4);
 }
 
 Test(env, update_len_3)
@@ -455,8 +455,8 @@ Test(env, update_len_3)
     char	*environ[] = {"HOME=/Users/jvan-hal", "LOGNAME=jvan-hal", "OLDPWD=/tmp/cd-dash", NULL};
 
     env_init(&testenv, environ);
-    env_update(&testenv, "SHLVL", "4");
-    cr_assert_eq(testenv.used, 3);
+    env_update(&testenv, "LANG", "4");
+    cr_assert_eq(testenv.used, 4);
 }
 
 Test(env, pack_len_0)
@@ -468,7 +468,7 @@ Test(env, pack_len_0)
     env_unset(&testenv, "HOME");
     env_unset(&testenv, "OLDPWD");
     env_pack(&testenv);
-    cr_assert_eq(testenv.len, 3);
+    cr_assert_eq(testenv.len, 4);
 }
 
 Test(env, pack_len_1)
@@ -480,7 +480,7 @@ Test(env, pack_len_1)
     env_unset(&testenv, "HOME");
     env_unset(&testenv, "OLDPWD");
     env_pack(&testenv);
-    cr_assert_eq(testenv.used, 1);
+    cr_assert_eq(testenv.used, 2);
 }
 
 Test(env, pack_output_0)
@@ -492,7 +492,7 @@ Test(env, pack_output_0)
     env_unset(&testenv, "HOME");
     env_unset(&testenv, "OLDPWD");
     env_pack(&testenv);
-    env_output(&testenv, "LOGNAME=jvan-hal\n");
+    env_output(&testenv, "LOGNAME=jvan-hal\nSHLVL=1\n");
 }
 
 Test(env, pack_len_2)
@@ -503,7 +503,7 @@ Test(env, pack_len_2)
     env_init(&testenv, environ);
     env_unset(&testenv, "LOGNAME");
     env_pack(&testenv);
-    cr_assert_eq(testenv.len, 3);
+    cr_assert_eq(testenv.len, 4);
 }
 
 Test(env, pack_len_3)
@@ -514,7 +514,7 @@ Test(env, pack_len_3)
     env_init(&testenv, environ);
     env_unset(&testenv, "LOGNAME");
     env_pack(&testenv);
-    cr_assert_eq(testenv.used, 2);
+    cr_assert_eq(testenv.used, 3);
 }
 
 Test(env, pack_output_1)
@@ -525,5 +525,5 @@ Test(env, pack_output_1)
     env_init(&testenv, environ);
     env_unset(&testenv, "LOGNAME");
     env_pack(&testenv);
-    env_output(&testenv, "HOME=/Users/jvan-hal\nOLDPWD=/tmp/cd-dash\n");
+    env_output(&testenv, "HOME=/Users/jvan-hal\nOLDPWD=/tmp/cd-dash\nSHLVL=1\n");
 }
