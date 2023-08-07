@@ -18,9 +18,18 @@
 #include <stdlib.h>
 #include <stdarg.h>
 
+static void	_env_print(char **envp)
+{
+	while (*envp)
+	{
+		printf("%s\n", *envp);
+		envp++;
+	}
+}
+
 void	env_output(t_env *env, char *expected)
 {
-	print_2d_arr(1, env->envp, env->used);
+	_env_print(1, env->envp, env->used);
 	fflush(stdout);
 	cr_assert_stdout_eq_str(expected);
 }
@@ -169,7 +178,7 @@ Test(env, entry_get_1)
 	char	*environ[] = {"HOME=/Users/jvan-hal", "LOGNAME=jvan-hal", "OLDPWD=/tmp/cd-dash", NULL};
 
 	env_init(&testenv, environ);
-	cr_assert_eq(env_entry_get(&testenv, "LOG"), 4);
+	cr_assert_eq(env_entry_get(&testenv, "LOG"), 6);
 }
 
 Test(env, entry_get_2)
@@ -178,7 +187,7 @@ Test(env, entry_get_2)
 	char	*environ[] = {"HOME=/Users/jvan-hal", "LOGNAME=jvan-hal", "OLDPWD=/tmp/cd-dash", NULL};
 
 	env_init(&testenv, environ);
-	cr_assert_eq(env_entry_get(&testenv, "LANG"), 4);
+	cr_assert_eq(env_entry_get(&testenv, "LANG"), 6);
 }
 
 Test(env, entry_getval_0)

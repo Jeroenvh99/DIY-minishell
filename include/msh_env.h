@@ -6,7 +6,7 @@
 /*   By: dbasting <dbasting@codam.nl>                 +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/22 08:43:13 by dbasting      #+#    #+#                 */
-/*   Updated: 2023/08/07 09:08:58 by jvan-hal      ########   odam.nl         */
+/*   Updated: 2023/08/07 10:43:57 by jvan-hal      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,5 @@ size_t	env_entry_get(t_env *env, char const *name);
 char	*env_entry_build(char const *name, char const *value);
 char	*env_entry_getval(char const *entry, char const *name);
 void	env_pack(t_env *env);
-void	print_2d_arr(int fd, char **arr, size_t size);
 
 #endif
