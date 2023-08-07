@@ -6,7 +6,7 @@
 /*   By: jvan-hal <jvan-hal@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/04/20 16:51:03 by jvan-hal      #+#    #+#                 */
-/*   Updated: 2023/08/01 23:40:21 by dbasting      ########   odam.nl         */
+/*   Updated: 2023/08/07 13:57:10 by jvan-hal      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 #include "msh.h"
 #include <fcntl.h>
 #include <unistd.h>
+#include <stdio.h>
 
 static int	exp_print_env(t_env *env, t_cmd *cmd);
 
@@ -55,7 +56,7 @@ static int	exp_print_env(t_env *env, t_cmd *cmd)
 		}
 		if (write(cmd->io[IO_OUT], env->envp[i], j + 1) == -1)
 			return (-1);
-		ft_dprintf(cmd->io[IO_OUT], "\"%s\"\n", env->envp[i] + j + 1);
+		printf("\"%s\"\n", env->envp[i] + j + 1);
 		++i;
 	}
 	return (0);

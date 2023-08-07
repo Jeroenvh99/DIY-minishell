@@ -6,7 +6,7 @@
 /*   By: dbasting <dbasting@codam.nl>                 +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/22 08:45:12 by dbasting      #+#    #+#                 */
-/*   Updated: 2023/08/07 12:43:59 by jvan-hal      ########   odam.nl         */
+/*   Updated: 2023/08/07 12:45:19 by jvan-hal      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,6 @@
 #include "msh_error.h"
 
 #include "ft_string.h"
-#include <stdio.h>
 
 static inline size_t	is_varstr(char const *str);
 
@@ -28,7 +27,6 @@ t_errno	var_parse(char **name, char const *str)
 {
 	size_t const	boundary = is_varstr(str);
 
-	printf("%lu\n", boundary);
 	if (!boundary)
 		return (MSH_NO_VARSTR);
 	if (name)
