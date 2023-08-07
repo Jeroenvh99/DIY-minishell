@@ -6,14 +6,16 @@
 /*   By: jvan-hal <jvan-hal@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/04/20 16:51:03 by jvan-hal      #+#    #+#                 */
-/*   Updated: 2023/08/07 17:02:29 by jvan-hal      ########   odam.nl         */
+/*   Updated: 2023/08/07 17:08:09 by jvan-hal      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_string.h"
+#include "ft_stdio.h"
 #include "msh.h"
 #include <fcntl.h>
 #include <stdio.h>
+#include <unistd.h>
 
 static int	exp_print_env(t_env *env);
 

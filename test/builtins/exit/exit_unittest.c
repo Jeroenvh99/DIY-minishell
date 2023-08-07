@@ -18,6 +18,12 @@
 #include <criterion/internal/assert.h>
 #include <stdlib.h>
 
+void	msh_deinit(t_msh *msh)
+{
+	env_free(&msh->env);
+	list_clear(&msh->cmds, (t_freef)cmd_free);
+}
+
 void redirect_stderr(void)
 {
     cr_redirect_stderr();
