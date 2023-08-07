@@ -29,7 +29,7 @@ static void	_env_print(char **envp)
 
 void	env_output(t_env *env, char *expected)
 {
-	_env_print(1, env->envp, env->used);
+	_env_print(env->envp);
 	fflush(stdout);
 	cr_assert_stdout_eq_str(expected);
 }

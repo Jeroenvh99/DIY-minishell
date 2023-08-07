@@ -1,8 +1,6 @@
 name: minishell test
 run-name: checking if pr by ${{ github.actor }} passes all tests
 on:
-  pull_request:
-    branches: [ master ]
   push:
     branches: [ jvan-hal ]
 jobs:
