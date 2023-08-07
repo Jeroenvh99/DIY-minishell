@@ -27,15 +27,6 @@ static void	_env_print(char **envp)
 	}
 }
 
-static void	_env_print_test(char **envp)
-{
-	while (*envp)
-	{
-		dprintf(2, "%s\n", *envp);
-		envp++;
-	}
-}
-
 void	env_output(t_env *env, char *expected)
 {
 	_env_print(env->envp);
