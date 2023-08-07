@@ -275,7 +275,7 @@ Test(export, input_two_1)
     t_cmd   cmd;
     char    *input[] = {"export", "n=-6", "-=ip", NULL};
 
-    cmd.argc = 2;
+    cmd.argc = 3;
     cmd.argv.array = input;
     assert_export_env_val(&cmd, "n", "-6", &env_with_home);
 }
@@ -286,7 +286,7 @@ Test(export_err, input_three_0)
     char    *input[] = {"export", "n=-6", "-=ip", "k=e", NULL};
     char    *expected = "msh: export: `-=ip': not a valid identifier\n";
 
-    cmd.argc = 3;
+    cmd.argc = 4;
     cmd.argv.array = input;
     assert_export_output_err(&cmd, expected, &env_with_home);
 }
@@ -296,7 +296,7 @@ Test(export, input_three_1)
     t_cmd   cmd;
     char    *input[] = {"export", "n=-6", "-=ip", "k=e", NULL};
 
-    cmd.argc = 2;
+    cmd.argc = 4;
     cmd.argv.array = input;
     assert_export_env_val(&cmd, "n", "-6", &env_with_home);
     assert_export_env_val(&cmd, "k", "e", &env_with_home);

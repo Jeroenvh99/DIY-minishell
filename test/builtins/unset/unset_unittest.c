@@ -128,3 +128,43 @@ Test(unset_err, input_one_4)
 	cmd.argv.array = input;
 	assert_unset_output_error(&cmd, "msh: unset: OLDPWD does not exist\n");
 }
+
+Test(unset_err, input_two_0)
+{
+	t_cmd cmd;
+
+	char	*input[] = {"unset", "SHLVL", "non", NULL};
+    cmd.argc = 3;
+	cmd.argv.array = input;
+	assert_unset_output_error(&cmd, "msh: unset: non does not exist\n");
+}
+
+Test(unset, input_two_1)
+{
+	t_cmd cmd;
+
+	char	*input[] = {"unset", "SHLVL", "non", NULL};
+    cmd.argc = 3;
+	cmd.argv.array = input;
+	assert_unset_env(&cmd, "HOME=/tmp/cd-no_arg_with_home\nLANG=en_US.UTF-8\n");
+}
+
+Test(unset_err, input_three_0)
+{
+	t_cmd cmd;
+
+	char	*input[] = {"unset", "SHLVL", "non", "HOME", NULL};
+    cmd.argc = 4;
+	cmd.argv.array = input;
+	assert_unset_output_error(&cmd, "msh: unset: non does not exist\n");
+}
+
+Test(unset, input_three_1)
+{
+	t_cmd cmd;
+
+	char	*input[] = {"unset", "SHLVL", "non", "HOME", NULL};
+    cmd.argc = 4;
+	cmd.argv.array = input;
+	assert_unset_env(&cmd, "LANG=en_US.UTF-8\n");
+}
