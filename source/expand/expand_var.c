@@ -6,7 +6,7 @@
 /*   By: dbasting <marvin@codam.nl>                   +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/15 15:39:43 by dbasting      #+#    #+#                 */
-/*   Updated: 2023/05/15 15:47:23 by dbasting      ########   odam.nl         */
+/*   Updated: 2023/08/08 15:31:42 by jvan-hal      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,8 @@ t_errno	expand_var(t_expstr *expstr, size_t *exp_len, t_msh *msh)
 	name_len = get_varname(&name, &expstr->str[expstr->i + 1]);
 	if (name == NULL)
 		return (MSH_MEMFAIL);
+	if (ft_strlen(name) == 0)
+		return (expstr_resize(expstr, name_len, "$", ++*exp_len));
 	exp = var_search(name, msh);
 	*exp_len += ft_strlen(exp);
 	free(name);
