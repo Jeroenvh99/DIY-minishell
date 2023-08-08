@@ -6,7 +6,7 @@
 /*   By: dbasting <marvin@codam.nl>                   +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/04/18 13:51:16 by dbasting      #+#    #+#                 */
-/*   Updated: 2023/08/04 15:36:45 by dbasting      ########   odam.nl         */
+/*   Updated: 2023/08/08 12:15:39 by jvan-hal      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,6 @@ struct s_g_msh {
 struct s_msh {
 	struct s_g_msh	*g_msh;
 	t_env			env;
-	t_hashtable		*var;
 	t_list			*cmds;
 	t_errno			errno;
 };
