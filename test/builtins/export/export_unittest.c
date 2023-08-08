@@ -51,7 +51,6 @@ void	assert_export_output(t_cmd *cmd, char *expected, void (*env_init)(t_msh *))
 	env_init(&msh);
 	msh_export(cmd, &msh);
 	fflush(stdout);
-	fflush(stderr);
     cr_assert_stdout_eq_str(expected);
     env_free(&msh.env);
 }
@@ -136,7 +135,7 @@ Test(export, input_empty_2)
 {
     t_cmd   cmd;
     char    *input[] = {"export", NULL};
-    char    *expected = "declare -x HOME=\"/Users/jvan-hal\"\ndeclare -x LOGNAME=\"jvan-hal\"\ndeclare -x OLDPWD=\"/tmp/cd-dash\"\n";
+    char    *expected = "declare -x HOME=\"/Users/jvan-hal\"\ndeclare -x LOGNAME=\"jvan-hal\"\ndeclare -x OLDPWD=\"/tmp/cd-dash\"\ndeclare -x SHLVL=\"1\"\n";
 
     cmd.argc = 1;
     cmd.argv.array = input;
