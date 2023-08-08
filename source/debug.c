@@ -6,7 +6,7 @@
 /*   By: dbasting <marvin@codam.nl>                   +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/01 16:54:58 by dbasting      #+#    #+#                 */
-/*   Updated: 2023/07/28 16:42:45 by dbasting      ########   odam.nl         */
+/*   Updated: 2023/08/08 14:34:54 by dbasting      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,4 +58,29 @@ void	cmds_view(t_list *cmds)
 		cmds = cmds->next;
 	}
 	printf("---------\n");
+}
+
+void	cmdtree_view(t_cmdtree *tree, int offset)
+{
+	char const *const	ops[] = {"", "&&", "||", "(", ")"};
+	int					i;
+
+	i = 0;
+	while (i++ < offset)
+		printf("\t");
+	if (!tree)
+	{
+		printf("[...]\n");
+		return ;
+	}
+	if (tree->op)
+	{
+		printf("BRANCH (%s)\n", ops[tree->op]);
+		cmdtree_view(tree->data.branches[TREE_LEFT], offset + 1);
+		cmdtree_view(tree->data.branches[TREE_RIGHT], offset + 1);
+	}
+	else
+		printf("PIPELINE (%zu): %s\n",
+			list_size(tree->data.pipeline),
+			((t_cmd *)(tree->data.pipeline->content))->argv.array[0]);
 }

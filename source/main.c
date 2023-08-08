@@ -6,7 +6,7 @@
 /*   By: dbasting <marvin@codam.nl>                   +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/04/18 14:13:15 by dbasting      #+#    #+#                 */
-/*   Updated: 2023/08/07 13:24:09 by dbasting      ########   odam.nl         */
+/*   Updated: 2023/08/08 14:33:20 by dbasting      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,9 +38,8 @@ int	main(int argc, char **argv, char **envp)
 
 void	msh_deinit(t_msh *msh)
 {
+	cmdtree_free(msh->tree);
 	env_free(&msh->env);
-	hashtable_destroy(&msh->var, free);
-	list_clear(&msh->cmds, (t_freef)cmd_free);
 }
 
 static t_errno	msh_init(t_msh *msh, int argc, char **argv, char **envp)
@@ -53,9 +52,6 @@ static t_errno	msh_init(t_msh *msh, int argc, char **argv, char **envp)
 	errno = env_init(&msh->env, envp);
 	if (errno != MSH_SUCCESS)
 		return (errno);
-	msh->var = hashtable_init(100, NULL);
-	if (msh->var == NULL)
-		return (env_free(&msh->env), MSH_MEMFAIL);
-	msh->cmds = NULL;
+	msh->tree = NULL;
 	return (MSH_SUCCESS);
 }

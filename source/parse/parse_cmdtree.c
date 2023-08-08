@@ -6,71 +6,119 @@
 /*   By: dbasting <marvin@codam.nl>                   +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/08/04 14:33:57 by dbasting      #+#    #+#                 */
-/*   Updated: 2023/08/07 14:08:43 by dbasting      ########   odam.nl         */
+/*   Updated: 2023/08/08 15:09:16 by dbasting      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "msh_parse.h"
 #include "msh.h"
 #include "msh_error.h"
+#include "msh_utils.h"
 
-enum e_tags {
-	TAG_PIPELINE = 0;
-	TAG_OPERATOR;
-};
+#include <stdlib.h>
 
-enum e_stacks {
-	OPS = 0;
-	OUT;
-};
-
-struct s_tunion {
-	int		tag;
-	union	u_token {
-		t_list	*pipeline;
-		t_token	*operator
-	}	data;
-};
+static t_errno		ft_shuntingyard(t_list **out, t_list **input, t_msh *msh);
+static t_errno		shyard_read(t_cmdtree **node, t_list **input, t_msh *msh);
+static t_errno		shyard_push(t_cmdtree *node, t_list **ctl, t_list **out);
+static t_cmdtree	*rpl_convert(t_list **rpl);
 
 t_errno	parse_cmdtree(t_cmdtree **tree, t_list **tokens, t_msh *msh)
 {
-	t_list	*
-	t_list	*pipeline;
+	t_list	*rpl;
+	t_errno	errno;
 
-	*base = cmdtree_init(parent);
-	if (!*base)
-		return (MSH_MEMFAIL);
-	
+	rpl = NULL;
+	errno = ft_shuntingyard(&rpl, tokens, msh);
+	if (errno != MSH_SUCCESS)
+		return (list_clear(&rpl, (t_freef)cmdtree_free), errno);
+	*tree = rpl_convert(&rpl);
+	return (errno);
 }
 
-static t_errno	ft_shunting_yard(t_list **input, t_msh *msh)
+t_errno	ft_shuntingyard(t_list **out, t_list **input, t_msh *msh)
 {
-	t_list			*stack[2];
-	struct s_tunion	*tunion;
-	t_errno			errno;
+	t_list		*ctl;
+	t_cmdtree	*node;
+	t_errno		errno;
 
+	ctl = NULL;
 	while (*input)
 	{
-		tunion = malloc(sizeof(struct s_tunion));
-		if (tunion == NULL)
-			return (MSH_MEMFAIL);
-		if (!is_ctltok((t_token *)(*input)->content))
+		errno = shyard_read(&node, input, msh);
+		if (errno != MSH_SUCCESS)
+			return (list_clear(&ctl, (t_freef)cmdtree_free), errno);
+		if (node->op)
 		{
-			tunion->tag = TAG_PIPELINE; 
-			errno = parse_pipeline(&tunion->data.pipeline, tokens, msh);
+			errno = shyard_push(node, out, &ctl);
 			if (errno != MSH_SUCCESS)
-				return (list_clear(&ops, (t_freef)tunion_free));
-			if (list_append_ptr(&stack[OUT]
+				return (list_clear(&ctl, (t_freef)cmdtree_free), errno);
 		}
-		
+		else if (list_append_ptr(out, node) != 0)
+			return (list_clear(&ctl, (t_freef)cmdtree_free), MSH_MEMFAIL);
+	}
+	while (ctl)
+		if (((t_cmdtree *)(ctl->content))->op <= TREE_OP_OPENPAR)
+			list_append(out, list_pop(&ctl));
+	return (MSH_SUCCESS);
+}
+
+static t_errno	shyard_read(t_cmdtree **node, t_list **input, t_msh *msh)
+{
+	t_errno	errno;
+
+	*node = cmdtree_init(NULL);
+	if (!*node)
+		return (MSH_MEMFAIL);
+	if (!is_ctltok((*input)->content))
+	{
+		(*node)->op = TREE_OP_NONE;
+		errno = parse_pipeline(&(*node)->data.pipeline, input, msh);
+		if (errno != MSH_SUCCESS)
+			return (cmdtree_free(*node), errno);
+	}
+	else
+	{
+		(*node)->op = ((t_token *)(*input)->content)->type - TOK_CTL_MIN + 1;
+		free(list_pop_ptr(input));
 	}
 	return (MSH_SUCCESS);
 }
 
-static void tunion_free(struct s_tunion *tunion)
+static t_errno	shyard_push(t_cmdtree *node, t_list **out, t_list **ctl)
 {
-	if (tunion->tag == TAG_PIPELINE)
-		list_clear(tunion->data.pipeline, cmd_free);
+	if (node->op == TREE_OP_OPENPAR)
+		return (list_push_ptr(ctl, node));
+	if (node->op == TREE_OP_CLOSEPAR)
+	{
+		while (*ctl && ((t_cmdtree *)(*ctl)->content)->op != TREE_OP_OPENPAR)
+			list_append(out, list_pop(ctl));
+		if (!*ctl)
+			return (MSH_SYNTAX_ERROR);
+		return (cmdtree_free(list_pop_ptr(ctl)), MSH_SUCCESS);
+	}
 	else
-		free(tunion->data.token);
+		while (*ctl && ((t_cmdtree *)(*ctl)->content)->op != TREE_OP_OPENPAR)
+			list_append(out, list_pop(ctl));
+	return (list_push_ptr(ctl, node));
+}
+
+static t_cmdtree	*rpl_convert(t_list **rpl)
+{
+	t_list		*tmp;
+	t_list		*node;
+	t_cmdtree	*leaf;
+
+	tmp = NULL;
+	while (*rpl)
+	{
+		node = list_pop(rpl);
+		leaf = node->content;
+		if (leaf->op)
+		{
+			leaf->data.branches[TREE_RIGHT] = list_pop_ptr(&tmp);
+			leaf->data.branches[TREE_LEFT] = list_pop_ptr(&tmp);
+		}
+		list_push(&tmp, node);
+	}
+	return (list_pop_ptr(&tmp));
 }

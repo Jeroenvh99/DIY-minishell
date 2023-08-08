@@ -6,7 +6,7 @@
 /*   By: dbasting <marvin@codam.nl>                   +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/04/18 13:51:16 by dbasting      #+#    #+#                 */
-/*   Updated: 2023/08/08 12:28:43 by dbasting      ########   odam.nl         */
+/*   Updated: 2023/08/08 14:32:42 by dbasting      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,7 @@ enum e_treeop {
 	TREE_OP_OR,
 	TREE_OP_OPENPAR,
 	TREE_OP_CLOSEPAR,
+	N_TREE_OP,
 };
 
 enum e_treebranch {
@@ -64,15 +65,13 @@ struct s_g_msh {
 /* Shell data object.
  * @param g_msh	Global portion of shell data:
  * @param env	The shell environment.
- * @param var	The shell's local variables. ## UPCOMING ##
- * @param cmds	The current command queue.
+ * @param tree	The current command queue.
  * @param errno	The current error code.
  */
 struct s_msh {
 	struct s_g_msh	*g_msh;
 	t_env			env;
-	t_hashtable		*var;
-	t_list			*cmds;
+	t_cmdtree		*tree;
 	t_errno			errno;
 };
 

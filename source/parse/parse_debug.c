@@ -6,7 +6,7 @@
 /*   By: dbasting <marvin@codam.nl>                   +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/08/07 16:17:43 by dbasting      #+#    #+#                 */
-/*   Updated: 2023/08/07 18:10:14 by dbasting      ########   odam.nl         */
+/*   Updated: 2023/08/08 14:20:32 by dbasting      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,17 +18,18 @@
 
 void	shuntingyard_view(t_list *out)
 {
-	t_tunion			*tunion;
+	t_cmdtree			*node;
 	char const *const	ctls[4] = {"&&", "||", "(", ")"};
+
 	while (out)
 	{
-		tunion = out->content;
-		if (tunion->tag == TAG_PPL)
+		node = out->content;
+		if (!node->op)
 			printf("pipe (%02zu): %s\n",
-				list_size(tunion->data.ppl),
-				((t_cmd *)tunion->data.ppl->content)->argv.array[0]);
-		else if (tunion->tag == TAG_CTL)
-			printf("%s\n", ctls[((t_token *)tunion->data.ctl)->type - TOK_CTL_MIN]);
+				list_size(node->data.pipeline),
+				((t_cmd *)node->data.pipeline->content)->argv.array[0]);
+		else if (node->op)
+			printf("%s\n", ctls[node->op - 1]);
 		else
 			printf("???\n");
 		out = out->next;
