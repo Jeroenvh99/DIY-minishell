@@ -6,7 +6,7 @@
 /*   By: jvan-hal <jvan-hal@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/04/18 13:45:34 by jvan-hal      #+#    #+#                 */
-/*   Updated: 2023/08/07 19:15:29 by jvan-hal      ########   odam.nl         */
+/*   Updated: 2023/08/08 12:03:22 by jvan-hal      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,8 +46,8 @@ int	msh_exit(t_cmd *cmd, t_msh *msh)
 	else
 		status = 0;
 	msh_deinit(msh);
-	// exit(status);
-	return (status);
+	exit(status);
+	return (1);
 }
 
 static void	exit_strerror(int errno)
