@@ -6,7 +6,7 @@
 /*   By: dbasting <marvin@codam.nl>                   +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/04/18 13:51:16 by dbasting      #+#    #+#                 */
-/*   Updated: 2023/08/04 15:36:45 by dbasting      ########   odam.nl         */
+/*   Updated: 2023/08/08 12:28:43 by dbasting      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,13 @@ enum e_treeop {
 	TREE_OP_NONE = 0,
 	TREE_OP_AND,
 	TREE_OP_OR,
+	TREE_OP_OPENPAR,
+	TREE_OP_CLOSEPAR,
+};
+
+enum e_treebranch {
+	TREE_LEFT = 0,
+	TREE_RIGHT,
 };
 
 /* Global shell data structure.

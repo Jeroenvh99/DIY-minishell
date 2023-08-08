@@ -6,7 +6,7 @@
 /*   By: dbasting <marvin@codam.nl>                   +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/04/18 14:13:15 by dbasting      #+#    #+#                 */
-/*   Updated: 2023/08/07 17:02:18 by dbasting      ########   odam.nl         */
+/*   Updated: 2023/08/08 12:21:28 by dbasting      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,9 +26,6 @@ t_errno	parse(t_msh *msh, t_list **tokens)
 	t_errno	errno;
 
 	pipeline = &msh->cmds;
-	ft_shuntingyard(pipeline, tokens, msh);
-	shuntingyard_view(*pipeline);
-	exit(0);
 	while (*tokens)
 	{
 		if (is_ctltok((*tokens)->content))

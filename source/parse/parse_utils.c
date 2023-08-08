@@ -6,7 +6,7 @@
 /*   By: dbasting <marvin@codam.nl>                   +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/01 11:50:28 by dbasting      #+#    #+#                 */
-/*   Updated: 2023/08/02 23:47:35 by dbasting      ########   odam.nl         */
+/*   Updated: 2023/08/08 12:16:56 by dbasting      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,4 +61,15 @@ char	*token_to_str(t_token *token)
 	free(token);
 	token = NULL;
 	return (str);
+}
+
+void tunion_free(void *ptr)
+{
+	t_tunion *const	tunion = ptr;
+
+	if (tunion->tag == TAG_PPL)
+		list_clear(&tunion->data.ppl, (t_freef)cmd_free);
+	else
+		free(tunion->data.ctl);
+	free(tunion);
 }

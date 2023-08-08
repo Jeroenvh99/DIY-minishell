@@ -6,7 +6,7 @@
 /*   By: dbasting <marvin@codam.nl>                   +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/04/18 13:46:33 by dbasting      #+#    #+#                 */
-/*   Updated: 2023/08/07 17:01:04 by dbasting      ########   odam.nl         */
+/*   Updated: 2023/08/08 12:22:03 by dbasting      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -141,5 +141,6 @@ int		is_argtok(t_token const *token);
 int		is_ctltok(t_token const *token);
 int		is_metachr(char c);
 char	*token_to_str(t_token *token);
+void	tunion_free(void *ptr);
 
 #endif

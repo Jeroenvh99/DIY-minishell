@@ -6,7 +6,7 @@
 /*   By: dbasting <marvin@codam.nl>                   +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/08/04 14:33:57 by dbasting      #+#    #+#                 */
-/*   Updated: 2023/08/07 18:29:16 by dbasting      ########   odam.nl         */
+/*   Updated: 2023/08/08 12:14:51 by dbasting      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,12 +18,8 @@
 #include "ft_stdlib.h"
 #include <stdlib.h>
 
-#include <stdio.h>
-#include "msh_debug.h"
-
 static t_errno	shyard_read(t_tunion **tunion, t_list **input, t_msh *msh);
 static t_errno	shyard_move_ctl(t_tunion *tunion, t_list **ctl, t_list **out);
-static void		tunion_free(void *ptr);
 
 t_errno	ft_shuntingyard(t_list **out, t_list **input, t_msh *msh)
 {
@@ -47,11 +43,6 @@ t_errno	ft_shuntingyard(t_list **out, t_list **input, t_msh *msh)
 			if (shyard_move_ctl(tunion, out, &ctl) != 0)
 				return (list_clear(&ctl, tunion_free), MSH_MEMFAIL);
 		}
-		printf("out:\n");
-		shuntingyard_view(*out);
-		printf("\nctl:\n");
-		shuntingyard_view(ctl);
-		printf("\n-----\n");
 	}
 	while (ctl)
 		list_append(out, list_pop(&ctl));
@@ -93,20 +84,8 @@ static t_errno	shyard_move_ctl(t_tunion *tunion, t_list **out, t_list **ctl)
 		return (tunion_free(list_pop_ptr(ctl)), tunion_free(tunion), MSH_SUCCESS);
 	}
 	else
-	{
-		while (*ctl)
+		while (*ctl && ((t_tunion *)(*ctl)->content)->data.ctl->type != TOK_OPENPAR)
 			list_append(out, list_pop(ctl));
-	}
 	return (list_push_ptr(ctl, tunion));
 }
 
-static void tunion_free(void *ptr)
-{
-	t_tunion *const	tunion = ptr;
-
-	if (tunion->tag == TAG_PPL)
-		list_clear(&tunion->data.ppl, (t_freef)cmd_free);
-	else
-		free(tunion->data.ctl);
-	free(tunion);
-}
