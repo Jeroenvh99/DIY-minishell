@@ -16,6 +16,16 @@
 #include "libft.h"
 #include <criterion/assert.h>
 #include <criterion/internal/assert.h>
+#include <stdio.h>
+
+static void	_env_print(char **envp)
+{
+	while (*envp)
+	{
+		printf("%s\n", *envp);
+		envp++;
+	}
+}
 
 void redirect_stdout(void)
 {
@@ -36,7 +46,7 @@ void	assert_unset_env(t_cmd *cmd, char *expected)
 	bzero(&msh, sizeof(msh));
     env_init(&msh.env, env_sub);
 	msh_unset(cmd, &msh);
-	print_2d_arr(cmd->io[1], msh.env.envp, msh.env.len);
+	_env_print(msh.env.envp);
 	fflush(stdout);
 	cr_assert_stdout_eq_str(expected);
 }
