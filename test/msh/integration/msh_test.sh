@@ -2,6 +2,7 @@
 
 make -C ../../..
 
+STAT=0;
 test_list=(
 	"bonus_tests.txt"
 	"builtin_tests.txt"
@@ -24,8 +25,11 @@ for testfile in ${test_list[*]}; do
 		echo 'OK'
 	else
 		echo 'KO'
+		STAT=1
 	fi
 	done < $testfile
 done
 
 make fclean -C ../../..
+
+exit $STAT
