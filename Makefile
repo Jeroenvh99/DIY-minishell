@@ -6,7 +6,7 @@
 #    By: dbasting <marvin@codam.nl>                   +#+                      #
 #                                                    +#+                       #
 #    Created: 2022/12/28 12:06:53 by dbasting      #+#    #+#                  #
-#    Updated: 2023/08/10 15:36:20 by jvan-hal      ########   odam.nl          #
+#    Updated: 2023/08/10 16:40:07 by jvan-hal      ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -151,7 +151,7 @@ test_pwd:
 
 test_unset:
 	$(MAKE) -j -C lib/libft
-	cc $(CFLAGS) -lcriterion source/builtins/unset.c source/env/env.c source/env/env_unset.c source/env/env_basevars.c source/env/env_utils.c source/env/env_basevars.c test/builtins/unset/unset_unittest.c lib/libft/libft.a && ./a.out
+	cc $(CFLAGS) -lcriterion source/builtins/unset.c source/env/env.c source/env/env_unset.c source/env/env_basevars.c source/env/env_utils.c source/env/env_search.c source/env/env_basevars.c test/builtins/unset/unset_unittest.c lib/libft/libft.a && ./a.out
 	rm a.out
 
 test_lexer:
