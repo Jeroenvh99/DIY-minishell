@@ -63,7 +63,6 @@ jobs:
       uses: actions/checkout@v3
       with:
         submodules: true
-    - name: Switch to testfolder
-      run: cd test/msh/integration
     - name: Run full minishell test
+      run: cd test/msh/integration
       run: ./msh_test.sh
