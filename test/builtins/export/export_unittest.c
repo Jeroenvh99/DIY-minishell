@@ -12,6 +12,7 @@
 #include <criterion/stats.h>
 #include <criterion/types.h>
 #include "msh.h"
+#include "msh_execute.h"
 #include "libft.h"
 #include <criterion/assert.h>
 #include <criterion/internal/assert.h>
@@ -50,7 +51,6 @@ void	assert_export_output(t_cmd *cmd, char *expected, void (*env_init)(t_msh *))
 	env_init(&msh);
 	msh_export(cmd, &msh);
 	fflush(stdout);
-	fflush(stderr);
     cr_assert_stdout_eq_str(expected);
     env_free(&msh.env);
 }
@@ -135,7 +135,7 @@ Test(export, input_empty_2)
 {
     t_cmd   cmd;
     char    *input[] = {"export", NULL};
-    char    *expected = "declare -x HOME=\"/Users/jvan-hal\"\ndeclare -x LOGNAME=\"jvan-hal\"\ndeclare -x OLDPWD=\"/tmp/cd-dash\"\n";
+    char    *expected = "declare -x HOME=\"/Users/jvan-hal\"\ndeclare -x LOGNAME=\"jvan-hal\"\ndeclare -x OLDPWD=\"/tmp/cd-dash\"\ndeclare -x SHLVL=\"1\"\n";
 
     cmd.argc = 1;
     cmd.argv.array = input;
@@ -204,6 +204,39 @@ Test(export, input_one_5)
     assert_export_env_val(&cmd, "n", "-6", &env_with_home);
 }
 
+Test(export_err, input_one_6)
+{
+    t_cmd   cmd;
+    char    *input[] = {"export", "n-=6", NULL};
+    char    *expected = "msh: export: `n-=6': not a valid identifier\n";
+
+    cmd.argc = 2;
+    cmd.argv.array = input;
+    assert_export_output_err(&cmd, expected, &env_with_home);
+}
+
+Test(export_err, input_one_7)
+{
+    t_cmd   cmd;
+    char    *input[] = {"export", "-=6", NULL};
+    char    *expected = "msh: export: `-=6': not a valid identifier\n";
+
+    cmd.argc = 2;
+    cmd.argv.array = input;
+    assert_export_output_err(&cmd, expected, &env_with_home);
+}
+
+Test(export_err, input_one_8)
+{
+    t_cmd   cmd;
+    char    *input[] = {"export", "", NULL};
+    char    *expected = "msh: export: `': not a valid identifier\n";
+
+    cmd.argc = 2;
+    cmd.argv.array = input;
+    assert_export_output_err(&cmd, expected, &env_with_home);
+}
+
 Test(export, input_one_duplicate_0)
 {
     t_cmd   cmd;
@@ -223,4 +256,47 @@ Test(export, input_one_duplicate_1)
     cmd.argc = 2;
     cmd.argv.array = input;
     assert_export_output(&cmd, expected, &env_with_home);
+}
+
+Test(export_err, input_two_0)
+{
+    t_cmd   cmd;
+    char    *input[] = {"export", "n=-6", "-=ip", NULL};
+    char    *expected = "msh: export: `-=ip': not a valid identifier\n";
+
+    cmd.argc = 3;
+    cmd.argv.array = input;
+    assert_export_output_err(&cmd, expected, &env_with_home);
+}
+
+Test(export, input_two_1)
+{
+    t_cmd   cmd;
+    char    *input[] = {"export", "n=-6", "-=ip", NULL};
+
+    cmd.argc = 3;
+    cmd.argv.array = input;
+    assert_export_env_val(&cmd, "n", "-6", &env_with_home);
+}
+
+Test(export_err, input_three_0)
+{
+    t_cmd   cmd;
+    char    *input[] = {"export", "n=-6", "-=ip", "k=e", NULL};
+    char    *expected = "msh: export: `-=ip': not a valid identifier\n";
+
+    cmd.argc = 4;
+    cmd.argv.array = input;
+    assert_export_output_err(&cmd, expected, &env_with_home);
+}
+
+Test(export, input_three_1)
+{
+    t_cmd   cmd;
+    char    *input[] = {"export", "n=-6", "-=ip", "k=e", NULL};
+
+    cmd.argc = 4;
+    cmd.argv.array = input;
+    assert_export_env_val(&cmd, "n", "-6", &env_with_home);
+    assert_export_env_val(&cmd, "k", "e", &env_with_home);
 }

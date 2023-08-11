@@ -6,7 +6,7 @@
 /*   By: jvan-hal <jvan-hal@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/16 15:12:17 by jvan-hal      #+#    #+#                 */
-/*   Updated: 2023/08/11 11:50:59 by jvan-hal      ########   odam.nl         */
+/*   Updated: 2023/08/07 13:20:01 by dbasting      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,22 +57,6 @@ t_errno	execute_bin(t_cmd *cmd, t_msh *msh)
 		launch(cmd, msh);
 	msh->g_msh->exit = fork_wait(msh);
 	return (MSH_SUCCESS);
-}
-
-/* Wait for the child process. Return the child's exit status. */
-static int	fork_wait(t_msh *msh)
-{
-	int	wstatus;
-	int	exit;
-
-	exit = 0;
-	waitpid(msh->g_msh->child, &wstatus, 0);
-	if (WIFEXITED(wstatus))
-		exit = WEXITSTATUS(wstatus);
-	else if (WIFSIGNALED(wstatus))
-		exit = WTERMSIG(wstatus) + 128;
-	msh->g_msh->child = 0;
-	return (exit);
 }
 
 /* Find the utility specified by `cmd` and execute it, or exit on failure. */
