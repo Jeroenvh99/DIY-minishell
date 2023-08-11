@@ -6,7 +6,7 @@
 /*   By: dbasting <dbasting@codam.nl>                 +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/06/06 15:49:21 by dbasting      #+#    #+#                 */
-/*   Updated: 2023/08/08 14:31:12 by dbasting      ########   odam.nl         */
+/*   Updated: 2023/08/03 21:39:14 by dbasting      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,6 @@
 #include "ft_list.h"
 #include <signal.h>
 #include <unistd.h>
-
-#include "msh_debug.h"
 
 void	msh_loop(t_msh *msh)
 {
@@ -38,12 +36,9 @@ void	msh_loop(t_msh *msh)
 			break ;
 		}
 		msh->errno = parse(msh, &tokens);
-		/*if (msh->errno == MSH_SUCCESS)
-			msh->errno = execute(&msh->cmds, msh);*/
-		msh_strerror(msh->errno);
-		cmdtree_view(msh->tree, 0);
-		cmdtree_free(msh->tree);
-		msh->tree = NULL;
+		if (msh->errno == MSH_SUCCESS)
+			msh->errno = execute(&msh->cmds, msh);
+		list_clear(&msh->cmds, (t_freef)cmd_free);
 		if (msh->errno >= MSH_GENERIC)
 			msh_strerror(msh->errno);
 	}
