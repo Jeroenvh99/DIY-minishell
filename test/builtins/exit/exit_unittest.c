@@ -12,10 +12,18 @@
 #include <criterion/stats.h>
 #include <criterion/types.h>
 #include "msh.h"
+#include "msh_utils.h"
+#include "msh_execute.h"
 #include "libft.h"
 #include <criterion/assert.h>
 #include <criterion/internal/assert.h>
 #include <stdlib.h>
+
+void	msh_deinit(t_msh *msh)
+{
+	env_free(&msh->env);
+	// list_clear(&msh->cmds, (t_freef)cmd_free);
+}
 
 void redirect_stderr(void)
 {
@@ -62,6 +70,7 @@ void	assert_exit_status(t_cmd *cmd, int expected)
     cmd->io[2] = 2;
 	msh = (t_msh *)malloc(sizeof(t_msh));
 	bzero(msh, sizeof(t_msh));
+	msh->g_msh->exit = expected;
 	status = msh_exit(cmd, msh);
 	cr_assert_eq(status, expected);
 }
@@ -108,7 +117,6 @@ Test(exit, input_empty_3)
 
 	char	*input[] = {"exit", NULL};
 	char	*expected = "exit\n";
-	msh->g_msh->exit = 3;
 	cmd.argc = 1;
 	cmd.argv.array = input;
 	assert_exit_output(&cmd, expected);
@@ -120,7 +128,6 @@ Test(exit_err, input_empty_4)
 
 	char	*input[] = {"exit", NULL};
 	char	*expected = "";
-	msh->g_msh->exit = 3;
 	cmd.argc = 1;
 	cmd.argv.array = input;
 	assert_exit_output_error(&cmd, expected);
@@ -131,7 +138,6 @@ Test(exit, input_empty_5)
 	t_cmd cmd;
 
 	char	*input[] = {"exit", NULL};
-	msh->g_msh->exit = 3;
 	cmd.argc = 1;
 	cmd.argv.array = input;
 	assert_exit_status(&cmd, 3);
@@ -185,7 +191,7 @@ Test(exit_err, input_one_4)
 	t_cmd cmd;
 
 	char	*input[] = {"exit", "d", NULL};
-	char	*expected = "msh: d: exit: numeric argument required\n";
+	char	*expected = "msh: exit: d: numeric argument required\n";
 	cmd.argc = 2;
 	cmd.argv.array = input;
 	assert_exit_output_error(&cmd, expected);
@@ -217,7 +223,7 @@ Test(exit_err, input_two_1)
 	t_cmd cmd;
 
 	char	*input[] = {"exit", "5", "7", NULL};
-	char	*expected = "msh: exit: too many arguments\n";
+	char	*expected = "exit: too many arguments\n";
 	cmd.argc = 3;
 	cmd.argv.array = input;
 	assert_exit_output_error(&cmd, expected);

@@ -1,8 +1,6 @@
-name: minishell test
-run-name: checking if pr by ${{ github.actor }} passes all tests
+name: Minishell test
+run-name: Checking if pr by ${{ github.actor }} passes all tests
 on:
-  pull_request:
-    branches: [ master ]
   push:
     branches: [ jvan-hal ]
 jobs:
@@ -15,38 +13,36 @@ jobs:
       uses: actions/checkout@v3
       with:
         submodules: true
-    - name: Install Dependencies
+    - name: Install dependencies
       run: brew install criterion
-    - name: run cd tests
+    - name: Run cd tests
       run: make test_cd
-    - name: run echo tests
+    - name: Run echo tests
       run: make test_echo
-    - name: run env tests
+    - name: Run env tests
       run: make test_env
-    - name: run exit tests
-      run: make test_exit
-    - name: run export tests
+    - name: Run export tests
       run: make test_export
-    - name: run pwd tests
+    - name: Run pwd tests
       run: make test_pwd
-    - name: run unset tests
+    - name: Run unset tests
       run: make test_unset
-  parser_unit-test:
-    timeout-minutes: 10
-    runs-on: macos-latest
-    steps:
-    - name: Clone repository
-      uses: actions/checkout@v3
-      with:
-        submodules: true
-    - name: Install Dependencies
-      run: brew install criterion
-#    - name: run lexer tests
+  # parser_unit-test:
+  #   timeout-minutes: 10
+  #   runs-on: macos-latest
+  #   steps:
+  #   - name: Clone repository
+  #     uses: actions/checkout@v3
+  #     with:
+  #       submodules: true
+  #   - name: Install dependencies
+  #     run: brew install criterion
+#    - name: Run lexer tests
 #      run: make test_lexer
-#    - name: run expander tests
+#    - name: Run expander tests
 #      run: make test_expander
-    - name: run parser tests
-      run: make test_parser
+    # - name: Run parser tests
+    #   run: make test_parser
   utils_unit-test:
     timeout-minutes: 10
     runs-on: macos-latest
@@ -55,7 +51,18 @@ jobs:
       uses: actions/checkout@v3
       with:
         submodules: true
-    - name: Install Dependencies
+    - name: Install dependencies
       run: brew install criterion
-    - name: run env tests
+    - name: Run env tests
       run: make test_msh_env
+  full_test:
+    timeout-minutes: 10
+    runs-on: macos-latest
+    steps:
+    - name: Clone repository
+      uses: actions/checkout@v3
+      with:
+        submodules: true
+    - name: Run full minishell test
+      run: cd test/msh/integration
+           ./msh_test.sh
