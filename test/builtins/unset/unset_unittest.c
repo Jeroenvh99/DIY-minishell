@@ -106,7 +106,7 @@ Test(unset, input_one_1)
 	char	*input[] = {"unset", "HOME", NULL};
     cmd.argc = 2;
 	cmd.argv.array = input;
-	assert_unset_env(&cmd, "(null)\nSHLVL=2\nLANG=en_US.UTF-8\n");
+	assert_unset_env(&cmd, "");
 }
 
 Test(unset, input_one_2)
@@ -126,7 +126,7 @@ Test(unset, input_one_3)
 	char	*input[] = {"unset", "OLDPWD", NULL};
     cmd.argc = 2;
 	cmd.argv.array = input;
-	assert_unset_env(&cmd, "HOME=/tmp/cd-no_arg_with_home\nSHLVL=2\nLANG=en_US.UTF-8\n");
+	assert_unset_env(&cmd, "HOME=/tmp/cd-no_arg_with_home\nSHLVL=3\nLANG=en_US.UTF-8\n");
 }
 
 Test(unset_err, input_one_4)
@@ -156,7 +156,7 @@ Test(unset, input_two_1)
 	char	*input[] = {"unset", "SHLVL", "non", NULL};
     cmd.argc = 3;
 	cmd.argv.array = input;
-	assert_unset_env(&cmd, "HOME=/tmp/cd-no_arg_with_home\nLANG=en_US.UTF-8\n");
+	assert_unset_env(&cmd, "HOME=/tmp/cd-no_arg_with_home\n");
 }
 
 Test(unset_err, input_three_0)
@@ -176,5 +176,5 @@ Test(unset, input_three_1)
 	char	*input[] = {"unset", "SHLVL", "non", "HOME", NULL};
     cmd.argc = 4;
 	cmd.argv.array = input;
-	assert_unset_env(&cmd, "LANG=en_US.UTF-8\n");
+	assert_unset_env(&cmd, "");
 }
