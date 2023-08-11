@@ -6,7 +6,7 @@
 /*   By: dbasting <marvin@codam.nl>                   +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/04/18 14:25:46 by dbasting      #+#    #+#                 */
-/*   Updated: 2023/05/01 14:57:04 by dbasting      ########   odam.nl         */
+/*   Updated: 2023/08/11 15:35:36 by jvan-hal      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,6 +74,10 @@ t_token	*token_get_meta(char const **str)
 	{
 		if (!ft_strncmp(metatokens[type], *str, metatokens_len[type]))
 			break ;
+	}
+	if (type == TOK_TRUNC)
+	{
+		return (NULL);
 	}
 	*str += metatokens_len[type];
 	return (token_init(NULL, type + TOK_META_MIN));

@@ -6,7 +6,7 @@
 /*   By: dbasting <marvin@codam.nl>                   +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/04/18 14:13:15 by dbasting      #+#    #+#                 */
-/*   Updated: 2023/06/12 17:34:12 by dbasting      ########   odam.nl         */
+/*   Updated: 2023/08/11 16:38:47 by jvan-hal      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ static t_errno	rcmdl_add(t_list **tokens, char **line, char const *prompt)
 		return (errno);
 	if (errno == MSH_INCOMPLETE_TOKEN)
 		return (rcmdl_add(tokens, line, PROMPT_QUOTE));
-	if (((t_token *)list_last(*tokens)->content)->type == TOK_PIPE)
+	if (list_size(*tokens) > 0 && ((t_token *)list_last(*tokens)->content)->type == TOK_PIPE)
 		return (rcmdl_add(tokens, line, PROMPT_PIPE));
 	return (errno);
 }
