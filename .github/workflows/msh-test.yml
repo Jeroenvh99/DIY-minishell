@@ -65,4 +65,4 @@ jobs:
         submodules: true
     - name: Run full minishell test
       run: cd test/msh/integration
-      run: ./msh_test.sh
+           ./msh_test.sh
