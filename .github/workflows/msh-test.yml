@@ -64,4 +64,4 @@ jobs:
       with:
         submodules: true
     - name: Run full minishell test
-      run: make test_msh
+      run: ./test/msh/integration/msh_test.sh
