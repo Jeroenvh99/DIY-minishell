@@ -50,6 +50,7 @@ SRC_FILES	:= main.c\
 			lex/lex_token_get.c\
 			lex/lex_utils.c\
 			minishell/cmd.c\
+			minishell/cmdtree.c\
 			minishell/error.c\
 			minishell/heredoc.c\
 			minishell/readcmdline.c\
@@ -57,8 +58,8 @@ SRC_FILES	:= main.c\
 			minishell/signal.c\
 			parse/parse.c\
 			parse/parse_cmd.c\
+			parse/parse_cmdtree.c\
 			parse/parse_in.c\
-			parse/parse_operator.c\
 			parse/parse_out.c\
 			parse/parse_pipe.c\
 			parse/parse_pipeline.c\
@@ -70,7 +71,8 @@ SRC_FILES	:= main.c\
 			var/var_parse.c\
 			var/var_utils.c\
 			\
-			debug.c
+			debug.c\
+			parse/parse_debug.c
 OBJ_FILES	:= $(patsubst %.c,%.o,$(SRC_FILES))
 HDR_FILES	:= msh.h\
 			msh_error.h\
