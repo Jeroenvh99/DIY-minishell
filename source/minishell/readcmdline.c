@@ -6,13 +6,14 @@
 /*   By: dbasting <marvin@codam.nl>                   +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/04/18 14:13:15 by dbasting      #+#    #+#                 */
-/*   Updated: 2023/06/12 17:34:12 by dbasting      ########   odam.nl         */
+/*   Updated: 2023/08/11 15:07:37 by dbasting      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "msh.h"
 #include "msh_error.h"
 #include "msh_parse.h"
+#include "msh_syntax.h"
 #include "msh_utils.h"
 
 #include "ft_list.h"
@@ -43,6 +44,7 @@ static t_errno	rcmdl_add(t_list **tokens, char **line, char const *prompt)
 {
 	char	*segment;
 	t_errno	errno;
+	int		syntcheck;
 
 	segment = readline(prompt);
 	if (segment == NULL)
@@ -54,8 +56,11 @@ static t_errno	rcmdl_add(t_list **tokens, char **line, char const *prompt)
 		return (errno);
 	if (errno == MSH_INCOMPLETE_TOKEN)
 		return (rcmdl_add(tokens, line, PROMPT_QUOTE));
-	if (((t_token *)list_last(*tokens)->content)->type == TOK_PIPE)
-		return (rcmdl_add(tokens, line, PROMPT_PIPE));
+	syntcheck = syntax_check(*tokens);
+	if (syntcheck == SYNTERROR_FATAL)
+		return (MSH_SYNTAX_ERROR);
+	if (syntcheck > SYNTERROR_FATAL)
+		return (rcmdl_add(tokens, line, PROMPT_CONT));
 	return (errno);
 }
 

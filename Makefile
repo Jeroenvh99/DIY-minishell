@@ -6,7 +6,7 @@
 #    By: dbasting <marvin@codam.nl>                   +#+                      #
 #                                                    +#+                       #
 #    Created: 2022/12/28 12:06:53 by dbasting      #+#    #+#                  #
-#    Updated: 2023/08/08 14:21:15 by dbasting      ########   odam.nl          #
+#    Updated: 2023/08/11 15:08:33 by dbasting      ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -65,6 +65,9 @@ SRC_FILES	:= main.c\
 			parse/parse_pipeline.c\
 			parse/parse_utils.c\
 			parse/parse_word.c\
+			parse/syntax/syntax.c\
+			parse/syntax/syntax_pipeacts.c\
+			parse/syntax/syntax_treeacts.c\
 			utils/utils_list.c\
 			utils/utils_quotes.c\
 			var/var.c\
@@ -86,7 +89,7 @@ HDR_FILES	:= msh.h\
 LIB_FILES	:= libft.a
 
 SRC_DIR		:= ./source/
-SRC_SUBDIRS	:= builtins/ env/ execute/ expand/ lex/ minishell/ parse/ test/ utils/ var/
+SRC_SUBDIRS	:= builtins/ env/ execute/ expand/ lex/ minishell/ parse/ parse/syntax/ test/ utils/ var/
 OBJ_DIR		:= ./object/
 OBJ_SUBDIRS := $(SRC_SUBDIRS)
 HDR_DIR		:= ./include/
