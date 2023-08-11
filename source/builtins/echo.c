@@ -6,14 +6,13 @@
 /*   By: jvan-hal <jvan-hal@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/04/18 15:16:12 by jvan-hal      #+#    #+#                 */
-/*   Updated: 2023/07/18 16:07:02 by dbasting      ########   odam.nl         */
+/*   Updated: 2023/08/07 16:52:01 by jvan-hal      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_string.h"
-#include "ft_stdio.h"
+#include <stdio.h>
 #include "msh.h"
-#include <unistd.h>
 
 int	check_n_opt(char *str)
 {
@@ -35,14 +34,10 @@ int	write_args(t_cmd *cmd, int i)
 {
 	while (cmd->argv.array[i])
 	{
-		if (write(cmd->io[IO_OUT], cmd->argv.array[i],
-				ft_strlen(cmd->argv.array[i])) == -1)
-			return (-1);
 		if (cmd->argv.array[i + 1])
-		{
-			if (write(cmd->io[IO_OUT], " ", 1) == -1)
-				return (-1);
-		}
+			printf("%s ", cmd->argv.array[i]);
+		else
+			printf("%s", cmd->argv.array[i]);
 		++i;
 	}
 	return (0);
@@ -61,12 +56,10 @@ int	msh_echo(t_cmd *cmd, t_msh *msh)
 		newline = 0;
 		++i;
 	}
-	if (write_args(cmd, i) == -1)
-		return (-1);
+	write_args(cmd, i);
 	if (newline)
 	{
-		if (write(cmd->io[IO_OUT], "\n", 1) == -1)
-			return (-1);
+		printf("\n");
 	}
 	return (0);
 }

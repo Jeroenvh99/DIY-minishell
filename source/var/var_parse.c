@@ -6,7 +6,7 @@
 /*   By: dbasting <dbasting@codam.nl>                 +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/22 08:45:12 by dbasting      #+#    #+#                 */
-/*   Updated: 2023/08/01 15:07:49 by dbasting      ########   odam.nl         */
+/*   Updated: 2023/08/07 12:45:19 by jvan-hal      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ static inline size_t	is_varstr(char const *str)
 	size_t	i;
 
 	i = 0;
-	if (str[i] == '=' || str[i] == '+')
+	if (!str[i] || str[i] == '=' || str[i] == '+')
 		return (0);
 	while (str[i] != '=')
 	{
@@ -55,9 +55,8 @@ static inline size_t	is_varstr(char const *str)
 			return (0);
 		if (str[i] == '+')
 		{
-			if (str[i + i] == '=')
-				break ;
-			return (0);
+			if (str[i + 1] && str[i + 1] == '=')
+				return (i);
 		}
 		++i;
 	}

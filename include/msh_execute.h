@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   msh_exec.h                                         :+:    :+:            */
+/*   msh_execute.h                                      :+:    :+:            */
 /*                                                     +:+                    */
 /*   By: dbasting <marvin@codam.nl>                   +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/06/19 17:30:11 by dbasting      #+#    #+#                 */
-/*   Updated: 2023/07/28 15:56:52 by dbasting      ########   odam.nl         */
+/*   Updated: 2023/08/07 12:09:12 by jvan-hal      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@ enum e_builtins {
 	BUILTIN_ECHO,
 	BUILTIN_ENV,
 	BUILTIN_EXIT,
+	BUILTIN_EXPORT,
 	BUILTIN_PWD,
 	BUILTIN_UNSET,
 	N_BUILTIN,

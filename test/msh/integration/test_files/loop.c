@@ -1,34 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   pwd.c                                              :+:    :+:            */
+/*   loop.c                                             :+:    :+:            */
 /*                                                     +:+                    */
 /*   By: jvan-hal <jvan-hal@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
-/*   Created: 2023/04/20 16:27:41 by jvan-hal      #+#    #+#                 */
-/*   Updated: 2023/08/07 16:53:28 by jvan-hal      ########   odam.nl         */
+/*   Created: 2023/08/11 10:14:48 by jvan-hal      #+#    #+#                 */
+/*   Updated: 2023/08/11 10:18:18 by jvan-hal      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "msh.h"
-#include <stdlib.h>
-#include <unistd.h>
+#include <fcntl.h>
 #include <stdio.h>
+#include <unistd.h>
 
-int	msh_pwd(t_cmd *cmd, t_msh *msh)
+int	main(int argc, char **argv)
 {
-	char	*buf;
-
-	(void)msh;
-	(void)cmd;
-	buf = NULL;
-	buf = getcwd(buf, 0);
-	if (buf)
+	int	pid;
+	pid = fork();
+	open("infile", O_RDONLY);
+	while (1)
 	{
-		printf("%s\n", buf);
-		free(buf);
-		return (0);
+		printf("Hello minishell %i\n", pid);
+		sleep(1);
 	}
-	else
-		return (1);
+	return (0);
 }
