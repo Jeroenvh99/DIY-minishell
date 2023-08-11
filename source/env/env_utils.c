@@ -6,7 +6,7 @@
 /*   By: jvan-hal <jvan-hal@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/09 15:57:34 by jvan-hal      #+#    #+#                 */
-/*   Updated: 2023/08/02 23:47:47 by dbasting      ########   odam.nl         */
+/*   Updated: 2023/08/07 10:43:27 by jvan-hal      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,18 +31,6 @@ char	*env_entry_build(char const *name, char const *value)
 	ft_strlcat(entry, "=", -1);
 	ft_strlcat(entry, value, -1);
 	return (entry);
-}	
-
-void	print_2d_arr(int fd, char **arr, size_t size)
-{
-	size_t	i;
-
-	i = 0;
-	while (i < size)
-	{
-		ft_dprintf(fd, "%s\n", arr[i]);
-		++i;
-	}
 }
 
 /* Return the index of the entry in `env` defining `name`. If `name` is not
