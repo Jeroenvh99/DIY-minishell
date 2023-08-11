@@ -6,42 +6,37 @@
 /*   By: jvan-hal <jvan-hal@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/04/20 16:51:03 by jvan-hal      #+#    #+#                 */
-/*   Updated: 2023/08/07 18:22:51 by jvan-hal      ########   odam.nl         */
+/*   Updated: 2023/08/01 23:40:21 by dbasting      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft_string.h"
 #include "ft_stdio.h"
+#include "ft_string.h"
 #include "msh.h"
 #include <fcntl.h>
-#include <stdio.h>
 #include <unistd.h>
 
-static int	exp_print_env(t_env *env);
+static int	exp_print_env(t_env *env, t_cmd *cmd);
 
 int	msh_export(t_cmd *cmd, t_msh *msh)
 {
 	int	i;
-	int	status;
 
 	if (cmd->argc == 1)
-		exp_print_env(&msh->env);
-	status = 0;
+	{
+		if (exp_print_env(&msh->env, cmd) == -1)
+			return (-1);
+	}
 	i = 1;
 	while (cmd->argv.array[i])
 	{
-		if (env_set_entry(&msh->env, cmd->argv.array[i]) > 0)
-		{
-			ft_dprintf(STDERR_FILENO, "msh: export: `%s': not a valid "
-				"identifier\n", cmd->argv.array[i]);
-			status = 1;
-		}
+		env_set_entry(&msh->env, cmd->argv.array[i]);
 		++i;
 	}
-	return (status);
+	return (0);
 }
 
-static int	exp_print_env(t_env *env)
+static int	exp_print_env(t_env *env, t_cmd *cmd)
 {
 	int	i;
 	int	j;
@@ -49,7 +44,8 @@ static int	exp_print_env(t_env *env)
 	i = 0;
 	while (env->envp[i])
 	{
-		printf("declare -x ");
+		if (write(cmd->io[IO_OUT], "declare -x ", 11) == -1)
+			return (-1);
 		j = 0;
 		while (env->envp[i][j])
 		{
@@ -57,8 +53,9 @@ static int	exp_print_env(t_env *env)
 				break ;
 			++j;
 		}
-		printf("%.*s", j + 1, env->envp[i]);
-		printf("\"%s\"\n", env->envp[i] + j + 1);
+		if (write(cmd->io[IO_OUT], env->envp[i], j + 1) == -1)
+			return (-1);
+		ft_dprintf(cmd->io[IO_OUT], "\"%s\"\n", env->envp[i] + j + 1);
 		++i;
 	}
 	return (0);

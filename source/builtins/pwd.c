@@ -6,26 +6,27 @@
 /*   By: jvan-hal <jvan-hal@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/04/20 16:27:41 by jvan-hal      #+#    #+#                 */
-/*   Updated: 2023/08/07 16:53:28 by jvan-hal      ########   odam.nl         */
+/*   Updated: 2023/07/18 16:08:46 by dbasting      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "ft_string.h"
+#include "ft_stdio.h"
 #include "msh.h"
 #include <stdlib.h>
 #include <unistd.h>
-#include <stdio.h>
 
 int	msh_pwd(t_cmd *cmd, t_msh *msh)
 {
 	char	*buf;
 
 	(void)msh;
-	(void)cmd;
 	buf = NULL;
 	buf = getcwd(buf, 0);
 	if (buf)
 	{
-		printf("%s\n", buf);
+		if (ft_dprintf(cmd->io[IO_OUT], "%s\n", buf) == -1)
+			return (-1);
 		free(buf);
 		return (0);
 	}

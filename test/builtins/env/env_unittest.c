@@ -12,7 +12,6 @@
 #include <criterion/stats.h>
 #include <criterion/types.h>
 #include "msh.h"
-#include "msh_execute.h"
 #include "libft.h"
 #include <criterion/assert.h>
 #include <criterion/internal/assert.h>
@@ -126,7 +125,7 @@ Test(env_err, input_one_1)
 	t_cmd cmd;
 
 	char	*input[] = {"env", "-", NULL};
-	char	*expected = "msh: env: Invalid argument\n";
+	char	*expected = "env: -: No such file or directory\n";
 	cmd.argc = 2;
 	cmd.argv.array = input;
 	assert_env_output_error(&cmd, expected);
@@ -158,7 +157,7 @@ Test(env_err, input_one_4)
     t_cmd cmd;
 
     char	*input[] = {"env", "--", NULL};
-    char	*expected = "msh: env: Invalid argument\n";
+    char	*expected = "env: --: No such file or directory\n";
     cmd.argc = 2;
     cmd.argv.array = input;
     assert_env_output_error(&cmd, expected);

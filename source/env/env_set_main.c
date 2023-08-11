@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   env_set_main.c                                     :+:    :+:            */
+/*   env_set.c                                          :+:    :+:            */
 /*                                                     +:+                    */
 /*   By: jvan-hal <jvan-hal@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/09 15:57:34 by jvan-hal      #+#    #+#                 */
-/*   Updated: 2023/08/07 12:45:31 by jvan-hal      ########   odam.nl         */
+/*   Updated: 2023/08/01 23:42:08 by dbasting      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,6 @@ t_errno	env_set_main(t_env *env, char *entry)
 	t_errno		errno;
 	char		*name;
 
-	name = NULL;
 	errno = var_parse(&name, entry);
 	if (errno == MSH_VAR_ASSIGN)
 		errno = env_assign_val(env, name, entry);

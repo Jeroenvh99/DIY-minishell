@@ -111,6 +111,7 @@ void	assert_cd_env(t_cmd *cmd, const char *name, int exists, void (*env_init)(t_
 	env_init(&msh);
 	msh_cd(cmd, &msh);
 	fflush(stdout);
+	// print_env(msh.env.envp);
 	if (exists)
 		cr_assert_not_null(env_search(&msh.env, name));
 	else
@@ -140,32 +141,32 @@ TestSuite(cd, .init = redirect_stdout);
 
 TestSuite(cd_err, .init = redirect_stderr);
 
-// Test(cd, no_arg_with_home_0)
-// {
-// 	t_cmd	cmd;
-// 	char	*input[] = {"cd", NULL};
+Test(cd, no_arg_with_home_0)
+{
+	t_cmd	cmd;
+	char	*input[] = {"cd", NULL};
 
-// 	cmd.argc = 1;
-// 	cmd.argv.array = input;
-// 	system("cd");
-// 	system("mkdir /Users/jvan-hal");
-// 	system("mkdir /tmp/cd-no_arg_with_home");
-// 	system("cd /tmp/cd-no_arg_with_home");
-// 	assert_cd_dir(&cmd, "/Users/jvan-hal", &env_with_home);
-// 	system("rmdir /tmp/cd-no_arg_with_home");
-// }
+	cmd.argc = 1;
+	cmd.argv.array = input;
+	system("cd");
+	system("mkdir /Users/jvan-hal");
+	system("mkdir /tmp/cd-no_arg_with_home");
+	system("cd /tmp/cd-no_arg_with_home");
+	assert_cd_dir(&cmd, "/Users/jvan-hal", &env_with_home);
+	system("rmdir /tmp/cd-no_arg_with_home");
+}
 
-// Test(cd, no_arg_with_home_1)
-// {
-// 	t_cmd	cmd;
-// 	char	*input[] = {"cd", NULL};
+Test(cd, no_arg_with_home_1)
+{
+	t_cmd	cmd;
+	char	*input[] = {"cd", NULL};
 
-// 	cmd.argc = 1;
-// 	cmd.argv.array = input;
-// 	system("cd");
-// 	system("mkdir /Users/jvan-hal");
-// 	assert_cd_status(&cmd, 0, &env_with_home);
-// }
+	cmd.argc = 1;
+	cmd.argv.array = input;
+	system("cd");
+	system("mkdir /Users/jvan-hal");
+	assert_cd_status(&cmd, 0, &env_with_home);
+}
 
 Test(cd, no_arg_with_home_2)
 {
@@ -188,7 +189,7 @@ Test(cd, no_arg_with_home_3)
 	cmd.argv.array = input;
 	system("cd");
 	system("mkdir /Users/jvan-hal");
-	assert_cd_env(&cmd, "PWD", 0, &env_with_home);
+	assert_cd_env(&cmd, "PWD", 1, &env_with_home);
 }
 
 Test(cd_err, no_arg_without_home_0)
@@ -292,7 +293,7 @@ Test(cd, dash_arg_with_oldpwd_4)
 	system("mkdir /tmp/cd-no_arg_with_home");
 	system("mkdir /tmp/cd-dash");
 	system("cd /tmp/cd-no_arg_with_home");
-	assert_cd_env(&cmd, "PWD", 0, &env_with_home);
+	assert_cd_env(&cmd, "PWD", 1, &env_with_home);
 	system("rmdir /tmp/cd-no_arg_with_home");
 	system("rmdir /tmp/cd-dash");
 }
@@ -312,20 +313,20 @@ Test(cd, dash_arg_with_oldpwd_4)
 // 	system("rmdir /tmp/cd-dash");
 // }
 
-// Test(cd_err, dash_arg_without_oldpwd_1)
-// {
-// 	t_cmd	cmd;
-// 	char	*input[] = {"cd", "-", NULL};
+Test(cd_err, dash_arg_without_oldpwd_1)
+{
+	t_cmd	cmd;
+	char	*input[] = {"cd", "-", NULL};
 
-// 	cmd.argc = 2;
-// 	cmd.argv.array = input;
-// 	system("mkdir -p /tmp/cd-no_arg_with_home");
-// 	system("mkdir /tmp/cd-dash");
-// 	system("cd /tmp/cd-no_arg_with_home");
-// 	assert_cd_output_error(&cmd, "msh: cd: OLDPWD not set\n", &env_without_oldpwd);
-// 	system("rmdir /tmp/cd-no_arg_with_home");
-// 	system("rmdir /tmp/cd-dash");
-// }
+	cmd.argc = 2;
+	cmd.argv.array = input;
+	system("mkdir -p /tmp/cd-no_arg_with_home");
+	system("mkdir /tmp/cd-dash");
+	system("cd /tmp/cd-no_arg_with_home");
+	assert_cd_output_error(&cmd, "msh: cd: OLDPWD not set\n", &env_without_oldpwd);
+	system("rmdir /tmp/cd-no_arg_with_home");
+	system("rmdir /tmp/cd-dash");
+}
 
 Test(cd_err, dash_arg_without_oldpwd_2)
 {
@@ -381,29 +382,29 @@ Test(cd_err, dash_arg_without_oldpwd_3)
 // 	system("rmdir /tmp/cd-no_arg_with_home");
 // }
 
-Test(cd, dir_arg_2)
-{
-	t_cmd	cmd;
-	char	*input[] = {"cd", "tmp", NULL};
+// Test(cd, dir_arg_2)
+// {
+// 	t_cmd	cmd;
+// 	char	*input[] = {"cd", "tmp", NULL};
 
-	cmd.argc = 2;
-	cmd.argv.array = input;
-	system("mkdir /tmp/cd-no_arg_with_home");
-	assert_cd_env(&cmd, "OLDPWD", 1, &env_with_home);
-	system("rmdir /tmp/cd-no_arg_with_home");
-}
+// 	cmd.argc = 2;
+// 	cmd.argv.array = input;
+// 	system("mkdir /tmp/cd-no_arg_with_home");
+// 	assert_cd_env(&cmd, "OLDPWD", 1, &env_with_home);
+// 	system("rmdir /tmp/cd-no_arg_with_home");
+// }
 
-Test(cd, dir_arg_3)
-{
-	t_cmd	cmd;
-	char	*input[] = {"cd", "tmp", NULL};
+// Test(cd, dir_arg_3)
+// {
+// 	t_cmd	cmd;
+// 	char	*input[] = {"cd", "tmp", NULL};
 
-	cmd.argc = 2;
-	cmd.argv.array = input;
-	system("mkdir /tmp/cd-no_arg_with_home");
-	assert_cd_env(&cmd, "PWD", 0, &env_with_home);
-	system("rmdir /tmp/cd-no_arg_with_home");
-}
+// 	cmd.argc = 2;
+// 	cmd.argv.array = input;
+// 	system("mkdir /tmp/cd-no_arg_with_home");
+// 	assert_cd_env(&cmd, "PWD", 1, &env_with_home);
+// 	system("rmdir /tmp/cd-no_arg_with_home");
+// }
 
 Test(cd, inv_dir_arg_0)
 {

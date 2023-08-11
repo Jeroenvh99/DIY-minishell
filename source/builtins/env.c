@@ -4,9 +4,9 @@
 /*   env.c                                              :+:    :+:            */
 /*                                                     +:+                    */
 /*   By: jvan-hal <jvan-hal@student.codam.nl>         +#+                     */
-/*                                                   +#+                      */
+/*       dbasting <dbasting@student.codam.nl>        +#+                      */
 /*   Created: 2023/04/20 16:51:40 by jvan-hal      #+#    #+#                 */
-/*   Updated: 2023/08/07 13:33:16 by jvan-hal      ########   odam.nl         */
+/*   Updated: 2023/08/01 23:58:24 by dbasting      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 

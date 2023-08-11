@@ -6,7 +6,7 @@
 /*   By: jvan-hal <jvan-hal@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/16 15:12:17 by jvan-hal      #+#    #+#                 */
-/*   Updated: 2023/08/07 12:10:12 by jvan-hal      ########   odam.nl         */
+/*   Updated: 2023/07/28 15:55:43 by dbasting      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,9 +35,9 @@ t_errno	execute_cmd(t_cmd *cmd, t_msh *msh)
 static t_builtinf	get_builtin(char const *cmd)
 {
 	t_builtinf const	builtins[N_BUILTIN] = {
-		msh_cd, msh_echo, msh_env, msh_exit, msh_export, msh_pwd, msh_unset};
+		msh_cd, msh_echo, msh_env, msh_exit, msh_pwd, msh_unset};
 	char const *const	names[N_BUILTIN] = {
-		"cd", "echo", "env", "exit", "export", "pwd", "unset"};
+		"cd", "echo", "env", "exit", "pwd", "unset"};
 	size_t				i;
 
 	i = 0;
