@@ -1,0 +1,28 @@
+
+< < env
+env > >
+env >>
+bash & echo i
+bash &&& echo i
+&& env
+|| env
+)
+|
+>|
+> ()
+> &&
+> ||
+env |& echo
+
+echo hi |
+bash &&
+bash ||
+echo "h
+echo 'h
+echo 'h''
+echo 'h'e'l'o'
+echo 'h"
+echo "h'
+(echo e && pwd
+((echo e && pwd)
+(echo e &&( env | pwd)
