@@ -6,7 +6,7 @@
 /*   By: dbasting <marvin@codam.nl>                   +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/04/18 13:51:16 by dbasting      #+#    #+#                 */
-/*   Updated: 2023/08/08 12:15:39 by jvan-hal      ########   odam.nl         */
+/*   Updated: 2023/08/11 16:02:25 by dbasting      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,9 @@
 # define PROMPT			"msh$ "
 # define PROMPT_CONT	"> "
 # define PROMPT_PIPE	"pipe> "
-# define PROMPT_QUOTE	"dquote> "
+# define PROMPT_QUOTE	"quote> "
+# define PROMPT_PAR		"parenthesis>"
+# define PROMPT_CMD		"cmd>"
 
 typedef struct s_msh		t_msh;
 typedef struct s_cmd		t_cmd;
