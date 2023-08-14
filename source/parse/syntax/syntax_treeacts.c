@@ -6,35 +6,33 @@
 /*   By: dbasting <marvin@codam.nl>                   +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/08/11 13:40:43 by dbasting      #+#    #+#                 */
-/*   Updated: 2023/08/11 15:41:07 by dbasting      ########   odam.nl         */
+/*   Updated: 2023/08/14 16:52:38 by dbasting      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "msh_syntax.h"
 
-int	syntax_check_operator(int ct[N_CAT])
+int	syntax_check_operator(int *last, int *pars)
 {
-	if (ct[OPERATOR] != 0
-		|| (ct[WORDS] == 0 && ct[PIPE] == 0))
+	(void) pars;
+	if (*last == NONE || *last == REDIRECT || *last == PIPE)
 		return (SYNTERROR_FATAL);
-	ct[OPERATOR] = 1;
+	*last = OPERATOR;
 	return (SUCCESS);
 }
 
-int	syntax_check_openpar(int ct[N_CAT])
+int	syntax_check_openpar(int *last, int *pars)
 {
-	ct[PARENTHESIS]++;
-	if (ct[WORDS] > 0)
+	(*pars)++;
+	if (*last == REDIRECT || *last == PIPE)
 		return (SYNTERROR_FATAL);
-	ct[OPERATOR] = 0;
 	return (SUCCESS);
 }
 
-int	syntax_check_closepar(int ct[N_CAT])
+int	syntax_check_closepar(int *last, int *pars)
 {
-	ct[PARENTHESIS]--;
-	if (ct[PARENTHESIS] < 0)
+	(*pars)--;
+	if (*pars < 0 || *last != WORD)
 		return (SYNTERROR_FATAL);
-	ct[OPERATOR] = 0;
 	return (SUCCESS);
 }

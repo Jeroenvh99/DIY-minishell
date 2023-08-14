@@ -6,7 +6,7 @@
 /*   By: dbasting <marvin@codam.nl>                   +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/08/11 12:39:01 by dbasting      #+#    #+#                 */
-/*   Updated: 2023/08/11 16:01:23 by dbasting      ########   odam.nl         */
+/*   Updated: 2023/08/14 17:04:58 by dbasting      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,8 @@
 #include "msh.h"
 
 #include "ft_list.h"
-#include "ft_string.h"
 
-static int	check_final(int ct[N_CAT]);
+static inline int	check_final(int last, int pars);
 
 /**
  * @brief	Perform a syntax check on a list of tokens.
@@ -30,7 +29,8 @@ static int	check_final(int ct[N_CAT]);
 int	syntax_check(t_list *tokens)
 {
 	int				error;
-	int				ct[N_CAT];
+	int				last;
+	int				pars;
 	t_action const	actions[N_TOK] = {
 		syntax_check_word,
 		syntax_check_redir, syntax_check_redir,
@@ -39,26 +39,27 @@ int	syntax_check(t_list *tokens)
 		syntax_check_operator, syntax_check_operator,
 		syntax_check_openpar, syntax_check_closepar};
 
-	ft_memset(ct, 0x0, N_CAT * sizeof(int));
+	last = NONE;
+	pars = 0;
 	while (tokens)
 	{
-		error = actions[((t_token *)tokens->content)->type](ct);
+		error = actions[((t_token *)tokens->content)->type](&last, &pars);
 		if (error != SUCCESS)
 			return (error);
 		tokens = tokens->next;
 	}
-	return (check_final(ct));
+	return (check_final(last, pars));
 }
 
-static int 	check_final(int ct[N_CAT])
+static inline int	check_final(int last, int pars)
 {
-	if (ct[PIPE] == 1)
+	if (last == PIPE)
 		return (SYNTERROR_PIPE);
-	if (ct[OPERATOR] == 1)
+	if (last == OPERATOR)
 		return (SYNTERROR_OPERATOR);
-	if (ct[PARENTHESIS] > 0)
+	if (pars > 0)
 		return (SYNTERROR_PARENTHESIS);
-	if (ct[PARENTHESIS] < 0 || ct[REDIRECT] > 0)
+	if (pars < 0 || last == REDIRECT)
 		return (SYNTERROR_FATAL);
 	return (SUCCESS);
 }

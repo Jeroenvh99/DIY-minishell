@@ -6,7 +6,7 @@
 /*   By: dbasting <marvin@codam.nl>                   +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/08/11 13:24:12 by dbasting      #+#    #+#                 */
-/*   Updated: 2023/08/11 15:08:02 by dbasting      ########   odam.nl         */
+/*   Updated: 2023/08/14 16:56:48 by dbasting      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,8 @@
 # include "ft_list.h"
 
 enum e_cat {
-	WORDS = 0,
+	NONE = -1,
+	WORD = 0,
 	REDIRECT,
 	PIPE,
 	OPERATOR,
@@ -34,17 +35,17 @@ enum e_synterror {
 	N_SYNTERROR,
 };
 
-typedef int	(*t_action)(int[N_CAT]);
+typedef int	(*t_action)(int*, int*);
 
 // Main functions.
 int	syntax_check(t_list *tokens);
 
 // Actions.
-int	syntax_check_word(int ct[N_CAT]);
-int	syntax_check_redir(int ct[N_CAT]);
-int	syntax_check_pipe(int ct[N_CAT]);
-int	syntax_check_operator(int ct[N_CAT]);
-int	syntax_check_openpar(int ct[N_CAT]);
-int	syntax_check_closepar(int ct[N_CAT]);
+int	syntax_check_word(int *last, int *pars);
+int	syntax_check_redir(int *last, int *pars);
+int	syntax_check_pipe(int *last, int *pars);
+int	syntax_check_operator(int *last, int *pars);
+int	syntax_check_openpar(int *last, int *pars);
+int	syntax_check_closepar(int *last, int *pars);
 
 #endif

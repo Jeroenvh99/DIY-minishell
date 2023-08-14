@@ -6,33 +6,33 @@
 /*   By: dbasting <marvin@codam.nl>                   +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/08/11 13:31:06 by dbasting      #+#    #+#                 */
-/*   Updated: 2023/08/11 16:04:14 by dbasting      ########   odam.nl         */
+/*   Updated: 2023/08/14 16:44:37 by dbasting      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "msh_syntax.h"
 
-int	syntax_check_word(int ct[N_CAT])
+int	syntax_check_word(int *last, int *pars)
 {
-	ct[WORDS]++;
-	ct[REDIRECT] = 0;
-	ct[PIPE] = 0;
-	ct[OPERATOR] = 0;
+	(void) pars;
+	*last = WORD;
 	return (SUCCESS);
 }
 
-int	syntax_check_redir(int ct[N_CAT])
+int	syntax_check_redir(int *last, int *pars)
 {
-	if (ct[REDIRECT] != 0)
+	(void) pars;
+	if (*last == REDIRECT)
 		return (SYNTERROR_FATAL);
-	ct[REDIRECT] = 1;
+	*last = REDIRECT;
 	return (SUCCESS);
 }
 
-int	syntax_check_pipe(int ct[N_CAT])
+int	syntax_check_pipe(int *last, int *pars)
 {
-	if (ct[PIPE] != 0)
+	(void) pars;
+	if (*last == PIPE || *last == REDIRECT || *last == NONE)
 		return (SYNTERROR_FATAL);
-	ct[PIPE] = 1;
+	*last = PIPE;
 	return (SUCCESS);
 }

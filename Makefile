@@ -6,11 +6,7 @@
 #    By: dbasting <marvin@codam.nl>                   +#+                      #
 #                                                    +#+                       #
 #    Created: 2022/12/28 12:06:53 by dbasting      #+#    #+#                  #
-<<<<<<< HEAD
-#    Updated: 2023/08/11 15:08:33 by dbasting      ########   odam.nl          #
-=======
-#    Updated: 2023/08/11 10:50:36 by jvan-hal      ########   odam.nl          #
->>>>>>> 503a0917c7383795864f76a917eca24cfb435720
+#    Updated: 2023/08/14 13:10:47 by dbasting      ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
