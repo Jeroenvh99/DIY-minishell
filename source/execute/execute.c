@@ -6,7 +6,7 @@
 /*   By: jvan-hal <jvan-hal@student.codam.nl>         +#+                     */
 /*       dbasting <dbasting@student.codam.nl>        +#+                      */
 /*   Created: 2023/05/16 15:12:17 by jvan-hal      #+#    #+#                 */
-/*   Updated: 2023/08/03 21:38:05 by dbasting      ########   odam.nl         */
+/*   Updated: 2023/08/14 17:46:26 by dbasting      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,12 +20,28 @@
 #include <unistd.h>
 
 /* Execute `cmdtree`. `cmdtree` is consumed. */
-t_errno	execute(t_list **pipeline, t_msh *msh)
+t_errno	execute(t_msh *msh)
 {
 	handler_set(SIGINT, handle_relay);
 	handler_set(SIGQUIT, handle_relay);
 	env_pack(&msh->env);
-	return (execute_pipeline(pipeline, msh));
+	return (execute_cmdtree(msh->tree, msh));
+}
+
+/* Execute a command tree `tree`. */
+t_errno	execute_cmdtree(t_cmdtree *tree, t_msh *msh)
+{
+	t_errno	errno;
+
+	if (!tree->op)
+		return (execute_pipeline(&tree->data.pipeline, msh));
+	errno = execute_cmdtree(tree->data.branches[TREE_LEFT], msh);
+	if (errno != MSH_SUCCESS)
+		return (errno);
+	if ((msh->g_msh->exit == EXIT_SUCCESS && tree->op == TREE_OP_AND)
+		|| (msh->g_msh->exit != EXIT_SUCCESS && tree->op == TREE_OP_OR))
+		return (execute_cmdtree(tree->data.branches[TREE_RIGHT], msh));
+	return (MSH_SUCCESS);
 }
 
 /* Execute all commands in `pipeline` `pipeline` is consumed. */
