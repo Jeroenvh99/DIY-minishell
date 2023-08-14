@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   parse.c                                            :+:    :+:            */
+/*   parse_operator.c                                   :+:    :+:            */
 /*                                                     +:+                    */
 /*   By: dbasting <marvin@codam.nl>                   +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/04/18 14:13:15 by dbasting      #+#    #+#                 */
-/*   Updated: 2023/08/04 14:27:26 by dbasting      ########   odam.nl         */
+/*   Updated: 2023/08/04 14:17:28 by dbasting      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,31 +17,18 @@
 
 #include "ft_list.h"
 
-/* Parse `tokens` to form a command tree. `tokens` is consumed. */
-t_errno	parse(t_msh *msh, t_list **tokens)
+t_errno	parse_and(t_cmdtree *tree, t_list **tokens, t_msh *msh)
 {
-	t_list	**pipeline;
-	t_errno	errno;
-
-	pipeline = &msh->cmds;
-	while (*tokens)
-	{
-		if (is_ctltok((*tokens)->content))
-			token_free(list_pop_ptr(tokens));
-		errno = parse_pipeline(pipeline, tokens, msh);
-		if (errno != MSH_SUCCESS)
-			return (errno);
-	}
+	(void) tree;
+	(void) msh;
+	token_free(list_pop_ptr(tokens));
 	return (MSH_SUCCESS);
 }
 
-/* Throw an MSH_SYNTAX_ERROR if an invalid token is encountered. This should
- * never happen. If it does, the lexer is likely broken.
- */
-t_errno	parse_invalid(t_cmd *cmd, t_list **tokens, t_msh *msh)
+t_errno	parse_or(t_cmdtree *tree, t_list **tokens, t_msh *msh)
 {
-	(void) cmd;
-	(void) tokens;
+	(void) tree;
 	(void) msh;
-	return (MSH_SYNTAX_ERROR);
+	token_free(list_pop_ptr(tokens));
+	return (MSH_SUCCESS);
 }

@@ -20,8 +20,6 @@
 #include <signal.h>
 #include <unistd.h>
 
-#include "msh_debug.h"
-
 void	msh_loop(t_msh *msh)
 {
 	t_list	*tokens;
@@ -42,8 +40,6 @@ void	msh_loop(t_msh *msh)
 			msh->errno = parse(msh, &tokens);
 			if (msh->errno == MSH_SUCCESS)
 				msh->errno = execute(msh);
-			//cmdtree_view(msh->tree, 0);
-			//cmdtree_free(msh->tree);
 		}
 		list_clear(&tokens, (t_freef)token_free);
 		msh->tree = NULL;

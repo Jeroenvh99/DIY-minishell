@@ -13,8 +13,6 @@ cat <minishell.h&ls
 > ||
 echo oi || echo tchau
 env | grep USER || grep lucas
-> *
->> *
 < *
 << *
 #

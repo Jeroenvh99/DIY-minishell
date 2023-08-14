@@ -45,14 +45,6 @@ enum e_treeop {
 	TREE_OP_NONE = 0,
 	TREE_OP_AND,
 	TREE_OP_OR,
-	TREE_OP_OPENPAR,
-	TREE_OP_CLOSEPAR,
-	N_TREE_OP,
-};
-
-enum e_treebranch {
-	TREE_LEFT = 0,
-	TREE_RIGHT,
 };
 
 /* Global shell data structure.
@@ -67,13 +59,14 @@ struct s_g_msh {
 /* Shell data object.
  * @param g_msh	Global portion of shell data:
  * @param env	The shell environment.
- * @param tree	The current command queue.
+ * @param var	The shell's local variables. ## UPCOMING ##
+ * @param cmds	The current command queue.
  * @param errno	The current error code.
  */
 struct s_msh {
 	struct s_g_msh	*g_msh;
 	t_env			env;
-	t_cmdtree		*tree;
+	t_list			*cmds;
 	t_errno			errno;
 };
 

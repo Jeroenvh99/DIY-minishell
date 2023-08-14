@@ -6,7 +6,7 @@
 /*   By: jvan-hal <jvan-hal@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/16 15:12:17 by jvan-hal      #+#    #+#                 */
-/*   Updated: 2023/08/07 12:10:12 by jvan-hal      ########   odam.nl         */
+/*   Updated: 2023/08/11 15:56:32 by jvan-hal      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,8 @@ t_errno	execute_cmd(t_cmd *cmd, t_msh *msh)
 
 	if (builtin)
 		return (execute_builtin(builtin, cmd, msh));
+	if (cmd->argc == 0)
+		return (MSH_SUCCESS);
 	return (execute_bin(cmd, msh));
 }
 
@@ -41,6 +43,8 @@ static t_builtinf	get_builtin(char const *cmd)
 	size_t				i;
 
 	i = 0;
+	if (!cmd)
+		return (NULL);
 	while (i < N_BUILTIN)
 	{
 		if (ft_strncmp(cmd, names[i], -1) == 0)

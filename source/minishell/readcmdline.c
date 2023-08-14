@@ -16,6 +16,7 @@
 #include "msh_syntax.h"
 #include "msh_utils.h"
 
+#include "ft_ctype.h"
 #include "ft_list.h"
 #include "ft_string.h"
 #include <stdio.h>
@@ -25,6 +26,7 @@
 
 static t_errno	rcmdl_add(t_list **tokens, char **line, char const *prompt);
 static t_errno	rcmdl_strjoin(char **line, char *segment);
+static int		rcmdl_isspaces(char *str);
 
 t_errno	readcmdline(t_list **tokens)
 {
@@ -49,6 +51,8 @@ static t_errno	rcmdl_add(t_list **tokens, char **line, char const *prompt)
 	segment = readline(prompt);
 	if (segment == NULL)
 		return (MSH_NOCMDLINE);
+	if (segment == '\0' || rcmdl_isspaces(segment))
+		return (rcmdl_add(tokens, line, PROMPT));
 	errno = lex(tokens, segment);
 	if (rcmdl_strjoin(line, segment) == MSH_MEMFAIL)
 		return (MSH_MEMFAIL);
@@ -80,4 +84,15 @@ static t_errno	rcmdl_strjoin(char **line, char *segment)
 	if (*line == NULL)
 		return (MSH_MEMFAIL);
 	return (MSH_SUCCESS);
+}
+
+static int	rcmdl_isspaces(char *str)
+{
+	while (*str)
+	{
+		if (!ft_isspace(*str))
+			return (0);
+		++str;
+	}
+	return (1);
 }
