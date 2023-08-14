@@ -6,7 +6,7 @@
 /*   By: dbasting <marvin@codam.nl>                   +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/04/18 14:13:15 by dbasting      #+#    #+#                 */
-/*   Updated: 2023/08/11 16:38:47 by jvan-hal      ########   odam.nl         */
+/*   Updated: 2023/08/14 14:31:52 by jvan-hal      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 #include "msh_parse.h"
 #include "msh_utils.h"
 
+#include "ft_ctype.h"
 #include "ft_list.h"
 #include "ft_string.h"
 #include <stdio.h>
@@ -24,6 +25,7 @@
 
 static t_errno	rcmdl_add(t_list **tokens, char **line, char const *prompt);
 static t_errno	rcmdl_strjoin(char **line, char *segment);
+static int		rcmdl_isspaces(char *str);
 
 t_errno	readcmdline(t_list **tokens)
 {
@@ -47,6 +49,8 @@ static t_errno	rcmdl_add(t_list **tokens, char **line, char const *prompt)
 	segment = readline(prompt);
 	if (segment == NULL)
 		return (MSH_NOCMDLINE);
+	if (segment == '\0' || rcmdl_isspaces(segment))
+		return (rcmdl_add(tokens, line, PROMPT));
 	errno = lex(tokens, segment);
 	if (rcmdl_strjoin(line, segment) == MSH_MEMFAIL)
 		return (MSH_MEMFAIL);
@@ -54,7 +58,7 @@ static t_errno	rcmdl_add(t_list **tokens, char **line, char const *prompt)
 		return (errno);
 	if (errno == MSH_INCOMPLETE_TOKEN)
 		return (rcmdl_add(tokens, line, PROMPT_QUOTE));
-	if (list_size(*tokens) > 0 && ((t_token *)list_last(*tokens)->content)->type == TOK_PIPE)
+	if (((t_token *)list_last(*tokens)->content)->type == TOK_PIPE)
 		return (rcmdl_add(tokens, line, PROMPT_PIPE));
 	return (errno);
 }
@@ -75,4 +79,15 @@ static t_errno	rcmdl_strjoin(char **line, char *segment)
 	if (*line == NULL)
 		return (MSH_MEMFAIL);
 	return (MSH_SUCCESS);
+}
+
+static int	rcmdl_isspaces(char *str)
+{
+	while (*str)
+	{
+		if (!ft_isspace(*str))
+			return (0);
+		++str;
+	}
+	return (1);
 }

@@ -1,3 +1,7 @@
+echo
+echo -n hei
+echo -n -n -n -n -n -n
+echo -n -n -n -n -n -n hei
 echo hello world
 echo "hello world"
 echo 'hello world'
@@ -37,9 +41,11 @@ unset HELLO1 HELLO2
 unset HOME
 unset PATH
 unset SHELL
+cd
 cd $PWD
 cd $PWD hi 
 cd 123123
+exit
 exit 123
 exit 298
 exit +100
