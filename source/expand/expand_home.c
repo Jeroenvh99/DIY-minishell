@@ -6,7 +6,7 @@
 /*   By: dbasting <marvin@codam.nl>                   +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/15 15:39:10 by dbasting      #+#    #+#                 */
-/*   Updated: 2023/08/15 16:15:22 by jvan-hal      ########   odam.nl         */
+/*   Updated: 2023/08/15 16:17:35 by jvan-hal      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,8 @@ t_errno	expand_home(t_expstr *expstr, size_t *exp_len, t_msh *msh)
 {
 	char const	*exp;
 
-	if (var_search(&exp, "HOME", msh) != MSH_SUCCESS)
+	exp = var_search("HOME", msh);
+	if (!exp)
 		return (MSH_MEMFAIL);
 	*exp_len += ft_strlen(exp);
 	return (expstr_resize(expstr, 1, exp, *exp_len));
