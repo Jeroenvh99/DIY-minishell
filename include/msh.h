@@ -6,7 +6,7 @@
 /*   By: dbasting <marvin@codam.nl>                   +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/04/18 13:51:16 by dbasting      #+#    #+#                 */
-/*   Updated: 2023/08/14 18:31:47 by jvan-hal      ########   odam.nl         */
+/*   Updated: 2023/08/15 14:01:41 by dbasting      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,6 +120,7 @@ void		msh_deinit(t_msh *msh);
 
 /* Command tree functions. */
 t_cmdtree	*cmdtree_init(t_cmdtree *parent);
+void		cmdtree_destroy(t_cmdtree **tree);
 void		cmdtree_free(t_cmdtree *tree);
 
 /* Command functions. */
