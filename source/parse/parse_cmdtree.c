@@ -6,7 +6,7 @@
 /*   By: dbasting <marvin@codam.nl>                   +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/08/04 14:33:57 by dbasting      #+#    #+#                 */
-/*   Updated: 2023/08/15 15:12:09 by dbasting      ########   odam.nl         */
+/*   Updated: 2023/08/15 15:44:27 by dbasting      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,7 +94,8 @@ static t_errno	shyard_push(t_cmdtree *node, t_list **out, t_list **ctl)
 			list_append(out, list_pop(ctl));
 		if (!*ctl)
 			return (MSH_SYNTAX_ERROR);
-		return (cmdtree_free(list_pop_ptr(ctl)), MSH_SUCCESS);
+		cmdtree_free(list_pop_ptr(ctl));
+		return (cmdtree_free(node), MSH_SUCCESS);
 	}
 	else
 		while (*ctl && ((t_cmdtree *)(*ctl)->content)->op != TREE_OP_OPENPAR)
