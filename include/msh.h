@@ -6,7 +6,7 @@
 /*   By: dbasting <marvin@codam.nl>                   +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/04/18 13:51:16 by dbasting      #+#    #+#                 */
-/*   Updated: 2023/08/11 16:02:25 by dbasting      ########   odam.nl         */
+/*   Updated: 2023/08/14 18:31:47 by jvan-hal      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,10 +41,18 @@ enum e_io {
 	N_IO,
 };
 
+enum e_branch {
+	TREE_LEFT,
+	TREE_RIGHT,
+};
+
 enum e_treeop {
 	TREE_OP_NONE = 0,
 	TREE_OP_AND,
 	TREE_OP_OR,
+	TREE_OP_OPENPAR,
+	TREE_OP_CLOSEPAR,
+	N_TREE_OP,
 };
 
 /* Global shell data structure.
@@ -66,7 +74,7 @@ struct s_g_msh {
 struct s_msh {
 	struct s_g_msh	*g_msh;
 	t_env			env;
-	t_list			*cmds;
+	t_cmdtree		*tree;
 	t_errno			errno;
 };
 
