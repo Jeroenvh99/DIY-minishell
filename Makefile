@@ -6,7 +6,7 @@
 #    By: dbasting <marvin@codam.nl>                   +#+                      #
 #                                                    +#+                       #
 #    Created: 2022/12/28 12:06:53 by dbasting      #+#    #+#                  #
-#    Updated: 2023/08/15 16:24:32 by jvan-hal      ########   odam.nl          #
+#    Updated: 2023/08/15 16:27:28 by jvan-hal      ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -161,7 +161,7 @@ test_lexer:
 
 test_expander:
 	$(MAKE) -j -C lib/libft
-	cc $(CFLAGS) -lcriterion test/msh/expand/expand_unittest.c source/expand/*.c source/var/var.c source/env/*.c source/utils/*.c lib/libft/libft.a && ./a.out
+	cc $(CFLAGS) -lcriterion test/msh/expand/expand_unittest.c source/expand/*.c source/var/var.c source/var/var_parse.c source/env/*.c source/utils/*.c lib/libft/libft.a && ./a.out
 	rm a.out
 
 test_parser:
