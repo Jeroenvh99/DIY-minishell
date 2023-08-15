@@ -6,7 +6,7 @@
 /*   By: jvan-hal <jvan-hal@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/16 15:12:17 by jvan-hal      #+#    #+#                 */
-/*   Updated: 2023/08/07 15:12:20 by jvan-hal      ########   odam.nl         */
+/*   Updated: 2023/08/15 15:39:00 by dbasting      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ t_errno	execute_builtin(t_builtinf const builtin, t_cmd *cmd, t_msh *msh)
 		if (msh->g_msh->child == 0)
 		{
 			if (fd_set_standard(cmd) != 0)
-				msh_perror(0);
+				exit(msh_perror(0), EXIT_FAILURE);
 			exit(builtin(cmd, msh));
 		}
 		msh->g_msh->exit = fork_wait(msh);
