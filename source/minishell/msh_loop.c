@@ -6,7 +6,7 @@
 /*   By: dbasting <dbasting@codam.nl>                 +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/06/06 15:49:21 by dbasting      #+#    #+#                 */
-/*   Updated: 2023/08/14 17:47:06 by dbasting      ########   odam.nl         */
+/*   Updated: 2023/08/15 15:22:12 by dbasting      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ void	msh_loop(t_msh *msh)
 				msh->errno = execute(msh);
 		}
 		list_clear(&tokens, (t_freef)token_free);
-		msh->tree = NULL;
+		cmdtree_destroy(&msh->tree);
 		if (msh->errno >= MSH_GENERIC)
 			msh_strerror(msh->errno);
 	}

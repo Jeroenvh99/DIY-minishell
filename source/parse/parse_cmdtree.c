@@ -6,7 +6,7 @@
 /*   By: dbasting <marvin@codam.nl>                   +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/08/04 14:33:57 by dbasting      #+#    #+#                 */
-/*   Updated: 2023/08/15 14:30:49 by dbasting      ########   odam.nl         */
+/*   Updated: 2023/08/15 15:12:09 by dbasting      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,7 +116,9 @@ static t_cmdtree	*rpl_convert(t_list **rpl)
 		if (leaf->op)
 		{
 			leaf->data.branches[TREE_RIGHT] = list_pop_ptr(&tmp);
+			leaf->data.branches[TREE_RIGHT]->parent = leaf;
 			leaf->data.branches[TREE_LEFT] = list_pop_ptr(&tmp);
+			leaf->data.branches[TREE_LEFT]->parent = leaf;
 		}
 		list_push(&tmp, node);
 	}
