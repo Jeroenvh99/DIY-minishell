@@ -6,12 +6,13 @@
 /*   By: dbasting <marvin@codam.nl>                   +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/15 15:39:10 by dbasting      #+#    #+#                 */
-/*   Updated: 2023/05/15 15:49:37 by dbasting      ########   odam.nl         */
+/*   Updated: 2023/08/15 16:15:22 by jvan-hal      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "msh_expand.h"
 #include "msh_error.h"
+#include "msh_var.h"
 #include "msh.h"
 
 #include "ft_string.h"
