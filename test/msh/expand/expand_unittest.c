@@ -13,6 +13,7 @@
 #include <criterion/types.h>
 #include "msh.h"
 #include "msh_expand.h"
+#include "msh_env.h"
 #include "libft.h"
 #include <criterion/assert.h>
 #include <criterion/internal/assert.h>
