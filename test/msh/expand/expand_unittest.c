@@ -121,46 +121,67 @@ Test(expand, input_one_1)
 
 Test(expand, input_one_2)
 {
-	char *in = ft_strdup("$OLDPWD");
+	char *in = ft_strdup("\"$OLDPWD\"");
 	char *expected = "/tmp/cd dash";
 	assert_expand_str(in, expected, &env_without_home);
 }
 
 Test(expand, input_one_3)
 {
+	char *in = ft_strdup("\"$OLDPWD\"");
+	char *expected = "/tmp/cd dash";
+	assert_expand_words(in, expected, &env_without_home);
+}
+
+Test(expand, input_one_4)
+{
+	char *in = ft_strdup("\'$OLDPWD\'");
+	char *expected = "/tmp/cd dash";
+	assert_expand_str(in, expected, &env_without_home);
+}
+
+Test(expand, input_one_5)
+{
+	char *in = ft_strdup("\'$OLDPWD\'");
+	char *expected = "/tmp/cd dash";
+	assert_expand_words(in, expected, &env_without_home);
+}
+
+Test(expand, input_one_6)
+{
 	char *in = ft_strdup("$OLDPWD");
 	char *expected = "dash\n/tmp/cd\n";
 	assert_expand_words(in, expected, &env_without_home);
 }
 
-Test(expand, input_one_4)
+Test(expand, input_one_7)
 {
 	char *in = ft_strdup("$LANG");
 	char *expected = "";
 	assert_expand_str(in, expected, &env_with_home);
 }
 
-Test(expand, input_one_5)
+Test(expand, input_one_8)
 {
 	char *in = ft_strdup("$LANG");
 	assert_expand_status(in, MSH_SUCCESS, &env_with_home);
 }
 
-Test(expand, input_one_6)
+Test(expand, input_one_9)
 {
 	char *in = ft_strdup("b$LANG");
 	char *expected = "b";
 	assert_expand_str(in, expected, &env_with_home);
 }
 
-Test(expand, input_one_7)
+Test(expand, input_one_10)
 {
 	char *in = ft_strdup("hi this is a test");
 	char *expected = "hi this is a test";
 	assert_expand_str(in, expected, &env_with_home);
 }
 
-Test(expand, input_one_8)
+Test(expand, input_one_11)
 {
 	char *in = ft_strdup("hi this is a test");
 	char *expected = "hi this is a test\n";
