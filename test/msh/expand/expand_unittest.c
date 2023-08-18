@@ -95,7 +95,7 @@ Test(expand, input_one_1)
 Test(expand, input_one_2)
 {
 	char *in = "$LANG";
-	char *expected = "$LANG";
+	char *expected = "";
 	assert_expand_str(in, expected, &env_with_home);
 }
 
@@ -106,6 +106,13 @@ Test(expand, input_one_3)
 }
 
 Test(expand, input_one_4)
+{
+	char *in = "b$LANG";
+	char *expected = "b";
+	assert_expand_str(in, expected, &env_with_home);
+}
+
+Test(expand, input_one_5)
 {
 	char *in = "hi this is a test";
 	char *expected = "hi this is a test";
