@@ -129,21 +129,21 @@ Test(expand, input_one_2)
 Test(expand, input_one_3)
 {
 	char *in = ft_strdup("\"$OLDPWD\"");
-	char *expected = "/tmp/cd dash";
+	char *expected = "/tmp/cd dash\n";
 	assert_expand_words(in, expected, &env_without_home);
 }
 
 Test(expand, input_one_4)
 {
 	char *in = ft_strdup("\'$OLDPWD\'");
-	char *expected = "/tmp/cd dash";
+	char *expected = "$OLDPWD";
 	assert_expand_str(in, expected, &env_without_home);
 }
 
 Test(expand, input_one_5)
 {
 	char *in = ft_strdup("\'$OLDPWD\'");
-	char *expected = "/tmp/cd dash";
+	char *expected = "$OLDPWD\n";
 	assert_expand_words(in, expected, &env_without_home);
 }
 
