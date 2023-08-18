@@ -6,7 +6,7 @@
 /*   By: dbasting <marvin@codam.nl>                   +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/08 12:23:49 by dbasting      #+#    #+#                 */
-/*   Updated: 2023/08/08 14:48:44 by jvan-hal      ########   odam.nl         */
+/*   Updated: 2023/08/18 12:11:29 by jvan-hal      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,8 @@ static inline t_expop		get_expop(char c, t_quote *lquote, size_t *exp_len);
 static inline int			exp_process_quote(char c, t_quote *lquote);
 
 /* Expand the string stored in `str` and perform word splitting. `str` is
- * replaced with its own expansion.
+ * replaced with its own expansion. Let op, words staat omgedraaid, de
+ * parser leest m achterstevoren
  */
 t_errno	expand(t_list **words, char **str, t_msh *msh)
 {
