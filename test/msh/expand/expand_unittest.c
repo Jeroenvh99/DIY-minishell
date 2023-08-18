@@ -34,6 +34,15 @@ void	printlist(t_list *head)
 	}
 }
 
+void	printlist_err(t_list *head)
+{
+	while (head)
+	{
+		ft_dprintf(2, "%s\n", (char *)head->content);
+		head = head->next;
+	}
+}
+
 void assert_expand_str(char *str, char *expected, void (*env_init)(t_msh *))
 {
 	t_msh msh;
@@ -58,6 +67,7 @@ void assert_expand_words(char *str, char *expected, void (*env_init)(t_msh *))
 	env_init(&msh);
 	expand(&words, &str, &msh);
 	printlist(words);
+	printlist_err(words);
 	fflush(stdout);
 	cr_assert_stdout_eq_str(expected);
 }
