@@ -53,6 +53,7 @@ void assert_expand_str(char *str, char *expected, void (*env_init)(t_msh *))
 	env_init(&msh);
 	expand(&words, &str, &msh);
 	printf("%s", str);
+	dprintf(2, "%s", str);
 	fflush(stdout);
 	cr_assert_stdout_eq_str(expected);
 }
@@ -67,7 +68,7 @@ void assert_expand_words(char *str, char *expected, void (*env_init)(t_msh *))
 	env_init(&msh);
 	expand(&words, &str, &msh);
 	printlist(words);
-	printlist_err(words);
+	// printlist_err(words);
 	fflush(stdout);
 	cr_assert_stdout_eq_str(expected);
 }
@@ -122,7 +123,7 @@ Test(expand, input_one_1)
 Test(expand, input_one_2)
 {
 	char *in = ft_strdup("\"$OLDPWD\"");
-	char *expected = "/tmp/cd dash";
+	char *expected = "/tmp/cd dash\n";
 	assert_expand_str(in, expected, &env_without_home);
 }
 
