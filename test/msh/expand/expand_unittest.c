@@ -14,6 +14,7 @@
 #include "msh.h"
 #include "msh_expand.h"
 #include "msh_env.h"
+#include "msh_error.h"
 #include "libft.h"
 #include <criterion/assert.h>
 #include <criterion/internal/assert.h>
@@ -27,10 +28,12 @@ void redirect_stdout(void)
 void assert_expand_str(char *str, char *expected, void (*env_init)(t_msh *))
 {
 	t_msh msh;
+	t_list *words;
 
+	words = NULL;
 	bzero(&msh, sizeof(msh));
 	env_init(&msh);
-	expand(NULL, &str, &msh);
+	expand(&words, &str, &msh);
 	printf("%s", str);
 	fflush(stdout);
 	cr_assert_stdout_eq_str(expected);
@@ -40,10 +43,12 @@ void assert_expand_status(char *str, int expected, void (*env_init)(t_msh *))
 {
 	t_msh msh;
 	int status;
+	t_list *words;
 
+	words = NULL;
 	bzero(&msh, sizeof(msh));
 	env_init(&msh);
-	status = expand(NULL, &str, &msh);
+	status = expand(&words, &str, &msh);
 	cr_assert_eq(status, expected);
 }
 
@@ -83,7 +88,26 @@ Test(expand, input_one_0)
 
 Test(expand, input_one_1)
 {
+	char *in = "$HOME";
+	assert_expand_status(in, MSH_SUCCESS, &env_with_home);
+}
+
+Test(expand, input_one_2)
+{
 	char *in = "$LANG";
 	char *expected = "$LANG";
+	assert_expand_str(in, expected, &env_with_home);
+}
+
+Test(expand, input_one_3)
+{
+	char *in = "$LANG";
+	assert_expand_status(in, MSH_SUCCESS, &env_with_home);
+}
+
+Test(expand, input_one_4)
+{
+	char *in = "hi this is a test";
+	char *expected = "hi this is a test";
 	assert_expand_str(in, expected, &env_with_home);
 }
