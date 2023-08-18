@@ -123,7 +123,7 @@ Test(expand, input_one_1)
 Test(expand, input_one_2)
 {
 	char *in = ft_strdup("\"$OLDPWD\"");
-	char *expected = "/tmp/cd dash\n";
+	char *expected = "\"/tmp/cd dash\"";
 	assert_expand_str(in, expected, &env_without_home);
 }
 
@@ -137,7 +137,7 @@ Test(expand, input_one_3)
 Test(expand, input_one_4)
 {
 	char *in = ft_strdup("\'$OLDPWD\'");
-	char *expected = "$OLDPWD";
+	char *expected = "\'$OLDPWD\'";
 	assert_expand_str(in, expected, &env_without_home);
 }
 
