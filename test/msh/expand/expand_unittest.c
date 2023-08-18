@@ -25,6 +25,15 @@ void redirect_stdout(void)
     cr_redirect_stdout();
 }
 
+void	printlist(t_list *head)
+{
+	while (head)
+	{
+		ft_printf("%s\n", (char *)head->content);
+		head = head->next;
+	}
+}
+
 void assert_expand_str(char *str, char *expected, void (*env_init)(t_msh *))
 {
 	t_msh msh;
@@ -35,6 +44,20 @@ void assert_expand_str(char *str, char *expected, void (*env_init)(t_msh *))
 	env_init(&msh);
 	expand(&words, &str, &msh);
 	printf("%s", str);
+	fflush(stdout);
+	cr_assert_stdout_eq_str(expected);
+}
+
+void assert_expand_words(char *str, char *expected, void (*env_init)(t_msh *))
+{
+	t_msh msh;
+	t_list *words;
+
+	words = NULL;
+	bzero(&msh, sizeof(msh));
+	env_init(&msh);
+	expand(&words, &str, &msh);
+	printlist(words);
 	fflush(stdout);
 	cr_assert_stdout_eq_str(expected);
 }
@@ -60,13 +83,7 @@ void	env_with_home(t_msh *msh)
 
 void	env_without_home(t_msh *msh)
 {
-	char	*env_sub[] = {"LOGNAME=jvan-hal", "OLDPWD=/tmp/cd-dash", NULL};
-    env_init(&msh->env, env_sub);
-}
-
-void	env_without_oldpwd(t_msh *msh)
-{
-	char	*env_sub[] = {"LOGNAME=jvan-hal", "HOME=/Users/jvan-hal", NULL};
+	char	*env_sub[] = {"LOGNAME=jvan-hal", "OLDPWD=/tmp/cd dash", NULL};
     env_init(&msh->env, env_sub);
 }
 
@@ -117,4 +134,11 @@ Test(expand, input_one_5)
 	char *in = "hi this is a test";
 	char *expected = "hi this is a test";
 	assert_expand_str(in, expected, &env_with_home);
+}
+
+Test(expand, input_one_6)
+{
+	char *in = "hi this is a test";
+	char *expected = "hi\nthis\nis\na\ntest\n";
+	assert_expand_words(in, expected, &env_with_home);
 }
