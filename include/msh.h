@@ -6,7 +6,7 @@
 /*   By: dbasting <marvin@codam.nl>                   +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/04/18 13:51:16 by dbasting      #+#    #+#                 */
-/*   Updated: 2023/08/08 12:15:39 by jvan-hal      ########   odam.nl         */
+/*   Updated: 2023/08/14 18:31:47 by jvan-hal      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,9 @@
 # define PROMPT			"msh$ "
 # define PROMPT_CONT	"> "
 # define PROMPT_PIPE	"pipe> "
-# define PROMPT_QUOTE	"dquote> "
+# define PROMPT_QUOTE	"quote> "
+# define PROMPT_PAR		"parenthesis>"
+# define PROMPT_CMD		"cmd>"
 
 typedef struct s_msh		t_msh;
 typedef struct s_cmd		t_cmd;
@@ -39,10 +41,18 @@ enum e_io {
 	N_IO,
 };
 
+enum e_branch {
+	TREE_LEFT,
+	TREE_RIGHT,
+};
+
 enum e_treeop {
 	TREE_OP_NONE = 0,
 	TREE_OP_AND,
 	TREE_OP_OR,
+	TREE_OP_OPENPAR,
+	TREE_OP_CLOSEPAR,
+	N_TREE_OP,
 };
 
 /* Global shell data structure.
@@ -64,7 +74,7 @@ struct s_g_msh {
 struct s_msh {
 	struct s_g_msh	*g_msh;
 	t_env			env;
-	t_list			*cmds;
+	t_cmdtree		*tree;
 	t_errno			errno;
 };
 
