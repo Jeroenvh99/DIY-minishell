@@ -6,7 +6,7 @@
 /*   By: dbasting <marvin@codam.nl>                   +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/04/18 14:13:15 by dbasting      #+#    #+#                 */
-/*   Updated: 2023/08/21 12:09:19 by dbasting      ########   odam.nl         */
+/*   Updated: 2023/08/21 16:34:26 by dbasting      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,3 +62,14 @@ int	list_push_ptr(t_list **lst, void *ptr)
 	list_push(lst, node);
 	return (0);
 }
+
+void	list_prepend(t_list **list, t_list *prefix)
+{
+	t_list *const	tail = list_last(prefix);
+
+	if (!tail)
+		return ;
+	tail->next = *list;
+	*list = prefix;
+}
+

@@ -1,27 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   list_utils.h                                       :+:    :+:            */
+/*   ft_glob_init.c                                     :+:    :+:            */
 /*                                                     +:+                    */
 /*   By: dbasting <marvin@codam.nl>                   +#+                     */
 /*                                                   +#+                      */
-/*   Created: 2023/08/21 11:45:32 by dbasting      #+#    #+#                 */
-/*   Updated: 2023/08/21 16:34:44 by dbasting      ########   odam.nl         */
+/*   Created: 2023/08/21 15:47:44 by dbasting      #+#    #+#                 */
+/*   Updated: 2023/08/21 15:51:51 by dbasting      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef LIST_UTILS_H
-# define LIST_UTILS_H
+#include "ft_glob.h"
+#include "ft_string.h"
 
-# include "ft_list.h"
-
-typedef void	(*t_freef)(void *);
-
-/* List functions. */
-int		list_append_ptr(t_list **lst, void *ptr);
-t_list	*list_pop(t_list **lst);
-void	*list_pop_ptr(t_list **lst);
-int		list_push_ptr(t_list **lst, void *ptr);
-void	list_prepend(t_list **list, t_list *prefix);
-
-#endif
+void	ft_glob_init(t_ft_glob *pglob)
+{
+	ft_memset(pglob, 0x0, sizeof(t_ft_glob));
+}

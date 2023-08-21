@@ -6,7 +6,7 @@
 #    By: dbasting <marvin@codam.nl>                   +#+                      #
 #                                                    +#+                       #
 #    Created: 2022/12/28 12:06:53 by dbasting      #+#    #+#                  #
-#    Updated: 2023/08/21 12:03:41 by dbasting      ########   odam.nl          #
+#    Updated: 2023/08/21 16:06:00 by dbasting      ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -37,6 +37,7 @@ SRC_FILES	:= main.c\
 			execute/path.c\
 			expand/expand.c\
 			expand/expand_fieldsplit.c\
+			expand/expand_glob.c\
 			expand/expand_spec_exit.c\
 			expand/expand_spec_nparam.c\
 			expand/expand_spec_opts.c\
@@ -47,6 +48,7 @@ SRC_FILES	:= main.c\
 			expand/expand_var.c\
 			expand/glob/ft_glob.c\
 			expand/glob/ft_glob_destroy.c\
+			expand/glob/ft_glob_init.c\
 			expand/glob/glob_add.c\
 			expand/glob/glob_cmp.c\
 			expand/glob/glob_patcmp.c\

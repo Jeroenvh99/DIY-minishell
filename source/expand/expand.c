@@ -6,7 +6,7 @@
 /*   By: dbasting <marvin@codam.nl>                   +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/08 12:23:49 by dbasting      #+#    #+#                 */
-/*   Updated: 2023/08/21 13:17:28 by dbasting      ########   odam.nl         */
+/*   Updated: 2023/08/21 15:09:55 by dbasting      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,6 +101,8 @@ static inline t_expop	get_expop(char c, t_quote *lquote, size_t *exp_len)
 	}
 	else if (exp_process_quote(c, lquote))
 		return (EXPOP_SKIP);
+	if (*lquote == NOQUOTE && (c == '*' || c == '?'))
+		return (EXPOP_GLOB);
 	return (EXPOP_COPY);
 }
 
