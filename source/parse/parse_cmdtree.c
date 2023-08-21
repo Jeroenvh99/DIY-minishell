@@ -6,14 +6,14 @@
 /*   By: dbasting <marvin@codam.nl>                   +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/08/04 14:33:57 by dbasting      #+#    #+#                 */
-/*   Updated: 2023/08/15 15:44:27 by dbasting      ########   odam.nl         */
+/*   Updated: 2023/08/21 11:58:50 by dbasting      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "msh_parse.h"
 #include "msh.h"
 #include "msh_error.h"
-#include "msh_utils.h"
+#include "list_utils.h"
 
 #include <stdlib.h>
 

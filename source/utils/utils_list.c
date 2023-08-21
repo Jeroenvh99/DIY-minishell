@@ -6,14 +6,13 @@
 /*   By: dbasting <marvin@codam.nl>                   +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/04/18 14:13:15 by dbasting      #+#    #+#                 */
-/*   Updated: 2023/05/08 18:14:18 by dbasting      ########   odam.nl         */
+/*   Updated: 2023/08/21 12:00:18 by dbasting      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "msh_utils.h"
+#include "list_utils.h"
 
 #include "ft_list.h"
-#include "ft_string.h"
 #include <stddef.h>
 #include <stdlib.h>
 

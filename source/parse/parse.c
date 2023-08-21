@@ -6,17 +6,16 @@
 /*   By: dbasting <marvin@codam.nl>                   +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/04/18 14:13:15 by dbasting      #+#    #+#                 */
-/*   Updated: 2023/08/15 13:50:13 by dbasting      ########   odam.nl         */
+/*   Updated: 2023/08/21 11:58:33 by dbasting      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "msh_parse.h"
 #include "msh.h"
 #include "msh_error.h"
-#include "msh_utils.h"
+#include "list_utils.h"
 
 #include "ft_list.h"
-#include "msh_debug.h"
 #include <stdlib.h>
 
 /* Parse `tokens` to form a command tree. `tokens` is consumed. */

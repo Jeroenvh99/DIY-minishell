@@ -6,7 +6,7 @@
 #    By: dbasting <marvin@codam.nl>                   +#+                      #
 #                                                    +#+                       #
 #    Created: 2022/12/28 12:06:53 by dbasting      #+#    #+#                  #
-#    Updated: 2023/08/15 13:53:33 by dbasting      ########   odam.nl          #
+#    Updated: 2023/08/21 11:57:12 by dbasting      ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -45,6 +45,13 @@ SRC_FILES	:= main.c\
 			expand/expand_spec_shname.c\
 			expand/expand_utils.c\
 			expand/expand_var.c\
+			expand/glob/ft_glob.c\
+			expand/glob/ft_glob_destroy.c\
+			expand/glob/glob_add.c\
+			expand/glob/glob_cmp.c\
+			expand/glob/glob_patcmp.c\
+			expand/glob/glob_readdir.c\
+			expand/glob/glob_sortdir.c\
 			lex/lex.c\
 			lex/token.c\
 			lex/lex_token_get.c\
@@ -83,8 +90,12 @@ HDR_FILES	:= msh.h\
 			msh_execute.h\
 			msh_expand.h\
 			msh_parse.h\
+			msh_utils.h\
 			msh_var.h\
 			\
+			ft_glob.h\
+			ft_glob_utils.h\
+			list_utils.h\
 			msh_debug.h
 LIB_FILES	:= libft.a
 
