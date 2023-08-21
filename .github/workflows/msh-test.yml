@@ -37,8 +37,8 @@ jobs:
         submodules: true
     - name: Install dependencies
       run: brew install criterion
-#   - name: Run lexer tests
-#     run: make test_lexer
+    - name: Run lexer tests
+      run: make test_lexer
     - name: Run expander tests
       run: make test_expander
 #   - name: Run parser tests
