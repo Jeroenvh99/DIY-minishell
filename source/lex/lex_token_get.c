@@ -6,7 +6,7 @@
 /*   By: dbasting <marvin@codam.nl>                   +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/04/18 14:25:46 by dbasting      #+#    #+#                 */
-/*   Updated: 2023/08/14 13:14:51 by jvan-hal      ########   odam.nl         */
+/*   Updated: 2023/08/21 12:05:59 by dbasting      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,6 @@ t_errno	token_complete(t_token *token, char const **str)
 		return (MSH_INCOMPLETE_TOKEN);
 	return (MSH_SUCCESS);
 }
-//\n moet worden ingevoegd!
 
 t_token	*token_get_word(char const **str)
 {

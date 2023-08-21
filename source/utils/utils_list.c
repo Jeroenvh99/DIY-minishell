@@ -6,7 +6,7 @@
 /*   By: dbasting <marvin@codam.nl>                   +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/04/18 14:13:15 by dbasting      #+#    #+#                 */
-/*   Updated: 2023/08/21 12:00:18 by dbasting      ########   odam.nl         */
+/*   Updated: 2023/08/21 12:09:19 by dbasting      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,24 +41,24 @@ void	*list_pop_ptr(t_list **lst)
 	return (content);
 }
 
-t_errno	list_append_ptr(t_list **lst, void *ptr)
+int	list_append_ptr(t_list **lst, void *ptr)
 {
 	t_list	*node;
 
 	node = list_new(ptr);
 	if (node == NULL)
-		return (MSH_MEMFAIL);
+		return (1);
 	list_append(lst, node);
-	return (MSH_SUCCESS);
+	return (0);
 }
 
-t_errno	list_push_ptr(t_list **lst, void *ptr)
+int	list_push_ptr(t_list **lst, void *ptr)
 {
 	t_list	*node;
 
 	node = list_new(ptr);
 	if (node == NULL)
-		return (MSH_MEMFAIL);
+		return (1);
 	list_push(lst, node);
-	return (MSH_SUCCESS);
+	return (0);
 }

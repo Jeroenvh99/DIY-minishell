@@ -6,7 +6,7 @@
 /*   By: dbasting <marvin@codam.nl>                   +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/15 15:39:06 by dbasting      #+#    #+#                 */
-/*   Updated: 2023/08/21 12:02:03 by dbasting      ########   odam.nl         */
+/*   Updated: 2023/08/21 12:11:00 by dbasting      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ t_errno	expand_fieldsplit(t_list **words, t_expstr *expstr)
 		if (word == NULL)
 			return (MSH_MEMFAIL);
 		exp_strncpy(word, expstr, opsn);
-		if (list_push_ptr(words, word) != MSH_SUCCESS)
+		if (list_push_ptr(words, word) != 0)
 			return (free(word), MSH_MEMFAIL);
 	}
 	return (MSH_SUCCESS);

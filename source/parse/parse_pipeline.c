@@ -6,7 +6,7 @@
 /*   By: dbasting <marvin@codam.nl>                   +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/04/18 14:13:15 by dbasting      #+#    #+#                 */
-/*   Updated: 2023/08/21 11:59:16 by dbasting      ########   odam.nl         */
+/*   Updated: 2023/08/21 12:12:41 by dbasting      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,10 +39,9 @@ t_errno	parse_pipeline(t_list **pipeline, t_list **tokens, t_msh *msh)
 		errno = parse_cmd(cmd, tokens, msh);
 		if (errno != MSH_SUCCESS)
 			return (list_clear(pipeline, (t_freef)cmd_free), errno);
-		errno = list_append_ptr(pipeline, cmd);
-		if (errno != MSH_SUCCESS)
+		if (list_append_ptr(pipeline, cmd) != 0)
 			return (list_clear(pipeline, (t_freef)cmd_free), cmd_free(cmd),
-				errno);
+				MSH_MEMFAIL);
 		errno = parse_pipe(&fitting, cmd, tokens, msh);
 		if (errno != MSH_SUCCESS)
 			return (list_clear(pipeline, (t_freef)cmd_free), errno);

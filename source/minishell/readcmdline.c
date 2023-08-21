@@ -6,7 +6,7 @@
 /*   By: dbasting <marvin@codam.nl>                   +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/04/18 14:13:15 by dbasting      #+#    #+#                 */
-/*   Updated: 2023/08/15 13:47:26 by dbasting      ########   odam.nl         */
+/*   Updated: 2023/08/21 12:08:06 by dbasting      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 #include "msh_error.h"
 #include "msh_parse.h"
 #include "msh_syntax.h"
-#include "msh_utils.h"
+#include "list_utils.h"
 
 #include "ft_ctype.h"
 #include "ft_list.h"
@@ -26,7 +26,6 @@
 
 static t_errno	rcmdl_add(t_list **tokens, char **line, char const *prompt);
 static t_errno	rcmdl_strjoin(char **line, char *segment);
-//static int		rcmdl_isspaces(char *str);
 
 t_errno	readcmdline(t_list **tokens)
 {
@@ -84,14 +83,3 @@ static t_errno	rcmdl_strjoin(char **line, char *segment)
 		return (MSH_MEMFAIL);
 	return (MSH_SUCCESS);
 }
-
-/*static int	rcmdl_isspaces(char *str)
-{
-	while (*str)
-	{
-		if (!ft_isspace(*str))
-			return (0);
-		++str;
-	}
-	return (1);
-}*/

@@ -6,7 +6,7 @@
 /*   By: dbasting <dbasting@codam.nl>                 +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/06/06 15:49:21 by dbasting      #+#    #+#                 */
-/*   Updated: 2023/08/15 15:22:12 by dbasting      ########   odam.nl         */
+/*   Updated: 2023/08/21 12:07:42 by dbasting      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 #include "msh_error.h"
 #include "msh_execute.h"
 #include "msh_parse.h"
-#include "msh_utils.h"
+#include "list_utils.h"
 
 #include "ft_list.h"
 #include <signal.h>

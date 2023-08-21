@@ -6,7 +6,7 @@
 #    By: dbasting <marvin@codam.nl>                   +#+                      #
 #                                                    +#+                       #
 #    Created: 2022/12/28 12:06:53 by dbasting      #+#    #+#                  #
-#    Updated: 2023/08/21 11:57:12 by dbasting      ########   odam.nl          #
+#    Updated: 2023/08/21 12:03:41 by dbasting      ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -100,7 +100,7 @@ HDR_FILES	:= msh.h\
 LIB_FILES	:= libft.a
 
 SRC_DIR		:= ./source/
-SRC_SUBDIRS	:= builtins/ env/ execute/ expand/ lex/ minishell/ parse/ parse/syntax/ test/ utils/ var/
+SRC_SUBDIRS	:= builtins/ env/ execute/ expand/ expand/glob lex/ minishell/ parse/ parse/syntax/ test/ utils/ var/
 OBJ_DIR		:= ./object/
 OBJ_SUBDIRS := $(SRC_SUBDIRS)
 HDR_DIR		:= ./include/
