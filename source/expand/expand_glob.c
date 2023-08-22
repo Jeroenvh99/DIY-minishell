@@ -6,7 +6,7 @@
 /*   By: dbasting <marvin@codam.nl>                   +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/08/21 14:43:06 by dbasting      #+#    #+#                 */
-/*   Updated: 2023/08/22 09:47:05 by dbasting      ########   odam.nl         */
+/*   Updated: 2023/08/22 10:09:17 by dbasting      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ static inline t_errno	glob_noresult(t_list **words, char const *pattern)
 
 	if (!dup)
 		return (MSH_MEMFAIL);
-	if (list_append_ptr(words, dup) != 0)
+	if (list_push_ptr(words, dup) != 0)
 		return (free(dup), MSH_MEMFAIL);
 	return (MSH_SUCCESS);
 }
