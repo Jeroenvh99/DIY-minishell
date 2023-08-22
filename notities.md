@@ -58,7 +58,7 @@ Future extensions may include wildcard expansion and escape sequence support (th
 VARa=a VARb=b		<-- VARa en VARb krijgen beide een waarde
 cat in VAR=a		<-- VAR=a is een parameter van cat
 ```
-	- gebeurt niet als dezelfde opdracht een programma bevat
+	- als dezelfde opdracht een programma bevat: alleen in subshell
 ```
 VAR=a cat in		<-- cat wordt uitgevoerd, VAR is leeg
 ```
@@ -71,6 +71,7 @@ VAR=a cat in		<-- cat wordt uitgevoerd, VAR is leeg
 	- lijst kan zich recursief vertakken (*/* -> [a b c]/* -> [a/* b/* c/*] -> [[a/d a/e] [b/f b/g] [c/h c/i]]
 	- vlak lijst af [[a/d a/e] [b/f b/g] [c/h c/i]] -> a/d a/e b/f b/g c/h c/i
 	- laat * staan indien aanvullingen ontbreken
+- geen woordsplitsing (of *-uitklapping) bij schrijven naar variabele
 
 cd && pwd in een subshell verandert wel de directory
 

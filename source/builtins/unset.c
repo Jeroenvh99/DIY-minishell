@@ -6,7 +6,7 @@
 /*   By: jvan-hal <jvan-hal@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/04/20 16:50:13 by jvan-hal      #+#    #+#                 */
-/*   Updated: 2023/08/07 15:27:00 by jvan-hal      ########   odam.nl         */
+/*   Updated: 2023/08/22 15:10:23 by dbasting      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 #include "msh_var.h"
 
 #include "ft_stdio.h"
+#include "ft_string.h"
 #include <stddef.h>
 #include <unistd.h>
 
@@ -24,6 +25,7 @@
  * 			- 1 if `cmd` contained at least one invalid identifier.
  * @note	All identifiers contained in `cmd` will be processed, irrespective
  * 			of their validity.
+ * @note	"_" cannot be unset.
  */
 int	msh_unset(t_cmd *cmd, t_msh *msh)
 {
@@ -40,7 +42,7 @@ int	msh_unset(t_cmd *cmd, t_msh *msh)
 				"identifier\n", cmd->argv.array[i]);
 			ret = 1;
 		}
-		else
+		else if (ft_strncmp(cmd->argv.array[i], "_", 2))
 			env_unset(&msh->env, cmd->argv.array[i]);
 		i++;
 	}
