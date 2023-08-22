@@ -6,7 +6,7 @@
 /*   By: dbasting <marvin@codam.nl>                   +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/08/21 14:43:06 by dbasting      #+#    #+#                 */
-/*   Updated: 2023/08/21 16:34:57 by dbasting      ########   odam.nl         */
+/*   Updated: 2023/08/22 09:47:05 by dbasting      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,9 +46,11 @@ static inline t_errno	glob_noresult(t_list **words, char const *pattern)
 
 static inline	t_list *glob_extract(t_ft_glob *pglob)
 {
-	t_list *const	list = pglob->globl;
-
-	pglob->globl = NULL;
+	t_list	*list;
+	
+	list = NULL;
+	while (pglob->globl)
+		list_push(&list, list_pop(&pglob->globl));
 	pglob->size = 0;
 	return (list);
 }
