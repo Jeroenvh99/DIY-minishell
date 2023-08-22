@@ -6,7 +6,7 @@
 /*   By: dbasting <marvin@codam.nl>                   +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/04/18 14:13:15 by dbasting      #+#    #+#                 */
-/*   Updated: 2023/08/04 15:03:03 by dbasting      ########   odam.nl         */
+/*   Updated: 2023/08/22 23:26:28 by dbasting      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,6 @@ t_cmd	*cmd_init(size_t argc, char **argv)
 	cmd->io[IO_IN] = -1;
 	cmd->io[IO_OUT] = -1;
 	cmd->io[IO_ERR] = -1;
-	cmd->subsh = 0;
 	return (cmd);
 }
 

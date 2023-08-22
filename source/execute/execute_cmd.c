@@ -6,7 +6,7 @@
 /*   By: jvan-hal <jvan-hal@student.codam.nl>         +#+                     */
 /*       dbasting <dbasting@student.codam.nl>        +#+                      */
 /*   Created: 2023/05/16 15:12:17 by jvan-hal      #+#    #+#                 */
-/*   Updated: 2023/08/22 15:45:22 by dbasting      ########   odam.nl         */
+/*   Updated: 2023/08/22 23:06:28 by dbasting      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ t_errno	execute_cmd(t_cmd *cmd, t_msh *msh)
 
 	env_update(&msh->env, "_", cmd->argv.array[cmd->argc - 1]);
 	if (builtin)
-		return (execute_builtin(builtin, cmd, msh));
+		return (builtin(cmd, msh));
 	return (execute_bin(cmd, msh));
 }
 
