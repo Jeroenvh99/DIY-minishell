@@ -101,7 +101,7 @@ Test(lex, input_empty_1)
 Test(lex, input_one_0)
 {
 	char *str = "\'\t\'\'";
-	assert_lex_len(str, 2);
+	assert_lex_len(str, 1);
 }
 
 Test(lex, input_one_1)
@@ -113,14 +113,14 @@ Test(lex, input_one_1)
 Test(lex, input_one_2)
 {
 	char *str = "\'\t\'\'";
-	char *expected = "\'\t\'\n\'\n";
+	char *expected = "\'\t\'\'\n";
 	assert_lex_tok_str(str, expected);
 }
 
 Test(lex, input_one_3)
 {
 	char *str = "\'\t\'\'";
-	char *expected = "0\n-1\n";
+	char *expected = "-1\n";
 	assert_lex_tok_type(str, expected);
 }
 
@@ -218,4 +218,68 @@ Test(lex, input_incomplete_9)
 {
 	char *str = "jedes \'";
 	assert_lex_status(str, MSH_INCOMPLETE_TOKEN);
+}
+
+Test(lex, input_incomplete_10)
+{
+	char *str = "\'\"\'\"\'\"\'";
+	assert_lex_status(str, MSH_INCOMPLETE_TOKEN);
+}
+
+Test(lex, input_incomplete_11)
+{
+	char *str = "\'\"\'\"\'\"\'";
+	assert_lex_incomplete(str);
+}
+
+Test(lex, input_incomplete_12)
+{
+	char *str = "\'\"\'\"\'\"\'";
+	assert_lex_len(str, 1);
+}
+
+Test(lex, input_incomplete_13)
+{
+	char *str = "\'\"\'\"\'\"\'";
+	char *expected = "\'\"\'\"\'\"\'\n";
+	assert_lex_tok_str(str, expected);
+}
+
+Test(lex, input_incomplete_14)
+{
+	char *str = "\'\"\'\"\'\"\'";
+	char *expected = "-1\n";
+	assert_lex_tok_type(str, expected);
+}
+
+Test(lex, input_incomplete_15)
+{
+	char *str = "\"\'\"\'\"\'\"";
+	assert_lex_status(str, MSH_INCOMPLETE_TOKEN);
+}
+
+Test(lex, input_incomplete_16)
+{
+	char *str = "\"\'\"\'\"\'\"";
+	assert_lex_incomplete(str);
+}
+
+Test(lex, input_incomplete_17)
+{
+	char *str = "\"\'\"\'\"\'\"";
+	assert_lex_len(str, 1);
+}
+
+Test(lex, input_incomplete_18)
+{
+	char *str = "\"\'\"\'\"\'\"";
+	char *expected = "\"\'\"\'\"\'\"\n";
+	assert_lex_tok_str(str, expected);
+}
+
+Test(lex, input_incomplete_19)
+{
+	char *str = "\"\'\"\'\"\'\"";
+	char *expected = "-2\n";
+	assert_lex_tok_type(str, expected);
 }
