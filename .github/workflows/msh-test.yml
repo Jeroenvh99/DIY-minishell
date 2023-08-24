@@ -66,7 +66,7 @@ jobs:
     - name: Run full minishell test
       run: cd test/msh/integration
            ./msh_test.sh
-  full_test:
+  glob_test:
     timeout-minutes: 10
     runs-on: ubuntu-latest
     steps:
