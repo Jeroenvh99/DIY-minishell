@@ -74,5 +74,7 @@ jobs:
       uses: actions/checkout@v3
       with:
         submodules: true
-    - name: Run glob test
+    - name: Install dependencies
+      run: brew install criterion
+    - name: Run glob tests
       run: make test_glob
