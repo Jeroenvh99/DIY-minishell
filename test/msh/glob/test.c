@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   test.c                                             :+:    :+:            */
+/*   test.c                                             :+:      :+:    :+:   */
 /*                                                     +:+                    */
 /*   By: dbasting <marvin@codam.nl>                   +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/08/18 14:45:51 by dbasting      #+#    #+#                 */
-/*   Updated: 2023/08/24 11:13:16 by jvan-hal      ########   odam.nl         */
+/*   Updated: 2023/08/24 14:53:48 by jvan-hal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,4 +42,10 @@ static DIR	*glob_opendir(char const *path)
 	if (path[0] == '\0')
 		return (opendir("."));
 	return (opendir(path));
+}
+
+
+int main(){
+	glob_readdir("");
+	return 0;
 }
