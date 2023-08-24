@@ -6,7 +6,7 @@
 #    By: dbasting <marvin@codam.nl>                   +#+                      #
 #                                                    +#+                       #
 #    Created: 2022/12/28 12:06:53 by dbasting      #+#    #+#                  #
-#    Updated: 2023/08/21 09:56:02 by jvan-hal      ########   odam.nl          #
+#    Updated: 2023/08/24 11:15:58 by jvan-hal      ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -175,4 +175,9 @@ test_parser:
 test_msh_env:
 	$(MAKE) -j -C lib/libft
 	cc $(CFLAGS) -lcriterion source/env/env.c source/env/env_utils.c source/env/env_search.c source/env/env_unset.c source/env/env_set.c source/env/env_set_main.c source/env/env_append_val.c source/env/env_update.c source/env/env_basevars.c source/var/var_parse.c test/msh/env/env_unittest.c lib/libft/libft.a && ./a.out
+	rm a.out
+
+test_glob:
+	$(MAKE) -j -C lib/libft
+	cc $(CFLAGS) -Wl,--wrap=readdir -lcriterion test/msh/glob/glob_unittest.c test/msh/glob/test.c test/msh/glob/custom_readdir.C && ./a.out
 	rm a.out

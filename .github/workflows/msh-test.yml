@@ -66,3 +66,13 @@ jobs:
     - name: Run full minishell test
       run: cd test/msh/integration
            ./msh_test.sh
+  full_test:
+    timeout-minutes: 10
+    runs-on: ubuntu-latest
+    steps:
+    - name: Clone repository
+      uses: actions/checkout@v3
+      with:
+        submodules: true
+    - name: Run glob test
+      run: make test_glob
