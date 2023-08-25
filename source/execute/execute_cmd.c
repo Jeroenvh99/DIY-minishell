@@ -4,9 +4,9 @@
 /*   execute_cmd.c                                      :+:    :+:            */
 /*                                                     +:+                    */
 /*   By: jvan-hal <jvan-hal@student.codam.nl>         +#+                     */
-/*                                                   +#+                      */
+/*       dbasting <dbasting@student.codam.nl>        +#+                      */
 /*   Created: 2023/05/16 15:12:17 by jvan-hal      #+#    #+#                 */
-/*   Updated: 2023/08/11 15:56:32 by jvan-hal      ########   odam.nl         */
+/*   Updated: 2023/08/22 23:06:28 by dbasting      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,20 +19,28 @@
 
 static t_builtinf	get_builtin(char const *cmd);
 
-/* Execute `cmd` */
+/**
+ * @brief	Main executor: either run a builtin function from `cmd` or pass its
+ * 			members to execve(), forking as necessary. Set the "_" environment
+ * 			variable to the value of the final element of `cmd`->argv.array.
+ * @return	An exit status:
+ * 			MSH_SUCCESS		Success.
+ * 			MSH_FORKFAIL	Couldn't realize a fork.
+ */
 t_errno	execute_cmd(t_cmd *cmd, t_msh *msh)
 {
 	t_builtinf const	builtin = get_builtin(cmd->argv.array[0]);
 
+	env_update(&msh->env, "_", cmd->argv.array[cmd->argc - 1]);
 	if (builtin)
-		return (execute_builtin(builtin, cmd, msh));
-	if (cmd->argc == 0)
-		return (MSH_SUCCESS);
+		return (builtin(cmd, msh));
 	return (execute_bin(cmd, msh));
 }
 
-/* Check whether the `cmd` string matches the name of a builtin utility.
- * @return: A pointer to the utility function if found, or NULL otherwise. 
+/**
+ * @brief	Check whether `cmd` matches the name of a builtin utility.
+ * @return	A pointer to the utility function.
+ * 			NULL if no utility was found.
  */
 static t_builtinf	get_builtin(char const *cmd)
 {

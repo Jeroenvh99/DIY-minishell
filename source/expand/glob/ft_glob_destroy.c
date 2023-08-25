@@ -1,35 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   msh_utils.h                                        :+:    :+:            */
+/*   ft_glob_destroy.c                                  :+:    :+:            */
 /*                                                     +:+                    */
 /*   By: dbasting <dbasting@codam.nl>                 +#+                     */
 /*                                                   +#+                      */
-/*   Created: 2023/05/22 08:43:49 by dbasting      #+#    #+#                 */
-/*   Updated: 2023/08/21 12:01:11 by dbasting      ########   odam.nl         */
+/*   Created: 2023/08/15 20:09:08 by dbasting      #+#    #+#                 */
+/*   Updated: 2023/08/21 15:56:59 by dbasting      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef MSH_UTILS_H
-# define MSH_UTILS_H
+#include "ft_glob.h"
+#include "ft_list.h"
+#include <stdlib.h>
 
-# include "msh_error.h"
-
-typedef enum e_quote {
-	NOQUOTE = 0,
-	SQUOTE,
-	DQUOTE,
-	N_QUOTES,
-}	t_quote;
-
-# define CHR_DIRSEP		'/'
-# define CHR_SQUOTE		'\''
-# define CHR_DQUOTE		'\"'
-# define CHR_VAR		'$'
-# define CHR_WILDCARD	'*'
-
-char	*get_path(char *pathname);
-
-t_quote	is_quote(char c);
-
-#endif
+void	ft_glob_destroy(t_ft_glob *pglob)
+{
+	list_clear(&pglob->globl, free);
+	pglob->size = 0;
+}

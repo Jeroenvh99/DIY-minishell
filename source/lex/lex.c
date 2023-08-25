@@ -6,13 +6,13 @@
 /*   By: dbasting <marvin@codam.nl>                   +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/04/18 14:13:15 by dbasting      #+#    #+#                 */
-/*   Updated: 2023/04/21 15:59:07 by dbasting      ########   odam.nl         */
+/*   Updated: 2023/08/21 12:12:55 by dbasting      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "msh.h"
 #include "msh_parse.h"
-#include "msh_utils.h"
+#include "list_utils.h"
 
 #include "ft_ctype.h"
 #include "ft_list.h"
@@ -24,10 +24,9 @@ static t_errno	get_tokens(t_list **token_list, char const **str);
 
 t_errno	lex(t_list **token_list, char const *str)
 {
-	t_list		*tail_node;
-	t_errno		errno;
+	t_list *const	tail_node = list_last(*token_list);
+	t_errno			errno;
 
-	tail_node = list_last(*token_list);
 	errno = catch_incomplete_token(tail_node, &str);
 	if (errno != MSH_SUCCESS)
 		return (errno);
@@ -61,7 +60,7 @@ static t_errno	get_tokens(t_list **token_list, char const **str)
 			token = token_get_word(str);
 		if (token == NULL)
 			return (MSH_MEMFAIL);
-		if (list_append_ptr(token_list, token) != MSH_SUCCESS)
+		if (list_append_ptr(token_list, token) != 0)
 			return (token_destroy(&token), MSH_MEMFAIL);
 	}
 	if (token && token->type < 0)

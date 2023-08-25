@@ -6,7 +6,7 @@
 /*   By: dbasting <marvin@codam.nl>                   +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/04/18 14:13:15 by dbasting      #+#    #+#                 */
-/*   Updated: 2023/08/11 15:07:37 by dbasting      ########   odam.nl         */
+/*   Updated: 2023/08/21 12:08:06 by dbasting      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 #include "msh_error.h"
 #include "msh_parse.h"
 #include "msh_syntax.h"
-#include "msh_utils.h"
+#include "list_utils.h"
 
 #include "ft_ctype.h"
 #include "ft_list.h"
@@ -26,7 +26,6 @@
 
 static t_errno	rcmdl_add(t_list **tokens, char **line, char const *prompt);
 static t_errno	rcmdl_strjoin(char **line, char *segment);
-static int		rcmdl_isspaces(char *str);
 
 t_errno	readcmdline(t_list **tokens)
 {
@@ -44,16 +43,15 @@ t_errno	readcmdline(t_list **tokens)
 
 static t_errno	rcmdl_add(t_list **tokens, char **line, char const *prompt)
 {
-	char	*segment;
-	t_errno	errno;
-	int		syntcheck;
+	char *const	segment = readline(prompt);
+	t_errno		errno;
+	int			syntcheck;
 
-	segment = readline(prompt);
-	if (segment == NULL)
+	if (!segment)
 		return (MSH_NOCMDLINE);
-	if (segment == '\0' || rcmdl_isspaces(segment))
-		return (rcmdl_add(tokens, line, PROMPT));
 	errno = lex(tokens, segment);
+	if (!tokens)
+		return (MSH_NOCMDLINE);
 	if (rcmdl_strjoin(line, segment) == MSH_MEMFAIL)
 		return (MSH_MEMFAIL);
 	if (errno == MSH_MEMFAIL)
@@ -84,15 +82,4 @@ static t_errno	rcmdl_strjoin(char **line, char *segment)
 	if (*line == NULL)
 		return (MSH_MEMFAIL);
 	return (MSH_SUCCESS);
-}
-
-static int	rcmdl_isspaces(char *str)
-{
-	while (*str)
-	{
-		if (!ft_isspace(*str))
-			return (0);
-		++str;
-	}
-	return (1);
 }

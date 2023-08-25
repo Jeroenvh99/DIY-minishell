@@ -6,7 +6,7 @@
 /*   By: dbasting <marvin@codam.nl>                   +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/04/18 13:51:16 by dbasting      #+#    #+#                 */
-/*   Updated: 2023/08/14 18:31:47 by jvan-hal      ########   odam.nl         */
+/*   Updated: 2023/08/22 21:46:01 by dbasting      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,7 +100,6 @@ struct s_cmdtree {
  * @param argc	The number of arguments supplied.
  * @param argv	The values of the command arguments.
  * @param io	Data pertaining to I/O processing.
- * @param sub	Whether the command is to be executed in a subshell.
  */
 struct s_cmd {
 	size_t	argc;
@@ -109,7 +108,6 @@ struct s_cmd {
 		char	**array;
 	} argv;
 	t_fd	io[N_IO];
-	int		subsh;
 };
 
 /* Base functions. */
@@ -120,6 +118,7 @@ void		msh_deinit(t_msh *msh);
 
 /* Command tree functions. */
 t_cmdtree	*cmdtree_init(t_cmdtree *parent);
+void		cmdtree_destroy(t_cmdtree **tree);
 void		cmdtree_free(t_cmdtree *tree);
 
 /* Command functions. */

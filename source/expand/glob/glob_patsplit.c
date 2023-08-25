@@ -1,35 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   msh_utils.h                                        :+:    :+:            */
+/*   glob_patsplit.c                                    :+:    :+:            */
 /*                                                     +:+                    */
 /*   By: dbasting <dbasting@codam.nl>                 +#+                     */
 /*                                                   +#+                      */
-/*   Created: 2023/05/22 08:43:49 by dbasting      #+#    #+#                 */
-/*   Updated: 2023/08/21 12:01:11 by dbasting      ########   odam.nl         */
+/*   Created: 2023/08/21 00:14:00 by dbasting      #+#    #+#                 */
+/*   Updated: 2023/08/21 11:50:55 by dbasting      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef MSH_UTILS_H
-# define MSH_UTILS_H
+#include "ft_glob_utils.h"
+#include "misc_utils.h"
+#include "ft_list.h"
+#include "ft_string.h"
+#include <stddef.h>
+#include <stdlib.h>
 
-# include "msh_error.h"
-
-typedef enum e_quote {
-	NOQUOTE = 0,
-	SQUOTE,
-	DQUOTE,
-	N_QUOTES,
-}	t_quote;
-
-# define CHR_DIRSEP		'/'
-# define CHR_SQUOTE		'\''
-# define CHR_DQUOTE		'\"'
-# define CHR_VAR		'$'
-# define CHR_WILDCARD	'*'
-
-char	*get_path(char *pathname);
-
-t_quote	is_quote(char c);
-
-#endif

@@ -6,7 +6,7 @@
 /*   By: jvan-hal <jvan-hal@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/04/20 16:51:03 by jvan-hal      #+#    #+#                 */
-/*   Updated: 2023/08/07 18:22:51 by jvan-hal      ########   odam.nl         */
+/*   Updated: 2023/08/22 15:32:14 by dbasting      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,11 +30,14 @@ int	msh_export(t_cmd *cmd, t_msh *msh)
 	i = 1;
 	while (cmd->argv.array[i])
 	{
-		if (env_set_entry(&msh->env, cmd->argv.array[i]) > 0)
+		if (ft_strncmp(cmd->argv.array[i], "_", 2))
 		{
-			ft_dprintf(STDERR_FILENO, "msh: export: `%s': not a valid "
-				"identifier\n", cmd->argv.array[i]);
-			status = 1;
+			if (env_set_entry(&msh->env, cmd->argv.array[i]) > 0)
+			{
+				ft_dprintf(STDERR_FILENO, "msh: export: `%s': not a valid "
+					"identifier\n", cmd->argv.array[i]);
+				status = 1;
+			}
 		}
 		++i;
 	}

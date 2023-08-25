@@ -6,7 +6,7 @@
 /*   By: dbasting <dbasting@codam.nl>                 +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/22 08:45:12 by dbasting      #+#    #+#                 */
-/*   Updated: 2023/08/07 12:45:19 by jvan-hal      ########   odam.nl         */
+/*   Updated: 2023/08/22 14:02:34 by dbasting      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,11 +17,16 @@
 
 static inline size_t	is_varstr(char const *str);
 
-/* Attempt to parse `str` to yield a name and value, which are to be allocated
- * to `name` and `value`. Passing NULL for either of these parameters will
- * cause the function to forego parsing of that particular datum. Returns
- * MSH_NO_VARSTR if `str` is not a varstring, MSH_MEMFAIL on memory allocation
- * failure or MSH_SUCCESS on success.
+/**
+ * @brief	Determine whether `str` constitutes a variable assigment operation.
+ * 			If `name` is not NULL, also extract the variable identifier `name`
+ * 			from `str`.
+ * @return	A status code:
+ * 			MSH_SUCCESS		Success.
+ * 			MSH_VAR_APPEND	`str` is a variable appending operation.
+ * 			MSH_VAR_ASSIGN	`str` is a variable assignment operation.
+ * 			MSH_NO_VARSTR	`str` is not a variable assignment operation.
+ * 			MSH_MEMFAIL 	A memory allocation error occurred.
  */
 t_errno	var_parse(char **name, char const *str)
 {

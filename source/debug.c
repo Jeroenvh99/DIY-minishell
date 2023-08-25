@@ -6,7 +6,7 @@
 /*   By: dbasting <marvin@codam.nl>                   +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/01 16:54:58 by dbasting      #+#    #+#                 */
-/*   Updated: 2023/07/28 16:42:45 by dbasting      ########   odam.nl         */
+/*   Updated: 2023/08/22 23:26:57 by dbasting      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,9 +37,9 @@ void	cmd_view(t_cmd *cmd)
 {
 	size_t	i;
 
-	printf("> COMMAND (in subsh %d):\n"
+	printf("> COMMAND:\n"
 		"  - argc: %zu\n"
-		"  - argv:", cmd->subsh, cmd->argc);
+		"  - argv:", cmd->argc);
 	i = 0;
 	while (i < cmd->argc)
 		printf(" <%s>", cmd->argv.array[i++]);
