@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   expand_glob.c                                      :+:    :+:            */
+/*   expand_glob.c                                      :+:      :+:    :+:   */
 /*                                                     +:+                    */
 /*   By: dbasting <marvin@codam.nl>                   +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/08/21 14:43:06 by dbasting      #+#    #+#                 */
-/*   Updated: 2023/08/22 10:09:17 by dbasting      ########   odam.nl         */
+/*   Updated: 2023/08/25 13:27:48 by dbasting         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,10 +44,10 @@ static inline t_errno	glob_noresult(t_list **words, char const *pattern)
 	return (MSH_SUCCESS);
 }
 
-static inline	t_list *glob_extract(t_ft_glob *pglob)
+static inline t_list	*glob_extract(t_ft_glob *pglob)
 {
 	t_list	*list;
-	
+
 	list = NULL;
 	while (pglob->globl)
 		list_push(&list, list_pop(&pglob->globl));

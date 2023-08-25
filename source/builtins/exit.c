@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   exit.c                                             :+:    :+:            */
+/*   exit.c                                             :+:      :+:    :+:   */
 /*                                                     +:+                    */
 /*   By: jvan-hal <jvan-hal@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/04/18 13:45:34 by jvan-hal      #+#    #+#                 */
-/*   Updated: 2023/08/08 12:03:22 by jvan-hal      ########   odam.nl         */
+/*   Updated: 2023/08/25 13:27:15 by dbasting         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,6 @@ int	msh_exit(t_cmd *cmd, t_msh *msh)
 {
 	int	status;
 
-	status = msh->g_msh->exit;
 	if (cmd->argc > 2)
 		return (exit_strerror(EXIT_INVARG), 1);
 	printf("exit\n");
@@ -61,7 +60,7 @@ static void	exit_strerror(int errno)
 
 static int	get_status(char const *str)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	while (str[i])
