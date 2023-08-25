@@ -195,5 +195,5 @@ test_msh_env:
 
 test_glob:
 	$(MAKE) -j -C lib/libft
-	cc $(CFLAGS) -Wl,--wrap=readdir -lcriterion test/msh/glob/glob_unittest.c test/msh/glob/test.c test/msh/glob/custom_readdir.C && ./a.out
-	rm a.out
+	cc $(CFLAGS) -Wl,--wrap=glob_readdir test/msh/glob/glob_unittest.c test/msh/glob/custom_glob_readdir.c source/utils/utils_list.c source/expand/glob/* lib/libft/libft.a && ./a.out
+	# rm a.out
