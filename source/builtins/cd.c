@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   cd.c                                               :+:    :+:            */
+/*   cd.c                                               :+:      :+:    :+:   */
 /*                                                     +:+                    */
 /*   By: jvan-hal <jvan-hal@student.codam.nl>         +#+                     */
 /*       dbasting <dbasting@student.codam.nl>        +#+                      */
 /*   Created: 2023/04/20 16:52:40 by jvan-hal      #+#    #+#                 */
-/*   Updated: 2023/08/03 21:50:05 by dbasting      ########   odam.nl         */
+/*   Updated: 2023/08/25 13:21:31 by dbasting         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,13 +44,13 @@ int	msh_cd(t_cmd *cmd, t_msh *msh)
 	if (cmd->argc > 2)
 		return (cd_strerror(CD_MAXARG), free(cwd), 1);
 	if (get_path(path, cwd, dstdir) != 0)
-		return (msh_perror(1, "cd"), 1);
+		return (msh_perror(1, "cd"), free(cwd), 1);
 	if (chdir(path) != 0)
-		return (msh_perror(2, "cd", cmd->argv.array[1]), 1);
+		return (msh_perror(2, "cd", cmd->argv.array[1]), free(cwd), 1);
 	if (env_update(&msh->env, "OLDPWD", cwd) > 1)
-		return (msh_perror(1, "cd"), 1);
+		return (msh_perror(1, "cd"), free(cwd), 1);
 	if (env_update(&msh->env, "PWD", path) > 1)
-		return (msh_perror(1, "cd"), 1);
+		return (msh_perror(1, "cd"), free(cwd), 1);
 	free(cwd);
 	return (0);
 }
