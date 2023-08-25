@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   execute_cmd.c                                      :+:    :+:            */
+/*   execute_cmd.c                                      :+:      :+:    :+:   */
 /*                                                     +:+                    */
 /*   By: jvan-hal <jvan-hal@student.codam.nl>         +#+                     */
 /*       dbasting <dbasting@student.codam.nl>        +#+                      */
 /*   Created: 2023/05/16 15:12:17 by jvan-hal      #+#    #+#                 */
-/*   Updated: 2023/08/22 23:06:28 by dbasting      ########   odam.nl         */
+/*   Updated: 2023/08/25 13:11:01 by dbasting         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,10 @@ t_errno	execute_cmd(t_cmd *cmd, t_msh *msh)
 
 	env_update(&msh->env, "_", cmd->argv.array[cmd->argc - 1]);
 	if (builtin)
-		return (builtin(cmd, msh));
+	{
+		msh->g_msh->exit = builtin(cmd, msh);
+		return (MSH_SUCCESS);
+	}
 	return (execute_bin(cmd, msh));
 }
 
