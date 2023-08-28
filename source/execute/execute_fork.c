@@ -6,7 +6,7 @@
 /*   By: jvan-hal <jvan-hal@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/16 15:12:17 by jvan-hal      #+#    #+#                 */
-/*   Updated: 2023/08/22 23:48:11 by dbasting      ########   odam.nl         */
+/*   Updated: 2023/08/28 14:28:36 by dbasting      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,10 +59,12 @@ void	execute_subsh(t_cmd *cmd, t_msh *msh)
 	exit(msh->g_msh->exit);
 }
 
+#include <stdio.h>
+
 /**
  * @brief	Wait for the child process.
- * @return	The child's exit status, incremented by 128 if the child was
- * 			terminated by way of a signal.
+ * @return	The child's exit status or, if the child was terminated by way of a
+ * 			signal: the signal number incremented by 128.
  */
 int	execute_wait(t_msh *msh)
 {
@@ -77,8 +79,7 @@ int	execute_wait(t_msh *msh)
 
 /**
  * @brief	Find the utility specified by `cmd` and execute it.
- * @return	This function only returns in case the standard file descriptors
- * 			couldn't be dup2()licated.
+ * @return	This function never returns.
  */
 static void	child(t_cmd *cmd, t_msh *msh)
 {
