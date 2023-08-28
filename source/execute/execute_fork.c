@@ -6,7 +6,7 @@
 /*   By: jvan-hal <jvan-hal@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/16 15:12:17 by jvan-hal      #+#    #+#                 */
-/*   Updated: 2023/08/28 14:28:36 by dbasting      ########   odam.nl         */
+/*   Updated: 2023/08/28 15:10:35 by jvan-hal      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,8 +58,6 @@ void	execute_subsh(t_cmd *cmd, t_msh *msh)
 	msh_deinit(msh);
 	exit(msh->g_msh->exit);
 }
-
-#include <stdio.h>
 
 /**
  * @brief	Wait for the child process.
