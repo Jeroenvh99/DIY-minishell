@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   execute.c                                          :+:    :+:            */
+/*   execute.c                                          :+:      :+:    :+:   */
 /*                                                     +:+                    */
 /*   By: jvan-hal <jvan-hal@student.codam.nl>         +#+                     */
 /*       dbasting <dbasting@student.codam.nl>        +#+                      */
 /*   Created: 2023/05/16 15:12:17 by jvan-hal      #+#    #+#                 */
-/*   Updated: 2023/08/22 16:06:50 by dbasting      ########   odam.nl         */
+/*   Updated: 2023/08/25 13:27:27 by dbasting         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@
 t_errno	execute(t_msh *msh)
 {
 	t_errno	errno;
-	
+
 	handler_set(SIGINT, handle_relay);
 	handler_set(SIGQUIT, handle_relay);
 	env_pack(&msh->env);

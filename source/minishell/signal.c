@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   signal.c                                           :+:    :+:            */
+/*   signal.c                                           :+:      :+:    :+:   */
 /*                                                     +:+                    */
 /*   By: dbasting <dbasting@codam.nl>                 +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/06/06 15:33:46 by dbasting      #+#    #+#                 */
-/*   Updated: 2023/06/13 15:33:45 by dbasting      ########   odam.nl         */
+/*   Updated: 2023/08/25 13:02:21 by dbasting         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,4 +47,5 @@ void	handle_sigint_heredoc(int signum)
 void	handle_relay(int signum)
 {
 	kill(g_msh.child, signum);
+	write(STDERR_FILENO, "\n", 1);
 }
