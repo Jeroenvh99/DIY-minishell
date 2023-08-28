@@ -6,19 +6,21 @@
 /*   By: dbasting <dbasting@codam.nl>                 +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/06/06 15:33:46 by dbasting      #+#    #+#                 */
-/*   Updated: 2023/08/25 13:02:21 by dbasting         ###   ########.fr       */
+/*   Updated: 2023/08/28 15:24:09 by dbasting      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "msh.h"
 
-#include <stdio.h>
+#ifdef __APPLE__
+# include <stdio.h>
+#endif
+
 #include "readline/readline.h"
 #include <signal.h>
-#include <stdlib.h>
 #include <unistd.h>
 
-extern struct s_g_msh	g_msh;
+extern int	g_signum;
 
 void	handler_set(int signum, t_handler handler)
 {
@@ -29,8 +31,7 @@ void	handler_set(int signum, t_handler handler)
 
 void	handle_sigint(int signum)
 {
-	(void) signum;
-	g_msh.exit = EXIT_FAILURE;
+	g_signum = signum;
 	write(STDERR_FILENO, "\n", 1);
 	rl_on_new_line();
 	rl_replace_line("", 1);
@@ -39,13 +40,12 @@ void	handle_sigint(int signum)
 
 void	handle_sigint_heredoc(int signum)
 {
-	(void) signum;
-	g_msh.exit = EXIT_FAILURE;
+	g_signum = signum;
 	write(STDERR_FILENO, "\n", 1);
 }
 
 void	handle_relay(int signum)
 {
-	kill(g_msh.child, signum);
+	g_signum = signum;
 	write(STDERR_FILENO, "\n", 1);
 }

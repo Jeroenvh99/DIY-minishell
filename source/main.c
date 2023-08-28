@@ -6,7 +6,7 @@
 /*   By: dbasting <marvin@codam.nl>                   +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/04/18 14:13:15 by dbasting      #+#    #+#                 */
-/*   Updated: 2023/08/15 15:18:45 by dbasting      ########   odam.nl         */
+/*   Updated: 2023/08/28 15:18:28 by dbasting      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@
 
 static t_errno	msh_init(t_msh *msh, int argc, char **argv, char **envp);
 
-struct s_g_msh	g_msh = {.exit = 0, .child = 0};
+int	g_signum = -1;
 
 int	main(int argc, char **argv, char **envp)
 {
@@ -48,7 +48,7 @@ static t_errno	msh_init(t_msh *msh, int argc, char **argv, char **envp)
 
 	(void) argc;
 	(void) argv;
-	msh->g_msh = &g_msh;
+	msh->child = 0;
 	errno = env_init(&msh->env, envp);
 	if (errno != MSH_SUCCESS)
 		return (errno);

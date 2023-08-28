@@ -6,7 +6,7 @@
 /*   By: jvan-hal <jvan-hal@student.codam.nl>         +#+                     */
 /*       dbasting <dbasting@student.codam.nl>        +#+                      */
 /*   Created: 2023/05/16 15:12:17 by jvan-hal      #+#    #+#                 */
-/*   Updated: 2023/08/25 13:27:27 by dbasting         ###   ########.fr       */
+/*   Updated: 2023/08/28 15:19:06 by dbasting      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,8 +44,8 @@ t_errno	execute_cmdtree(t_cmdtree *tree, t_msh *msh)
 	errno = execute_cmdtree(tree->data.branches[TREE_LEFT], msh);
 	if (errno != MSH_SUCCESS)
 		return (errno);
-	if ((msh->g_msh->exit == EXIT_SUCCESS && tree->op == TREE_OP_AND)
-		|| (msh->g_msh->exit != EXIT_SUCCESS && tree->op == TREE_OP_OR))
+	if ((msh->exit == EXIT_SUCCESS && tree->op == TREE_OP_AND)
+		|| (msh->exit != EXIT_SUCCESS && tree->op == TREE_OP_OR))
 		return (execute_cmdtree(tree->data.branches[TREE_RIGHT], msh));
 	return (MSH_SUCCESS);
 }

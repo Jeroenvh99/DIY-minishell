@@ -6,7 +6,7 @@
 /*   By: dbasting <marvin@codam.nl>                   +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/04/18 13:51:16 by dbasting      #+#    #+#                 */
-/*   Updated: 2023/08/22 21:46:01 by dbasting      ########   odam.nl         */
+/*   Updated: 2023/08/28 15:22:16 by dbasting      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,15 +55,6 @@ enum e_treeop {
 	N_TREE_OP,
 };
 
-/* Global shell data structure.
- * @param exit		The exit status of the most recently executed pipe.
- * @param child		The PID of the current child process.
- */
-struct s_g_msh {
-	int		exit;
-	pid_t	child;
-};
-
 /* Shell data object.
  * @param g_msh	Global portion of shell data:
  * @param env	The shell environment.
@@ -72,10 +63,11 @@ struct s_g_msh {
  * @param errno	The current error code.
  */
 struct s_msh {
-	struct s_g_msh	*g_msh;
-	t_env			env;
-	t_cmdtree		*tree;
-	t_errno			errno;
+	t_env		env;
+	t_cmdtree	*tree;
+	t_errno		errno;
+	pid_t		child;
+	int			exit;
 };
 
 /* Command tree object.
