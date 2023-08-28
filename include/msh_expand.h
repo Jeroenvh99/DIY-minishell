@@ -6,7 +6,7 @@
 /*   By: dbasting <marvin@codam.nl>                   +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/04/18 13:46:33 by dbasting      #+#    #+#                 */
-/*   Updated: 2023/08/21 16:05:06 by dbasting      ########   odam.nl         */
+/*   Updated: 2023/08/28 14:22:31 by jvan-hal      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ typedef enum e_specvar {
 	N_SPECVAR,
 }	t_specvar;
 
-# define CHR_HOME	'~'
+# define CHR_HOME	126
 # define SPECVARS	"\0@*#?-$!0"
 
 typedef struct s_expstr {
