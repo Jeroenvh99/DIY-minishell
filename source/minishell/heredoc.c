@@ -6,11 +6,11 @@
 /*   By: dbasting <dbasting@codam.nl>                 +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/06/13 13:15:11 by dbasting      #+#    #+#                 */
-/*   Updated: 2023/06/19 17:15:07 by dbasting      ########   odam.nl         */
+/*   Updated: 2023/08/29 13:57:49 by dbasting      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "msh.h"
+#include "msh_prompt.h"
 #include "msh_expand.h"
 #include "msh_error.h"
 

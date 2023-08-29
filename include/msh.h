@@ -6,7 +6,7 @@
 /*   By: dbasting <marvin@codam.nl>                   +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/04/18 13:51:16 by dbasting      #+#    #+#                 */
-/*   Updated: 2023/08/28 15:22:16 by dbasting      ########   odam.nl         */
+/*   Updated: 2023/08/29 13:53:29 by dbasting      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,13 +20,6 @@
 # include "ft_list.h"
 # include <stddef.h>
 # include <sys/types.h>
-
-# define PROMPT			"msh$ "
-# define PROMPT_CONT	"> "
-# define PROMPT_PIPE	"pipe> "
-# define PROMPT_QUOTE	"quote> "
-# define PROMPT_PAR		"parenthesis>"
-# define PROMPT_CMD		"cmd>"
 
 typedef struct s_msh		t_msh;
 typedef struct s_cmd		t_cmd;
@@ -104,7 +97,8 @@ struct s_cmd {
 
 /* Base functions. */
 void		msh_loop(t_msh *msh);
-t_errno		readcmdline(t_list **tokens);
+t_errno		cmdline_read(t_list **tokens);
+void		cmdline_prompt(t_fd outf);
 void		heredoc(char const *delim, int fd, t_msh *msh);
 void		msh_deinit(t_msh *msh);
 
