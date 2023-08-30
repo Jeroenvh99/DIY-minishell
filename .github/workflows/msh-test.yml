@@ -1,8 +1,8 @@
 name: Minishell test
 run-name: Checking if pr by ${{ github.actor }} passes all tests
 on:
-  push:
-    branches: [ jvan-hal ]
+  pull-request:
+    branches: [ master ]
 jobs:
   builtin_unit-test:
     timeout-minutes: 10
