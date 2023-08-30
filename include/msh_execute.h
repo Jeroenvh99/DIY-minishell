@@ -6,7 +6,7 @@
 /*   By: dbasting <marvin@codam.nl>                   +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/06/19 17:30:11 by dbasting      #+#    #+#                 */
-/*   Updated: 2023/08/14 17:44:07 by dbasting      ########   odam.nl         */
+/*   Updated: 2023/08/28 16:43:07 by jvan-hal      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,9 +35,10 @@ t_errno	execute(t_msh *msh);
 t_errno	execute_cmdtree(t_cmdtree *tree, t_msh *msh);
 t_errno	execute_pipeline(t_list **pipeline, t_msh *msh);
 t_errno	execute_cmd(t_cmd *cmd, t_msh *msh);
-
 t_errno	execute_bin(t_cmd *cmd, t_msh *msh);
-t_errno	execute_builtin(t_builtinf const builtin, t_cmd *cmd, t_msh *msh);
+
+void	execute_subsh(t_cmd *cmd, t_msh *msh);
+int		execute_wait(t_msh *msh);
 
 int		get_pathname(char *const buf, char const *filename, char const *path);
 

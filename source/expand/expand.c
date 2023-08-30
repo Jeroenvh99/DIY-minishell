@@ -6,7 +6,7 @@
 /*   By: dbasting <marvin@codam.nl>                   +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/08 12:23:49 by dbasting      #+#    #+#                 */
-/*   Updated: 2023/08/08 14:48:44 by jvan-hal      ########   odam.nl         */
+/*   Updated: 2023/08/21 15:09:55 by dbasting      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,31 +23,40 @@ static t_errno		exp_loop(t_expstr *expstr, t_msh *msh);
 static inline t_expop		get_expop(char c, t_quote *lquote, size_t *exp_len);
 static inline int			exp_process_quote(char c, t_quote *lquote);
 
-/* Expand the string stored in `str` and perform word splitting. `str` is
- * replaced with its own expansion.
+/**
+ * @brief	Expand the string stored in `str`. If the parameter `words` is
+ * 			supplied, word splitting will be performed on the expanded `str`
+ * 			and the individual words will be appended to `words`.
  */
 t_errno	expand(t_list **words, char **str, t_msh *msh)
 {
 	t_expstr	expstr;
 	t_errno		errno;
 
-	expstr.str = *str;
+	expstr.str = ft_strdup(*str);
+	if (expstr.str == NULL)
+		return (MSH_MEMFAIL);
 	expstr.ops = malloc((ft_strlen(expstr.str) + 1) * sizeof(t_expop));
 	if (expstr.ops == NULL)
-		return (MSH_MEMFAIL);
+		return (free(expstr.str), MSH_MEMFAIL);
 	expstr.i = 0;
 	errno = exp_loop(&expstr, msh);
 	if (errno != MSH_SUCCESS)
 		return (free(expstr.str), free(expstr.ops), errno);
 	if (words)
 		errno = expand_fieldsplit(words, &expstr);
+	free(*str);
 	*str = expstr.str;
 	free(expstr.ops);
 	return (errno);
 }
 
-/* Loop through `expstr`'s `str` member, inserting expansions into it as
- * necessary and writing expansion operations to `ops`.
+/**
+ * @brief	Loop through `expstr`->str, inserting expansions into it
+ * as necessary and writing expansion operations to `expstr`->ops.
+ * @return	A status code:
+ * 			MSH_SUCCESS	on success
+ * 			MSH_MEMFAIL	on memory allocation error.
  */
 static t_errno	exp_loop(t_expstr *expstr, t_msh *msh)
 {
@@ -74,8 +83,13 @@ static t_errno	exp_loop(t_expstr *expstr, t_msh *msh)
 	return (MSH_SUCCESS);
 }
 
-/* Return the expansion operation, based on the current quote mode and
- * whether the current part of the string was inserted during an expansion.
+/* @brief	Return the expansion operation, based on the current quote mode and
+ * 			whether the current part of the string was inserted during an
+ * 			expansion.
+ * @return	An expansion operation:
+ * 			EXPOP_COPY	Include this character in the final result.
+ * 			EXPOP_SKIP	Exclude this character from the final result.
+ * 			EXPOP_ENDW	Signifies a word boundary.
  */
 static inline t_expop	get_expop(char c, t_quote *lquote, size_t *exp_len)
 {
@@ -87,11 +101,14 @@ static inline t_expop	get_expop(char c, t_quote *lquote, size_t *exp_len)
 	}
 	else if (exp_process_quote(c, lquote))
 		return (EXPOP_SKIP);
+	if (*lquote == NOQUOTE && (c == '*' || c == '?'))
+		return (EXPOP_GLOB);
 	return (EXPOP_COPY);
 }
 
-/* Alter the value of `lquote` to denote the current quote mode.
- * Return 1 if the quote mode was changed, 0 if it was unchanged. 
+/**
+ * @brief	Alter the value of `lquote` to denote the current quote mode.
+ * @return	1 if the quote mode was changed, 0 if it was unchanged. 
  */
 static inline int	exp_process_quote(char c, t_quote *lquote)
 {

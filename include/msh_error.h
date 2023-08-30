@@ -6,14 +6,14 @@
 /*   By: dbasting <dbasting@codam.nl>                 +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/22 08:42:57 by dbasting      #+#    #+#                 */
-/*   Updated: 2023/07/23 23:21:12 by dbasting      ########   odam.nl         */
+/*   Updated: 2023/08/28 14:16:02 by jvan-hal      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MSH_ERROR_H
 # define MSH_ERROR_H
 
-#include <stdarg.h>
+# include <stdarg.h>
 
 typedef enum e_errno {
 	MSH_SUCCESS = 0,

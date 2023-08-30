@@ -6,7 +6,7 @@
 /*   By: jvan-hal <jvan-hal@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/16 15:12:17 by jvan-hal      #+#    #+#                 */
-/*   Updated: 2023/08/07 15:12:20 by jvan-hal      ########   odam.nl         */
+/*   Updated: 2023/08/28 16:43:48 by jvan-hal      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,50 +17,69 @@
 
 #include "ft_stdio.h"
 #include <limits.h>
-#include <stdio.h>
 #include <stdlib.h>
 #include <sys/wait.h>
 #include <unistd.h>
 
-static void		launch(t_cmd *cmd, t_msh *msh);
-static int		fork_wait(t_msh *msh);
-static t_errno	fd_set_standard(t_cmd *cmd);
+static void	child(t_cmd *cmd, t_msh *msh);
+static int	fd_set_standard(t_cmd *cmd);
 
-/* Execute `builtin`, creating a subshell if necessary. */
-t_errno	execute_builtin(t_builtinf const builtin, t_cmd *cmd, t_msh *msh)
-{
-	if (cmd->subsh == 0)
-		msh->g_msh->exit = builtin(cmd, msh);
-	else
-	{
-		msh->g_msh->child = fork();
-		if (msh->g_msh->child == -1)
-			return (msh_perror(0), MSH_FORKFAIL);
-		if (msh->g_msh->child == 0)
-		{
-			if (fd_set_standard(cmd) != 0)
-				msh_perror(0);
-			exit(builtin(cmd, msh));
-		}
-		msh->g_msh->exit = fork_wait(msh);
-	}
-	return (MSH_SUCCESS);
-}
-
-/* Execute `cmd`. */
+/** 
+ * @brief	Execute the binary specified by `msh`.
+ * @return	An exit status:
+ * 			MSH_SUCCESS		Success.
+ * 			MSH_FORKFAIL	The call to fork() failed.
+ */
 t_errno	execute_bin(t_cmd *cmd, t_msh *msh)
 {
 	msh->g_msh->child = fork();
 	if (msh->g_msh->child == -1)
 		return (msh_perror(0), MSH_FORKFAIL);
 	if (msh->g_msh->child == 0)
-		launch(cmd, msh);
-	msh->g_msh->exit = fork_wait(msh);
+		child(cmd, msh);
+	msh->g_msh->exit = execute_wait(msh);
 	return (MSH_SUCCESS);
 }
 
-/* Find the utility specified by `cmd` and execute it, or exit on failure. */
-static void	launch(t_cmd *cmd, t_msh *msh)
+/**
+ * @brief	Execute a command inside a subshell.
+ * @return	This function never returns.
+ */
+void	execute_subsh(t_cmd *cmd, t_msh *msh)
+{
+	if (fd_set_standard(cmd) == 0)
+		execute_cmd(cmd, msh);
+	else
+	{
+		msh->g_msh->exit = EXIT_FAILURE;
+		msh_perror(0);
+	}
+	cmd_free(cmd);
+	msh_deinit(msh);
+	exit(msh->g_msh->exit);
+}
+
+/**
+ * @brief	Wait for the child process.
+ * @return	The child's exit status or, if the child was terminated by way of a
+ * 			signal: the signal number incremented by 128.
+ */
+int	execute_wait(t_msh *msh)
+{
+	int	wstatus;
+
+	waitpid(msh->g_msh->child, &wstatus, 0);
+	msh->g_msh->child = 0;
+	if (WIFSIGNALED(wstatus))
+		return (WTERMSIG(wstatus) + 128);
+	return (WEXITSTATUS(wstatus));
+}
+
+/**
+ * @brief	Find the utility specified by `cmd` and execute it.
+ * @return	This function never returns.
+ */
+static void	child(t_cmd *cmd, t_msh *msh)
 {
 	char		pname[PATH_MAX];
 	char *const	fname = cmd->argv.array[0];
@@ -77,20 +96,13 @@ static void	launch(t_cmd *cmd, t_msh *msh)
 	exit(EXIT_FAILURE);
 }
 
-/* Wait for the child process. Return the child's exit status. */
-static int	fork_wait(t_msh *msh)
-{
-	int	wstatus;
-
-	waitpid(msh->g_msh->child, &wstatus, 0);
-	msh->g_msh->child = 0;
-	if (WIFSIGNALED(wstatus))
-		return (WTERMSIG(wstatus) + 128);
-	return (WEXITSTATUS(wstatus));
-}
-
-/* Merge the file descriptors on `cmd` with the standard streams. */
-static inline t_errno	fd_set_standard(t_cmd *cmd)
+/**
+ * @brief	Merge the file descriptors on `cmd` into the standard streams.
+ * @return	An exit status:
+ * 			0	Success.
+ * 			1	A call to dup2() failed.
+ */
+static inline int	fd_set_standard(t_cmd *cmd)
 {
 	t_fd	fd;
 
@@ -102,6 +114,7 @@ static inline t_errno	fd_set_standard(t_cmd *cmd)
 			if (dup2(cmd->io[fd], fd) == -1)
 				return (1);
 			close(cmd->io[fd]);
+			cmd->io[fd] = fd;
 		}
 		fd++;
 	}

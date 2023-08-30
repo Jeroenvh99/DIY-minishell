@@ -4,9 +4,9 @@
 /*   cd.c                                               :+:    :+:            */
 /*                                                     +:+                    */
 /*   By: jvan-hal <jvan-hal@student.codam.nl>         +#+                     */
-/*       dbasting <dbasting@student.codam.nl>        +#+                      */
+/*                                                   +#+                      */
 /*   Created: 2023/04/20 16:52:40 by jvan-hal      #+#    #+#                 */
-/*   Updated: 2023/08/03 21:50:05 by dbasting      ########   odam.nl         */
+/*   Updated: 2023/08/29 10:26:05 by jvan-hal      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,6 @@
 #include "ft_stdio.h"
 #include <limits.h>
 #include <stdlib.h>
-#include <stdio.h>
 #include <unistd.h>
 
 enum e_cderrno {
@@ -44,13 +43,13 @@ int	msh_cd(t_cmd *cmd, t_msh *msh)
 	if (cmd->argc > 2)
 		return (cd_strerror(CD_MAXARG), free(cwd), 1);
 	if (get_path(path, cwd, dstdir) != 0)
-		return (msh_perror(1, "cd"), 1);
+		return (msh_perror(1, "cd"), free(cwd), 1);
 	if (chdir(path) != 0)
-		return (msh_perror(2, "cd", cmd->argv.array[1]), 1);
+		return (msh_perror(2, "cd", cmd->argv.array[1]), free(cwd), 1);
 	if (env_update(&msh->env, "OLDPWD", cwd) > 1)
-		return (msh_perror(1, "cd"), 1);
+		return (msh_perror(1, "cd"), free(cwd), 1);
 	if (env_update(&msh->env, "PWD", path) > 1)
-		return (msh_perror(1, "cd"), 1);
+		return (msh_perror(1, "cd"), free(cwd), 1);
 	free(cwd);
 	return (0);
 }
@@ -93,7 +92,7 @@ static char	*get_dstdir(t_cmd *cmd, t_msh *msh)
 	{
 		dstdir = env_search(&msh->env, "OLDPWD");
 		if (dstdir)
-			printf("%s\n", dstdir);
+			ft_dprintf(cmd->io[1], "%s\n", dstdir);
 		else
 			cd_strerror(CD_NOOLDPWD);
 	}

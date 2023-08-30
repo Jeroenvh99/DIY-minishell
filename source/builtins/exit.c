@@ -6,7 +6,7 @@
 /*   By: jvan-hal <jvan-hal@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/04/18 13:45:34 by jvan-hal      #+#    #+#                 */
-/*   Updated: 2023/08/08 12:03:22 by jvan-hal      ########   odam.nl         */
+/*   Updated: 2023/08/29 10:26:28 by jvan-hal      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,6 @@
 #include "ft_ctype.h"
 #include "ft_stdlib.h"
 #include "ft_stdio.h"
-#include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
 
@@ -37,10 +36,9 @@ int	msh_exit(t_cmd *cmd, t_msh *msh)
 {
 	int	status;
 
-	status = msh->g_msh->exit;
 	if (cmd->argc > 2)
 		return (exit_strerror(EXIT_INVARG), 1);
-	printf("exit\n");
+	ft_dprintf(cmd->io[1], "exit\n");
 	if (cmd->argc == 2)
 		status = get_status(cmd->argv.array[1]);
 	else
@@ -61,7 +59,7 @@ static void	exit_strerror(int errno)
 
 static int	get_status(char const *str)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	while (str[i])

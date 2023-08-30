@@ -1,33 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   pwd.c                                              :+:    :+:            */
+/*   ft_glob_destroy.c                                  :+:    :+:            */
 /*                                                     +:+                    */
-/*   By: jvan-hal <jvan-hal@student.codam.nl>         +#+                     */
+/*   By: dbasting <dbasting@codam.nl>                 +#+                     */
 /*                                                   +#+                      */
-/*   Created: 2023/04/20 16:27:41 by jvan-hal      #+#    #+#                 */
-/*   Updated: 2023/08/29 10:29:33 by jvan-hal      ########   odam.nl         */
+/*   Created: 2023/08/15 20:09:08 by dbasting      #+#    #+#                 */
+/*   Updated: 2023/08/21 15:56:59 by dbasting      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "msh.h"
-#include "ft_stdio.h"
+#include "ft_glob.h"
+#include "ft_list.h"
 #include <stdlib.h>
-#include <unistd.h>
 
-int	msh_pwd(t_cmd *cmd, t_msh *msh)
+void	ft_glob_destroy(t_ft_glob *pglob)
 {
-	char	*buf;
-
-	(void)msh;
-	buf = NULL;
-	buf = getcwd(buf, 0);
-	if (buf)
-	{
-		ft_dprintf(cmd->io[1], "%s\n", buf);
-		free(buf);
-		return (0);
-	}
-	else
-		return (1);
+	list_clear(&pglob->globl, free);
+	pglob->size = 0;
 }

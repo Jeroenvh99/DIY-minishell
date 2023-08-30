@@ -6,7 +6,7 @@
 #    By: dbasting <marvin@codam.nl>                   +#+                      #
 #                                                    +#+                       #
 #    Created: 2022/12/28 12:06:53 by dbasting      #+#    #+#                  #
-#    Updated: 2023/08/14 13:10:47 by dbasting      ########   odam.nl          #
+#    Updated: 2023/08/24 11:15:58 by jvan-hal      ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -34,9 +34,11 @@ SRC_FILES	:= main.c\
 			execute/execute.c\
 			execute/execute_cmd.c\
 			execute/execute_fork.c\
+			execute/execute_pipeline.c\
 			execute/path.c\
 			expand/expand.c\
 			expand/expand_fieldsplit.c\
+			expand/expand_glob.c\
 			expand/expand_spec_exit.c\
 			expand/expand_spec_nparam.c\
 			expand/expand_spec_opts.c\
@@ -45,11 +47,20 @@ SRC_FILES	:= main.c\
 			expand/expand_spec_shname.c\
 			expand/expand_utils.c\
 			expand/expand_var.c\
+			expand/glob/ft_glob.c\
+			expand/glob/ft_glob_destroy.c\
+			expand/glob/ft_glob_init.c\
+			expand/glob/glob_add.c\
+			expand/glob/glob_cmp.c\
+			expand/glob/glob_patcmp.c\
+			expand/glob/glob_readdir.c\
+			expand/glob/glob_sortdir.c\
 			lex/lex.c\
 			lex/token.c\
 			lex/lex_token_get.c\
 			lex/lex_utils.c\
 			minishell/cmd.c\
+			minishell/cmdtree.c\
 			minishell/error.c\
 			minishell/heredoc.c\
 			minishell/readcmdline.c\
@@ -57,6 +68,7 @@ SRC_FILES	:= main.c\
 			minishell/signal.c\
 			parse/parse.c\
 			parse/parse_cmd.c\
+			parse/parse_cmdtree.c\
 			parse/parse_in.c\
 			parse/parse_operator.c\
 			parse/parse_out.c\
@@ -81,13 +93,17 @@ HDR_FILES	:= msh.h\
 			msh_execute.h\
 			msh_expand.h\
 			msh_parse.h\
+			msh_utils.h\
 			msh_var.h\
 			\
+			ft_glob.h\
+			ft_glob_utils.h\
+			list_utils.h\
 			msh_debug.h
 LIB_FILES	:= libft.a
 
 SRC_DIR		:= ./source/
-SRC_SUBDIRS	:= builtins/ env/ execute/ expand/ lex/ minishell/ parse/ parse/syntax/ test/ utils/ var/
+SRC_SUBDIRS	:= builtins/ env/ execute/ expand/ expand/glob lex/ minishell/ parse/ parse/syntax/ test/ utils/ var/
 OBJ_DIR		:= ./object/
 OBJ_SUBDIRS := $(SRC_SUBDIRS)
 HDR_DIR		:= ./include/
@@ -164,7 +180,7 @@ test_lexer:
 
 test_expander:
 	$(MAKE) -j -C lib/libft
-	cc $(CFLAGS) -lcriterion test/msh/expand/expand_unittest.c lib/libft/libft.a && ./a.out
+	cc $(CFLAGS) -lcriterion test/msh/expand/expand_unittest.c source/expand/*.c source/var/var.c source/var/var_parse.c source/env/*.c source/utils/*.c lib/libft/libft.a && ./a.out
 	rm a.out
 
 test_parser:
@@ -176,3 +192,8 @@ test_msh_env:
 	$(MAKE) -j -C lib/libft
 	cc $(CFLAGS) -lcriterion source/env/env.c source/env/env_utils.c source/env/env_search.c source/env/env_unset.c source/env/env_set.c source/env/env_set_main.c source/env/env_append_val.c source/env/env_update.c source/env/env_basevars.c source/var/var_parse.c test/msh/env/env_unittest.c lib/libft/libft.a && ./a.out
 	rm a.out
+
+test_glob:
+	$(MAKE) -j -C lib/libft
+	cc $(CFLAGS) -Wl,--wrap=glob_readdir test/msh/glob/glob_unittest.c test/msh/glob/custom_glob_readdir.c source/utils/utils_list.c source/expand/glob/* lib/libft/libft.a && ./a.out
+	# rm a.out

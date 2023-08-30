@@ -1,30 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   expand_home.c                                      :+:    :+:            */
+/*   list_utils.h                                       :+:    :+:            */
 /*                                                     +:+                    */
 /*   By: dbasting <marvin@codam.nl>                   +#+                     */
 /*                                                   +#+                      */
-/*   Created: 2023/05/15 15:39:10 by dbasting      #+#    #+#                 */
-/*   Updated: 2023/08/15 16:17:35 by jvan-hal      ########   odam.nl         */
+/*   Created: 2023/08/21 11:45:32 by dbasting      #+#    #+#                 */
+/*   Updated: 2023/08/21 16:34:44 by dbasting      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "msh_expand.h"
-#include "msh_error.h"
-#include "msh_var.h"
-#include "msh.h"
+#ifndef LIST_UTILS_H
+# define LIST_UTILS_H
 
-#include "ft_string.h"
-#include <stdlib.h>
+# include "ft_list.h"
 
-t_errno	expand_home(t_expstr *expstr, size_t *exp_len, t_msh *msh)
-{
-	char const	*exp;
+typedef void	(*t_freef)(void *);
 
-	exp = var_search("HOME", msh);
-	if (!exp)
-		return (MSH_MEMFAIL);
-	*exp_len += ft_strlen(exp);
-	return (expstr_resize(expstr, 1, exp, *exp_len));
-}
+/* List functions. */
+int		list_append_ptr(t_list **lst, void *ptr);
+t_list	*list_pop(t_list **lst);
+void	*list_pop_ptr(t_list **lst);
+int		list_push_ptr(t_list **lst, void *ptr);
+void	list_prepend(t_list **list, t_list *prefix);
+
+#endif

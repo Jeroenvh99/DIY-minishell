@@ -3,10 +3,10 @@
 /*                                                        ::::::::            */
 /*   ft_glob.h                                          :+:    :+:            */
 /*                                                     +:+                    */
-/*   By: dbasting <marvin@codam.nl>                   +#+                     */
+/*   By: dbasting <dbasting@codam.nl>                 +#+                     */
 /*                                                   +#+                      */
-/*   Created: 2023/06/19 14:33:24 by dbasting      #+#    #+#                 */
-/*   Updated: 2023/07/18 13:33:28 by dbasting      ########   odam.nl         */
+/*   Created: 2023/08/15 19:55:25 by dbasting      #+#    #+#                 */
+/*   Updated: 2023/08/21 16:06:32 by dbasting      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,13 +14,23 @@
 # define FT_GLOB_H
 
 # include "ft_list.h"
-# include <limits.h>
 
 enum e_glob_errno {
-	GLOB_SUCCESS = 0,
-	GLOB_MEMFAIL,
+	FT_GLOB_SUCCESS = 0,
+	FT_GLOB_NOTFOUND,
+	FT_GLOB_FAIL,
+	FT_GLOB_MEMFAIL,
 };
 
-int	ft_glob(char const *pattern, t_list **glob);
+typedef struct s_ft_glob	t_ft_glob;
+
+struct s_ft_glob {
+	t_list		*globl;
+	size_t		size;
+};
+
+int		ft_glob(t_ft_glob *pglob, char const *pattern);
+void	ft_glob_init(t_ft_glob *pglob);
+void	ft_glob_destroy(t_ft_glob *pglob);
 
 #endif

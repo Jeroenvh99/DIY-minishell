@@ -1,19 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   utils_list.c                                       :+:    :+:            */
+/*   utils_list.c                                       :+:      :+:    :+:   */
 /*                                                     +:+                    */
 /*   By: dbasting <marvin@codam.nl>                   +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/04/18 14:13:15 by dbasting      #+#    #+#                 */
-/*   Updated: 2023/05/08 18:14:18 by dbasting      ########   odam.nl         */
+/*   Updated: 2023/08/25 13:28:48 by dbasting         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "msh_utils.h"
+#include "list_utils.h"
 
 #include "ft_list.h"
-#include "ft_string.h"
 #include <stddef.h>
 #include <stdlib.h>
 
@@ -42,24 +41,34 @@ void	*list_pop_ptr(t_list **lst)
 	return (content);
 }
 
-t_errno	list_append_ptr(t_list **lst, void *ptr)
+int	list_append_ptr(t_list **lst, void *ptr)
 {
 	t_list	*node;
 
 	node = list_new(ptr);
 	if (node == NULL)
-		return (MSH_MEMFAIL);
+		return (1);
 	list_append(lst, node);
-	return (MSH_SUCCESS);
+	return (0);
 }
 
-t_errno	list_push_ptr(t_list **lst, void *ptr)
+int	list_push_ptr(t_list **lst, void *ptr)
 {
 	t_list	*node;
 
 	node = list_new(ptr);
 	if (node == NULL)
-		return (MSH_MEMFAIL);
+		return (1);
 	list_push(lst, node);
-	return (MSH_SUCCESS);
+	return (0);
+}
+
+void	list_prepend(t_list **list, t_list *prefix)
+{
+	t_list *const	tail = list_last(prefix);
+
+	if (!tail)
+		return ;
+	tail->next = *list;
+	*list = prefix;
 }

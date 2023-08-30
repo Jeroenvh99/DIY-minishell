@@ -1,30 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   expand_home.c                                      :+:    :+:            */
+/*   ft_glob_init.c                                     :+:    :+:            */
 /*                                                     +:+                    */
 /*   By: dbasting <marvin@codam.nl>                   +#+                     */
 /*                                                   +#+                      */
-/*   Created: 2023/05/15 15:39:10 by dbasting      #+#    #+#                 */
-/*   Updated: 2023/08/15 16:17:35 by jvan-hal      ########   odam.nl         */
+/*   Created: 2023/08/21 15:47:44 by dbasting      #+#    #+#                 */
+/*   Updated: 2023/08/21 15:51:51 by dbasting      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "msh_expand.h"
-#include "msh_error.h"
-#include "msh_var.h"
-#include "msh.h"
-
+#include "ft_glob.h"
 #include "ft_string.h"
-#include <stdlib.h>
 
-t_errno	expand_home(t_expstr *expstr, size_t *exp_len, t_msh *msh)
+void	ft_glob_init(t_ft_glob *pglob)
 {
-	char const	*exp;
-
-	exp = var_search("HOME", msh);
-	if (!exp)
-		return (MSH_MEMFAIL);
-	*exp_len += ft_strlen(exp);
-	return (expstr_resize(expstr, 1, exp, *exp_len));
+	ft_memset(pglob, 0x0, sizeof(t_ft_glob));
 }
