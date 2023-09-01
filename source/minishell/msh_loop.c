@@ -6,7 +6,7 @@
 /*   By: dbasting <dbasting@codam.nl>                 +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/06/06 15:49:21 by dbasting      #+#    #+#                 */
-/*   Updated: 2023/09/01 14:25:00 by dbasting         ###   ########.fr       */
+/*   Updated: 2023/09/01 15:02:59 by dbasting         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,9 +20,16 @@
 #include <stdlib.h>
 #include <unistd.h>
 
+static inline int	msh_procedure(t_msh *msh);
 static inline void	cleanup(t_list **tokens, t_msh *msh);
 
-int	msh_loop(t_msh *msh)
+void	msh_loop(t_msh *msh)
+{
+	while (msh_procedure(msh) != 0)
+		msh_strerror(msh->errno);
+}
+
+static inline int	msh_procedure(t_msh *msh)
 {
 	char	*line;
 	t_list	*tokens;

@@ -6,7 +6,7 @@
 /*   By: dbasting <marvin@codam.nl>                   +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/04/18 14:13:15 by dbasting      #+#    #+#                 */
-/*   Updated: 2023/09/01 14:10:03 by dbasting         ###   ########.fr       */
+/*   Updated: 2023/09/01 15:00:27 by dbasting         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,8 +33,7 @@ int	main(int argc, char **argv, char **envp)
 	msh.errno = msh_init(&msh, argc, argv, envp);
 	if (msh.errno != MSH_SUCCESS)
 		return (msh.errno);
-	while (msh_loop(&msh) != 0)
-		msh_strerror(msh.errno);
+	msh_loop(&msh);
 	msh_deinit(&msh);
 	ft_printf("exit\n");
 	return (msh.errno);
