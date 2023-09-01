@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   msh_parse.h                                        :+:    :+:            */
+/*   msh_parse.h                                        :+:      :+:    :+:   */
 /*                                                     +:+                    */
 /*   By: dbasting <marvin@codam.nl>                   +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/04/18 13:46:33 by dbasting      #+#    #+#                 */
-/*   Updated: 2023/08/08 14:20:51 by dbasting      ########   odam.nl         */
+/*   Updated: 2023/09/01 14:22:35 by dbasting         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,11 +69,6 @@ enum e_out_mode {
 	OUT_REDIRECT,
 	OUT_APPEND,
 	N_OUT_MODE,
-};
-
-enum e_pipeends {
-	PIPE_READ = 0,
-	PIPE_WRITE,
 };
 
 typedef struct s_token	t_token;

@@ -6,7 +6,7 @@
 /*   By: jvan-hal <jvan-hal@student.codam.nl>         +#+                     */
 /*       dbasting <dbasting@student.codam.nl>        +#+                      */
 /*   Created: 2023/05/16 15:12:17 by jvan-hal      #+#    #+#                 */
-/*   Updated: 2023/08/28 15:19:06 by dbasting      ########   odam.nl         */
+/*   Updated: 2023/09/01 14:26:25 by dbasting         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,8 +25,6 @@ t_errno	execute(t_msh *msh)
 {
 	t_errno	errno;
 
-	handler_set(SIGINT, handle_relay);
-	handler_set(SIGQUIT, handle_relay);
 	env_pack(&msh->env);
 	errno = execute_cmdtree(msh->tree, msh);
 	return (cmdtree_destroy(&msh->tree), errno);

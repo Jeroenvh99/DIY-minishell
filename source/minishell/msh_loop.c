@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   msh_loop.c                                         :+:    :+:            */
+/*   msh_loop.c                                         :+:      :+:    :+:   */
 /*                                                     +:+                    */
 /*   By: dbasting <dbasting@codam.nl>                 +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/06/06 15:49:21 by dbasting      #+#    #+#                 */
-/*   Updated: 2023/08/29 14:22:11 by dbasting      ########   odam.nl         */
+/*   Updated: 2023/09/01 14:25:00 by dbasting         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,33 +17,40 @@
 #include "list_utils.h"
 
 #include "ft_list.h"
-#include <signal.h>
+#include <stdlib.h>
 #include <unistd.h>
 
-void	msh_loop(t_msh *msh)
+static inline void	cleanup(t_list **tokens, t_msh *msh);
+
+int	msh_loop(t_msh *msh)
 {
+	char	*line;
 	t_list	*tokens;
 
 	tokens = NULL;
 	while (1)
 	{
-		handler_set(SIGINT, SIG_IGN);
-		handler_set(SIGQUIT, SIG_IGN);
-		msh->errno = cmdline_read(&tokens);
-		if (msh->errno == MSH_NOCMDLINE)
-		{
-			msh->errno = MSH_SUCCESS;
+		msh->errno = cmdline_prompt(&line, msh);
+		if (msh->errno == MSH_EOF)
+			return (0);
+		msh->errno = lex(&tokens, line);
+		if (msh->errno != MSH_SUCCESS)
 			break ;
-		}
-		if (msh->errno == MSH_SUCCESS)
-		{
-			msh->errno = parse(msh, &tokens);
-			if (msh->errno == MSH_SUCCESS)
-				msh->errno = execute(msh);
-		}
-		list_clear(&tokens, (t_freef)token_free);
-		cmdtree_destroy(&msh->tree);
-		if (msh->errno >= MSH_GENERIC)
-			msh_strerror(msh->errno);
+		free(line);
+		if (msh->errno != MSH_SUCCESS)
+			break ;
+		msh->errno = parse(msh, &tokens);
+		if (msh->errno != MSH_SUCCESS)
+			break ;
+		msh->errno = execute(msh);
+		if (msh->errno != MSH_SUCCESS)
+			break ;
 	}
+	return (cleanup(&tokens, msh), 1);
+}
+
+static inline void	cleanup(t_list **tokens, t_msh *msh)
+{
+	list_clear(tokens, (t_freef)token_free);
+	cmdtree_destroy(&msh->tree);
 }

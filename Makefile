@@ -1,12 +1,12 @@
 # **************************************************************************** #
 #                                                                              #
 #                                                         ::::::::             #
-#    Makefile                                           :+:    :+:             #
+#    Makefile                                           :+:      :+:    :+:    #
 #                                                      +:+                     #
 #    By: dbasting <marvin@codam.nl>                   +#+                      #
 #                                                    +#+                       #
 #    Created: 2022/12/28 12:06:53 by dbasting      #+#    #+#                  #
-#    Updated: 2023/08/29 13:42:20 by dbasting      ########   odam.nl          #
+#    Updated: 2023/09/01 14:46:55 by dbasting         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -60,12 +60,14 @@ SRC_FILES	:= main.c\
 			lex/lex_token_get.c\
 			lex/lex_utils.c\
 			minishell/cmd.c\
+			minishell/cmdline.c\
 			minishell/cmdline_prompt.c\
-			minishell/cmdline_read.c\
 			minishell/cmdtree.c\
 			minishell/error.c\
 			minishell/heredoc.c\
+			minishell/heredoc_read.c\
 			minishell/msh_loop.c\
+			minishell/prompt.c\
 			minishell/signal.c\
 			parse/parse.c\
 			parse/parse_cmd.c\

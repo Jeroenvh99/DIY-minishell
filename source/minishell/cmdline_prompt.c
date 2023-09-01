@@ -1,95 +1,50 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   cmdline_prompt.c                                   :+:    :+:            */
+/*   cmdline_prompt.c                                   :+:      :+:    :+:   */
 /*                                                     +:+                    */
 /*   By: dbasting <marvin@codam.nl>                   +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/04/18 14:13:15 by dbasting      #+#    #+#                 */
-/*   Updated: 2023/08/29 14:58:08 by dbasting      ########   odam.nl         */
+/*   Updated: 2023/09/01 14:42:56 by dbasting         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "msh_parse.h"
 #include "msh_prompt.h"
 #include "msh_error.h"
-#include "msh_parse.h"
-#include "msh_syntax.h"
 #include "list_utils.h"
 
 #include "ft_list.h"
+#include "ft_stdio.h"
 #include "ft_string.h"
 #ifdef __APPLE__
 # include <stdio.h>
 #endif
-#include <readline/readline.h>
+#include <readline/history.h>
+#include <signal.h>
 #include <stdlib.h>
+#include <sys/wait.h>
 #include <unistd.h>
 
-static int	cmdlp_add(t_list **tokens, char **line, char const *prompt);
-static int	cmdlp_strjoin(char **line, char *segment);
-
-void	cmdline_prompt(t_fd outf)
+t_errno	cmdline_prompt(char **line, t_msh *msh)
 {
-	char	*line;
-	int		exstat;
-	t_list	*tokens;
+	t_fd			pipefd[2];
+	int				exstat;
+	t_errno	const	ret[N_IACTV_EXIT] = {
+		MSH_SUCCESS, MSH_GENERIC, 0, MSH_GENERIC, MSH_EOF};
 
-	tokens = NULL;
-	handler_set(SIGINT, SIG_DFL);
-	line = NULL;
-	exstat = cmdlp_add(&tokens, &line, PROMPT);
-	if (exstat == IACTV_EOF)
+	if (pipe(pipefd) == -1)
+		return (msh_perror(0), MSH_PIPEFAIL);
+	exstat = prompt(cmdline, pipefd[PIPE_WRITE], NULL, msh);
+	while (exstat == IACTV_INTERRUPT)
+		exstat = prompt(cmdline, pipefd[PIPE_WRITE], NULL, msh);	
+	close(pipefd[PIPE_WRITE]);
+	if (exstat == IACTV_SUCCESS)
 	{
-		list_clear(&tokens, (t_freef)token_free);
-		free(line);
-		exit(exstat);
+		*line = ft_getline(pipefd[PIPE_READ]);
+		if (!line)
+			return (close(pipefd[PIPE_READ]), MSH_MEMFAIL);
 	}
-	handler_set(SIGINT, SIG_IGN);
-	write(outf, line, ft_strlen(line));
-	list_clear(&tokens, (t_freef)token_free);
-	free(line);
-	exit(exstat);
-}
-
-static int	cmdlp_add(t_list **tokens, char **line, char const *prompt)
-{
-	char *const	segment = readline(prompt);
-	t_errno		errno;
-	int			syntcheck;
-
-	if (!segment)
-		return (IACTV_EOF);
-	errno = lex(tokens, segment);
-	if (!tokens)
-		return (MSH_NOCMDLINE);
-	if (cmdlp_strjoin(line, segment) == MSH_MEMFAIL)
-		return (IACTV_FAILED);
-	if (errno == MSH_MEMFAIL)
-		return (errno);
-	if (errno == MSH_INCOMPLETE_TOKEN)
-		return (cmdlp_add(tokens, line, PROMPT_QUOTE PROMPT_CONT));
-	syntcheck = syntax_check(*tokens);
-	if (syntcheck == SYNTERROR_FATAL)
-		return (MSH_SYNTAX_ERROR);
-	if (syntcheck > SYNTERROR_FATAL)
-		return (cmdlp_add(tokens, line, PROMPT_CONT));
-	return (errno);
-}
-
-static int	cmdlp_strjoin(char **line, char *segment)
-{
-	char	*old_line;
-
-	if (!*line)
-	{
-		*line = segment;
-		return (MSH_SUCCESS);
-	}
-	old_line = *line;
-	*line = ft_strjoin(old_line, segment);
-	free(old_line);
-	free(segment);
-	if (*line == NULL)
-		return (MSH_MEMFAIL);
-	return (MSH_SUCCESS);
+	return (close(pipefd[PIPE_READ]), ret[exstat]);
 }

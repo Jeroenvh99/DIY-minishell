@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   msh.h                                              :+:    :+:            */
+/*   msh.h                                              :+:      :+:    :+:   */
 /*                                                     +:+                    */
 /*   By: dbasting <marvin@codam.nl>                   +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/04/18 13:51:16 by dbasting      #+#    #+#                 */
-/*   Updated: 2023/08/29 13:53:29 by dbasting      ########   odam.nl         */
+/*   Updated: 2023/09/01 14:25:46 by dbasting         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,11 @@ enum e_treeop {
 	TREE_OP_OPENPAR,
 	TREE_OP_CLOSEPAR,
 	N_TREE_OP,
+};
+
+enum e_pipeends {
+	PIPE_READ = 0,
+	PIPE_WRITE,
 };
 
 /* Shell data object.
@@ -96,10 +101,9 @@ struct s_cmd {
 };
 
 /* Base functions. */
-void		msh_loop(t_msh *msh);
-t_errno		cmdline_read(t_list **tokens);
-void		cmdline_prompt(t_fd outf);
-void		heredoc(char const *delim, int fd, t_msh *msh);
+int			msh_loop(t_msh *msh);
+t_errno		cmdline_prompt(char **line, t_msh *msh);
+t_errno		heredoc_read(int *fd, char const *delim, t_msh *msh);
 void		msh_deinit(t_msh *msh);
 
 /* Command tree functions. */
@@ -116,8 +120,5 @@ void		cmd_destroy(t_cmd **cmd);
 
 /* Signal functions. */
 void		handler_set(int signum, t_handler handler);
-void		handle_sigint(int signum);
-void		handle_sigint_heredoc(int signum);
-void		handle_relay(int signum);
 
 #endif

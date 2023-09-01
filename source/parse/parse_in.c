@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   parse_in.c                                         :+:    :+:            */
+/*   parse_in.c                                         :+:      :+:    :+:   */
 /*                                                     +:+                    */
 /*   By: dbasting <marvin@codam.nl>                   +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/04/18 14:13:15 by dbasting      #+#    #+#                 */
-/*   Updated: 2023/08/21 11:58:57 by dbasting      ########   odam.nl         */
+/*   Updated: 2023/09/01 14:25:21 by dbasting         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,8 +23,6 @@
 #include <stdlib.h>
 #include <sys/wait.h>
 #include <unistd.h>
-
-static t_errno	open_heredoc(int *fd, char const *delim, t_msh *msh);
 
 /* Parse input tokens: open a file and assign its descriptor to `cmd`. 
  * Preexisting files are closed.
@@ -61,33 +59,7 @@ t_errno	parse_heredoc(t_cmd *cmd, t_list **tokens, t_msh *msh)
 		return (MSH_SYNTAX_ERROR);
 	if (cmd->io[IO_IN] > STDERR_FILENO)
 		close(cmd->io[IO_IN]);
-	errno = open_heredoc(&cmd->io[IO_IN], delim, msh);
+	errno = heredoc_read(&cmd->io[IO_IN], delim, msh);
 	free(delim);
 	return (errno);
-}
-
-/* Open a heredoc: create a pipe, read input (by way of a separate process)
- * and write to the pipe.
- */
-static t_errno	open_heredoc(int *fd, char const *delim, t_msh *msh)
-{
-	int		pipefd[2];
-	pid_t	child;
-	int		wstatus;
-
-	*fd = -1;
-	handler_set(SIGINT, handle_sigint_heredoc);
-	if (pipe(pipefd) != 0)
-		return (MSH_PIPEFAIL);
-	child = fork();
-	if (child == -1)
-		return (MSH_FORKFAIL);
-	if (child == 0)
-		heredoc(delim, pipefd[PIPE_WRITE], msh);
-	waitpid(child, &wstatus, WUNTRACED);
-	close(pipefd[PIPE_WRITE]);
-	*fd = pipefd[PIPE_READ];
-	if (WIFSIGNALED(wstatus))
-		return (MSH_NOCMDLINE);
-	return (WEXITSTATUS(wstatus));
 }
