@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   main.c                                             :+:    :+:            */
+/*   main.c                                             :+:      :+:    :+:   */
 /*                                                     +:+                    */
 /*   By: dbasting <marvin@codam.nl>                   +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/04/18 14:13:15 by dbasting      #+#    #+#                 */
-/*   Updated: 2023/08/28 15:18:28 by dbasting      ########   odam.nl         */
+/*   Updated: 2023/09/01 15:00:27 by dbasting         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@
 
 #include "ft_hash.h"
 #include "ft_stdio.h"
+#include <signal.h>
 #include <stdlib.h>
 
 static t_errno	msh_init(t_msh *msh, int argc, char **argv, char **envp);
@@ -27,12 +28,14 @@ int	main(int argc, char **argv, char **envp)
 {
 	t_msh	msh;
 
+	handler_set(SIGINT, SIG_IGN);
+	handler_set(SIGQUIT, SIG_IGN);
 	msh.errno = msh_init(&msh, argc, argv, envp);
 	if (msh.errno != MSH_SUCCESS)
 		return (msh.errno);
 	msh_loop(&msh);
 	msh_deinit(&msh);
-	ft_printf("Goodbye! (%d)\n", msh.errno);
+	ft_printf("exit\n");
 	return (msh.errno);
 }
 
