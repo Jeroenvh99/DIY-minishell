@@ -6,11 +6,12 @@
 /*   By: dbasting <marvin@codam.nl>                   +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/08/29 15:01:49 by dbasting      #+#    #+#                 */
-/*   Updated: 2023/08/29 16:24:48 by dbasting      ########   odam.nl         */
+/*   Updated: 2023/09/01 16:09:17 by dbasting      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "msh_syntax.h"
+#include "msh_parse.h"
 
 #include "ft_ctype.h"
 #include "ft_string.h"
@@ -36,43 +37,15 @@ static int	syntax_process_quote(char c, int *quotes);
  */
 int	syntax(char const *str, int params[N_PARAMS])
 {
+	int	last;
+
+	last = NONE;
 	while (*str)
 	{
 		while (ft_isspace(*str))
 			str++;
-		if (syntax_process(**str, *mode) == SYNTAX_FATAL)
+		if (syntax_process(**str, &last, params) == SYNTAX_FATAL)
 			return (SYNTAX_FATAL);
 	}
 	return ();
-}
-
-static int	syntax_process(char const **str, int params[N_PARAMS], )
-{
-	if (syntax_process_quote(**str, &params[QUOTE]))
-		*str++;
-	
-}
-
-static int	syntax_process_quote(char c, int *quotes)
-{
-	if (*quotes == NOQUOTE)
-	{
-		if (c == '\'')
-		{
-			quotes = SQUOTE;
-			return (1);
-		}
-		else if (c == '\"')
-		{
-			quotes = DQUOTE;
-			return (1);
-		}
-	}
-	else if ((*quotes == SQUOTE && c == '\'')
-			|| (*quotes == DQUOTE && c == '\"'))
-	{
-		*quotes = NOQUOTE;
-		return (1);
-	}
-	return (0);
 }

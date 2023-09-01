@@ -6,7 +6,7 @@
 /*   By: dbasting <marvin@codam.nl>                   +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/04/18 14:25:46 by dbasting      #+#    #+#                 */
-/*   Updated: 2023/08/21 12:05:59 by dbasting      ########   odam.nl         */
+/*   Updated: 2023/09/01 16:29:25 by dbasting      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,26 +58,6 @@ t_token	*token_get_word(char const **str)
 
 t_token	*token_get_meta(char const **str)
 {
-	char const *const	metatokens[N_TOK_META] = {
-		TOK_STDIN_STR, TOK_HEREDOC_STR,
-		TOK_STDOUT_STR, TOK_STDOUT_APPEND_STR,
-		TOK_PIPE_STR,
-		TOK_AND_STR, TOK_OR_STR,
-		TOK_OPENPAR_STR, TOK_CLOSEPAR_STR};
-	size_t const		metatokens_len[N_TOK_META] = {
-		1, 2, 1, 2, 1, 2, 2, 1, 1};
-	t_toktype			type;
-
-	type = N_TOK_META;
-	while (type--)
-	{
-		if (!ft_strncmp(metatokens[type], *str, metatokens_len[type]))
-			break ;
-	}
-	if (type == TOK_TRUNC)
-	{
-		return (NULL);
-	}
 	*str += metatokens_len[type];
 	return (token_init(NULL, type + TOK_META_MIN));
 }
