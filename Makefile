@@ -6,7 +6,7 @@
 #    By: dbasting <marvin@codam.nl>                   +#+                      #
 #                                                    +#+                       #
 #    Created: 2022/12/28 12:06:53 by dbasting      #+#    #+#                  #
-#    Updated: 2023/09/01 14:46:55 by dbasting         ###   ########.fr        #
+#    Updated: 2023/09/01 15:52:24 by dbasting      ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -113,7 +113,7 @@ OBJ_SUBDIRS := $(SRC_SUBDIRS)
 HDR_DIR		:= ./include/
 LIB_DIR		:= ./lib/
 
-CFLAGS		:= -Wall -Wextra -Werror -I$(LIB_DIR)libft/include/ -I$(HDR_DIR) -g -fsanitize=address
+CFLAGS		+= -Wall -Wextra -Werror -I$(LIB_DIR)libft/include/ -I$(HDR_DIR)
 LDFLAGS	:= -lreadline
 ifeq ($(OS),Darwin)
 LDFLAGS	+= -L$(HOME)/.brew/opt/readline/lib/ 
