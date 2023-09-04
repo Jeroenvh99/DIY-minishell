@@ -1,18 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   parse_cmd.c                                        :+:    :+:            */
+/*   parse_cmd.c                                        :+:      :+:    :+:   */
 /*                                                     +:+                    */
 /*   By: dbasting <dbasting@codam.nl>                 +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/22 08:45:23 by dbasting      #+#    #+#                 */
-/*   Updated: 2023/08/21 11:58:46 by dbasting      ########   odam.nl         */
+/*   Updated: 2023/09/04 12:44:23 by dbasting         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "msh_parse.h"
 #include "msh.h"
 #include "msh_error.h"
+#include "msh_token.h"
 #include "list_utils.h"
 
 #include "ft_list.h"
@@ -28,7 +29,7 @@ static inline t_errno			cmd_fdconvert(t_cmd *cmd);
  */
 t_errno	parse_cmd(t_cmd *cmd, t_list **tokens, t_msh *msh)
 {
-	t_toktype			type;
+	int					type;
 	t_argparsef const	argparsefs[N_TOK_ARG] = {
 		parse_word,
 		parse_input, parse_heredoc,

@@ -6,7 +6,7 @@
 /*   By: dbasting <marvin@codam.nl>                   +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/08/29 13:23:53 by dbasting      #+#    #+#                 */
-/*   Updated: 2023/09/01 14:11:41 by dbasting         ###   ########.fr       */
+/*   Updated: 2023/09/04 15:41:01 by dbasting         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,8 @@
 # define PROMPT_SQUOTE	"squote"
 # define PROMPT_DQUOTE	"dquote" 
 # define PROMPT_PAR		"parenthesis"
-# define PROMPT_CMD		"cmd"
+# define PROMPT_CMDAND	"cmdand"
+# define PROMPT_CMDOR	"cmdor"
 # define PROMPT_HEREDOC	"heredoc"
 
 enum e_exstat {
