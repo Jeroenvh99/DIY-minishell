@@ -109,7 +109,7 @@ OBJ_SUBDIRS := $(SRC_SUBDIRS)
 HDR_DIR		:= ./include/
 LIB_DIR		:= ./lib/
 
-CFLAGS		:= -Wall -Wextra -Werror -I$(LIB_DIR)libft/include/ -I$(HDR_DIR) -g -fsanitize=address
+CFLAGS		:= -Wall -Wextra -Werror -I$(LIB_DIR)libft/include/ -I$(HDR_DIR) -g #-fsanitize=address
 LDFLAGS	:= -lreadline
 ifeq ($(OS),Darwin)
 LDFLAGS	+= -L$(HOME)/.brew/opt/readline/lib/ 
@@ -195,5 +195,4 @@ test_msh_env:
 
 test_glob:
 	$(MAKE) -j -C lib/libft
-	cc $(CFLAGS) -Wl,--wrap=glob_readdir test/msh/glob/glob_unittest.c test/msh/glob/custom_glob_readdir.c source/utils/utils_list.c source/expand/glob/* lib/libft/libft.a && ./a.out
-	# rm a.out
+	cc $(CFLAGS) -Wl,--wrap=glob_readdir test/msh/glob/glob_unittest.c test/msh/glob/custom_glob_readdir.c source/utils/utils_list.c source/expand/glob/* lib/libft/libft.a

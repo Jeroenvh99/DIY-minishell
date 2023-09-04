@@ -7,7 +7,7 @@
 
 #define N_TEST_PATHS 6
 
-char const *paths[N_TEST_PATHS] = {"./", "./1", "./1/1a", "./1/1b", "./1/1", "./1/1/1"};
+char const *paths[N_TEST_PATHS] = {"", "1", "1/1a", "1/1b", "1/1", "1/1/1"};
 char const *names[N_TEST_PATHS][6] = {{".", "..", "1", "hi.txt", "hgfdhg", ""},
 {".", "..", "1a", "1", "1b", "hello"}, {".", "..", "", "", "", ""}, {".", "..", "1d", "gh", "b", ""},
 {".", "..", "1", "hi", "hgfdhg", ""}, {".", "..", "1", "hi.txt", "", ""}};
@@ -30,8 +30,6 @@ t_list *__wrap_glob_readdir(char const *path)
 			break;
 		if (dirn < N_TEST_PATHS - 1)
 			++dirn;
-		else
-			break;
 	}
 	i = 0;
 	dirl = NULL;

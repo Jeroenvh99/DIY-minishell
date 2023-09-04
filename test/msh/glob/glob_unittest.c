@@ -43,6 +43,7 @@ void print_glob(t_ft_glob *glob_res)
 int main()
 {
 	t_ft_glob glob_res;
+	ft_glob_init(&glob_res);
 	ft_glob(&glob_res, "*");
 	print_glob(&glob_res);
 }
