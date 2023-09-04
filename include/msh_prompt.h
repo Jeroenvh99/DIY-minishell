@@ -6,7 +6,7 @@
 /*   By: dbasting <marvin@codam.nl>                   +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/08/29 13:23:53 by dbasting      #+#    #+#                 */
-/*   Updated: 2023/09/04 15:41:01 by dbasting         ###   ########.fr       */
+/*   Updated: 2023/09/05 00:08:46 by dbasting      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,11 +28,12 @@
 
 enum e_exstat {
 	IACTV_SUCCESS = 0,
-	IACTV_FAILED,
+	IACTV_FAIL,
 	IACTV_INTERRUPT,
 	IACTV_TERM,
 	IACTV_EOF,
 	N_IACTV_EXIT,
+	IACTV_FAIL_0,
 };
 
 typedef void	(*t_promptf)(t_fd, char const*, t_msh*);

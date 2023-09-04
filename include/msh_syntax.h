@@ -6,7 +6,7 @@
 /*   By: dbasting <marvin@codam.nl>                   +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/08/11 13:24:12 by dbasting      #+#    #+#                 */
-/*   Updated: 2023/09/04 15:51:19 by dbasting         ###   ########.fr       */
+/*   Updated: 2023/09/05 00:11:23 by dbasting      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@
 
 enum e_syntax_error {
 	SYNTAX_SUCCESS = 0,
+	SYNTAX_NONFATAL,
 	SYNTAX_FATAL,
 };
 

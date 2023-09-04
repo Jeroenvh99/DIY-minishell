@@ -6,7 +6,7 @@
 /*   By: dbasting <dbasting@codam.nl>                 +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/06/13 13:15:11 by dbasting      #+#    #+#                 */
-/*   Updated: 2023/09/01 14:52:03 by dbasting         ###   ########.fr       */
+/*   Updated: 2023/09/04 23:40:06 by dbasting      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ static inline void	heredoc_write(t_fd outf, char **line, t_msh *msh)
 	if (expand(NULL, line, msh) != MSH_SUCCESS)
 	{
 		msh_perror(0);
-		exit(IACTV_FAILED);
+		exit(IACTV_FAIL);
 	}
 	write(outf, *line, ft_strlen(*line));
 	write(outf, "\n", 1);

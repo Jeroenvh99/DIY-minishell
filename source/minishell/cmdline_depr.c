@@ -6,7 +6,7 @@
 /*   By: dbasting <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/18 14:13:15 by dbasting          #+#    #+#             */  
-/*   Updated: 2023/09/05 00:42:19 by dbasting      ########   odam.nl         */
+/*   Updated: 2023/09/04 21:39:07 by dbasting      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,9 +30,8 @@
 
 #define PBUFSIZE	64
 
-static int	cmdl_read(char **line);
-static int	cmdl_readline(char **line, int params[N_PARAMS]);
-static void	cmdl_rl_prompt(char pbuf[PBUFSIZE], int params[N_PARAMS]);
+static char	*cmdl_rl(int params[N_PARAMS]);
+static int	cmdl_add(char **line, int syntax_params[N_PARAMS]);
 static int	cmdl_strjoin(char **line, char *segment);
 
 void	cmdline(t_fd outf, char const *delim, t_msh *msh)
@@ -43,60 +42,52 @@ void	cmdline(t_fd outf, char const *delim, t_msh *msh)
 	(void) delim;
 	(void) msh;
 	handler_set(SIGINT, SIG_DFL);
+	tokens = NULL;
 	line = NULL;
-	exstat = cmdl_read(&line);
-	handler_set(SIGINT, SIG_IGN);
-	if (exstat == IACTV_SUCCESS)
+	exstat = cmdl_add(&line, syntax_params);
+	while (exstat != IACTV_EOF)
+		exstat = cmdl_add(&line. NULL);
+	if (exstat == IACTV_EOF)
 	{
-		write(outf, line, ft_strlen(line));
+		list_clear(&tokens, (t_freef)token_free);
 		free(line);
+		close(outf);
+		exit(exstat);
 	}
+	handler_set(SIGINT, SIG_IGN);
+	write(outf, line, ft_strlen(line));
 	close(outf);
+	list_clear(&tokens, (t_freef)token_free);
+	free(line);
 	exit(exstat);
 }
 
-static int	cmdl_read(char **line)
+static int	cmdl_add(char **line, int promptp[N_PARAMS])
 {
-	int		params[N_PARAMS];
-	int		syntax_check;
+	char *const	segment = cmdl_rl(promptp);
+	int			params[N_PARAMS];
 
-	ft_memset(params, 0x0, sizeof(int) * N_PARAMS);
-	if (cmdl_readline(line, params) == IACTV_FAIL)
-		return (IACTV_FAIL);
-	syntax_check = syntax(*line, params);
-	while (syntax_check != SYNTAX_SUCCESS)
-	{
-		if (syntax_check == SYNTAX_FATAL)
-			return (msh_strerror(MSH_SYNTAX_ERROR), IACTV_FAIL);
-		if (cmdl_readline(line, params) == IACTV_FAIL)
-			return (IACTV_FAIL);
-		ft_memset(params, 0x0, sizeof(int) * N_PARAMS);
-		syntax_check = syntax(*line, params);
-	}
-	return (IACTV_SUCCESS);
-}
-
-static int	cmdl_readline(char **line, int params[N_PARAMS])
-{
-	char	pbuf[PBUFSIZE];
-	char	*segment;
-
-	cmdl_rl_prompt(pbuf, params);
-	segment = readline(pbuf);
+	params = {NOQUOTE, TOK_NONE, 0};
 	if (!segment)
-		exit(IACTV_EOF);
+		return (IACTV_EOF);
 	if (cmdl_strjoin(line, segment) != 0)
-		return (IACTV_FAIL);
+		return (IACTV_FAILED);
+	if (syntax(*line, syntax_params) == SYNTAX_FATAL)
+		return (msh_strerror(MSH_SYNTAX_ERROR), IACTV_FAILED);
+	if (promptp
 	return (IACTV_SUCCESS);
 }
 
-static void	cmdl_rl_prompt(char pbuf[PBUFSIZE], int params[N_PARAMS])
+static char	*cmdl_rl(int params[N_PARAMS])
 {
 	char const *const	operatorp[3] = {
 		PROMPT_PIPE, PROMPT_CMDAND, PROMPT_CMDOR};
 	char const *const	quotep[2] = {
 		PROMPT_QUOTE, PROMPT_DQUOTE};
+	char				pbuf[PBUFSIZE];
 
+	if (!params)
+		return (readline(PROMPT));
 	pbuf[0] = '\0';
 	if (params[OPERATOR] != TOK_NONE)
 		ft_strlcat(pbuf, operatorp[params[OPERATOR] - TOK_PIPE], PBUFSIZE);
@@ -104,10 +95,8 @@ static void	cmdl_rl_prompt(char pbuf[PBUFSIZE], int params[N_PARAMS])
 		ft_strlcat(pbuf, PROMPT_PAR, PBUFSIZE);
 	if (params[QUOTE] != NOQUOTE)
 		ft_strlcat(pbuf, quotep[params[OPERATOR]] - NOQUOTE, PBUFSIZE);
-	if (pbuf[0] != '\0')
-		ft_strlcat(pbuf, PROMPT_CONT, PBUFSIZE);
-	else
-		ft_strlcat(pbuf, PROMPT, PBUFSIZE);
+	ft_strlcat(pbuf, PROMPT_CONT, PBUFSIZE);
+	return (readline(pbuf));
 }
 
 static int	cmdl_strjoin(char **line, char *segment)
@@ -122,8 +111,8 @@ static int	cmdl_strjoin(char **line, char *segment)
 	old_line = *line;
 	*line = ft_strjoin(old_line, segment);
 	free(old_line);
-	if (*line == NULL)
-		return (free(segment), 1);
 	free(segment);
+	if (*line == NULL)
+		return (1);
 	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: dbasting <marvin@codam.nl>                   +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/04/18 14:13:15 by dbasting      #+#    #+#                 */
-/*   Updated: 2023/09/01 14:42:56 by dbasting         ###   ########.fr       */
+/*   Updated: 2023/09/05 00:32:59 by dbasting      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ t_errno	cmdline_prompt(char **line, t_msh *msh)
 	if (pipe(pipefd) == -1)
 		return (msh_perror(0), MSH_PIPEFAIL);
 	exstat = prompt(cmdline, pipefd[PIPE_WRITE], NULL, msh);
-	while (exstat == IACTV_INTERRUPT)
+	while (exstat == IACTV_INTERRUPT || exstat == IACTV_FAIL)
 		exstat = prompt(cmdline, pipefd[PIPE_WRITE], NULL, msh);	
 	close(pipefd[PIPE_WRITE]);
 	if (exstat == IACTV_SUCCESS)
