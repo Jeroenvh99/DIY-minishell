@@ -6,7 +6,7 @@
 /*   By: dbasting <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/04 11:41:15 by dbasting          #+#    #+#             */
-/*   Updated: 2023/09/05 11:11:47 by dbasting         ###   ########.fr       */
+/*   Updated: 2023/09/05 12:50:14 by dbasting      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,7 +120,7 @@ static inline int	read_quote(char c, int *quote)
 		}
 	}
 	else if ((*quote == SQUOTE && c == '\'')
-			|| (*quote == DQUOTE && c == '\"'))
+		|| (*quote == DQUOTE && c == '\"'))
 	{
 		*quote = NOQUOTE;
 		return (1);

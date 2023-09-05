@@ -6,7 +6,7 @@
 /*   By: dbasting <dbasting@codam.nl>                 +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/22 08:43:49 by dbasting      #+#    #+#                 */
-/*   Updated: 2023/09/04 15:25:00 by dbasting         ###   ########.fr       */
+/*   Updated: 2023/09/05 12:53:17 by dbasting      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,12 +23,6 @@ typedef enum e_quote {
 	DQUOTE,
 	N_QUOTES,
 }	t_quote;
-
-# define CHR_DIRSEP		'/'
-# define CHR_SQUOTE		'\''
-# define CHR_DQUOTE		'\"'
-# define CHR_VAR		'$'
-# define CHR_WILDCARD	'*'
 
 char	*get_path(char *pathname);
 

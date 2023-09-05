@@ -6,11 +6,12 @@
 /*   By: dbasting <marvin@codam.nl>                   +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/09/01 16:09:23 by dbasting      #+#    #+#                 */
-/*   Updated: 2023/09/04 14:49:17 by dbasting         ###   ########.fr       */
+/*   Updated: 2023/09/05 12:56:15 by dbasting      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "msh_syntax.h"
+#include "msh_token.h"
 #include "msh_utils.h"
 
 #include "ft_string.h"
@@ -53,7 +54,7 @@ static inline int	check_meta(int type, int *last, int params[N_PARAMS])
 	else if (type == TOK_PIPE || type == TOK_AND || type == TOK_OR)
 	{
 		params[OPERATOR] = type;
-		if (*last == TOK_NONE || *last == PIPE || token_is_andor(*last))
+		if (*last == TOK_NONE || *last == TOK_PIPE || token_is_andor(*last))
 			return (SYNTAX_FATAL);
 	}
 	else if (type == TOK_OPENPAR)

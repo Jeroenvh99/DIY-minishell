@@ -6,7 +6,7 @@
 /*   By: dbasting <marvin@codam.nl>                   +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/04/18 13:51:16 by dbasting      #+#    #+#                 */
-/*   Updated: 2023/09/01 15:00:37 by dbasting         ###   ########.fr       */
+/*   Updated: 2023/09/05 12:51:04 by dbasting      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,7 +101,7 @@ struct s_cmd {
 };
 
 /* Base functions. */
-void			msh_loop(t_msh *msh);
+void		msh_loop(t_msh *msh);
 t_errno		cmdline_prompt(char **line, t_msh *msh);
 t_errno		heredoc_read(int *fd, char const *delim, t_msh *msh);
 void		msh_deinit(t_msh *msh);

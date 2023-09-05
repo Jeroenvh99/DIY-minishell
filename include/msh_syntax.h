@@ -6,7 +6,7 @@
 /*   By: dbasting <marvin@codam.nl>                   +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/08/11 13:24:12 by dbasting      #+#    #+#                 */
-/*   Updated: 2023/09/05 12:37:32 by dbasting      ########   odam.nl         */
+/*   Updated: 2023/09/05 12:54:36 by dbasting      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ enum e_params {
 };
 
 // Main functions.
-int syntax(char const *str, int params[N_PARAMS]);
+int	syntax(char const *str, int params[N_PARAMS]);
 int	syntax_process(char const **str, int *last, int params[N_PARAMS]);
 
 #endif

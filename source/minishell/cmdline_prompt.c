@@ -6,7 +6,7 @@
 /*   By: dbasting <marvin@codam.nl>                   +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/04/18 14:13:15 by dbasting      #+#    #+#                 */
-/*   Updated: 2023/09/05 12:18:38 by dbasting      ########   odam.nl         */
+/*   Updated: 2023/09/05 12:46:33 by dbasting      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,14 +25,14 @@ t_errno	cmdline_prompt(char **line, t_msh *msh)
 {
 	t_fd			pipefd[2];
 	int				exstat;
-	t_errno	const	ret[N_IACTV_EXIT] = {
+	t_errno const	ret[N_IACTV_EXIT] = {
 		MSH_SUCCESS, MSH_GENERIC, 0, MSH_GENERIC, MSH_EOF};
 
 	if (pipe(pipefd) == -1)
 		return (msh_perror(0), MSH_PIPEFAIL);
 	exstat = prompt(cmdline, pipefd[PIPE_WRITE], NULL, msh);
 	while (exstat == IACTV_INTERRUPT || exstat == IACTV_FAIL)
-		exstat = prompt(cmdline, pipefd[PIPE_WRITE], NULL, msh);	
+		exstat = prompt(cmdline, pipefd[PIPE_WRITE], NULL, msh);
 	close(pipefd[PIPE_WRITE]);
 	if (exstat == IACTV_SUCCESS)
 	{

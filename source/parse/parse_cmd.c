@@ -6,7 +6,7 @@
 /*   By: dbasting <dbasting@codam.nl>                 +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/22 08:45:23 by dbasting      #+#    #+#                 */
-/*   Updated: 2023/09/05 11:33:16 by dbasting         ###   ########.fr       */
+/*   Updated: 2023/09/05 12:49:38 by dbasting      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ static t_errno			cmd_convert(t_cmd *cmd);
 static inline t_errno			cmd_argconvert(t_cmd *cmd);
 static inline t_errno			cmd_fdconvert(t_cmd *cmd);
 
-static t_argparsef const	argparsefs[N_TOK_ARG] = {
+static t_argparsef const	g_argparsefs[N_TOK_ARG] = {
 	parse_word, parse_input, parse_heredoc, parse_output, parse_output_append};
 
 /**
@@ -42,7 +42,7 @@ t_errno	parse_cmd(t_cmd *cmd, t_list **tokens, t_msh *msh)
 		type = ((t_token *)(*tokens)->content)->type;
 		if (type == TOK_INVALID)
 			return (parse_invalid(cmd, tokens, msh));
-		errno = argparsefs[type - TOK_ARG_MIN](cmd, tokens, msh);
+		errno = g_argparsefs[type - TOK_ARG_MIN](cmd, tokens, msh);
 		if (errno != MSH_SUCCESS)
 			return (cmd_free_list(cmd), errno);
 	}
