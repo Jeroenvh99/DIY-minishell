@@ -6,7 +6,7 @@
 /*   By: dbasting <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/18 14:13:15 by dbasting          #+#    #+#             */  
-/*   Updated: 2023/09/05 11:42:19 by dbasting         ###   ########.fr       */
+/*   Updated: 2023/09/05 12:12:25 by dbasting      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,7 +102,8 @@ static void	cmdl_rl_prompt(char pbuf[PBUFSIZE], int params[N_PARAMS])
 		ft_strlcat(pbuf, operatorp[params[OPERATOR] - TOK_PIPE], PBUFSIZE);
 	if (params[PARNS] > 0)
 		ft_strlcat(pbuf, PROMPT_PAR, PBUFSIZE);
-	ft_strlcat(pbuf, quotep[params[QUOTE] - SQUOTE], PBUFSIZE);
+	if (params[QUOTE] != NOQUOTE)
+		ft_strlcat(pbuf, quotep[params[QUOTE] - SQUOTE], PBUFSIZE);
 	if (pbuf[0] != '\0')
 		ft_strlcat(pbuf, PROMPT_CONT, PBUFSIZE);
 	else

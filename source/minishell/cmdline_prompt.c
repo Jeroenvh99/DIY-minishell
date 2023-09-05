@@ -6,11 +6,11 @@
 /*   By: dbasting <marvin@codam.nl>                   +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/04/18 14:13:15 by dbasting      #+#    #+#                 */
-/*   Updated: 2023/09/05 11:35:26 by dbasting         ###   ########.fr       */
+/*   Updated: 2023/09/05 12:18:38 by dbasting      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "msh_parse.h"
+#include "msh.h"
 #include "msh_prompt.h"
 #include "msh_error.h"
 #include "list_utils.h"
@@ -18,13 +18,7 @@
 #include "ft_list.h"
 #include "ft_stdio.h"
 #include "ft_string.h"
-#ifdef __APPLE__
-# include <stdio.h>
-#endif
-#include <readline/history.h>
-#include <signal.h>
 #include <stdlib.h>
-#include <sys/wait.h>
 #include <unistd.h>
 
 t_errno	cmdline_prompt(char **line, t_msh *msh)
