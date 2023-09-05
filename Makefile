@@ -6,7 +6,7 @@
 #    By: dbasting <marvin@codam.nl>                   +#+                      #
 #                                                    +#+                       #
 #    Created: 2022/12/28 12:06:53 by dbasting      #+#    #+#                  #
-#    Updated: 2023/09/04 15:23:15 by dbasting         ###   ########.fr        #
+#    Updated: 2023/09/05 12:36:52 by dbasting      ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -76,7 +76,7 @@ SRC_FILES	:= main.c\
 			parse/parse_pipeline.c\
 			parse/parse_utils.c\
 			parse/parse_word.c\
-			syntax/syntax_n.c\
+			syntax/syntax.c\
 			syntax/syntax_process.c\
 			token/token.c\
 			token/token_read.c\

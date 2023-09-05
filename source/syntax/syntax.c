@@ -1,65 +1,61 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   syntax.c                                           :+:    :+:            */
+/*   syntax_n.c                                         :+:      :+:    :+:   */
 /*                                                     +:+                    */
 /*   By: dbasting <marvin@codam.nl>                   +#+                     */
 /*                                                   +#+                      */
-/*   Created: 2023/08/11 12:39:01 by dbasting      #+#    #+#                 */
-/*   Updated: 2023/08/14 17:04:58 by dbasting      ########   odam.nl         */
+/*   Created: 2023/08/29 15:01:49 by dbasting      #+#    #+#                 */
+/*   Updated: 2023/09/05 12:39:48 by dbasting      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "msh_syntax.h"
-#include "msh.h"
+#include "msh_parse.h"
+#include "msh_utils.h"
 
-#include "ft_list.h"
+#include "ft_ctype.h"
 
-static inline int	check_final(int last, int pars);
+static inline int	syntax_final(int last, int params[N_PARAMS]);
 
 /**
- * @brief	Perform a syntax check on a list of tokens.
- * @param	tokens	A linked list of tokens.
- * @return	An error code. Possible values:
- * 				0: No syntax errors were encountered.
- * 				1: At least one fatal syntax error was encountered.
- * 				2 or higher: A fixable syntax error (i.e. by supplying
- * 				additional tokens) was encountered.
+ * @brief	Perform a syntax check on a string.
+ * @param	str		The string to check.
+ * @param	params	An array of integers representing:
+ * 				[QUOTE]		The type of quote to close.
+ * 				[OPERATOR]	The last uncompleted operator.
+ * 				[PARNS]		The number of parentheses to close.
+ * @return	A status code:
+ * 			SYNTAX_SUCCESS	No errors were encountered.
+ * 			SYNTAX_NONFATAL	At least one recoverable syntax error (e.g.
+ * 							unfinished pipeline, unclosed parenthesis) was
+ * 							encountered.
+ * 			SYNTAX_FATAL	An unrecoverable syntax error (e.g. incomplete
+ * 							redirection, extraneous closing parenthesis) was
+ * 							encountered.
  */
-int	syntax_check(t_list *tokens)
+int	syntax(char const *str, int params[N_PARAMS])
 {
-	int				error;
-	int				last;
-	int				pars;
-	t_action const	actions[N_TOK] = {
-		syntax_check_word,
-		syntax_check_redir, syntax_check_redir,
-		syntax_check_redir, syntax_check_redir,
-		syntax_check_pipe,
-		syntax_check_operator, syntax_check_operator,
-		syntax_check_openpar, syntax_check_closepar};
+	int	last;
 
-	last = NONE;
-	pars = 0;
-	while (tokens)
+	last = TOK_NONE;
+	while (*str)
 	{
-		error = actions[((t_token *)tokens->content)->type](&last, &pars);
-		if (error != SUCCESS)
-			return (error);
-		tokens = tokens->next;
+		while (ft_isspace(*str))
+			str++;
+		if (syntax_process(&str, &last, params) == SYNTAX_FATAL)
+			return (SYNTAX_FATAL);
 	}
-	return (check_final(last, pars));
+	return (syntax_final(last, params));
 }
 
-static inline int	check_final(int last, int pars)
+static inline int	syntax_final(int last, int params[N_PARAMS])
 {
-	if (last == PIPE)
-		return (SYNTERROR_PIPE);
-	if (last == OPERATOR)
-		return (SYNTERROR_OPERATOR);
-	if (pars > 0)
-		return (SYNTERROR_PARENTHESIS);
-	if (pars < 0 || last == REDIRECT)
-		return (SYNTERROR_FATAL);
-	return (SUCCESS);
+	if (token_is_redirection(last) || params[PARNS] < 0)
+		return (SYNTAX_FATAL);
+	if (params[QUOTE] != NOQUOTE
+		|| params[OPERATOR] != TOK_NONE
+		|| params[PARNS] > 0)
+		return (SYNTAX_NONFATAL);
+	return (SYNTAX_SUCCESS);
 }
