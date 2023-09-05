@@ -6,7 +6,7 @@
 /*   By: dbasting <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/04 11:41:15 by dbasting          #+#    #+#             */
-/*   Updated: 2023/09/04 14:53:04 by dbasting         ###   ########.fr       */
+/*   Updated: 2023/09/05 11:11:47 by dbasting         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,7 @@ int	token_read(char const *str, size_t *len)
 	int	quote;
 
 	type = token_read_meta(str, len);
+	quote = NOQUOTE;
 	if (type == TOK_INVALID)
 	{
 		type = token_read_word(str, len, &quote);

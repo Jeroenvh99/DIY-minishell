@@ -6,7 +6,7 @@
 /*   By: dbasting <dbasting@codam.nl>                 +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/22 08:45:23 by dbasting      #+#    #+#                 */
-/*   Updated: 2023/09/04 12:44:23 by dbasting         ###   ########.fr       */
+/*   Updated: 2023/09/05 11:33:16 by dbasting         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,30 +24,34 @@ static t_errno			cmd_convert(t_cmd *cmd);
 static inline t_errno			cmd_argconvert(t_cmd *cmd);
 static inline t_errno			cmd_fdconvert(t_cmd *cmd);
 
-/* Parse `tokens` to create a simple command (i.e. consume tokens until a
- * control character, pipe symbol or the end of the list is reached.
+static t_argparsef const	argparsefs[N_TOK_ARG] = {
+	parse_word, parse_input, parse_heredoc, parse_output, parse_output_append};
+
+/**
+ * @brief	Parse `tokens` to create a simple command: i.e. consume tokens
+ * 			until a control character, pipe symbol or the end of the list is
+ * 			reached.
  */
 t_errno	parse_cmd(t_cmd *cmd, t_list **tokens, t_msh *msh)
 {
-	int					type;
-	t_argparsef const	argparsefs[N_TOK_ARG] = {
-		parse_word,
-		parse_input, parse_heredoc,
-		parse_output, parse_output_append};
-	t_errno				errno;
+	int		type;
+	t_errno	errno;
 
 	while (*tokens && is_argtok((*tokens)->content))
 	{
 		type = ((t_token *)(*tokens)->content)->type;
-		errno = argparsefs[type](cmd, tokens, msh);
+		if (type == TOK_INVALID)
+			return (parse_invalid(cmd, tokens, msh));
+		errno = argparsefs[type - TOK_ARG_MIN](cmd, tokens, msh);
 		if (errno != MSH_SUCCESS)
 			return (cmd_free_list(cmd), errno);
 	}
 	return (cmd_convert(cmd));
 }
 
-/* Convert `cmd` from being linked-list based to be array-based. Also set any
- * undefined file descriptors to the default values.
+/**
+ * @brief	Convert `cmd` from being linked-list based to be array-based and set
+ * 			any undefined file descriptors to the default values.
  */
 static t_errno	cmd_convert(t_cmd *cmd)
 {

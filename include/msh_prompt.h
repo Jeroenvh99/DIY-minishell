@@ -6,7 +6,7 @@
 /*   By: dbasting <marvin@codam.nl>                   +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/08/29 13:23:53 by dbasting      #+#    #+#                 */
-/*   Updated: 2023/09/05 00:08:46 by dbasting      ########   odam.nl         */
+/*   Updated: 2023/09/05 11:42:38 by dbasting         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,13 +17,13 @@
 
 # define PROMPT			"msh$ "
 # define PROMPT_CONT	"> "
-# define PROMPT_PIPE	"pipe"
-# define PROMPT_QUOTE	"quote"
-# define PROMPT_SQUOTE	"squote"
-# define PROMPT_DQUOTE	"dquote" 
-# define PROMPT_PAR		"parenthesis"
-# define PROMPT_CMDAND	"cmdand"
-# define PROMPT_CMDOR	"cmdor"
+# define PROMPT_PIPE	" pipe"
+# define PROMPT_QUOTE	" quote"
+# define PROMPT_SQUOTE	" squote"
+# define PROMPT_DQUOTE	" dquote" 
+# define PROMPT_PAR		" parenthesis"
+# define PROMPT_CMDAND	" cmdand"
+# define PROMPT_CMDOR	" cmdor"
 # define PROMPT_HEREDOC	"heredoc"
 
 enum e_exstat {

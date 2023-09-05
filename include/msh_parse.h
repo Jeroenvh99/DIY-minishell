@@ -6,7 +6,7 @@
 /*   By: dbasting <marvin@codam.nl>                   +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/04/18 13:46:33 by dbasting      #+#    #+#                 */
-/*   Updated: 2023/09/04 12:38:43 by dbasting         ###   ########.fr       */
+/*   Updated: 2023/09/05 11:30:05 by dbasting         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ enum e_out_mode {
 	N_OUT_MODE,
 };
 
-typedef t_errno			(*t_argparsef)(t_cmd *, t_list **, t_msh *);
+typedef t_errno	(*t_argparsef)(t_cmd *, t_list **, t_msh *);
 
 // Lexer functions.
 t_errno	lex(t_list **tokens, char const *line);
@@ -47,13 +47,14 @@ t_errno	parse(t_msh *msh, t_list **tokens);
 t_errno	parse_cmdtree(t_cmdtree **tree, t_list **tokens, t_msh *msh);
 t_errno	parse_pipeline(t_list **pipeline, t_list **tokens, t_msh *msh);
 t_errno	parse_cmd(t_cmd *cmd, t_list **tokens, t_msh *msh);
-t_errno	parse_pipe(t_fd *out, t_cmd *cmd, t_list **tokens, t_msh *msh);
 t_errno	parse_word(t_cmd *cmd, t_list **tokens, t_msh *msh);
 t_errno	parse_input(t_cmd *cmd, t_list **tokens, t_msh *msh);
 t_errno	parse_heredoc(t_cmd *cmd, t_list **tokens, t_msh *msh);
 t_errno	parse_output(t_cmd *cmd, t_list **tokens, t_msh *msh);
 t_errno	parse_output_append(t_cmd *cmd, t_list **tokens, t_msh *msh);
+t_errno	parse_invalid(t_cmd *cmd, t_list **tokens, t_msh *msh);
 
 t_errno	parse_iofile(char **name, t_list **tokens, t_msh *msh);
+t_errno	parse_pipe(t_fd *out, t_cmd *cmd, t_list **tokens, t_msh *msh);
 
 #endif

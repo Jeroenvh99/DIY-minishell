@@ -6,7 +6,7 @@
 /*   By: dbasting <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/04 12:37:03 by dbasting          #+#    #+#             */
-/*   Updated: 2023/09/04 12:43:54 by dbasting         ###   ########.fr       */
+/*   Updated: 2023/09/05 11:32:29 by dbasting         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,11 +36,12 @@ enum e_toktype {
 	N_TOK,
 };
 
-# define N_TOK_ARG				5 /* Tokens to pass as command arguments. */
-# define TOK_META_MIN			2 /* The first non-word token (TOK_STDIN). */
-# define N_TOK_META				9 /* Non-word tokens. */
-# define TOK_CTL_MIN			7 /* The first control flow token (TOK_AND). */
-# define N_TOK_CTL				4 /* Tokens to determine control flow. */
+# define TOK_ARG_MIN			1 // First command argument token (TOK_WORD).
+# define N_TOK_ARG				5 // Tokens to pass as command arguments.
+# define TOK_META_MIN			2 // First non-word token (TOK_STDIN).
+# define N_TOK_META				9 // Non-word tokens.
+# define TOK_CTL_MIN			7 // First control flow token (TOK_AND).
+# define N_TOK_CTL				4 // Tokens to determine control flow.
 
 # define TOK_STDIN_STR			"<"
 # define TOK_STDOUT_STR			">"
