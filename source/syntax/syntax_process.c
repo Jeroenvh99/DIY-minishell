@@ -6,7 +6,7 @@
 /*   By: dbasting <marvin@codam.nl>                   +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/09/01 16:09:23 by dbasting      #+#    #+#                 */
-/*   Updated: 2023/09/05 12:56:15 by dbasting      ########   odam.nl         */
+/*   Updated: 2023/09/05 15:30:24 by dbasting      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
 #include "ft_string.h"
 
 static inline int	check_meta(int type, int *last, int params[N_PARAMS]);
-static inline int	check_word(int *last, int params[N_PARAMS]);
+static inline int	check_word(int type, int *last, int params[N_PARAMS]);
 
 /**
 * @brief	Detect a token and advance the string pointer to the next one.
@@ -31,9 +31,9 @@ int	syntax_process(char const **str, int *last, int params[N_PARAMS])
 	type = token_read_meta(*str, &len);
 	if (type == TOK_INVALID)
 	{
-		token_read_word(*str, &len, &params[QUOTE]);
+		type = token_read_word(*str, &len, &params[QUOTE]);
 		*str += len;
-		return (check_word(last, params));
+		return (check_word(type, last, params));
 	}
 	*str += len;
 	return (check_meta(type, last, params));
@@ -73,9 +73,10 @@ static inline int	check_meta(int type, int *last, int params[N_PARAMS])
 	return (SYNTAX_SUCCESS);
 }
 
-static inline int	check_word(int *last, int params[N_PARAMS])
+static inline int	check_word(int type, int *last, int params[N_PARAMS])
 {
-	*last = TOK_WORD;
-	params[OPERATOR] = TOK_NONE;
+	*last = type;
+	if (type == TOK_WORD)
+		params[OPERATOR] = TOK_NONE;
 	return (SYNTAX_SUCCESS);
 }

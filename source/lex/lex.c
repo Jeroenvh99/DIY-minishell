@@ -6,7 +6,7 @@
 /*   By: dbasting <marvin@codam.nl>                   +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/04/18 14:13:15 by dbasting      #+#    #+#                 */
-/*   Updated: 2023/09/04 15:22:56 by dbasting         ###   ########.fr       */
+/*   Updated: 2023/09/05 15:52:52 by dbasting      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,8 @@ t_errno	lex(t_list **tokens, char const *str)
 	t_list *const	tail_node = list_last(*tokens);
 	t_errno			errno;
 
+	if (!str)
+		return (MSH_SUCCESS);
 	errno = catch_incomplete_token(tail_node, &str);
 	if (errno != MSH_SUCCESS)
 		return (errno);

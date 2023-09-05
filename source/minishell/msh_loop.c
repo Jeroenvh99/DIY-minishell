@@ -6,7 +6,7 @@
 /*   By: dbasting <dbasting@codam.nl>                 +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/06/06 15:49:21 by dbasting      #+#    #+#                 */
-/*   Updated: 2023/09/05 12:49:06 by dbasting      ########   odam.nl         */
+/*   Updated: 2023/09/05 16:01:34 by dbasting      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,10 +17,6 @@
 #include "list_utils.h"
 
 #include "ft_list.h"
-#ifdef __APPLE__
-# include <stdio.h>
-#endif
-#include <readline/history.h>
 #include <stdlib.h>
 #include <unistd.h>
 
@@ -44,10 +40,9 @@ static inline int	msh_procedure(t_msh *msh)
 		msh->errno = cmdline_prompt(&line, msh);
 		if (msh->errno == MSH_EOF)
 			return (0);
+		else if (msh->errno == MSH_SYNTAX_ERROR)
+			continue ;
 		msh->errno = lex(&tokens, line);
-		if (msh->errno != MSH_SUCCESS)
-			break ;
-		add_history(line);
 		free(line);
 		if (msh->errno != MSH_SUCCESS)
 			break ;
