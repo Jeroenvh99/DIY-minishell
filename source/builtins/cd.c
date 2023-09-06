@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   cd.c                                               :+:      :+:    :+:   */
+/*   cd.c                                               :+:    :+:            */
 /*                                                     +:+                    */
 /*   By: jvan-hal <jvan-hal@student.codam.nl>         +#+                     */
-/*       dbasting <dbasting@student.codam.nl>        +#+                      */
+/*                                                   +#+                      */
 /*   Created: 2023/04/20 16:52:40 by jvan-hal      #+#    #+#                 */
-/*   Updated: 2023/08/25 13:21:31 by dbasting         ###   ########.fr       */
+/*   Updated: 2023/08/29 10:26:05 by jvan-hal      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,6 @@
 #include "ft_stdio.h"
 #include <limits.h>
 #include <stdlib.h>
-#include <stdio.h>
 #include <unistd.h>
 
 enum e_cderrno {
@@ -93,7 +92,7 @@ static char	*get_dstdir(t_cmd *cmd, t_msh *msh)
 	{
 		dstdir = env_search(&msh->env, "OLDPWD");
 		if (dstdir)
-			printf("%s\n", dstdir);
+			ft_dprintf(cmd->io[1], "%s\n", dstdir);
 		else
 			cd_strerror(CD_NOOLDPWD);
 	}

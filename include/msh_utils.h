@@ -24,6 +24,12 @@ typedef enum e_quote {
 	N_QUOTES,
 }	t_quote;
 
+# define CHR_DIRSEP		47
+# define CHR_SQUOTE		39
+# define CHR_DQUOTE		34
+# define CHR_VAR		36
+# define CHR_WILDCARD	42
+
 char	*get_path(char *pathname);
 
 t_quote	is_quote(char c);

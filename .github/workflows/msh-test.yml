@@ -1,8 +1,8 @@
 name: Minishell test
 run-name: Checking if pr by ${{ github.actor }} passes all tests
 on:
-  push:
-    branches: [ jvan-hal ]
+  pull-request:
+    branches: [ master ]
 jobs:
   builtin_unit-test:
     timeout-minutes: 10
@@ -27,22 +27,22 @@ jobs:
       run: make test_pwd
     - name: Run unset tests
       run: make test_unset
-  # parser_unit-test:
-  #   timeout-minutes: 10
-  #   runs-on: macos-latest
-  #   steps:
-  #   - name: Clone repository
-  #     uses: actions/checkout@v3
-  #     with:
-  #       submodules: true
-  #   - name: Install dependencies
-  #     run: brew install criterion
-#    - name: Run lexer tests
-#      run: make test_lexer
-#    - name: Run expander tests
-#      run: make test_expander
-    # - name: Run parser tests
-    #   run: make test_parser
+  parser_unit-test:
+    timeout-minutes: 10
+    runs-on: macos-latest
+    steps:
+    - name: Clone repository
+      uses: actions/checkout@v3
+      with:
+        submodules: true
+    - name: Install dependencies
+      run: brew install criterion
+    - name: Run lexer tests
+      run: make test_lexer
+    - name: Run expander tests
+      run: make test_expander
+#   - name: Run parser tests
+#     run: make test_parser
   utils_unit-test:
     timeout-minutes: 10
     runs-on: macos-latest
@@ -66,3 +66,15 @@ jobs:
     - name: Run full minishell test
       run: cd test/msh/integration
            ./msh_test.sh
+  glob_test:
+    timeout-minutes: 10
+    runs-on: ubuntu-latest
+    steps:
+    - name: Clone repository
+      uses: actions/checkout@v3
+      with:
+        submodules: true
+    - name: Install dependencies
+      run: brew install criterion
+    - name: Run glob tests
+      run: make test_glob

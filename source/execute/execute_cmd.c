@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   execute_cmd.c                                      :+:      :+:    :+:   */
+/*   execute_cmd.c                                      :+:    :+:            */
 /*                                                     +:+                    */
 /*   By: jvan-hal <jvan-hal@student.codam.nl>         +#+                     */
-/*       dbasting <dbasting@student.codam.nl>        +#+                      */
+/*                                                   +#+                      */
 /*   Created: 2023/05/16 15:12:17 by jvan-hal      #+#    #+#                 */
-/*   Updated: 2023/08/28 15:19:29 by dbasting      ########   odam.nl         */
+/*   Updated: 2023/08/29 10:16:20 by jvan-hal      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 
 #include "ft_string.h"
 #include <stddef.h>
+#include <unistd.h>
 
 static t_builtinf	get_builtin(char const *cmd);
 

@@ -186,7 +186,7 @@ test_lexer:
 
 test_expander:
 	$(MAKE) -j -C lib/libft
-	cc $(CFLAGS) -lcriterion test/msh/expand/expand_unittest.c lib/libft/libft.a && ./a.out
+	cc $(CFLAGS) -lcriterion test/msh/expand/expand_unittest.c source/expand/*.c source/var/var.c source/var/var_parse.c source/env/*.c source/utils/*.c lib/libft/libft.a && ./a.out
 	rm a.out
 
 test_parser:
@@ -198,3 +198,8 @@ test_msh_env:
 	$(MAKE) -j -C lib/libft
 	cc $(CFLAGS) -lcriterion source/env/env.c source/env/env_utils.c source/env/env_search.c source/env/env_unset.c source/env/env_set.c source/env/env_set_main.c source/env/env_append_val.c source/env/env_update.c source/env/env_basevars.c source/var/var_parse.c test/msh/env/env_unittest.c lib/libft/libft.a && ./a.out
 	rm a.out
+
+test_glob:
+	$(MAKE) -j -C lib/libft
+	cc $(CFLAGS) -Wl,--wrap=glob_readdir test/msh/glob/glob_unittest.c test/msh/glob/custom_glob_readdir.c source/utils/utils_list.c source/expand/glob/* lib/libft/libft.a && ./a.out
+	# rm a.out

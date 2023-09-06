@@ -6,7 +6,7 @@
 /*   By: jvan-hal <jvan-hal@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/04/20 16:51:40 by jvan-hal      #+#    #+#                 */
-/*   Updated: 2023/08/07 13:33:16 by jvan-hal      ########   odam.nl         */
+/*   Updated: 2023/08/29 10:26:16 by jvan-hal      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,6 @@
 #include "msh.h"
 #include "ft_stdio.h"
 #include "ft_string.h"
-#include <stdio.h>
 
 enum e_enverrno {
 	ENV_SUCCESS = 0,
@@ -24,7 +23,7 @@ enum e_enverrno {
 };
 
 static void	_env_strerror(int errno);
-static void	_env_print(char **envp);
+static void	_env_print(int fd, char **envp);
 
 /**
  * @brief	Interact with the shell environment.
@@ -36,7 +35,7 @@ int	msh_env(t_cmd *cmd, t_msh *msh)
 {
 	if (cmd->argc == 1)
 	{
-		_env_print(msh->env.envp);
+		_env_print(cmd->io[1], msh->env.envp);
 		return (0);
 	}
 	_env_strerror(ENV_INVARG);
@@ -61,11 +60,11 @@ static void	_env_strerror(int errno)
 	ft_dprintf(2, "msh: env: %s\n", errmsg[errno]);
 }
 
-static void	_env_print(char **envp)
+static void	_env_print(int fd, char **envp)
 {
 	while (*envp)
 	{
-		printf("%s\n", *envp);
+		ft_dprintf(fd, "%s\n", *envp);
 		envp++;
 	}
 }

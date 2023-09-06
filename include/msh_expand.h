@@ -44,6 +44,7 @@ typedef enum e_specvar {
 	N_SPECVAR,
 }	t_specvar;
 
+# define CHR_HOME	126
 # define SPECVARS	"\0@*#?-$!0"
 
 typedef struct s_expstr {
