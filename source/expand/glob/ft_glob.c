@@ -28,6 +28,8 @@ int	ft_glob(t_ft_glob *pglob, char const *pattern)
 	char *const	root = malloc(NAME_MAX + 2);
 	int			ret;
 
+	if (pattern[0] == '\0')
+		return (free(root), FT_GLOB_SUCCESS);
 	if (!root)
 		return (perror("ft_glob"), FT_GLOB_MEMFAIL);
 	patl = glob_patsplit(pattern);
