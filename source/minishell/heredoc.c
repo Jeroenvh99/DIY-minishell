@@ -1,19 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   heredoc.c                                          :+:    :+:            */
+/*   heredoc.c                                          :+:      :+:    :+:   */
 /*                                                     +:+                    */
 /*   By: dbasting <dbasting@codam.nl>                 +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/06/13 13:15:11 by dbasting      #+#    #+#                 */
-/*   Updated: 2023/06/19 17:15:07 by dbasting      ########   odam.nl         */
+/*   Updated: 2023/09/04 23:40:06 by dbasting      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "msh.h"
+#include "msh_prompt.h"
 #include "msh_expand.h"
 #include "msh_error.h"
 
+#include "ft_stdio.h"
 #include "ft_string.h"
 #include <stdio.h>
 #include <readline/readline.h>
@@ -21,22 +22,43 @@
 #include <stdlib.h>
 #include <unistd.h>
 
-void	heredoc(char const *delim, int fd, t_msh *msh)
+static inline void	heredoc_eof(char const *delim);
+static inline void	heredoc_write(t_fd outf, char **line, t_msh *msh);
+
+void	heredoc(t_fd outf, char const *delim, t_msh *msh)
 {
 	char	*line;
-	t_errno	errno;
 
-	signal(SIGINT, SIG_DFL);
-	line = readline(PROMPT_CONT);
-	while (line && ft_strncmp(line, delim, -1) != 0)
+	line = NULL;
+	handler_set(SIGINT, SIG_DFL);
+	while (1)
 	{
-		errno = expand(NULL, &line, msh);
-		if (errno != MSH_SUCCESS)
+		line = readline(PROMPT_HEREDOC PROMPT_CONT);
+		if (!line)
+			heredoc_eof(delim);
+		else if (ft_strncmp(line, delim, -1) == 0)
 			break ;
-		write(fd, line, ft_strlen(line));
+		heredoc_write(outf, &line, msh);
 		free(line);
-		line = readline(PROMPT_CONT);
 	}
 	free(line);
-	exit(errno);
+	exit(IACTV_SUCCESS);
+}
+
+static inline void	heredoc_eof(char const *delim)
+{
+	ft_dprintf(2, "msh: warning: here-document delimited by end-of-file "
+		"(wanted `%s')\n", delim);
+	exit(IACTV_SUCCESS);
+}
+
+static inline void	heredoc_write(t_fd outf, char **line, t_msh *msh)
+{
+	if (expand(NULL, line, msh) != MSH_SUCCESS)
+	{
+		msh_perror(0);
+		exit(IACTV_FAIL);
+	}
+	write(outf, *line, ft_strlen(*line));
+	write(outf, "\n", 1);
 }

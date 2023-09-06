@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   error.c                                            :+:    :+:            */
+/*   error.c                                            :+:      :+:    :+:   */
 /*                                                     +:+                    */
 /*   By: jvan-hal <jvan-hal@student.codam.nl>         +#+                     */
 /*       dbasting <dbasting@student.codam.nl>        +#+                      */
 /*   Created: 2023/04/18 18:27:29 by jvan-hal      #+#    #+#                 */
-/*   Updated: 2023/08/01 15:03:58 by dbasting      ########   odam.nl         */
+/*   Updated: 2023/09/01 14:18:17 by dbasting         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,6 @@ void	msh_strerror(t_errno errno)
 {
 	char const *const	errmsg[N_ERRNO] = {
 		"Everything went better than expected.",
-		"NOCMDLINE",
 		"ENDCMD_PIPE",
 		"ENDCMD_CTL",
 		"VAR_ASSIGN",
@@ -31,6 +30,7 @@ void	msh_strerror(t_errno errno)
 		"Syntax error.",
 		"Invalid identifier",
 		"INCOMPLETE_TOKEN",
+		"End of file encountered.",
 		"Failed to establish pipeline.",
 		"Failed to open file.",
 		"Couldn't create fork.",

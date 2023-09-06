@@ -35,7 +35,7 @@ t_errno	execute_cmd(t_cmd *cmd, t_msh *msh)
 	env_update(&msh->env, "_", cmd->argv.array[cmd->argc - 1]);
 	if (builtin)
 	{
-		msh->g_msh->exit = builtin(cmd, msh);
+		msh->exit = builtin(cmd, msh);
 		return (MSH_SUCCESS);
 	}
 	return (execute_bin(cmd, msh));

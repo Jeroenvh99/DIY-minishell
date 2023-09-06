@@ -6,7 +6,7 @@
 /*   By: dbasting <marvin@codam.nl>                   +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/08 12:29:20 by dbasting      #+#    #+#                 */
-/*   Updated: 2023/05/08 12:29:24 by dbasting      ########   odam.nl         */
+/*   Updated: 2023/09/05 12:54:19 by dbasting      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 t_quote	is_quote(char c)
 {
-	char const	quotes[N_QUOTES] = {'\0', CHR_SQUOTE, CHR_DQUOTE};
+	char const	quotes[N_QUOTES] = {'\0', '\'', '\"'};
 	t_quote		id;
 
 	id = 1;

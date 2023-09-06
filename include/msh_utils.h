@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   msh_utils.h                                        :+:    :+:            */
+/*   msh_utils.h                                        :+:      :+:    :+:   */
 /*                                                     +:+                    */
 /*   By: dbasting <dbasting@codam.nl>                 +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/22 08:43:49 by dbasting      #+#    #+#                 */
-/*   Updated: 2023/08/28 14:25:35 by jvan-hal      ########   odam.nl         */
+/*   Updated: 2023/09/05 12:53:17 by dbasting      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,8 @@
 # define MSH_UTILS_H
 
 # include "msh_error.h"
+
+# include <stddef.h>
 
 typedef enum e_quote {
 	NOQUOTE = 0,
@@ -31,5 +33,7 @@ typedef enum e_quote {
 char	*get_path(char *pathname);
 
 t_quote	is_quote(char c);
+
+char	*ft_strnjoin(char const *s1, char const *s2, size_t n);
 
 #endif

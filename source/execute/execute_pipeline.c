@@ -6,7 +6,7 @@
 /*   By: dbasting <dbasting@codam.nl>                 +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/08/22 16:06:56 by dbasting      #+#    #+#                 */
-/*   Updated: 2023/08/22 23:47:19 by dbasting      ########   odam.nl         */
+/*   Updated: 2023/08/28 15:21:20 by dbasting      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,14 +51,14 @@ static t_errno	execute_pipeline_subsh(t_list **pipeline, t_msh *msh)
 	while (*pipeline)
 	{
 		cmd = list_pop_ptr(pipeline);
-		msh->g_msh->child = fork();
-		if (msh->g_msh->child == -1)
+		msh->child = fork();
+		if (msh->child == -1)
 			return (msh_perror(0), MSH_FORKFAIL);
-		if (msh->g_msh->child == 0)
+		if (msh->child == 0)
 			execute_subsh(cmd, msh);
-		msh->g_msh->exit = execute_wait(msh);
+		msh->exit = execute_wait(msh);
 		cmd_free(cmd);
-		msh->g_msh->child = 0;
+		msh->child = 0;
 	}
 	return (MSH_SUCCESS);
 }

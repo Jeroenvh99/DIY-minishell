@@ -6,7 +6,7 @@
 /*   By: jvan-hal <jvan-hal@student.codam.nl>         +#+                     */
 /*       dbasting <dbasting@student.codam.nl>        +#+                      */
 /*   Created: 2023/05/16 15:12:17 by jvan-hal      #+#    #+#                 */
-/*   Updated: 2023/08/25 13:27:27 by dbasting         ###   ########.fr       */
+/*   Updated: 2023/09/01 14:26:25 by dbasting         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,8 +25,6 @@ t_errno	execute(t_msh *msh)
 {
 	t_errno	errno;
 
-	handler_set(SIGINT, handle_relay);
-	handler_set(SIGQUIT, handle_relay);
 	env_pack(&msh->env);
 	errno = execute_cmdtree(msh->tree, msh);
 	return (cmdtree_destroy(&msh->tree), errno);
@@ -44,8 +42,8 @@ t_errno	execute_cmdtree(t_cmdtree *tree, t_msh *msh)
 	errno = execute_cmdtree(tree->data.branches[TREE_LEFT], msh);
 	if (errno != MSH_SUCCESS)
 		return (errno);
-	if ((msh->g_msh->exit == EXIT_SUCCESS && tree->op == TREE_OP_AND)
-		|| (msh->g_msh->exit != EXIT_SUCCESS && tree->op == TREE_OP_OR))
+	if ((msh->exit == EXIT_SUCCESS && tree->op == TREE_OP_AND)
+		|| (msh->exit != EXIT_SUCCESS && tree->op == TREE_OP_OR))
 		return (execute_cmdtree(tree->data.branches[TREE_RIGHT], msh));
 	return (MSH_SUCCESS);
 }

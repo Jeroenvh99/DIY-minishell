@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   msh.h                                              :+:    :+:            */
+/*   msh.h                                              :+:      :+:    :+:   */
 /*                                                     +:+                    */
 /*   By: dbasting <marvin@codam.nl>                   +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/04/18 13:51:16 by dbasting      #+#    #+#                 */
-/*   Updated: 2023/08/22 21:46:01 by dbasting      ########   odam.nl         */
+/*   Updated: 2023/09/05 12:51:04 by dbasting      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,13 +20,6 @@
 # include "ft_list.h"
 # include <stddef.h>
 # include <sys/types.h>
-
-# define PROMPT			"msh$ "
-# define PROMPT_CONT	"> "
-# define PROMPT_PIPE	"pipe> "
-# define PROMPT_QUOTE	"quote> "
-# define PROMPT_PAR		"parenthesis>"
-# define PROMPT_CMD		"cmd>"
 
 typedef struct s_msh		t_msh;
 typedef struct s_cmd		t_cmd;
@@ -55,13 +48,9 @@ enum e_treeop {
 	N_TREE_OP,
 };
 
-/* Global shell data structure.
- * @param exit		The exit status of the most recently executed pipe.
- * @param child		The PID of the current child process.
- */
-struct s_g_msh {
-	int		exit;
-	pid_t	child;
+enum e_pipeends {
+	PIPE_READ = 0,
+	PIPE_WRITE,
 };
 
 /* Shell data object.
@@ -72,10 +61,11 @@ struct s_g_msh {
  * @param errno	The current error code.
  */
 struct s_msh {
-	struct s_g_msh	*g_msh;
-	t_env			env;
-	t_cmdtree		*tree;
-	t_errno			errno;
+	t_env		env;
+	t_cmdtree	*tree;
+	t_errno		errno;
+	pid_t		child;
+	int			exit;
 };
 
 /* Command tree object.
@@ -112,8 +102,8 @@ struct s_cmd {
 
 /* Base functions. */
 void		msh_loop(t_msh *msh);
-t_errno		readcmdline(t_list **tokens);
-void		heredoc(char const *delim, int fd, t_msh *msh);
+t_errno		cmdline_prompt(char **line, t_msh *msh);
+t_errno		heredoc_read(int *fd, char const *delim, t_msh *msh);
 void		msh_deinit(t_msh *msh);
 
 /* Command tree functions. */
@@ -130,8 +120,5 @@ void		cmd_destroy(t_cmd **cmd);
 
 /* Signal functions. */
 void		handler_set(int signum, t_handler handler);
-void		handle_sigint(int signum);
-void		handle_sigint_heredoc(int signum);
-void		handle_relay(int signum);
 
 #endif

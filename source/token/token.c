@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   token.c                                            :+:    :+:            */
+/*   token.c                                            :+:      :+:    :+:   */
 /*                                                     +:+                    */
 /*   By: dbasting <marvin@codam.nl>                   +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/04/18 14:13:15 by dbasting      #+#    #+#                 */
-/*   Updated: 2023/05/01 12:20:10 by dbasting      ########   odam.nl         */
+/*   Updated: 2023/09/04 12:42:23 by dbasting         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 #include <stdlib.h>
 
-t_token	*token_init(char *str, t_toktype type)
+t_token	*token_init(char *str, int type)
 {
 	t_token	*token;
 
