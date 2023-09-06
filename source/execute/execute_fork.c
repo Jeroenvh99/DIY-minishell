@@ -6,7 +6,7 @@
 /*   By: jvan-hal <jvan-hal@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/16 15:12:17 by jvan-hal      #+#    #+#                 */
-/*   Updated: 2023/08/28 16:43:48 by jvan-hal      ########   odam.nl         */
+/*   Updated: 2023/09/05 12:41:26 by dbasting      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,12 +32,12 @@ static int	fd_set_standard(t_cmd *cmd);
  */
 t_errno	execute_bin(t_cmd *cmd, t_msh *msh)
 {
-	msh->g_msh->child = fork();
-	if (msh->g_msh->child == -1)
+	msh->child = fork();
+	if (msh->child == -1)
 		return (msh_perror(0), MSH_FORKFAIL);
-	if (msh->g_msh->child == 0)
+	if (msh->child == 0)
 		child(cmd, msh);
-	msh->g_msh->exit = execute_wait(msh);
+	msh->exit = execute_wait(msh);
 	return (MSH_SUCCESS);
 }
 
@@ -51,12 +51,12 @@ void	execute_subsh(t_cmd *cmd, t_msh *msh)
 		execute_cmd(cmd, msh);
 	else
 	{
-		msh->g_msh->exit = EXIT_FAILURE;
+		msh->exit = EXIT_FAILURE;
 		msh_perror(0);
 	}
 	cmd_free(cmd);
 	msh_deinit(msh);
-	exit(msh->g_msh->exit);
+	exit(msh->exit);
 }
 
 /**
@@ -68,8 +68,8 @@ int	execute_wait(t_msh *msh)
 {
 	int	wstatus;
 
-	waitpid(msh->g_msh->child, &wstatus, 0);
-	msh->g_msh->child = 0;
+	waitpid(msh->child, &wstatus, 0);
+	msh->child = 0;
 	if (WIFSIGNALED(wstatus))
 		return (WTERMSIG(wstatus) + 128);
 	return (WEXITSTATUS(wstatus));
