@@ -1,12 +1,12 @@
 # **************************************************************************** #
 #                                                                              #
 #                                                         ::::::::             #
-#    Makefile                                           :+:      :+:    :+:    #
+#    Makefile                                           :+:    :+:             #
 #                                                      +:+                     #
 #    By: dbasting <marvin@codam.nl>                   +#+                      #
 #                                                    +#+                       #
 #    Created: 2022/12/28 12:06:53 by dbasting      #+#    #+#                  #
-#    Updated: 2023/09/05 12:36:52 by dbasting      ########   odam.nl          #
+#    Updated: 2023/09/06 11:11:08 by jvan-hal      ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -201,5 +201,4 @@ test_msh_env:
 
 test_glob:
 	$(MAKE) -j -C lib/libft
-	cc $(CFLAGS) -Wl,--wrap=glob_readdir test/msh/glob/glob_unittest.c test/msh/glob/custom_glob_readdir.c source/utils/utils_list.c source/expand/glob/* lib/libft/libft.a && ./a.out
-	# rm a.out
+	cc $(CFLAGS) -Wl,--wrap=glob_readdir test/msh/glob/glob_unittest.c test/msh/glob/custom_glob_readdir.c source/utils/utils_list.c source/expand/glob/* lib/libft/libft.a
