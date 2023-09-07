@@ -61,12 +61,21 @@ void print_glob(t_ft_glob *glob_res)
 
 int main() {
 	t_ft_glob glob_res;
+	ft_printf("test 1\n");
 	ft_glob_init(&glob_res);
 	ft_glob(&glob_res, "");
 	print_glob(&glob_res);
+	ft_printf("\n\ntest 2\n");
 	ft_glob_init(&glob_res);
-	ft_printf("\n\n");
 	ft_glob(&glob_res, "*");
+	print_glob(&glob_res);
+	ft_printf("\n\ntest 3\n");
+	ft_glob_init(&glob_res);
+	ft_glob(&glob_res, "hi");
+	print_glob(&glob_res);
+	ft_printf("\n\ntest 4\n");
+	ft_glob_init(&glob_res);
+	ft_glob(&glob_res, "?");
 	print_glob(&glob_res);
 	ft_glob_destroy(&glob_res);
 }
