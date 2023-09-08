@@ -6,7 +6,7 @@
 /*   By: dbasting <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/04 11:41:15 by dbasting          #+#    #+#             */
-/*   Updated: 2023/09/05 15:28:04 by dbasting      ########   odam.nl         */
+/*   Updated: 2023/09/08 11:10:43 by dbasting      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,7 +87,7 @@ int	token_read_word(char const *str, size_t *len, int *quote)
 			break ;
 		(*len)++;
 	}
-	if (len == 0)
+	if (*len == 0)
 		return (TOK_NONE);
 	return (TOK_WORD);
 }

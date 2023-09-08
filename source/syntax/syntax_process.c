@@ -6,7 +6,7 @@
 /*   By: dbasting <marvin@codam.nl>                   +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/09/01 16:09:23 by dbasting      #+#    #+#                 */
-/*   Updated: 2023/09/05 15:30:24 by dbasting      ########   odam.nl         */
+/*   Updated: 2023/09/08 11:11:02 by dbasting      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,6 +77,9 @@ static inline int	check_word(int type, int *last, int params[N_PARAMS])
 {
 	*last = type;
 	if (type == TOK_WORD)
+	{
 		params[OPERATOR] = TOK_NONE;
-	return (SYNTAX_SUCCESS);
+		return (SYNTAX_SUCCESS);
+	}
+	return (SYNTAX_FATAL);
 }
