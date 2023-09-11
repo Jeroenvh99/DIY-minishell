@@ -6,7 +6,7 @@
 /*   By: dbasting <marvin@codam.nl>                   +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/04/18 14:13:15 by dbasting      #+#    #+#                 */
-/*   Updated: 2023/09/05 15:59:05 by dbasting      ########   odam.nl         */
+/*   Updated: 2023/09/11 11:13:28 by dbasting         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,8 @@
 
 static inline int	is_empty(char **line);
 
+// Note: IACTV_FAIL_O represents a syntax error condition within the prompt.
+
 t_errno	cmdline_prompt(char **line, t_msh *msh)
 {
 	t_fd			pipefd[2];
@@ -38,7 +40,9 @@ t_errno	cmdline_prompt(char **line, t_msh *msh)
 	if (pipe(pipefd) == -1)
 		return (msh_perror(0), MSH_PIPEFAIL);
 	exstat = prompt(cmdline, pipefd[PIPE_WRITE], NULL, msh);
-	while (exstat == IACTV_INTERRUPT || exstat == IACTV_FAIL)
+	while (exstat == IACTV_INTERRUPT
+		|| exstat == IACTV_TERM
+		|| exstat == IACTV_FAIL)
 		exstat = prompt(cmdline, pipefd[PIPE_WRITE], NULL, msh);
 	close(pipefd[PIPE_WRITE]);
 	if (exstat == IACTV_SUCCESS || exstat == IACTV_FAIL_0)
