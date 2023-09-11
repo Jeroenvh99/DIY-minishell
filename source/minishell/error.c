@@ -6,7 +6,11 @@
 /*   By: jvan-hal <jvan-hal@student.codam.nl>         +#+                     */
 /*       dbasting <dbasting@student.codam.nl>        +#+                      */
 /*   Created: 2023/04/18 18:27:29 by jvan-hal      #+#    #+#                 */
+<<<<<<< HEAD
 /*   Updated: 2023/09/01 14:18:17 by dbasting         ###   ########.fr       */
+=======
+/*   Updated: 2023/09/11 15:57:54 by dbasting         ###   ########.fr       */
+>>>>>>> dbasting
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,8 +28,6 @@ void	msh_strerror(t_errno errno)
 		"Everything went better than expected.",
 		"ENDCMD_PIPE",
 		"ENDCMD_CTL",
-		"VAR_ASSIGN",
-		"VAR_APPEND",
 		"Something went wrong.",
 		"Syntax error.",
 		"Invalid identifier",

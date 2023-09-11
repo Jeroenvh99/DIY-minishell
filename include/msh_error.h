@@ -6,7 +6,11 @@
 /*   By: dbasting <dbasting@codam.nl>                 +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/22 08:42:57 by dbasting      #+#    #+#                 */
+<<<<<<< HEAD
 /*   Updated: 2023/09/05 12:51:14 by dbasting      ########   odam.nl         */
+=======
+/*   Updated: 2023/09/11 15:57:42 by dbasting         ###   ########.fr       */
+>>>>>>> dbasting
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,11 +23,9 @@ typedef enum e_errno {
 	MSH_SUCCESS = 0,
 	MSH_ENDCMD_PIPE,
 	MSH_ENDCMD_CTL,
-	MSH_VAR_ASSIGN,
-	MSH_VAR_APPEND,
 	MSH_GENERIC,
 	MSH_SYNTAX_ERROR,
-	MSH_NO_VARSTR,
+	MSH_INVVARID,
 	MSH_INCOMPLETE_TOKEN,
 	MSH_EOF,
 	MSH_PIPEFAIL,

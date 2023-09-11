@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   env_set_main.c                                     :+:    :+:            */
+/*   env_set_main.c                                     :+:      :+:    :+:   */
 /*                                                     +:+                    */
 /*   By: jvan-hal <jvan-hal@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/09 15:57:34 by jvan-hal      #+#    #+#                 */
-/*   Updated: 2023/08/07 12:45:31 by jvan-hal      ########   odam.nl         */
+/*   Updated: 2023/09/11 16:23:17 by dbasting         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,20 +27,26 @@ static t_errno	env_overwrite(char **old_entry, char *entry);
 /* Set `entry' as an environment variable. */
 t_errno	env_set_main(t_env *env, char *entry)
 {
-	t_errno		errno;
-	char		*name;
+	int		varstat;
+	t_errno	errno;
+	char	*name;
 
 	name = NULL;
-	errno = var_parse(&name, entry);
-	if (errno == MSH_VAR_ASSIGN)
+	varstat = var_parse(&name, entry);
+	if (varstat == VAR_ASSIGN)
 		errno = env_assign_val(env, name, entry);
-	else if (errno == MSH_VAR_APPEND)
+	else if (varstat == VAR_APPEND)
 		errno = env_append_val(env, entry, name);
 	else
+	{
 		free(entry);
+		if (varstat == VAR_INVID)
+			errno = MSH_INVVARID;
+		else
+			errno = MSH_SUCCESS;
+	}
 	return (free(name), errno);
 }
-//DB: Als entry geen varstring is: plak er een = achter en voeg gewoon toe.
 
 /* Append (i.e. do not overwrite) `entry`. */
 static t_errno	env_assign_val(t_env *env, char const *name, char *entry)
