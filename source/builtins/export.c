@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   export.c                                           :+:    :+:            */
+/*   export.c                                           :+:      :+:    :+:   */
 /*                                                     +:+                    */
 /*   By: jvan-hal <jvan-hal@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/04/20 16:51:03 by jvan-hal      #+#    #+#                 */
-/*   Updated: 2023/08/29 10:33:09 by jvan-hal      ########   odam.nl         */
+/*   Updated: 2023/09/11 16:18:51 by dbasting         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ int	msh_export(t_cmd *cmd, t_msh *msh)
 	{
 		if (ft_strncmp(cmd->argv.array[i], "_", 2))
 		{
-			if (env_set_entry(&msh->env, cmd->argv.array[i]) > 0)
+			if (env_set_entry(&msh->env, cmd->argv.array[i]) == MSH_INVVARID)
 			{
 				ft_dprintf(STDERR_FILENO, "msh: export: `%s': not a valid "
 					"identifier\n", cmd->argv.array[i]);

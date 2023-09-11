@@ -6,7 +6,7 @@
 /*   By: jvan-hal <jvan-hal@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/09 15:57:34 by jvan-hal      #+#    #+#                 */
-/*   Updated: 2023/09/11 15:42:59 by dbasting         ###   ########.fr       */
+/*   Updated: 2023/09/11 16:23:17 by dbasting         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,10 @@ t_errno	env_set_main(t_env *env, char *entry)
 	else
 	{
 		free(entry);
-		errno = MSH_INVVARID;
+		if (varstat == VAR_INVID)
+			errno = MSH_INVVARID;
+		else
+			errno = MSH_SUCCESS;
 	}
 	return (free(name), errno);
 }

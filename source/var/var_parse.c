@@ -6,7 +6,7 @@
 /*   By: dbasting <dbasting@codam.nl>                 +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/22 08:45:12 by dbasting      #+#    #+#                 */
-/*   Updated: 2023/09/11 15:46:41 by dbasting         ###   ########.fr       */
+/*   Updated: 2023/09/11 16:16:24 by dbasting         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,14 +48,15 @@ static inline int	is_varstr(size_t *i, char const *str)
 	while (str[*i])
 	{
 		if (!ft_isalnum(str[*i]) && str[*i] != '_')
-			return (VAR_INVID);
-		if (str[*i] == '=')
-			return (VAR_ASSIGN);
-		if (str[*i] == '+')
 		{
-			if (str[*i + 1] == '=')
-				return (VAR_APPEND);
-			return (VAR_NOVAR);
+			if (str[*i] == '=')
+				return (VAR_ASSIGN);
+			if (str[*i] == '+')
+			{
+				if (str[*i + 1] == '=')
+					return (VAR_APPEND);
+			}
+			return (VAR_INVID);
 		}
 		(*i)++;
 	}
