@@ -59,7 +59,7 @@ static int	exp_print_env(int fd, t_env *env)
 				break ;
 			++j;
 		}
-		ft_dprintf(fd, "%.*s\"%s\"\n", j + 1, env->envp[i], env->envp[i] + j + 1);
+		ft_dprintf(fd, "\"%s\"\n", env->envp[i]);
 		++i;
 	}
 	return (0);
