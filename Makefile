@@ -6,7 +6,7 @@
 #    By: dbasting <marvin@codam.nl>                   +#+                      #
 #                                                    +#+                       #
 #    Created: 2022/12/28 12:06:53 by dbasting      #+#    #+#                  #
-#    Updated: 2023/08/22 23:27:15 by dbasting      ########   odam.nl          #
+#    Updated: 2023/09/06 11:11:08 by jvan-hal      ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -56,15 +56,15 @@ SRC_FILES	:= main.c\
 			expand/glob/glob_readdir.c\
 			expand/glob/glob_sortdir.c\
 			lex/lex.c\
-			lex/token.c\
-			lex/lex_token_get.c\
-			lex/lex_utils.c\
 			minishell/cmd.c\
+			minishell/cmdline.c\
+			minishell/cmdline_prompt.c\
 			minishell/cmdtree.c\
 			minishell/error.c\
 			minishell/heredoc.c\
-			minishell/readcmdline.c\
+			minishell/heredoc_read.c\
 			minishell/msh_loop.c\
+			minishell/prompt.c\
 			minishell/signal.c\
 			parse/parse.c\
 			parse/parse_cmd.c\
@@ -76,9 +76,12 @@ SRC_FILES	:= main.c\
 			parse/parse_pipeline.c\
 			parse/parse_utils.c\
 			parse/parse_word.c\
-			parse/syntax/syntax.c\
-			parse/syntax/syntax_pipeacts.c\
-			parse/syntax/syntax_treeacts.c\
+			syntax/syntax.c\
+			syntax/syntax_process.c\
+			token/token.c\
+			token/token_read.c\
+			token/token_type.c\
+			utils/utils.c\
 			utils/utils_list.c\
 			utils/utils_quotes.c\
 			var/var.c\
@@ -93,6 +96,8 @@ HDR_FILES	:= msh.h\
 			msh_execute.h\
 			msh_expand.h\
 			msh_parse.h\
+			msh_prompt.h\
+			msh_token.h\
 			msh_utils.h\
 			msh_var.h\
 			\
@@ -103,13 +108,14 @@ HDR_FILES	:= msh.h\
 LIB_FILES	:= libft.a
 
 SRC_DIR		:= ./source/
-SRC_SUBDIRS	:= builtins/ env/ execute/ expand/ expand/glob lex/ minishell/ parse/ parse/syntax/ test/ utils/ var/
+SRC_SUBDIRS	:= builtins/ env/ execute/ expand/ expand/glob lex/ minishell/\
+			parse/ syntax/ test/ token/ utils/ var/
 OBJ_DIR		:= ./object/
 OBJ_SUBDIRS := $(SRC_SUBDIRS)
 HDR_DIR		:= ./include/
 LIB_DIR		:= ./lib/
 
-CFLAGS		:= -Wall -Wextra -Werror -I$(LIB_DIR)libft/include/ -I$(HDR_DIR) -g -fsanitize=address
+CFLAGS		+= -Wall -Wextra -Werror -I$(LIB_DIR)libft/include/ -I$(HDR_DIR)
 LDFLAGS	:= -lreadline
 ifeq ($(OS),Darwin)
 LDFLAGS	+= -L$(HOME)/.brew/opt/readline/lib/ 
@@ -180,7 +186,7 @@ test_lexer:
 
 test_expander:
 	$(MAKE) -j -C lib/libft
-	cc $(CFLAGS) -lcriterion test/msh/expand/expand_unittest.c lib/libft/libft.a && ./a.out
+	cc $(CFLAGS) -lcriterion test/msh/expand/expand_unittest.c source/expand/*.c source/var/var.c source/var/var_parse.c source/env/*.c source/utils/*.c lib/libft/libft.a && ./a.out
 	rm a.out
 
 test_parser:
@@ -192,3 +198,7 @@ test_msh_env:
 	$(MAKE) -j -C lib/libft
 	cc $(CFLAGS) -lcriterion source/env/env.c source/env/env_utils.c source/env/env_search.c source/env/env_unset.c source/env/env_set.c source/env/env_set_main.c source/env/env_append_val.c source/env/env_update.c source/env/env_basevars.c source/var/var_parse.c test/msh/env/env_unittest.c lib/libft/libft.a && ./a.out
 	rm a.out
+
+test_glob:
+	$(MAKE) -j -C lib/libft
+	cc $(CFLAGS) -Wl,--wrap=glob_readdir test/msh/glob/glob_unittest.c test/msh/glob/custom_glob_readdir.c source/utils/utils_list.c source/expand/glob/* lib/libft/libft.a

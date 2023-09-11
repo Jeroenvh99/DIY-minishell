@@ -6,7 +6,7 @@
 /*   By: dbasting <marvin@codam.nl>                   +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/08 12:23:49 by dbasting      #+#    #+#                 */
-/*   Updated: 2023/08/21 15:09:55 by dbasting      ########   odam.nl         */
+/*   Updated: 2023/09/05 12:53:52 by dbasting      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,7 @@ static t_errno	exp_loop(t_expstr *expstr, t_msh *msh)
 	exp_len = 0;
 	while (expstr->str[expstr->i])
 	{
-		if (!exp_len && lquote != SQUOTE && expstr->str[expstr->i] == CHR_VAR)
+		if (!exp_len && lquote != SQUOTE && expstr->str[expstr->i] == '$')
 		{
 			errno = expand_dollar(expstr, &exp_len, msh);
 			if (errno != MSH_SUCCESS)

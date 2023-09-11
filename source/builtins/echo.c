@@ -6,17 +6,17 @@
 /*   By: jvan-hal <jvan-hal@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/04/18 15:16:12 by jvan-hal      #+#    #+#                 */
-/*   Updated: 2023/08/07 16:52:01 by jvan-hal      ########   odam.nl         */
+/*   Updated: 2023/08/29 10:32:42 by jvan-hal      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_string.h"
-#include <stdio.h>
+#include "ft_stdio.h"
 #include "msh.h"
 
 int	check_n_opt(char *str)
 {
-	int	i;
+	size_t	i;
 
 	i = 0;
 	while (str[i])
@@ -30,14 +30,14 @@ int	check_n_opt(char *str)
 	return (1);
 }
 
-int	write_args(t_cmd *cmd, int i)
+int	write_args(t_cmd *cmd, size_t i)
 {
-	while (cmd->argv.array[i])
+	while (i < cmd->argc)
 	{
-		if (cmd->argv.array[i + 1])
-			printf("%s ", cmd->argv.array[i]);
+		if (cmd->argc < i + 1)
+			ft_dprintf(cmd->io[1], "%s ", cmd->argv.array[i]);
 		else
-			printf("%s", cmd->argv.array[i]);
+			ft_dprintf(cmd->io[1], "%s", cmd->argv.array[i]);
 		++i;
 	}
 	return (0);
@@ -45,13 +45,13 @@ int	write_args(t_cmd *cmd, int i)
 
 int	msh_echo(t_cmd *cmd, t_msh *msh)
 {
-	int	i;
-	int	newline;
+	size_t	i;
+	int		newline;
 
 	(void)msh;
 	i = 1;
 	newline = 1;
-	while (cmd->argv.array[i] && check_n_opt(cmd->argv.array[i]))
+	while (i < cmd->argc && check_n_opt(cmd->argv.array[i]))
 	{
 		newline = 0;
 		++i;
@@ -59,7 +59,7 @@ int	msh_echo(t_cmd *cmd, t_msh *msh)
 	write_args(cmd, i);
 	if (newline)
 	{
-		printf("\n");
+		ft_dprintf(cmd->io[1], "\n");
 	}
 	return (0);
 }
