@@ -6,11 +6,7 @@
 /*   By: dbasting <marvin@codam.nl>                   +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/04/18 14:13:15 by dbasting      #+#    #+#                 */
-<<<<<<< HEAD
-/*   Updated: 2023/09/01 15:00:27 by dbasting         ###   ########.fr       */
-=======
 /*   Updated: 2023/09/11 16:05:37 by dbasting         ###   ########.fr       */
->>>>>>> dbasting
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,10 +52,7 @@ static t_errno	msh_init(t_msh *msh, int argc, char **argv, char **envp)
 	(void) argc;
 	(void) argv;
 	msh->child = 0;
-<<<<<<< HEAD
-=======
 	msh->exit = 0;
->>>>>>> dbasting
 	errno = env_init(&msh->env, envp);
 	if (errno != MSH_SUCCESS)
 		return (errno);
