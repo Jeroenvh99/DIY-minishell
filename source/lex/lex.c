@@ -56,8 +56,11 @@ static t_errno	process(t_list **tokens, char const **str)
 	type = TOK_NONE;
 	while (**str)
 	{
-		while (ft_isspace(**str))
+		if (ft_isspace(**str))
+		{
 			(*str)++;
+			continue ;
+		}
 		type = token_read(*str, &len);
 		if (type == TOK_INVALID)
 			return (MSH_GENERIC);

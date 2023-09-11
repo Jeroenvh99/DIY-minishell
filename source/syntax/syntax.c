@@ -41,8 +41,11 @@ int	syntax(char const *str, int params[N_PARAMS])
 	last = TOK_NONE;
 	while (*str)
 	{
-		while (ft_isspace(*str))
+		if (ft_isspace(*str))
+		{
 			str++;
+			continue ;
+		}
 		if (syntax_process(&str, &last, params) == SYNTAX_FATAL)
 			return (SYNTAX_FATAL);
 	}

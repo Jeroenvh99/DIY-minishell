@@ -5,12 +5,12 @@ make -C ../../..
 STAT=0;
 test_list=(
 	"bonus_tests.txt"
-	# "builtin_tests.txt"
-	# "extras_tests.txt"
-	# "pipes_tests.txt"
-	# "redirects_tests.txt"
-	# "syntax_tests.txt"
-	# "wildcards_tests.txt"
+	"builtin_tests.txt"
+	"extras_tests.txt"
+	"pipes_tests.txt"
+	"redirects_tests.txt"
+	"syntax_tests.txt"
+	"wildcards_tests.txt"
 	)
 chmod 000 ./test_files/invalid_permission
 mkdir ./outfiles
