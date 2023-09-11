@@ -34,10 +34,9 @@ int	write_args(t_cmd *cmd, size_t i)
 {
 	while (i < cmd->argc)
 	{
-		if (cmd->argc < i + 1)
-			ft_dprintf(cmd->io[1], "%s ", cmd->argv.array[i]);
-		else
-			ft_dprintf(cmd->io[1], "%s", cmd->argv.array[i]);
+		ft_dprintf(cmd->io[1], "%s", cmd->argv.array[i]);
+		if (i != cmd->argc - 1)
+			ft_dprintf(cmd->io[1], " ");
 		++i;
 	}
 	return (0);
