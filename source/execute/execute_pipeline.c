@@ -56,9 +56,8 @@ static t_errno	execute_pipeline_subsh(t_list **pipeline, t_msh *msh)
 			return (msh_perror(0), MSH_FORKFAIL);
 		if (msh->child == 0)
 			execute_subsh(cmd, msh);
-		msh->exit = execute_wait(msh);
 		cmd_free(cmd);
-		msh->child = 0;
 	}
+	msh->exit = execute_wait(msh);
 	return (MSH_SUCCESS);
 }
