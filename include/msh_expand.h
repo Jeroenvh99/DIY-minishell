@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   msh_expand.h                                       :+:    :+:            */
+/*   msh_expand.h                                       :+:      :+:    :+:   */
 /*                                                     +:+                    */
 /*   By: dbasting <marvin@codam.nl>                   +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/04/18 13:46:33 by dbasting      #+#    #+#                 */
-/*   Updated: 2023/09/05 12:52:01 by dbasting      ########   odam.nl         */
+/*   Updated: 2023/09/12 14:13:37 by dbasting         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ typedef t_errno	(*t_expf)(t_expstr *, size_t *, t_msh *);
 // Expander functions.
 t_errno	expand(t_list **words, char **token, t_msh *msh);
 t_errno	expand_fieldsplit(t_list **words, t_expstr *expstr);
-t_errno	expand_glob(t_list **words, char *pattern); 
+t_errno	expand_glob(t_list **words, char *pattern);
 t_errno	expand_dollar(t_expstr *expstr, size_t *exp_len, t_msh *msh);
 t_errno	expand_var(t_expstr *expstr, size_t *exp_len, t_msh *vars);
 t_errno	expand_spec_pos1(t_expstr *expstr, size_t *exp_len, t_msh *msh);
