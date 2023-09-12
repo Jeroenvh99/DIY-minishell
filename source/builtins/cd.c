@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   cd.c                                               :+:    :+:            */
+/*   cd.c                                               :+:      :+:    :+:   */
 /*                                                     +:+                    */
 /*   By: jvan-hal <jvan-hal@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/04/20 16:52:40 by jvan-hal      #+#    #+#                 */
-/*   Updated: 2023/08/29 10:26:05 by jvan-hal      ########   odam.nl         */
+/*   Updated: 2023/09/12 16:41:29 by dbasting         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,36 +35,31 @@ static int	get_path(char *buf, char const *cwd, char const *dir);
 int	msh_cd(t_cmd *cmd, t_msh *msh)
 {
 	char const *const	dstdir = get_dstdir(cmd, msh);
-	char *const			cwd = getcwd(NULL, 0);
 	char				path[PATH_MAX];
 
-	if (!cwd || !dstdir)
-		return (free(cwd), 1);
+	if (!dstdir)
+		return (1);
 	if (cmd->argc > 2)
-		return (cd_strerror(CD_MAXARG), free(cwd), 1);
-	if (get_path(path, cwd, dstdir) != 0)
-		return (msh_perror(1, "cd"), free(cwd), 1);
+		return (cd_strerror(CD_MAXARG), 1);
+	if (get_path(path, msh->cwd.b, dstdir) != 0)
+		return (msh_perror(1, "cd"), 1);
 	if (chdir(path) != 0)
-		return (msh_perror(2, "cd", cmd->argv.array[1]), free(cwd), 1);
-	if (env_update(&msh->env, "OLDPWD", cwd) > 1)
-		return (msh_perror(1, "cd"), free(cwd), 1);
+		return (msh_perror(2, "cd", cmd->argv.array[1]), 1);
+	if (env_update(&msh->env, "OLDPWD", msh->cwd.b) > 1)
+		return (msh_perror(1, "cd"), 1);
 	if (env_update(&msh->env, "PWD", path) > 1)
-		return (msh_perror(1, "cd"), free(cwd), 1);
-	free(cwd);
+		return (msh_perror(1, "cd"), 1);
+	if (cwd_update(&msh->cwd) == MSH_GENERIC)
+		return (msh_perror(1, "cd"), 1);
 	return (0);
 }
 
+static char const *const	g_errstrs[N_CD_ERRNO] = {
+	"", "Error", "Too many arguments", "HOME not set", "OLDPWD not set"};
+
 static void	cd_strerror(int errno)
 {
-	char const *const	errstrs[N_CD_ERRNO] = {
-		NULL,
-		"Error",
-		"Too many arguments",
-		"HOME not set",
-		"OLDPWD not set",
-	};
-
-	ft_dprintf(STDERR_FILENO, "msh: cd: %s\n", errstrs[errno]);
+	ft_dprintf(STDERR_FILENO, "msh: cd: %s\n", g_errstrs[errno]);
 }
 
 static int	get_path(char *buf, char const *cwd, char const *dir)

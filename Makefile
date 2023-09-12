@@ -1,12 +1,12 @@
 # **************************************************************************** #
 #                                                                              #
 #                                                         ::::::::             #
-#    Makefile                                           :+:    :+:             #
+#    Makefile                                           :+:      :+:    :+:    #
 #                                                      +:+                     #
 #    By: dbasting <marvin@codam.nl>                   +#+                      #
 #                                                    +#+                       #
 #    Created: 2022/12/28 12:06:53 by dbasting      #+#    #+#                  #
-#    Updated: 2023/09/06 11:11:08 by jvan-hal      ########   odam.nl          #
+#    Updated: 2023/09/12 15:51:59 by dbasting         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -60,6 +60,7 @@ SRC_FILES	:= main.c\
 			minishell/cmdline.c\
 			minishell/cmdline_prompt.c\
 			minishell/cmdtree.c\
+			minishell/cwd.c\
 			minishell/error.c\
 			minishell/heredoc.c\
 			minishell/heredoc_read.c\

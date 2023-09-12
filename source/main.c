@@ -6,7 +6,7 @@
 /*   By: dbasting <marvin@codam.nl>                   +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/04/18 14:13:15 by dbasting      #+#    #+#                 */
-/*   Updated: 2023/09/11 16:05:37 by dbasting         ###   ########.fr       */
+/*   Updated: 2023/09/12 15:05:20 by dbasting         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,14 +15,11 @@
 #include "msh_error.h"
 #include "msh_utils.h"
 
-#include "ft_hash.h"
-#include "ft_stdio.h"
 #include <signal.h>
+#include <stdio.h>
 #include <stdlib.h>
 
 static t_errno	msh_init(t_msh *msh, int argc, char **argv, char **envp);
-
-int	g_signum = -1;
 
 int	main(int argc, char **argv, char **envp)
 {
@@ -35,7 +32,7 @@ int	main(int argc, char **argv, char **envp)
 		return (msh.errno);
 	msh_loop(&msh);
 	msh_deinit(&msh);
-	ft_printf("exit\n");
+	printf("exit\n");
 	return (msh.errno);
 }
 
@@ -43,6 +40,7 @@ void	msh_deinit(t_msh *msh)
 {
 	env_free(&msh->env);
 	cmdtree_destroy(&msh->tree);
+	free(msh->cwd.b);
 }
 
 static t_errno	msh_init(t_msh *msh, int argc, char **argv, char **envp)
@@ -51,11 +49,14 @@ static t_errno	msh_init(t_msh *msh, int argc, char **argv, char **envp)
 
 	(void) argc;
 	(void) argv;
-	msh->child = 0;
-	msh->exit = 0;
+	errno = cwd_init(&msh->cwd);
+	if (errno != MSH_SUCCESS)
+		return (errno);
 	errno = env_init(&msh->env, envp);
 	if (errno != MSH_SUCCESS)
 		return (errno);
+	msh->exit = 0;
+	msh->child = 0;
 	msh->tree = NULL;
 	return (MSH_SUCCESS);
 }
