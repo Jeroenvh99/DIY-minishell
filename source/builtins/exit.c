@@ -62,6 +62,10 @@ static int	get_status(char const *str)
 	int	i;
 
 	i = 0;
+	if (str[i] == '-' || str[i] == '+')
+	{
+		++i;
+	}
 	while (str[i])
 	{
 		if (!ft_isdigit(str[i]))
@@ -72,5 +76,5 @@ static int	get_status(char const *str)
 		}
 		++i;
 	}
-	return (ft_atoi(str));
+	return ((unsigned char)ft_atoi(str));
 }
