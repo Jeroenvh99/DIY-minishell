@@ -47,15 +47,19 @@ t_errno	execute_pipeline(t_list **pipeline, t_msh *msh)
 static t_errno	execute_pipeline_subsh(t_list **pipeline, t_msh *msh)
 {
 	t_cmd	*cmd;
+	t_fd	tube[2];
 
 	while (*pipeline)
 	{
+		pipe(tube);
 		cmd = list_pop_ptr(pipeline);
 		msh->child = fork();
 		if (msh->child == -1)
 			return (msh_perror(0), MSH_FORKFAIL);
 		if (msh->child == 0)
 			execute_subsh(cmd, msh);
+		close(tube[PIPE_READ]);
+		close(tube[PIPE_WRITE]);
 		cmd_free(cmd);
 	}
 	msh->exit = execute_wait(msh);

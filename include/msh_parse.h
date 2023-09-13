@@ -55,6 +55,6 @@ t_errno	parse_output_append(t_cmd *cmd, t_list **tokens, t_msh *msh);
 t_errno	parse_invalid(t_cmd *cmd, t_list **tokens, t_msh *msh);
 
 t_errno	parse_iofile(char **name, t_list **tokens, t_msh *msh);
-t_errno	parse_pipe(t_fd *out, t_cmd *cmd, t_list **tokens, t_msh *msh);
+t_errno	parse_pipe(t_cmd *cmd, t_list **tokens, t_msh *msh);
 
 #endif

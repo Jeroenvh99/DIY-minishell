@@ -86,6 +86,7 @@ static void	child(t_cmd *cmd, t_msh *msh)
 
 	if (fd_set_standard(cmd) == 0)
 	{
+		close(tube[PIPE_READ]);
 		if (get_pathname(pname, fname, env_search(&msh->env, "PATH")) == 0)
 			execve(pname, cmd->argv.array, msh->env.envp);
 		ft_dprintf(STDERR_FILENO, "msh: %s: command not found\n", fname);
