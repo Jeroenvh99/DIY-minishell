@@ -56,14 +56,14 @@ static t_errno	execute_pipeline_subsh(t_list **pipeline, t_msh *msh)
 	while (*pipeline)
 	{
 		cmd = list_pop_ptr(pipeline);
-		cmd->io[IO_IN] = read;
 		pipe(tube);
-		cmd->io[IO_OUT] = tube[PIPE_WRITE];
 		msh->child = fork();
 		if (msh->child == -1)
 			return (msh_perror(0), MSH_FORKFAIL);
 		if (msh->child == 0)
 		{
+			cmd->io[IO_IN] = read;
+			cmd->io[IO_OUT] = tube[PIPE_WRITE];
 			close(tube[PIPE_READ]);
 			execute_subsh(cmd, msh);
 		}
