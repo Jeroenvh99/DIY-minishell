@@ -34,10 +34,10 @@ typedef int	(*t_builtinf)(t_cmd *, t_msh *);
 t_errno	execute(t_msh *msh);
 t_errno	execute_cmdtree(t_cmdtree *tree, t_msh *msh);
 t_errno	execute_pipeline(t_list **pipeline, t_msh *msh);
-t_errno	execute_cmd(t_fd tube[2], t_cmd *cmd, t_msh *msh);
-t_errno	execute_bin(t_fd tube[2], t_cmd *cmd, t_msh *msh);
+t_errno	execute_cmd(t_cmd *cmd, t_msh *msh);
+t_errno	execute_bin(t_cmd *cmd, t_msh *msh);
 
-void	execute_subsh(t_fd tube[2], t_cmd *cmd, t_msh *msh);
+void	execute_subsh(t_cmd *cmd, t_msh *msh);
 int		execute_wait(t_msh *msh);
 
 int		get_pathname(char *const buf, char const *filename, char const *path);

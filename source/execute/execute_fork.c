@@ -21,7 +21,7 @@
 #include <sys/wait.h>
 #include <unistd.h>
 
-static void	child(t_fd tube[2], t_cmd *cmd, t_msh *msh);
+static void	child(t_cmd *cmd, t_msh *msh);
 static int	fd_set_standard(t_cmd *cmd);
 
 /** 
@@ -30,15 +30,13 @@ static int	fd_set_standard(t_cmd *cmd);
  * 			MSH_SUCCESS		Success.
  * 			MSH_FORKFAIL	The call to fork() failed.
  */
-t_errno	execute_bin(t_fd tube[2], t_cmd *cmd, t_msh *msh)
+t_errno	execute_bin(t_cmd *cmd, t_msh *msh)
 {
 	msh->child = fork();
 	if (msh->child == -1)
 		return (msh_perror(0), MSH_FORKFAIL);
 	if (msh->child == 0)
-		child(tube, cmd, msh);
-	close(tube[PIPE_READ]);
-	close(tube[PIPE_WRITE]);
+		child(cmd, msh);
 	msh->exit = execute_wait(msh);
 	return (MSH_SUCCESS);
 }
@@ -47,19 +45,17 @@ t_errno	execute_bin(t_fd tube[2], t_cmd *cmd, t_msh *msh)
  * @brief	Execute a command inside a subshell.
  * @return	This function never returns.
  */
-void	execute_subsh(t_fd tube[2], t_cmd *cmd, t_msh *msh)
+void	execute_subsh(t_cmd *cmd, t_msh *msh)
 {
 	if (fd_set_standard(cmd) == 0)
 	{
-		execute_cmd(tube, cmd, msh);
+		execute_cmd(cmd, msh);
 	}
 	else
 	{
 		msh->exit = EXIT_FAILURE;
 		msh_perror(0);
 	}
-	close(tube[PIPE_READ]);
-	close(tube[PIPE_WRITE]);
 	cmd_free(cmd);
 	msh_deinit(msh);
 	exit(msh->exit);
@@ -85,7 +81,7 @@ int	execute_wait(t_msh *msh)
  * @brief	Find the utility specified by `cmd` and execute it.
  * @return	This function never returns.
  */
-static void	child(t_fd tube[2], t_cmd *cmd, t_msh *msh)
+static void	child(t_cmd *cmd, t_msh *msh)
 {
 	char		pname[PATH_MAX];
 	char *const	fname = cmd->argv.array[0];
@@ -93,11 +89,7 @@ static void	child(t_fd tube[2], t_cmd *cmd, t_msh *msh)
 	if (fd_set_standard(cmd) == 0)
 	{
 		if (get_pathname(pname, fname, env_search(&msh->env, "PATH")) == 0)
-		{
-			close(tube[PIPE_READ]);
-			close(tube[PIPE_WRITE]);
 			execve(pname, cmd->argv.array, msh->env.envp);
-		}
 		ft_dprintf(STDERR_FILENO, "msh: %s: command not found\n", fname);
 	}
 	else

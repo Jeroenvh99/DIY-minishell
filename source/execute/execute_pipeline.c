@@ -38,7 +38,7 @@ t_errno	execute_pipeline(t_list **pipeline, t_msh *msh)
 	{
 		pipe(tube);
 		cmd = list_pop_ptr(pipeline);
-		errno = execute_cmd(tube, cmd, msh);
+		errno = execute_cmd(cmd, msh);
 		cmd_free(cmd);
 		if (errno != MSH_SUCCESS)
 			return (list_clear(pipeline, (t_freef)cmd_free), errno);
@@ -58,11 +58,15 @@ static t_errno	execute_pipeline_subsh(t_list **pipeline, t_msh *msh)
 		cmd = list_pop_ptr(pipeline);
 		cmd->io[IO_IN] = read;
 		pipe(tube);
+		cmd->io[IO_OUT] = tube[PIPE_WRITE];
 		msh->child = fork();
 		if (msh->child == -1)
 			return (msh_perror(0), MSH_FORKFAIL);
 		if (msh->child == 0)
-			execute_subsh(tube, cmd, msh);
+		{
+			close(tube[PIPE_READ]);
+			execute_subsh(cmd, msh);
+		}
 		if (read > 0)
 		{
 			close(read);

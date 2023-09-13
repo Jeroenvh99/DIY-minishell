@@ -43,6 +43,8 @@ t_errno	parse_pipe(t_cmd *cmd, t_list **tokens, t_msh *msh)
 	if (cmd_is_undefined(cmd))
 		return (MSH_SYNTAX_ERROR);
 	token_free(list_pop_ptr(tokens));
+	if (cmd->io[IO_OUT] != STDOUT_FILENO)
+		cmd->io[IO_OUT] = STDOUT_FILENO;
 	return (MSH_SUCCESS);
 }
 

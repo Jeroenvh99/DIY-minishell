@@ -28,7 +28,7 @@ static t_builtinf	get_builtin(char const *cmd);
  * 			MSH_SUCCESS		Success.
  * 			MSH_FORKFAIL	Couldn't realize a fork.
  */
-t_errno	execute_cmd(t_fd tube[2], t_cmd *cmd, t_msh *msh)
+t_errno	execute_cmd(t_cmd *cmd, t_msh *msh)
 {
 	t_builtinf const	builtin = get_builtin(cmd->argv.array[0]);
 
@@ -38,7 +38,7 @@ t_errno	execute_cmd(t_fd tube[2], t_cmd *cmd, t_msh *msh)
 		msh->exit = builtin(cmd, msh);
 		return (MSH_SUCCESS);
 	}
-	return (execute_bin(tube, cmd, msh));
+	return (execute_bin(cmd, msh));
 }
 
 /**
