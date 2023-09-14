@@ -4,9 +4,9 @@
 /*   cd.c                                               :+:      :+:    :+:   */
 /*                                                     +:+                    */
 /*   By: jvan-hal <jvan-hal@student.codam.nl>         +#+                     */
-/*                                                   +#+                      */
+/*       dbasting <dbasting@student.codam.nl>        +#+                      */
 /*   Created: 2023/04/20 16:52:40 by jvan-hal      #+#    #+#                 */
-/*   Updated: 2023/09/13 00:07:42 by dbasting      ########   odam.nl         */
+/*   Updated: 2023/09/13 23:47:40 by dbasting      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,6 @@
 #include "ft_stdio.h"
 #include <limits.h>
 #include <stdlib.h>
-#include <unistd.h>
 
 enum e_cderrno {
 	CD_SUCCESS = 0,
@@ -38,25 +37,50 @@ static void	cd_strerror(int errno);
 int	msh_cd(t_cmd *cmd, t_msh *msh)
 {
 	char	path[PATH_MAX];
+	int		stat;
 
 	if (cmd->argc > 2)
 		return (cd_strerror(CD_INVARGN), 1);
 	if (cmd->argv.array[1][0] == '/')
-		path_absolute(path, cmd->argv.array[1], msh);
+		stat = path_absolute(path, cmd->argv.array[1], msh);
 	else if (cmd->argv.array[1][0] == '-')
-		path_env(path, cmd->argv.array[1], cmd->io[1], msh);
+		stat = path_env(path, cmd->argv.array[1], cmd->io[1], msh);
 	else
-		path_relative(path, cmd->argv.array, msh);
+		stat = path_relative(path, cmd->argv.array, msh);
+	if (stat != CD_SUCCES:S)
+		return (cd_strerror(stat), 1);
+	if (cd_chdir)
+		msh_perror(2, "cd", cmd->argv.array[1]);
+	if (env_update(&msh->env, "OLDPWD", msh->cwd.b) > 1
+		|| env_update(&msh->env, "PWD", path) > 1
+		|| cwd_update(&msh->cwd, path) == MSH_GENERIC)
+		return (msh_perror(1, "cd"), 1);
 }
 
+/**
+ * @brief	Copy the absolute path held in `arg` to `path`.
+ * @return	An exit status. Possible values:
+ * 			CD_SUCCESS	Success.
+ * 			CD_ERANGE	The string `arg` contained more than PATH_MAX - 1
+ * 						characters.
+ */
 static int	path_absolute(char *path, char const *arg, t_msh *msh)
 {
 	(void) msh;
-	if (ft_strncpy(path, arg, PATH_MAX) > PATH_MAX - 1)
+	if (ft_strlcpy(path, arg, PATH_MAX) > PATH_MAX - 1)
 		return (CD_ERANGE);
 	return (CD_SUCCESS);
 }
 
+/**
+ * @brief	Copy a path from the environment to `path`.
+ * @return	An exit status. Possible values:
+ * 			CD_SUCCESS	Success.
+ * 			CD_NOHOME	The variable HOME was not set while `arg` held '--'.
+ * 			CD_NOOLDPWD	The variable OLDPWD was not set while `arg` held '-'.
+ * 			CD_ERANGE	The variable contained more than PATH_MAX - 1
+ * 						characters.
+ */
 static int	path_env(char *path, char const *arg, t_fd outf, t_msh *msh)
 {
 	char const	*envval;
@@ -77,11 +101,19 @@ static int	path_env(char *path, char const *arg, t_fd outf, t_msh *msh)
 	}
 	else
 		return (ft_dprintf(2, "msh: cd: %s: invalid option", arg), CD_ERROR);
-	if (envval && ft_strncpy(path, envval, PATH_MAX) > PATH_MAX - 1)
+	if (envval && ft_strlcpy(path, envval, PATH_MAX) > PATH_MAX - 1)
 		return (CD_ERANGE);
 	return (CD_SUCCESS);
 }
 
+/**
+ * @brief	Resolve a relative path by concatenating the shell's cwd variable
+ * 			and `arg` in `path`.
+ * @return	An exit status. Possible values:
+ * 			CD_SUCCESS	Success.
+ * 			CD_ERANGE	The combined path would contain more than PATH_MAX - 1
+ * 						characters.
+ */
 static int	path_relative(char *path, char const *arg, t_msh *msh)
 {
 	ft_strlcpy(path, msh->cwd.b, PATH_MAX);
@@ -89,18 +121,6 @@ static int	path_relative(char *path, char const *arg, t_msh *msh)
 	if (ft_strlcat(path, arg, PATH_MAX) > PATH_MAX - 1)
 		return (CD_ERANGE);
 	return (CD_SUCCESS);
-}
-
-static int	cd_common(t_msh *msh, char const *path)
-{
-	if (chdir(path) != 0)
-		return (msh_perror(2, "cd", cmd->argv.array[1]), 1);
-	if (env_update(&msh->env, "OLDPWD", msh->cwd.b) > 1)
-		return (msh_perror(1, "cd"), 1);
-	if (env_update(&msh->env, "PWD", path) > 1)
-		return (msh_perror(1, "cd"), 1);
-	if (cwd_update(&msh->cwd) == MSH_GENERIC)
-		return (msh_perror(1, "cd"), 1);
 }
 
 static char const *const	g_errstrs[N_CD_ERRNO] = {
