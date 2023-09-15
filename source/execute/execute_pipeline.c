@@ -6,7 +6,7 @@
 /*   By: dbasting <dbasting@codam.nl>                 +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/08/22 16:06:56 by dbasting      #+#    #+#                 */
-/*   Updated: 2023/09/15 13:37:09 by dbasting         ###   ########.fr       */
+/*   Updated: 2023/09/15 13:50:55 by dbasting         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ t_errno	execute_pipeline(t_list **pipeline, t_msh *msh)
 	if ((*pipeline)->next != NULL)
 	{
 		errno = execute_pipeline_subsh(pipeline, msh);
-		if (errno == MSH_PIPEFAIL || MSH_FORKFAIL)
+		if (errno == MSH_PIPEFAIL || errno == MSH_FORKFAIL)
 			exit(EXIT_FAILURE);
 	}
 	else
@@ -72,7 +72,7 @@ static t_errno	execute_pipeline_subsh(t_list **pipeline, t_msh *msh)
 		return (list_clear(pipeline, (t_freef)cmd_free), MSH_MEMFAIL);
 	pipefd[PIPE_READ] = STDIN_FILENO;
 	i = 0;
-	while (*pipeline->next)
+	while ((*pipeline)->next)
 	{
 		cmd = list_pop_ptr(pipeline);
 		errno = pipeln_fork(cmd, &pidv[i++], pipefd, msh);
@@ -81,7 +81,7 @@ static t_errno	execute_pipeline_subsh(t_list **pipeline, t_msh *msh)
 			return (kill_subshs(pidv, i), free(pidv), errno);
 	}
 	cmd = list_pop_ptr(pipeline);
-	errno = pipeln_fork_last(cmd, &pidv[i++], &pipefd[PIPE_READ], msh);
+	errno = pipeln_fork_last(cmd, &pidv[i++], pipefd[PIPE_READ], msh);
 	cmd_free(cmd);
 	if (errno == MSH_PIPEFAIL || errno == MSH_FORKFAIL)
 		return (kill_subshs(pidv, i), free(pidv), errno);
@@ -117,12 +117,16 @@ static t_errno	pipeln_fork(t_cmd *cmd, pid_t *pid, t_fd pipefd[2], t_msh *msh)
 
 static t_errno	pipeln_fork_last(t_cmd *cmd, pid_t *pid, t_fd infd, t_msh *msh)
 {
-	cmd->io[IO_IN] = infd;
+	if (cmd->io[IO_IN] == STDIN_FILENO)
+		cmd->io[IO_IN] = infd;
+	else
+		close(infd);
 	*pid = fork();
 	if (*pid == -1)
 		return (msh_perror(0), MSH_FORKFAIL);
 	if (*pid == 0)
 		execute_subsh(cmd, msh);
+	close(infd);
 	return (MSH_SUCCESS);
 }
 
