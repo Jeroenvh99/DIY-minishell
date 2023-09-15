@@ -51,15 +51,15 @@ t_errno	execute_bin(t_cmd *cmd, t_msh *msh)
  */
 void	execute_subsh(t_cmd *cmd, t_msh *msh)
 {
-	// if (fd_set_standard(cmd) == 0)
-	// {
+	if (fd_set_standard(cmd) == 0)
+	{
 		execute_cmd(cmd, msh);
-	// }
-	// else
-	// {
-	// 	msh->exit = EXIT_FAILURE;
-	// 	msh_perror(0);
-	// }
+	}
+	else
+	{
+		msh->exit = EXIT_FAILURE;
+		msh_perror(0);
+	}
 	cmd_free(cmd);
 	msh_deinit(msh);
 	exit(msh->exit);
