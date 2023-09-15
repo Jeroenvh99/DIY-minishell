@@ -31,10 +31,8 @@ static inline int	cmd_is_undefined(t_cmd *cmd);
  * token is a control character), assign STDOUT_FILENO as `cmd`'s output file
  * (notwithstanding any previous redirections); don't create a pipe.
  */
-t_errno	parse_pipe(t_fd *out, t_cmd *cmd, t_list **tokens, t_msh *msh)
+t_errno	parse_pipe(t_cmd *cmd, t_list **tokens, t_msh *msh)
 {
-	t_fd	pipefd[2];
-
 	(void) msh;
 	if (*tokens == NULL || ((t_token *)((*tokens)->content))->type != TOK_PIPE)
 	{
@@ -45,11 +43,8 @@ t_errno	parse_pipe(t_fd *out, t_cmd *cmd, t_list **tokens, t_msh *msh)
 	if (cmd_is_undefined(cmd))
 		return (MSH_SYNTAX_ERROR);
 	token_free(list_pop_ptr(tokens));
-	if (pipe(pipefd) != 0)
-		return (MSH_PIPEFAIL);
-	if (cmd->io[IO_OUT] != STDOUT_FILENO)
-		cmd->io[IO_OUT] = pipefd[PIPE_WRITE];
-	*out = pipefd[PIPE_READ];
+	// if (cmd->io[IO_OUT] != STDOUT_FILENO)
+	// 	cmd->io[IO_OUT] = STDOUT_FILENO;
 	return (MSH_SUCCESS);
 }
 

@@ -34,15 +34,25 @@ static int	get_status(char const *str);
  */
 int	msh_exit(t_cmd *cmd, t_msh *msh)
 {
-	int	status;
+	int		status;
+	size_t	i;
 
-	if (cmd->argc > 2)
-		return (exit_strerror(EXIT_INVARG), 1);
+	status = 0;
 	ft_dprintf(cmd->io[1], "exit\n");
-	if (cmd->argc == 2)
-		status = get_status(cmd->argv.array[1]);
-	else
-		status = 0;
+	i = 1;
+	while (i < cmd->argc)
+	{
+		status = get_status(cmd->argv.array[i]);
+		if (i == 1 && status == 2)
+		{
+			ft_dprintf(STDERR_FILENO, "msh: exit: %s: numeric argument "
+			"required\n", cmd->argv.array[i]);
+			break ;
+		}
+		if (i > 1)
+			return (exit_strerror(EXIT_INVARG), 1);
+		++i;
+	}
 	msh_deinit(msh);
 	exit(status);
 	return (1);
@@ -70,8 +80,6 @@ static int	get_status(char const *str)
 	{
 		if (!ft_isdigit(str[i]))
 		{
-			ft_dprintf(STDERR_FILENO, "msh: exit: %s: numeric argument "
-				"required\n", str);
 			return (2);
 		}
 		++i;

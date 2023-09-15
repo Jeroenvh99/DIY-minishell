@@ -37,6 +37,10 @@ t_errno	execute_bin(t_cmd *cmd, t_msh *msh)
 		return (msh_perror(0), MSH_FORKFAIL);
 	if (msh->child == 0)
 		child(cmd, msh);
+	if (cmd->io[IO_IN] > 0)
+		close(cmd->io[IO_IN]);
+	if (cmd->io[IO_OUT] > 1)
+		close(cmd->io[IO_OUT]);
 	msh->exit = execute_wait(msh);
 	return (MSH_SUCCESS);
 }
@@ -47,13 +51,15 @@ t_errno	execute_bin(t_cmd *cmd, t_msh *msh)
  */
 void	execute_subsh(t_cmd *cmd, t_msh *msh)
 {
-	if (fd_set_standard(cmd) == 0)
+	// if (fd_set_standard(cmd) == 0)
+	// {
 		execute_cmd(cmd, msh);
-	else
-	{
-		msh->exit = EXIT_FAILURE;
-		msh_perror(0);
-	}
+	// }
+	// else
+	// {
+	// 	msh->exit = EXIT_FAILURE;
+	// 	msh_perror(0);
+	// }
 	cmd_free(cmd);
 	msh_deinit(msh);
 	exit(msh->exit);
