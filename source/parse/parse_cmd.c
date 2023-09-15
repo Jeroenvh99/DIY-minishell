@@ -6,7 +6,7 @@
 /*   By: dbasting <dbasting@codam.nl>                 +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/22 08:45:23 by dbasting      #+#    #+#                 */
-/*   Updated: 2023/09/05 12:49:38 by dbasting      ########   odam.nl         */
+/*   Updated: 2023/09/15 12:42:21 by dbasting         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,6 +86,14 @@ static inline t_errno	cmd_argconvert(t_cmd *cmd)
 
 static inline t_errno	cmd_fdconvert(t_cmd *cmd)
 {
-	cmd->io[IO_ERR] = STDERR_FILENO;
+	t_fd	fd;
+
+	fd = STDIN_FILENO;
+	while (fd <= STDERR_FILENO)
+	{
+		if (cmd->io[fd] == -1)
+			cmd->io[fd] = fd;
+		fd++;
+	}
 	return (MSH_SUCCESS);
 }

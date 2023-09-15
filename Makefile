@@ -6,7 +6,7 @@
 #    By: dbasting <marvin@codam.nl>                   +#+                      #
 #                                                    +#+                       #
 #    Created: 2022/12/28 12:06:53 by dbasting      #+#    #+#                  #
-#    Updated: 2023/09/12 15:51:59 by dbasting         ###   ########.fr        #
+#    Updated: 2023/09/15 12:13:16 by dbasting         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -35,6 +35,7 @@ SRC_FILES	:= main.c\
 			execute/execute_cmd.c\
 			execute/execute_fork.c\
 			execute/execute_pipeline.c\
+			execute/execute_wait.c\
 			execute/path.c\
 			expand/expand.c\
 			expand/expand_fieldsplit.c\

@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   execute_fork.c                                     :+:    :+:            */
+/*   execute_fork.c                                     :+:      :+:    :+:   */
 /*                                                     +:+                    */
 /*   By: jvan-hal <jvan-hal@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/16 15:12:17 by jvan-hal      #+#    #+#                 */
-/*   Updated: 2023/09/05 12:41:26 by dbasting      ########   odam.nl         */
+/*   Updated: 2023/09/15 12:09:54 by dbasting         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,22 +63,6 @@ void	execute_subsh(t_cmd *cmd, t_msh *msh)
 	cmd_free(cmd);
 	msh_deinit(msh);
 	exit(msh->exit);
-}
-
-/**
- * @brief	Wait for the child process.
- * @return	The child's exit status or, if the child was terminated by way of a
- * 			signal: the signal number incremented by 128.
- */
-int	execute_wait(t_msh *msh)
-{
-	int	wstatus;
-
-	waitpid(msh->child, &wstatus, 0);
-	msh->child = 0;
-	if (WIFSIGNALED(wstatus))
-		return (WTERMSIG(wstatus) + 128);
-	return (WEXITSTATUS(wstatus));
 }
 
 /**
