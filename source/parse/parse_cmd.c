@@ -6,7 +6,7 @@
 /*   By: dbasting <dbasting@codam.nl>                 +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/22 08:45:23 by dbasting      #+#    #+#                 */
-/*   Updated: 2023/09/15 12:42:21 by dbasting         ###   ########.fr       */
+/*   Updated: 2023/09/15 14:34:16 by dbasting         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,7 +89,7 @@ static inline t_errno	cmd_fdconvert(t_cmd *cmd)
 	t_fd	fd;
 
 	fd = STDIN_FILENO;
-	while (fd <= STDERR_FILENO)
+	while (fd < N_IO)
 	{
 		if (cmd->io[fd] == -1)
 			cmd->io[fd] = fd;

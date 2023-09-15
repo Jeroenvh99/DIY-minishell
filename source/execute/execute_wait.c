@@ -6,7 +6,7 @@
 /*   By: dbasting <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/15 12:10:01 by dbasting          #+#    #+#             */
-/*   Updated: 2023/09/15 13:37:37 by dbasting         ###   ########.fr       */
+/*   Updated: 2023/09/15 15:29:33 by dbasting         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,9 @@
 #include <stddef.h>
 #include <sys/wait.h>
 #include <unistd.h>
+
+#include <stdio.h>
+#include <stdlib.h>
 
 /**
  * @brief	Wait for the child process stored in msh->child. Other children are
@@ -27,8 +30,7 @@ int	execute_wait(t_msh *msh)
 {
 	int	wstatus;
 
-	while (waitpid(-1, &wstatus, 0) != msh->child)
-		;
+	waitpid(msh->child, &wstatus, 0);
 	msh->child = 0;
 	if (WIFSIGNALED(wstatus))
 		return (WTERMSIG(wstatus) + 128);
@@ -43,6 +45,13 @@ int	execute_wait(t_msh *msh)
  */
 int	execute_wait_pipeline(pid_t *pidv, size_t n, t_msh *msh)
 {
-	msh->child = pidv[n - 1];
-	return (execute_wait(msh));
+	int	estatus;
+
+	while (n--)
+	{
+		msh->child = *pidv;
+		estatus = execute_wait(msh);
+		pidv++;
+	}
+	return (estatus);
 }
