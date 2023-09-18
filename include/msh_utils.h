@@ -6,7 +6,7 @@
 /*   By: dbasting <dbasting@codam.nl>                 +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/22 08:43:49 by dbasting      #+#    #+#                 */
-/*   Updated: 2023/09/05 12:53:17 by dbasting      ########   odam.nl         */
+/*   Updated: 2023/09/18 13:54:59 by dbasting         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,7 @@ typedef enum e_quote {
 # define CHR_WILDCARD	42
 
 char	*get_path(char *pathname);
+void	path_canonicalize(char *pathname);
 
 t_quote	is_quote(char c);
 

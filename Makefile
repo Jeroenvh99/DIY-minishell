@@ -1,12 +1,12 @@
 # **************************************************************************** #
 #                                                                              #
 #                                                         ::::::::             #
-#    Makefile                                           :+:    :+:             #
+#    Makefile                                           :+:      :+:    :+:    #
 #                                                      +:+                     #
 #    By: dbasting <marvin@codam.nl>                   +#+                      #
 #                                                    +#+                       #
 #    Created: 2022/12/28 12:06:53 by dbasting      #+#    #+#                  #
-#    Updated: 2023/09/06 11:11:08 by jvan-hal      ########   odam.nl          #
+#    Updated: 2023/09/18 13:55:43 by dbasting         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -81,6 +81,7 @@ SRC_FILES	:= main.c\
 			token/token.c\
 			token/token_read.c\
 			token/token_type.c\
+			utils/path_canonicalize.c\
 			utils/utils.c\
 			utils/utils_list.c\
 			utils/utils_quotes.c\
