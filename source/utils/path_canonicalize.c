@@ -18,7 +18,7 @@
 static void	removecurdir(char *str, size_t i);
 static void	removeprevdir(char *str, size_t i, size_t j);
 static void	removelastslash(char *str);
-static void removeduplicateslash(char *str);
+static void	removeduplicateslash(char *str);
 
 void	path_canonicalize(char *str)
 {
@@ -99,11 +99,11 @@ static void removelastslash(char *str)
         str[i] = '\0';
 }
 
-static void removeduplicateslash(char *str)
+static void	removeduplicateslash(char *str)
 {
-    size_t  i;
-    size_t  j;
-    size_t  k;
+    size_t	i;
+    size_t	j;
+    size_t	k;
 
     i = 0;
     while (str[i])
