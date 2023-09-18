@@ -6,7 +6,7 @@
 /*   By: dbasting <marvin@codam.nl>                   +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/04/18 14:13:15 by dbasting      #+#    #+#                 */
-/*   Updated: 2023/09/12 15:05:20 by dbasting         ###   ########.fr       */
+/*   Updated: 2023/09/18 14:43:32 by dbasting         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,9 +15,11 @@
 #include "msh_error.h"
 #include "msh_utils.h"
 
+#include <limits.h>
 #include <signal.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <unistd.h>
 
 static t_errno	msh_init(t_msh *msh, int argc, char **argv, char **envp);
 
@@ -40,7 +42,6 @@ void	msh_deinit(t_msh *msh)
 {
 	env_free(&msh->env);
 	cmdtree_destroy(&msh->tree);
-	free(msh->cwd.b);
 }
 
 static t_errno	msh_init(t_msh *msh, int argc, char **argv, char **envp)
@@ -49,9 +50,8 @@ static t_errno	msh_init(t_msh *msh, int argc, char **argv, char **envp)
 
 	(void) argc;
 	(void) argv;
-	errno = cwd_init(&msh->cwd);
-	if (errno != MSH_SUCCESS)
-		return (errno);
+	if (getcwd(msh->cwd, PATH_MAX) == NULL)
+		return (msh_perror(0), MSH_GENERIC);
 	errno = env_init(&msh->env, envp);
 	if (errno != MSH_SUCCESS)
 		return (errno);

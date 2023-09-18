@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   parse_pipe.c                                       :+:    :+:            */
+/*   parse_pipe.c                                       :+:      :+:    :+:   */
 /*                                                     +:+                    */
 /*   By: dbasting <marvin@codam.nl>                   +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/01 13:59:35 by dbasting      #+#    #+#                 */
-/*   Updated: 2023/08/21 11:59:13 by dbasting      ########   odam.nl         */
+/*   Updated: 2023/09/18 14:07:19 by dbasting         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,8 +43,6 @@ t_errno	parse_pipe(t_cmd *cmd, t_list **tokens, t_msh *msh)
 	if (cmd_is_undefined(cmd))
 		return (MSH_SYNTAX_ERROR);
 	token_free(list_pop_ptr(tokens));
-	// if (cmd->io[IO_OUT] != STDOUT_FILENO)
-	// 	cmd->io[IO_OUT] = STDOUT_FILENO;
 	return (MSH_SUCCESS);
 }
 

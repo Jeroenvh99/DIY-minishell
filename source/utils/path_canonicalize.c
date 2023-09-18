@@ -6,7 +6,7 @@
 /*   By: jvan-hal <jvan-hal@student.codam.nl>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/18 13:49:16 by dbasting          #+#    #+#             */
-/*   Updated: 2023/09/18 14:12:33 by dbasting         ###   ########.fr       */
+/*   Updated: 2023/09/18 14:49:00 by dbasting         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,9 +15,9 @@
 #include "ft_string.h"
 #include <stddef.h>
 
-static void	removecurdir(char *str, size_t i);
-static void	removeprevdir(char *str, size_t i, size_t j);
-static void	removelastslash(char *str);
+static size_t	removecurdir(char *str, size_t i);
+static void		removeprevdir(char *str, size_t i, size_t j);
+static void		removelastslash(char *str);
 
 void	path_canonicalize(char *str)
 {
@@ -66,7 +66,7 @@ static void	removeprevdir(char *str, size_t i, size_t j)
 	str[i] = '\0';
 }
 
-static void	removecurdir(char *str, size_t i)
+static size_t	removecurdir(char *str, size_t i)
 {
 	size_t  j;
 

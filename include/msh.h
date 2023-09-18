@@ -6,7 +6,7 @@
 /*   By: dbasting <marvin@codam.nl>                   +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/04/18 13:51:16 by dbasting      #+#    #+#                 */
-/*   Updated: 2023/09/12 15:06:20 by dbasting         ###   ########.fr       */
+/*   Updated: 2023/09/18 14:41:42 by dbasting         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@
 # include "msh_utils.h"
 
 # include "ft_list.h"
+# include <limits.h>
 # include <stddef.h>
 # include <sys/types.h>
 
@@ -64,7 +65,7 @@ struct s_msh {
 	t_cmdtree	*tree;
 	pid_t		child;
 	t_env		env;
-	t_buffer	cwd;
+	char		cwd[PATH_MAX];
 	t_errno		errno;
 	int			exit;
 };
@@ -106,8 +107,6 @@ void		msh_loop(t_msh *msh);
 t_errno		cmdline_prompt(char **line, t_msh *msh);
 t_errno		heredoc_read(int *fd, char const *delim, t_msh *msh);
 void		msh_deinit(t_msh *msh);
-t_errno		cwd_init(t_buffer *cwd);
-t_errno		cwd_update(t_buffer *cwd);
 
 /* Command tree functions. */
 t_cmdtree	*cmdtree_init(t_cmdtree *parent);

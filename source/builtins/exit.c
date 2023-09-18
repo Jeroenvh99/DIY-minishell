@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   exit.c                                             :+:    :+:            */
+/*   exit.c                                             :+:      :+:    :+:   */
 /*                                                     +:+                    */
 /*   By: jvan-hal <jvan-hal@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/04/18 13:45:34 by jvan-hal      #+#    #+#                 */
-/*   Updated: 2023/08/29 10:26:28 by jvan-hal      ########   odam.nl         */
+/*   Updated: 2023/09/18 14:01:52 by dbasting         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ int	msh_exit(t_cmd *cmd, t_msh *msh)
 		if (i == 1 && status == 2)
 		{
 			ft_dprintf(STDERR_FILENO, "msh: exit: %s: numeric argument "
-			"required\n", cmd->argv.array[i]);
+				"required\n", cmd->argv.array[i]);
 			break ;
 		}
 		if (i > 1)
