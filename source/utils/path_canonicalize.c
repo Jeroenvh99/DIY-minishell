@@ -29,16 +29,15 @@ void	path_canonicalize(char *str)
 	{
 		if (str[i] == '.')
 		{
-			if (str[i + 1] && str[i + 2]
-				&& str[i + 1] == '.' && str[i + 2] == '/')
+			if (str[i + 1] && str[i + 2] && str[i + 1] == '.'
+				&& str[i + 2] == '/')
 			{
 				removeprevdir(str, i - 2, i + 3);
 				i += 3;
 			}
 			else
 			{
-				removecurdir(str, i - 1);
-				i -= 2;
+				i -= removecurdir(str, i);
 			}
 		}
 		++i;
@@ -69,22 +68,23 @@ static void	removeprevdir(char *str, size_t i, size_t j)
 
 static void	removecurdir(char *str, size_t i)
 {
-	size_t	j;
-	int		curdir;
+	size_t  j;
 
-	curdir = 0;
 	j = i + 1;
-	while (str[i])
+	while (str[j])
 	{
-		if (curdir == 0 && str[i] == '/')
-			++j;
-		else
-			curdir = 1;
+		if (str[j] != '/')
+			break ;
+		++j;
+	}
+	while (str[j])
+	{
 		str[i] = str[j];
 		++i;
 		++j;
 	}
 	str[i] = '\0';
+	return (j - i);
 }
 
 static void	removelastslash(char *str)
