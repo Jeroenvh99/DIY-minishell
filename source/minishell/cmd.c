@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   cmd.c                                              :+:    :+:            */
+/*   cmd.c                                              :+:      :+:    :+:   */
 /*                                                     +:+                    */
 /*   By: dbasting <marvin@codam.nl>                   +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/04/18 14:13:15 by dbasting      #+#    #+#                 */
-/*   Updated: 2023/08/22 23:26:28 by dbasting      ########   odam.nl         */
+/*   Updated: 2023/09/15 14:35:39 by dbasting         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,9 @@
 
 static inline void	cmd_free_common(t_cmd *cmd);
 
+/**
+ * @brief	Allocate and initialize a new command.
+ */
 t_cmd	*cmd_init(size_t argc, char **argv)
 {
 	t_cmd *const	cmd = malloc(sizeof(t_cmd));
@@ -32,6 +35,10 @@ t_cmd	*cmd_init(size_t argc, char **argv)
 	return (cmd);
 }
 
+/**
+ * @brief	Deallocate a command. Associated nonstandard file descriptors are
+ * 			closed.
+ */
 void	cmd_free(t_cmd *cmd)
 {
 	while (cmd->argc)
@@ -48,14 +55,14 @@ void	cmd_free_list(t_cmd *cmd)
 
 static inline void	cmd_free_common(t_cmd *cmd)
 {
-	int	i;
+	t_fd	fd;
 
-	i = 0;
-	while (i < N_IO)
+	fd = 0;
+	while (fd < N_IO)
 	{
-		if (cmd->io[i] != i)
-			close(cmd->io[i]);
-		i++;
+		if (cmd->io[fd] != fd)
+			close(cmd->io[fd]);
+		fd++;
 	}
 	free(cmd);
 }

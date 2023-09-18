@@ -4,5 +4,5 @@
 .vscode
 minishell
 !source/minishell/
-argtest
+exitstat
 *.swp

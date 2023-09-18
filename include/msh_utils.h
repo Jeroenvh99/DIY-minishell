@@ -24,6 +24,11 @@ typedef enum e_quote {
 	N_QUOTES,
 }	t_quote;
 
+typedef struct s_buffer {
+	char	*b;
+	size_t	size;
+}	t_buffer;
+
 # define CHR_DIRSEP		47
 # define CHR_SQUOTE		39
 # define CHR_DQUOTE		34

@@ -57,17 +57,12 @@ int	msh_cd(t_cmd *cmd, t_msh *msh)
 	return (0);
 }
 
+static char const *const	g_errstrs[N_CD_ERRNO] = {
+	"", "Error", "Too many arguments", "HOME not set", "OLDPWD not set"};
+
 static void	cd_strerror(int errno)
 {
-	char const *const	errstrs[N_CD_ERRNO] = {
-		NULL,
-		"Error",
-		"Too many arguments",
-		"HOME not set",
-		"OLDPWD not set",
-	};
-
-	ft_dprintf(STDERR_FILENO, "msh: cd: %s\n", errstrs[errno]);
+	ft_dprintf(STDERR_FILENO, "msh: cd: %s\n", g_errstrs[errno]);
 }
 
 //stap 1 en 2

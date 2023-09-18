@@ -32,9 +32,11 @@ SRC_FILES	:= main.c\
 			env/env_update.c\
 			env/env_utils.c\
 			execute/execute.c\
+			execute/execute_bin.c\
 			execute/execute_cmd.c\
-			execute/execute_fork.c\
 			execute/execute_pipeline.c\
+			execute/execute_subsh.c\
+			execute/execute_wait.c\
 			execute/path.c\
 			expand/expand.c\
 			expand/expand_fieldsplit.c\
@@ -60,6 +62,7 @@ SRC_FILES	:= main.c\
 			minishell/cmdline.c\
 			minishell/cmdline_prompt.c\
 			minishell/cmdtree.c\
+			minishell/cwd.c\
 			minishell/error.c\
 			minishell/heredoc.c\
 			minishell/heredoc_read.c\

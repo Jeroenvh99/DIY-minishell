@@ -6,7 +6,7 @@
 /*   By: dbasting <marvin@codam.nl>                   +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/04/18 13:51:16 by dbasting      #+#    #+#                 */
-/*   Updated: 2023/09/05 12:51:04 by dbasting      ########   odam.nl         */
+/*   Updated: 2023/09/12 15:06:20 by dbasting         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,8 +15,8 @@
 
 # include "msh_error.h"
 # include "msh_env.h"
+# include "msh_utils.h"
 
-# include "ft_hash.h"
 # include "ft_list.h"
 # include <stddef.h>
 # include <sys/types.h>
@@ -61,10 +61,11 @@ enum e_pipeends {
  * @param errno	The current error code.
  */
 struct s_msh {
-	t_env		env;
 	t_cmdtree	*tree;
-	t_errno		errno;
 	pid_t		child;
+	t_env		env;
+	t_buffer	cwd;
+	t_errno		errno;
 	int			exit;
 };
 
@@ -105,6 +106,8 @@ void		msh_loop(t_msh *msh);
 t_errno		cmdline_prompt(char **line, t_msh *msh);
 t_errno		heredoc_read(int *fd, char const *delim, t_msh *msh);
 void		msh_deinit(t_msh *msh);
+t_errno		cwd_init(t_buffer *cwd);
+t_errno		cwd_update(t_buffer *cwd);
 
 /* Command tree functions. */
 t_cmdtree	*cmdtree_init(t_cmdtree *parent);

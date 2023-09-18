@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   msh_execute.h                                      :+:    :+:            */
+/*   msh_execute.h                                      :+:      :+:    :+:   */
 /*                                                     +:+                    */
 /*   By: dbasting <marvin@codam.nl>                   +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/06/19 17:30:11 by dbasting      #+#    #+#                 */
-/*   Updated: 2023/08/28 16:43:07 by jvan-hal      ########   odam.nl         */
+/*   Updated: 2023/09/15 13:34:59 by dbasting         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@
 # include "msh_error.h"
 
 # include <stddef.h>
+# include <unistd.h>
 
 enum e_builtins {
 	BUILTIN_CD = 0,
@@ -39,6 +40,7 @@ t_errno	execute_bin(t_cmd *cmd, t_msh *msh);
 
 void	execute_subsh(t_cmd *cmd, t_msh *msh);
 int		execute_wait(t_msh *msh);
+int		execute_wait_pipeline(pid_t *pidv, size_t n, t_msh *msh);
 
 int		get_pathname(char *const buf, char const *filename, char const *path);
 
