@@ -30,11 +30,13 @@ t_errno	execute_pipeline(t_list **pipeline, t_msh *msh)
 {
 	t_cmd		*cmd;
 	t_errno		errno;
+	t_fd		tube[2];
 
 	if ((*pipeline)->next != NULL)
 		return (execute_pipeline_subsh(pipeline, msh));
 	while (*pipeline)
 	{
+		pipe(tube);
 		cmd = list_pop_ptr(pipeline);
 		errno = execute_cmd(cmd, msh);
 		cmd_free(cmd);
@@ -47,17 +49,34 @@ t_errno	execute_pipeline(t_list **pipeline, t_msh *msh)
 static t_errno	execute_pipeline_subsh(t_list **pipeline, t_msh *msh)
 {
 	t_cmd	*cmd;
+	t_fd	tube[2];
+	t_fd	read;
 
+	read = 0;
 	while (*pipeline)
 	{
 		cmd = list_pop_ptr(pipeline);
+		pipe(tube);
+		if (*pipeline)
+			cmd->io[IO_OUT] = tube[PIPE_WRITE];
+		cmd->io[IO_IN] = read;
 		msh->child = fork();
 		if (msh->child == -1)
 			return (msh_perror(0), MSH_FORKFAIL);
 		if (msh->child == 0)
+		{
+			close(tube[PIPE_READ]);
 			execute_subsh(cmd, msh);
+		}
+		read = tube[PIPE_READ];
+		close(tube[PIPE_WRITE]);
 		cmd_free(cmd);
 	}
+	if (read > 0)
+	{
+		close(read);
+	}
+	close(tube[PIPE_READ]);
 	msh->exit = execute_wait(msh);
 	return (MSH_SUCCESS);
 }

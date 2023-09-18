@@ -25,22 +25,20 @@ t_errno	parse_pipeline(t_list **pipeline, t_list **tokens, t_msh *msh)
 {
 	t_errno	errno;
 	t_cmd	*cmd;
-	t_fd	fitting;
 
-	fitting = STDIN_FILENO;
 	while (*tokens && !is_ctltok((*tokens)->content))
 	{
 		cmd = cmd_init(0, NULL);
 		if (cmd == NULL)
 			return (MSH_MEMFAIL);
-		cmd->io[IO_IN] = fitting;
+		cmd->io[IO_IN] = STDIN_FILENO;
 		errno = parse_cmd(cmd, tokens, msh);
 		if (errno != MSH_SUCCESS)
 			return (list_clear(pipeline, (t_freef)cmd_free), errno);
 		if (list_append_ptr(pipeline, cmd) != 0)
 			return (list_clear(pipeline, (t_freef)cmd_free), cmd_free(cmd),
 				MSH_MEMFAIL);
-		errno = parse_pipe(&fitting, cmd, tokens, msh);
+		errno = parse_pipe(cmd, tokens, msh);
 		if (errno != MSH_SUCCESS)
 			return (list_clear(pipeline, (t_freef)cmd_free), errno);
 	}
