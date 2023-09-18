@@ -99,10 +99,25 @@ static void removecurdir(char *str, size_t i)
     str[i] = '\0';
 }
 
+static void removelastslash(char *str)
+{
+    size_t  i;
+
+    i = ft_strlen(str);
+    while (i > 0)
+    {
+        if (str[i - 1] != '/')
+            break ;
+        --i;
+    }
+    str[i] = '\0';
+}
+
 static void canonicalise(char *str)
 {
 	size_t	i;
 
+    removelastslash(str);
 	i = 0;
 	while (str[i])
 	{
@@ -111,6 +126,7 @@ static void canonicalise(char *str)
             if (str[i + 1] && str[i + 2] && str[i + 1] == '.' && str[i + 2] == '/')
             {
                 removeprevdir(str, i - 2, i + 3);
+                i += 3;
             }
             else
             {
