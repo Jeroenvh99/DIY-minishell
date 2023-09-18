@@ -6,7 +6,7 @@
 /*   By: jvan-hal <jvan-hal@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/16 15:12:17 by jvan-hal      #+#    #+#                 */
-/*   Updated: 2023/09/15 16:06:10 by dbasting         ###   ########.fr       */
+/*   Updated: 2023/09/18 14:50:26 by dbasting         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,42 +41,6 @@ t_errno	execute_bin(t_cmd *cmd, t_msh *msh)
 		child(cmd, msh);
 	msh->exit = execute_wait(msh);
 	return (MSH_SUCCESS);
-}
-
-/**
- * @brief	Execute a command inside a subshell.
- * @return	This function never returns.
- */
-void	execute_subsh(t_cmd *cmd, t_msh *msh)
-{
-	if (fd_set_standard(cmd) == 0)
-	{
-		execute_cmd(cmd, msh);
-	}
-	else
-	{
-		msh->exit = EXIT_FAILURE;
-		msh_perror(0);
-	}
-	cmd_free(cmd);
-	msh_deinit(msh);
-	exit(msh->exit);
-}
-
-/**
- * @brief	Wait for the child process.
- * @return	The child's exit status or, if the child was terminated by way of a
- * 			signal: the signal number incremented by 128.
- */
-int	execute_wait(t_msh *msh)
-{
-	int	wstatus;
-
-	waitpid(msh->child, &wstatus, 0);
-	msh->child = 0;
-	if (WIFSIGNALED(wstatus))
-		return (WTERMSIG(wstatus) + 128);
-	return (WEXITSTATUS(wstatus));
 }
 
 /**

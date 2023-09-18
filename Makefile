@@ -6,7 +6,7 @@
 #    By: dbasting <marvin@codam.nl>                   +#+                      #
 #                                                    +#+                       #
 #    Created: 2022/12/28 12:06:53 by dbasting      #+#    #+#                  #
-#    Updated: 2023/09/18 13:55:43 by dbasting         ###   ########.fr        #
+#    Updated: 2023/09/18 14:40:54 by dbasting         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -62,7 +62,6 @@ SRC_FILES	:= main.c\
 			minishell/cmdline.c\
 			minishell/cmdline_prompt.c\
 			minishell/cmdtree.c\
-			minishell/cwd.c\
 			minishell/error.c\
 			minishell/heredoc.c\
 			minishell/heredoc_read.c\

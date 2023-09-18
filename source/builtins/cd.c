@@ -6,7 +6,7 @@
 /*   By: jvan-hal <jvan-hal@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/04/20 16:52:40 by jvan-hal      #+#    #+#                 */
-/*   Updated: 2023/09/18 14:15:25 by dbasting         ###   ########.fr       */
+/*   Updated: 2023/09/18 15:06:36 by dbasting         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,9 +29,9 @@ enum e_cderrno {
 	N_CD_ERRNO,
 };
 
-static void	cd_strerror(int errno);
-static char	*arg_get(t_cmd *cmd, t_msh *msh);
-static int	path_get(char const *arg, char const *cwd);
+static void			cd_strerror(int errno);
+static char	const	*arg_get(t_cmd *cmd, t_msh *msh);
+static char			*path_get(char const *arg, char const *cwd);
 
 int	msh_cd(t_cmd *cmd, t_msh *msh)
 {
@@ -47,9 +47,9 @@ int	msh_cd(t_cmd *cmd, t_msh *msh)
 		return (msh_perror(1, "cd"), 1);
 	path_canonicalize(path); // stap 8
 	if (chdir(path) != 0) // stap 10
-		return (msh_perror(2, "cd", cmd->argv.array[1]), 1);
+		return (msh_perror(2, "cd", arg), 1);
 	ft_strlcpy(msh->cwd, path, PATH_MAX);
-	if (env_update(&msh->env, "OLDPWD", cwd) > 1)
+	if (env_update(&msh->env, "OLDPWD", env_search(&msh->env, "PWD")) > 1)
 		return (msh_perror(1, "cd"), 1);
 	if (env_update(&msh->env, "PWD", path) > 1)
 		return (msh_perror(1, "cd"), 1);
@@ -66,7 +66,7 @@ static void	cd_strerror(int errno)
 }
 
 //stap 1 en 2
-static char	*arg_get(t_cmd *cmd, t_msh *msh)
+static char const	*arg_get(t_cmd *cmd, t_msh *msh)
 {
 	char	*dstdir;
 
@@ -100,7 +100,7 @@ static char	*path_get(char const *arg, char const *cwd)
 	path = malloc(size * sizeof(char)); // stap 7
 	if (!path)
 		return (NULL);
-	ft_strlcat(path, cwd, PATH_MAX);
+	ft_strlcpy(path, cwd, PATH_MAX);
 	ft_strlcat(path, "/", PATH_MAX);
 	ft_strlcat(path, arg, PATH_MAX);
 	return (path);
