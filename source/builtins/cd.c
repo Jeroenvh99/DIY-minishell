@@ -31,27 +31,99 @@ enum e_cderrno {
 static void	cd_strerror(int errno);
 static char	*get_dstdir(t_cmd *cmd, t_msh *msh);
 static int	get_path(char *buf, char const *cwd, char const *dir);
+static void canonicalise(char *str);
 
 int	msh_cd(t_cmd *cmd, t_msh *msh)
 {
 	char const *const	dstdir = get_dstdir(cmd, msh);
-	char *const			cwd = getcwd(NULL, 0);
 	char				path[PATH_MAX];
 
 	if (!cwd || !dstdir)
 		return (free(cwd), 1);
 	if (cmd->argc > 2)
 		return (cd_strerror(CD_MAXARG), free(cwd), 1);
-	if (get_path(path, cwd, dstdir) != 0)
+	if (get_path(path, msh->cwd, dstdir) != 0)
 		return (msh_perror(1, "cd"), free(cwd), 1);
+
+	if (cmd->argv[1][0] == '/')
+		path = cmd->argv[1];
+	msh->cwd = path;
+	canonicalise(path);
+
 	if (chdir(path) != 0)
 		return (msh_perror(2, "cd", cmd->argv.array[1]), free(cwd), 1);
+	msh->cwd = path;
 	if (env_update(&msh->env, "OLDPWD", cwd) > 1)
 		return (msh_perror(1, "cd"), free(cwd), 1);
 	if (env_update(&msh->env, "PWD", path) > 1)
 		return (msh_perror(1, "cd"), free(cwd), 1);
 	free(cwd);
 	return (0);
+}
+
+static void removeprevdir(char *str, size_t i, size_t j)
+{
+    if (i < 0)
+        return ;
+	while (i >= 0)
+	{
+		if (str[i] == '/')
+			break ;
+		--i;
+        if (i == 0)
+            return ;
+	}
+    ++i;
+	while (str[j])
+    {
+        str[i] = str[j];
+        ++i;
+        ++j;
+    }
+    str[i] = '\0';
+}
+
+static void removecurdir(char *str, size_t i)
+{
+    size_t  j;
+    int     curdir;
+
+    curdir = 0;
+    j = i + 1;
+    while (str[i])
+    {
+        if (curdir == 0 && str[i] == '/')
+            ++j;
+        else
+            curdir = 1;
+        str[i] = str[j];
+        ++i;
+        ++j;
+    }
+    str[i] = '\0';
+}
+
+static void canonicalise(char *str)
+{
+	size_t	i;
+
+	i = 0;
+	while (str[i])
+	{
+		if (str[i] == '.')
+		{
+            if (str[i + 1] && str[i + 2] && str[i + 1] == '.' && str[i + 2] == '/')
+            {
+                removeprevdir(str, i - 2, i + 3);
+            }
+            else
+            {
+                removecurdir(str, i - 1);
+                i -= 2;
+            }
+		}
+		++i;
+	}
 }
 
 static void	cd_strerror(int errno)
