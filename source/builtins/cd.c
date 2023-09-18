@@ -6,12 +6,13 @@
 /*   By: jvan-hal <jvan-hal@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/04/20 16:52:40 by jvan-hal      #+#    #+#                 */
-/*   Updated: 2023/09/12 16:41:29 by dbasting         ###   ########.fr       */
+/*   Updated: 2023/09/18 14:15:25 by dbasting         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "msh_execute.h"
 #include "msh_error.h"
+#include "msh_utils.h"
 
 #include "ft_string.h"
 #include "ft_stdio.h"
@@ -29,28 +30,30 @@ enum e_cderrno {
 };
 
 static void	cd_strerror(int errno);
-static char	*get_dstdir(t_cmd *cmd, t_msh *msh);
-static int	get_path(char *buf, char const *cwd, char const *dir);
+static char	*arg_get(t_cmd *cmd, t_msh *msh);
+static int	path_get(char const *arg, char const *cwd);
 
 int	msh_cd(t_cmd *cmd, t_msh *msh)
 {
-	char const *const	dstdir = get_dstdir(cmd, msh);
-	char				path[PATH_MAX];
+	char const *const	arg = arg_get(cmd, msh);
+	char				*path;
 
-	if (!dstdir)
+	if (!arg)
 		return (1);
 	if (cmd->argc > 2)
 		return (cd_strerror(CD_MAXARG), 1);
-	if (get_path(path, msh->cwd.b, dstdir) != 0)
+	path = path_get(arg, msh->cwd);
+	if (!path)
 		return (msh_perror(1, "cd"), 1);
-	if (chdir(path) != 0)
+	path_canonicalize(path); // stap 8
+	if (chdir(path) != 0) // stap 10
 		return (msh_perror(2, "cd", cmd->argv.array[1]), 1);
-	if (env_update(&msh->env, "OLDPWD", msh->cwd.b) > 1)
+	ft_strlcpy(msh->cwd, path, PATH_MAX);
+	if (env_update(&msh->env, "OLDPWD", cwd) > 1)
 		return (msh_perror(1, "cd"), 1);
 	if (env_update(&msh->env, "PWD", path) > 1)
 		return (msh_perror(1, "cd"), 1);
-	if (cwd_update(&msh->cwd) == MSH_GENERIC)
-		return (msh_perror(1, "cd"), 1);
+	free(path);
 	return (0);
 }
 
@@ -62,18 +65,8 @@ static void	cd_strerror(int errno)
 	ft_dprintf(STDERR_FILENO, "msh: cd: %s\n", g_errstrs[errno]);
 }
 
-static int	get_path(char *buf, char const *cwd, char const *dir)
-{
-	buf[0] = '\0';
-	if (*dir != '/')
-	{
-		ft_strlcat(buf, cwd, PATH_MAX);
-		ft_strlcat(buf, "/", PATH_MAX);
-	}
-	return (ft_strlcat(buf, dir, PATH_MAX) > PATH_MAX);
-}
-
-static char	*get_dstdir(t_cmd *cmd, t_msh *msh)
+//stap 1 en 2
+static char	*arg_get(t_cmd *cmd, t_msh *msh)
 {
 	char	*dstdir;
 
@@ -94,4 +87,21 @@ static char	*get_dstdir(t_cmd *cmd, t_msh *msh)
 	else
 		dstdir = cmd->argv.array[1];
 	return (dstdir);
+}
+
+static char	*path_get(char const *arg, char const *cwd)
+{
+	char	*path;
+	size_t	size;
+
+	if (arg[0] == '/') // stap 3
+		return (ft_strdup(arg));
+	size = ft_strlen(cwd) + 1 + ft_strlen(arg) + 1;
+	path = malloc(size * sizeof(char)); // stap 7
+	if (!path)
+		return (NULL);
+	ft_strlcat(path, cwd, PATH_MAX);
+	ft_strlcat(path, "/", PATH_MAX);
+	ft_strlcat(path, arg, PATH_MAX);
+	return (path);
 }

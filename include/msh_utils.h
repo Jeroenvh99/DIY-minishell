@@ -6,7 +6,7 @@
 /*   By: dbasting <dbasting@codam.nl>                 +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/22 08:43:49 by dbasting      #+#    #+#                 */
-/*   Updated: 2023/09/12 15:50:39 by dbasting         ###   ########.fr       */
+/*   Updated: 2023/09/18 13:54:59 by dbasting         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,9 @@ typedef struct s_buffer {
 # define CHR_DQUOTE		34
 # define CHR_VAR		36
 # define CHR_WILDCARD	42
+
+char	*get_path(char *pathname);
+void	path_canonicalize(char *pathname);
 
 t_quote	is_quote(char c);
 
