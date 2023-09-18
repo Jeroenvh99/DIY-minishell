@@ -18,19 +18,20 @@
 static void	removecurdir(char *str, size_t i);
 static void	removeprevdir(char *str, size_t i, size_t j);
 static void	removelastslash(char *str);
+static void removeduplicateslash(char *str);
 
 void	path_canonicalize(char *str)
 {
 	size_t	i;
 
+	removeduplicateslash(str);
 	removelastslash(str);
 	i = 0;
 	while (str[i])
 	{
 		if (str[i] == '.')
 		{
-			if (str[i + 1] && str[i + 2] && str[i + 1] == '.'
-				&& str[i + 2] == '/')
+			if (str[i + 1] && str[i + 2] && str[i + 1] == '.' && str[i + 2] == '/')
 			{
 				removeprevdir(str, i - 2, i + 3);
 				i += 3;
@@ -42,6 +43,7 @@ void	path_canonicalize(char *str)
 		}
 		++i;
 	}
+	removelastslash(str);
 }
 
 static void	removeprevdir(char *str, size_t i, size_t j)
@@ -87,16 +89,40 @@ static void	removecurdir(char *str, size_t i)
 	return (j - i);
 }
 
-static void	removelastslash(char *str)
+static void removelastslash(char *str)
 {
-	size_t	i;
+    size_t  i;
 
-	i = ft_strlen(str);
-	while (i > 0)
-	{
-		if (str[i - 1] != '/')
-			break ;
-		--i;
-	}
-	str[i] = '\0';
+    i = ft_strlen(str);
+    --i;
+    if (str[i] == '/')
+        str[i] = '\0';
+}
+
+static void removeduplicateslash(char *str)
+{
+    size_t  i;
+    size_t  j;
+    size_t  k;
+
+    i = 0;
+    while (str[i])
+    {
+        if (str[i] == '/')
+        {
+            k = i;
+            j = i + 1;
+            while (str[j] && str[j] == '/')
+                ++j;
+            ++k;
+            while (str[j])
+            {
+                str[k] = str[j];
+                ++k;
+                ++j;
+            }
+            str[k] = '\0';
+        }
+        ++i;
+    }
 }
