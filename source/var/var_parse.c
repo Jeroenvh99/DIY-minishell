@@ -6,7 +6,7 @@
 /*   By: dbasting <dbasting@codam.nl>                 +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/22 08:45:12 by dbasting      #+#    #+#                 */
-/*   Updated: 2023/09/11 16:16:24 by dbasting         ###   ########.fr       */
+/*   Updated: 2023/09/19 12:40:04 by dbasting         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,8 @@ int	var_parse(char **name, char const *str)
 static inline int	is_varstr(size_t *i, char const *str)
 {
 	*i = 0;
+	if (ft_isdigit(str[0]))
+		return (VAR_INVID);
 	while (str[*i])
 	{
 		if (!ft_isalnum(str[*i]) && str[*i] != '_')
