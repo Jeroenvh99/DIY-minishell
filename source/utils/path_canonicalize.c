@@ -34,14 +34,12 @@ static size_t	lookforprevdir(char *str, size_t i)
 size_t	removeprevdir(char *str, size_t i)
 {
 	size_t	j;
-	size_t	dotlen;
 
-	dotlen = 2;
+	j = i + 3;
 	if (i < 0)
 		return (0);
 	if (str[i + 4] && str[i + 4] == '/')
-		dotlen = 3;
-	j = i + 2 + dotlen;
+		++j;
 	i = lookforprevdir(str, i);
 	while (str[j])
 	{
@@ -50,7 +48,7 @@ size_t	removeprevdir(char *str, size_t i)
 		++j;
 	}
 	str[i] = '\0';
-	return (dotlen);
+	return (j - 1);
 }
 
 size_t	removecurdir(char *str, size_t i)
