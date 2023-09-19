@@ -72,7 +72,7 @@ void	path_canonicalize(char *str)
 		if (str[i] == '.')
 		{
 			if (str[i + 1] && str[i + 1] == '.')
-				i += removeprevdir(str, i - 2);
+				i -= removeprevdir(str, i - 2);
 			else
 				i -= removecurdir(str, i);
 		}
