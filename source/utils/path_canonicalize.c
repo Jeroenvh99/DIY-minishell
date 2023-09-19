@@ -15,7 +15,23 @@
 #include "ft_string.h"
 #include <stddef.h>
 
-static size_t	removeprevdir(char *str, size_t i)
+static size_t	lookforprevdir(char *str, size_t i)
+{
+	size_t	j;
+
+	j = i;
+	while (i > 0)
+	{
+		if (i == 1)
+			return (j + 2);
+		if (str[i] == '/')
+			break ;
+		--i;
+	}
+	return (i);
+}
+
+size_t	removeprevdir(char *str, size_t i)
 {
 	size_t	j;
 	size_t	dotlen;
@@ -37,23 +53,7 @@ static size_t	removeprevdir(char *str, size_t i)
 	return (dotlen);
 }
 
-static size_t	lookforprevdir(char *str, size_t i)
-{
-	size_t	j;
-
-	j = i;
-	while (i > 0)
-	{
-		if (i == 1)
-			return (j + 2);
-		if (str[i] == '/')
-			break ;
-		--i;
-	}
-	return (i);
-}
-
-static size_t	removecurdir(char *str, size_t i)
+size_t	removecurdir(char *str, size_t i)
 {
 	size_t	j;
 
@@ -74,7 +74,7 @@ static size_t	removecurdir(char *str, size_t i)
 	return (j - i);
 }
 
-static void	removelastslash(char *str)
+void	removelastslash(char *str)
 {
 	size_t	i;
 
@@ -84,7 +84,7 @@ static void	removelastslash(char *str)
 		str[i] = '\0';
 }
 
-static void	removeduplicateslash(char *str)
+void	removeduplicateslash(char *str)
 {
 	size_t	i;
 	size_t	j;
