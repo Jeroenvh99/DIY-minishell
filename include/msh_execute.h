@@ -53,4 +53,11 @@ int		msh_export(t_cmd *cmd, t_msh *msh);
 int		msh_pwd(t_cmd *cmd, t_msh *msh);
 int		msh_unset(t_cmd *cmd, t_msh *msh);
 
+/* Builtin util functions. */
+size_t	removecurdir(char *str, size_t i);
+size_t	removeprevdir(char *str, size_t i);
+size_t	lookforprevdir(char *str, size_t i);
+void	removelastslash(char *str);
+void	removeduplicateslash(char *str);
+
 #endif

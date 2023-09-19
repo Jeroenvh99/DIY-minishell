@@ -15,36 +15,6 @@
 #include "ft_string.h"
 #include <stddef.h>
 
-static size_t	removecurdir(char *str, size_t i);
-static size_t	removeprevdir(char *str, size_t i);
-static size_t	lookforprevdir(char *str, size_t i);
-static void		removelastslash(char *str);
-static void		removeduplicateslash(char *str);
-
-void	path_canonicalize(char *str)
-{
-	size_t	i;
-
-	removeduplicateslash(str);
-	if (str[1] != '\0')
-		removelastslash(str);
-	i = 0;
-	while (str[i])
-	{
-		if (str[i] == '.')
-		{
-			if (str[i + 1] && str[i + 1] == '.')
-				i += removeprevdir(str, i - 2);
-			else
-				i -= removecurdir(str, i);
-		}
-		else
-			++i;
-	}
-	if (str[1] != '\0')
-		removelastslash(str);
-}
-
 static size_t	removeprevdir(char *str, size_t i)
 {
 	size_t	j;

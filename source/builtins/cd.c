@@ -59,6 +59,30 @@ int	msh_cd(t_cmd *cmd, t_msh *msh)
 	return (0);
 }
 
+void	path_canonicalize(char *str)
+{
+	size_t	i;
+
+	removeduplicateslash(str);
+	if (str[1] != '\0')
+		removelastslash(str);
+	i = 0;
+	while (str[i])
+	{
+		if (str[i] == '.')
+		{
+			if (str[i + 1] && str[i + 1] == '.')
+				i += removeprevdir(str, i - 2);
+			else
+				i -= removecurdir(str, i);
+		}
+		else
+			++i;
+	}
+	if (str[1] != '\0')
+		removelastslash(str);
+}
+
 static char const *const	g_errstrs[N_CD_ERRNO] = {
 	"", "Error", "Too many arguments", "HOME not set", "OLDPWD not set"};
 
