@@ -45,7 +45,7 @@ int	msh_cd(t_cmd *cmd, t_msh *msh)
 	path = path_get(arg, msh->cwd);
 	if (!path)
 		return (msh_perror(1, "cd"), 1);
-	if (ft_strncmp(arg, "..", 2) == 0 || ft_strncmp(arg, "../", 3) == 0)
+	if (ft_strncmp(arg, "..", 3) == 0 || ft_strncmp(arg, "../", 4) == 0)
 		ft_strlcpy(msh->cwd, path, PATH_MAX);
 	path_canonicalize(path);
 	if (chdir(path) != 0)
