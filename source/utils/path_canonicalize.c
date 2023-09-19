@@ -48,7 +48,7 @@ size_t	removeprevdir(char *str, size_t i)
 		++j;
 	}
 	str[i] = '\0';
-	return (j - 1);
+	return (j - i);
 }
 
 size_t	removecurdir(char *str, size_t i)
