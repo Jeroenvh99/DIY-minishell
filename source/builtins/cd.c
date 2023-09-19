@@ -45,6 +45,8 @@ int	msh_cd(t_cmd *cmd, t_msh *msh)
 	path = path_get(arg, msh->cwd);
 	if (!path)
 		return (msh_perror(1, "cd"), 1);
+	if (ft_strncmp(arg, "..", 2) == 0 || ft_strncmp(arg, "../", 3) == 0)
+		ft_strlcpy(msh->cwd, path, PATH_MAX);
 	path_canonicalize(path); // stap 8
 	if (chdir(path) != 0) // stap 10
 		return (msh_perror(2, "cd", arg), 1);
@@ -55,6 +57,30 @@ int	msh_cd(t_cmd *cmd, t_msh *msh)
 		return (msh_perror(1, "cd"), 1);
 	free(path);
 	return (0);
+}
+
+void	path_canonicalize(char *str)
+{
+	size_t	i;
+
+	removeduplicateslash(str);
+	if (str[1] != '\0')
+		removelastslash(str);
+	i = 0;
+	while (str[i])
+	{
+		if (str[i] == '.')
+		{
+			if (str[i + 1] && str[i + 1] == '.')
+				i += removeprevdir(str, i - 2);
+			else
+				i -= removecurdir(str, i);
+		}
+		else
+			++i;
+	}
+	if (str[1] != '\0')
+		removelastslash(str);
 }
 
 static char const *const	g_errstrs[N_CD_ERRNO] = {
