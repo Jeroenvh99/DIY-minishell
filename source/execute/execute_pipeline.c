@@ -6,7 +6,7 @@
 /*   By: dbasting <dbasting@codam.nl>                 +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/08/22 16:06:56 by dbasting      #+#    #+#                 */
-/*   Updated: 2023/09/15 13:50:55 by dbasting         ###   ########.fr       */
+/*   Updated: 2023/09/19 14:57:55 by dbasting         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,7 +93,7 @@ static t_errno	pipeln_fork(t_cmd *cmd, pid_t *pid, t_fd pipefd[2], t_msh *msh)
 {
 	if (cmd->io[IO_IN] == STDIN_FILENO)
 		cmd->io[IO_IN] = pipefd[PIPE_READ];
-	else
+	else if (pipefd[PIPE_READ] != STDIN_FILENO)
 		close(pipefd[PIPE_READ]);
 	if (pipe(pipefd) != 0)
 		return (msh_perror(0), MSH_PIPEFAIL);
