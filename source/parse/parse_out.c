@@ -34,7 +34,7 @@ t_errno	parse_output(t_cmd *cmd, t_list **tokens, t_msh *msh)
 	if (errno != MSH_SUCCESS)
 		return (errno);
 	close(cmd->io[IO_OUT]);
-	cmd->io[IO_OUT] = open(path, O_WRONLY | O_CREAT, 00644);
+	cmd->io[IO_OUT] = open(path, O_WRONLY | O_CREAT | O_TRUNC, 00644);
 	free(path);
 	if (cmd->io[IO_OUT] == -1)
 		return (MSH_FILEFAIL);
